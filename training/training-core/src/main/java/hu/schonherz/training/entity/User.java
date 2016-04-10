@@ -26,6 +26,10 @@ public class User extends BaseEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "role_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "group_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+	private Collection<UserGroup> groups;
 
 	public String getUserName() {
 		return userName;

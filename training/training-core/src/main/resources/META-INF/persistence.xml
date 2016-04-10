@@ -9,8 +9,9 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/SCHTraining</jta-data-source>
 		<class>hu.schonherz.training.entity.BaseEntity</class>
-		<class>hu.schonherz.training.entity.User</class>
 		<class>hu.schonherz.training.entity.Role</class>
+		<class>hu.schonherz.training.entity.User</class>
+		<class>hu.schonherz.training.entity.UserGroup</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
