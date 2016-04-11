@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			if (user == null) {
 				throw new UsernameNotFoundException(username);
 			}
-			user = userService.setUpRoles(user);
+			// user = userService.setUpRoles(user); Újra alkotni a logint
 			List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
 			return buildUserForAuthentication(user, authorities);
 		} catch (Exception e) {

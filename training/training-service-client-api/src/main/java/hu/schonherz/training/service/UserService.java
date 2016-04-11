@@ -5,6 +5,4 @@ import hu.schonherz.training.vo.UserVo;
 public interface UserService {
 
 	public UserVo findUserByName(String name) throws Exception;
-
-	public UserVo setUpRoles(UserVo vo) throws Exception;
 }
