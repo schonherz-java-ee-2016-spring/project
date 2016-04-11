@@ -6,12 +6,20 @@
 	<security:http disable-url-rewriting="false">
 		<security:csrf disabled="true" />
 		<security:headers disabled="true" />
-		<security:intercept-url pattern="/admin/**"
+		<security:intercept-url pattern="/secured/*"
+			access="hasRole('GUEST')" />
+		<security:intercept-url pattern="/secured/observer/**"
+			access="hasRole('OBSERVER')" />
+		<security:intercept-url pattern="/secured/admin/**"
 			access="hasRole('ADMIN')" />
-		<security:form-login login-page="/login.xhtml"
+		<security:intercept-url pattern="/secured/student/**"
+			access="hasRole('STUDENT')" />
+		<security:intercept-url pattern="/secured/instructor/**"
+			access="hasRole('INSTRUCTOR')" />
+		<security:form-login login-page="/public/login.xhtml"
 			login-processing-url="/login" default-target-url="/index.xhtml"
-			authentication-failure-url="/login.xhtml?error=1" username-parameter="j_username"
-			password-parameter="j_password" />
+			authentication-failure-url="/public/login.xhtml?error=1"
+			username-parameter="j_username" password-parameter="j_password" />
 		<security:logout logout-url="/logout"
 			logout-success-url="/index.xhtml" />
 		<security:remember-me remember-me-parameter="remember-me"
