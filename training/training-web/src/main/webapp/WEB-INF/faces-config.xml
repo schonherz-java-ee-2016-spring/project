@@ -7,8 +7,21 @@
 	
 
 	<application>
+	
+	 <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	 
 		<locale-config>
 			<default-locale>hu_HU</default-locale>
+			<supported-locale>en</supported-locale>
 		</locale-config>
+        
+        <resource-bundle>
+            <base-name>
+                hu.schonherz.training.Messages
+            </base-name>
+            <var>out</var>	
+        </resource-bundle>
+		
+		
 	</application>
 </faces-config>
