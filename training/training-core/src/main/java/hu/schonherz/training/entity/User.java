@@ -40,7 +40,7 @@ public class User extends BaseEntity {
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "role_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
+	private Collection<RoleGroup> roleGroups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "group_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
@@ -86,14 +86,6 @@ public class User extends BaseEntity {
 		this.registrationDate = registrationDate;
 	}
 
-	public Collection<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
-	}
-
 	public Collection<UserGroup> getGroups() {
 		return groups;
 	}
@@ -108,5 +100,13 @@ public class User extends BaseEntity {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Collection<RoleGroup> getRoleGroups() {
+		return roleGroups;
+	}
+
+	public void setRoleGroups(Collection<RoleGroup> roleGroups) {
+		this.roleGroups = roleGroups;
 	}
 }
