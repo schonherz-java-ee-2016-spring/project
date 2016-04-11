@@ -1,0 +1,14 @@
+<datasource jta="true" jndi-name="java:jboss/datasources/SCHTraining" pool-name="SCHTraining" enabled="true" use-ccm="true">
+	<connection-url>jdbc:postgresql://localhost:5432/SCHTraining</connection-url>
+	<driver-class>org.postgresql.Driver</driver-class>
+	<driver>postgres</driver>
+	<security>
+		<user-name>postgres</user-name>
+		<password>pass</password>
+	</security>
+	<validation>
+		<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+		<background-validation>true</background-validation>
+		<exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+	</validation>
+</datasource>
