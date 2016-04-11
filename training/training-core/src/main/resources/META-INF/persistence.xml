@@ -10,6 +10,7 @@
 		<jta-data-source>java:jboss/datasources/SCHTraining</jta-data-source>
 		<class>hu.schonherz.training.entity.BaseEntity</class>
 		<class>hu.schonherz.training.entity.Role</class>
+		<class>hu.schonherz.training.entity.RoleGroup</class>
 		<class>hu.schonherz.training.entity.User</class>
 		<class>hu.schonherz.training.entity.UserGroup</class>
 
