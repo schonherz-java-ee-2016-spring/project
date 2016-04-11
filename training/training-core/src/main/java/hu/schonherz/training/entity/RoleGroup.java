@@ -1,8 +1,13 @@
 package hu.schonherz.training.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +22,12 @@ public class RoleGroup extends BaseEntity {
 	private String name;
 	private Date createDate;
 	private Date editDate;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "role_to_roleGroup", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
+	private Collection<Role> roles;	
+	
+	
 	
 	public String getName() {
 		return name;
@@ -35,6 +46,12 @@ public class RoleGroup extends BaseEntity {
 	}
 	public void setEditDate(Date editDate) {
 		this.editDate = editDate;
+	}
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
 	}
 	
 	
