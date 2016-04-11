@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 	private boolean isActive;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "role_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(name = "rolegroup_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rolegroup_id", referencedColumnName = "id"))
 	private Collection<RoleGroup> roleGroups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
