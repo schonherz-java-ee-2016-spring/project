@@ -9,10 +9,10 @@ public class UserVo implements Serializable {
 
 	private Long id;
 	private String userName;
+	private String fullName;
+	private String email;
 	private String password;
 	private List<RoleVo> roles;
-
-	private byte[] image;
 
 	public Long getId() {
 		return id;
@@ -51,12 +51,20 @@ public class UserVo implements Serializable {
 		return "UserVO [id=" + id + ", userName=" + userName + ", password=" + password + ", roles=" + roles + "]";
 	}
 
-	public byte[] getImage() {
-		return image;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setImage(byte[] image) {
-		this.image = image;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
