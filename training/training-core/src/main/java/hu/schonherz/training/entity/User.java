@@ -3,6 +3,7 @@ package hu.schonherz.training.entity;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -10,18 +11,32 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "User")
 public class User extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(nullable = false, length = 50, unique = true)
 	private String userName;
+
+	@Column(nullable = false, length = 100)
 	private String fullName;
+
+	@Column(nullable = false, length = 100, unique = true)
 	private String email;
-	private Date birthDate;
-	private Date registrationDate;
+
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Date registrationDate = new Date();
+
+	@Column(nullable = false)
 	private String password;
+
+	@Column(nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private boolean isActive;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "role_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -71,19 +86,27 @@ public class User extends BaseEntity {
 		this.registrationDate = registrationDate;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public Collection<Role> getGroups() {
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 
-	public void setGroups(Collection<Role> groups) {
-		this.roles = groups;
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Collection<UserGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Collection<UserGroup> groups) {
+		this.groups = groups;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

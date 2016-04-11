@@ -14,6 +14,7 @@ import hu.schonherz.training.entity.Role;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+	@Deprecated
 	@Query("select roles from User u join u.roles roles where u.id=?1")
 	List<Role> findRolesByUserId(Long userId);
 }
