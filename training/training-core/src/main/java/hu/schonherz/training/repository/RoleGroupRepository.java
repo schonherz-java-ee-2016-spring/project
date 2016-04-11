@@ -14,7 +14,4 @@ import hu.schonherz.training.entity.RoleGroup;
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
 public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
-
-	@Query("select roles from roleGroup g join g.roles roles where g.id=?1")
-	List<RoleGroup> findRolesByGroupId(Long groupId);
 }
