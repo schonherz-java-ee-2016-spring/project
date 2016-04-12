@@ -7,8 +7,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
-
 import hu.schonherz.training.entity.BaseEntity;
 
 @Entity
@@ -21,6 +19,7 @@ public class AnswerNote extends BaseEntity {
 	private Answer answer;
 
 	@Column(nullable = true)
+
 //	@Type(type = "org.hibernate.type.StringClobType")
 //	@Lob
 	private String note;
