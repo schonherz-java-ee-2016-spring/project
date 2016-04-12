@@ -6,6 +6,8 @@ import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
@@ -20,13 +22,18 @@ import hu.schonherz.training.exam.vo.QuestionVo;
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class QuestionServiceImpl implements QuestionService {
 
+	static final Logger logger = LogManager.getLogger(QuestionServiceImpl.class.getName());
+
 	@Autowired
 	QuestionRepository questionRepository;
 
 	@Override
 	public void createQuestion(QuestionVo questionVo) throws Exception {
-		questionRepository.saveAndFlush(QuestionMapper.toDto(questionVo));
-
+		try {
+			questionRepository.saveAndFlush(QuestionMapper.toDto(questionVo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
 	}
 
 }
