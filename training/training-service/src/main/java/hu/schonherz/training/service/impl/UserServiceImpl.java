@@ -1,5 +1,7 @@
 package hu.schonherz.training.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -33,5 +35,11 @@ public class UserServiceImpl implements UserService {
 	public UserVo findUserByName(String name) throws Exception {
 		UserVo vo = UserMapper.toVo(userRepository.findUserByUserName(name));
 		return vo;
+	}
+
+	@Override
+	public List<UserVo> findAllUser() throws Exception {
+		List<UserVo> vos = UserMapper.toVo(userRepository.findAll());
+		return vos;
 	}
 }
