@@ -14,7 +14,7 @@
 		<class>hu.schonherz.training.entity.User</class>
 		<class>hu.schonherz.training.entity.UserGroup</class>
 
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

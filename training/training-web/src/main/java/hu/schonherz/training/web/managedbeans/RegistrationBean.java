@@ -53,7 +53,7 @@ public class RegistrationBean implements Serializable {
 		}
 		try {
 			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
-			// getUserService().registrationUser(userVO);
+			 getUserService().registrationUser(userVo);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
 			currentInstance.addMessage(null, facesMessage);
