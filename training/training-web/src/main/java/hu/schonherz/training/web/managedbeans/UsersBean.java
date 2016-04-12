@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
@@ -25,6 +26,16 @@ public class UsersBean implements Serializable {
 	private String email;
 	
 	private List<UserVo> users;
+	
+	@PostConstruct
+    public void init() {
+        try {
+			users = userService.findAllUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 	
 	public List<UserVo> getAllUser() {
 		List<UserVo> vos = null;

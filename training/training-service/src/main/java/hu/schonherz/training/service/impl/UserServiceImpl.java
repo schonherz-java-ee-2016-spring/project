@@ -1,5 +1,6 @@
 package hu.schonherz.training.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -39,7 +40,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserVo> findAllUser() throws Exception {
-		List<UserVo> vos = UserMapper.toVo(userRepository.findAll());
+		List<UserVo> vos;
+		if (userRepository.findAll() == null) {
+			vos = new ArrayList<>();
+		} else {
+			vos = UserMapper.toVo(userRepository.findAll());
+		}
 		return vos;
 	}
 }
