@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.Set;
 
 public class ExamVo implements Serializable {
-	private static final long serialVersionUID = -3247852666302347423L;
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String name;
 	private Set<QuestionVo> questionSet;

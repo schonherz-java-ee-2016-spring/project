@@ -21,8 +21,8 @@ public class AnswerNote extends BaseEntity {
 	private Answer answer;
 
 	@Column(nullable = true)
-	@Type(type = "org.hibernate.type.StringClobType")
-	@Lob
+//	@Type(type = "org.hibernate.type.StringClobType")
+//	@Lob
 	private String note;
 
 	public AnswerNote() {

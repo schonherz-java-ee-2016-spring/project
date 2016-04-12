@@ -3,8 +3,9 @@ package hu.schonherz.training.exam.vo;
 import java.io.Serializable;
 
 public class QuestionTypeVo implements Serializable {
-	private static final long serialVersionUID = 1115806741186168178L;
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String name;
 

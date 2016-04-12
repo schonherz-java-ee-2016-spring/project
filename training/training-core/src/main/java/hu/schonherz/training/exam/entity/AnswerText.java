@@ -19,8 +19,8 @@ public class AnswerText extends BaseEntity {
 	@JoinColumn(name = "answer_id", referencedColumnName = "id")
 	private Answer answer;
 
-	@Type(type = "org.hibernate.type.StringClobType")
-	@Lob
+//	@Type(type = "org.hibernate.type.StringClobType")
+//    @Lob
 	private String text;
 
 	public AnswerText() {
