@@ -1,4 +1,4 @@
-package hu.schonherz.training.entity.exam;
+package hu.schonherz.training.exam.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -7,6 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import hu.schonherz.training.entity.BaseEntity;
 
 @Entity
 @Table(name = "option")
