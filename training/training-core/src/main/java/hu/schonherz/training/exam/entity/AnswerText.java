@@ -6,8 +6,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
-
 import hu.schonherz.training.entity.BaseEntity;
 
 @Entity
@@ -19,7 +17,8 @@ public class AnswerText extends BaseEntity {
 	@JoinColumn(name = "answer_id", referencedColumnName = "id")
 	private Answer answer;
 
-	@Type(type = "org.hibernate.type.StringClobType")
+	// TODO
+	// @Type(type = "org.hibernate.type.StringClobType")
 	@Lob
 	private String text;
 
