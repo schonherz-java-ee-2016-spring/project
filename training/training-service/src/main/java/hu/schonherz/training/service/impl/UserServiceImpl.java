@@ -31,11 +31,21 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	RoleGroupRepository roleGroupRepository;
 
 	public UserServiceImpl() {
+	}
+
+	private RoleGroup getGuestRoleGroup() {
+		RoleGroup roleGroup = roleGroupRepository.findByName("ROLE_GUEST");
+		if (roleGroup == null) {
+			roleGroup = new RoleGroup();
+			roleGroup.setName("ROLE_GUEST");
+			roleGroup = roleGroupRepository.save(roleGroup);
+		}
+		return roleGroup;
 	}
 
 	@Override
@@ -46,30 +56,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserVo registrationUser(UserVo userVo) throws Exception {
-		User user = userRepository.save(UserMapper.toDto(userVo));
+		User user = UserMapper.toDto(userVo);
 		Collection<RoleGroup> roles = user.getRoleGroups();
 		if (roles == null || roles.isEmpty()) {
 			roles = new ArrayList<>();
 		}
-
 		RoleGroup roleGroup = getGuestRoleGroup();
-
 		roles.add(roleGroup);
-
 		user.setRoleGroups(roles);
-
 		user = userRepository.save(user);
-
 		return UserMapper.toVo(user);
-	}
-	
-	private RoleGroup getGuestRoleGroup() {
-		RoleGroup roleGroup = roleGroupRepository.findByName("ROLE_GUEST");
-		if (roleGroup == null) {
-			roleGroup = new RoleGroup();
-			roleGroup.setName("ROLE_GUEST");
-			roleGroup = roleGroupRepository.save(roleGroup);
-		}
-		return roleGroup;
 	}
 }
