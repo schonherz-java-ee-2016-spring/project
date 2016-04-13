@@ -21,7 +21,7 @@
 		<class>hu.schonherz.training.exam.entity.Question</class>
 		<class>hu.schonherz.training.exam.entity.QuestionType</class>
 
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

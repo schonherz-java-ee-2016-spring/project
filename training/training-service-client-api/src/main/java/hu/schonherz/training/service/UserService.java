@@ -1,5 +1,7 @@
 package hu.schonherz.training.service;
 
+import java.util.List;
+
 import hu.schonherz.training.vo.UserVo;
 
 public interface UserService {
@@ -8,4 +10,10 @@ public interface UserService {
 	
 	public UserVo registrationUser(UserVo userVo) throws Exception;
 		
+	
+	public UserVo findUserByEmail(String email) throws Exception;
+	
+	public List<UserVo> findAllUser() throws Exception;
+	
+	
 }
