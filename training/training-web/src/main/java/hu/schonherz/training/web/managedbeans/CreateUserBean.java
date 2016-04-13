@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -13,9 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
 
-@ManagedBean(name="registrationBean")
+@ManagedBean(name="createUserBean")
 @SessionScoped
-public class RegistrationBean implements Serializable {
+public class CreateUserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -26,33 +27,58 @@ public class RegistrationBean implements Serializable {
 	private String fullname;
 	private String email;
 
-	private String password;
-
-	private String passwordConfirm;
 
 	public void registration() {
+		UserVo user = null;
+		UserVo useremail = null;
+		UserVo userVo = new UserVo();
+		try {
+			user = userService.findUserByName(username);
+			useremail = userService.findUserByEmail(email);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
-		UserVo userVo = new UserVo();
+		
+		
 		userVo.setUserName(username);
-		userVo.setFullName(fullname);
-		userVo.setEmail(email);
-
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-		userVo.setPassword(bCryptPasswordEncoder.encode(password));
-
-		if (password == null || passwordConfirm == null ) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Passwords must filled!");
-			currentInstance.addMessage(null, facesMessage);
-			return;
-		} else if( !password.equals(passwordConfirm) ) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Passwords not match!");
+		
+		if (username == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username must filled!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
+		if (user != null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username already exists!");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		
+		userVo.setFullName(fullname);
+		
+		userVo.setEmail(email);
+		
+		if (email == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		if (useremail != null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail already exists!");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+		String uuid = UUID.randomUUID().toString();
+		
+		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
+		
 		try {
-			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz. VAN :D
+			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
 			 userService.registrationUser(userVo);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
@@ -63,6 +89,11 @@ public class RegistrationBean implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
 		currentInstance.addMessage(null, facesMessage);
 	}
+	
+//	public String goToCreate() {
+//	    // ...
+//	    return "/public/createUser.xhtml";
+//	}
 
 	public String getUsername() {
 		return username;
@@ -70,22 +101,6 @@ public class RegistrationBean implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
 	}
 
 	public UserService getUserService() {
