@@ -1,27 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:p="http://primefaces.org/ui">
-<f:view>
-
-	<h:head>
-		<h:outputStylesheet library="default" name="css/bootstrap.css"></h:outputStylesheet>
-		<h:outputStylesheet library="default" name="/css/font-awesome.css"
-			rel="stylesheet" />
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans'
-			rel='stylesheet' type='text/css' />
-	</h:head>
-
-	<h:body style="background-color: #99D6FF;">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	
+	<ui:define name="content">
 		<h1>Users:</h1>
 		<h:form>
-			<p:dataTable style="width:80%;" var="user" value="#{usersBean.users}"
+			<p:dataTable style="width:100%;" var="user" value="#{usersBean.users}"
 				rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
@@ -49,6 +37,5 @@
 			<button class="btn btn-primary">Create users</button>
 		</form>
 		</footer>
-	</h:body>
-</f:view>
-</html>
+	</ui:define>
+</ui:composition>
