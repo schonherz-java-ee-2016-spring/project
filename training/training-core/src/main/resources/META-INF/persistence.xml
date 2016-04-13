@@ -13,6 +13,13 @@
 		<class>hu.schonherz.training.entity.RoleGroup</class>
 		<class>hu.schonherz.training.entity.User</class>
 		<class>hu.schonherz.training.entity.UserGroup</class>
+		<class>hu.schonherz.training.exam.entity.Answer</class>
+		<class>hu.schonherz.training.exam.entity.AnswerNote</class>
+		<class>hu.schonherz.training.exam.entity.AnswerText</class>
+		<class>hu.schonherz.training.exam.entity.Exam</class>
+		<class>hu.schonherz.training.exam.entity.Option</class>
+		<class>hu.schonherz.training.exam.entity.Question</class>
+		<class>hu.schonherz.training.exam.entity.QuestionType</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
