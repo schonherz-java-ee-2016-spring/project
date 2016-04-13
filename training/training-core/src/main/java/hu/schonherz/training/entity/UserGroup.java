@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "UserGroup")
@@ -21,7 +23,8 @@ public class UserGroup extends BaseEntity {
 	private String groupName;
 	
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date creationDate;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate = new Date();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "roleGroup_to_userGroup", joinColumns = @JoinColumn(name = "userGroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
