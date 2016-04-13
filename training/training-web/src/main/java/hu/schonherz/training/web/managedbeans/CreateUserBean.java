@@ -79,7 +79,7 @@ public class CreateUserBean implements Serializable {
 		
 		try {
 			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
-//			 userService.registrationUser(userVo);
+			 userService.registrationUser(userVo);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
 			currentInstance.addMessage(null, facesMessage);
@@ -89,6 +89,11 @@ public class CreateUserBean implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
 		currentInstance.addMessage(null, facesMessage);
 	}
+	
+//	public String goToCreate() {
+//	    // ...
+//	    return "/public/createUser.xhtml";
+//	}
 
 	public String getUsername() {
 		return username;

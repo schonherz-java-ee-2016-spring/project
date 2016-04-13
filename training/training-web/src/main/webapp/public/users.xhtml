@@ -12,16 +12,17 @@
 
 	<h:head>
 		<h:outputStylesheet library="default" name="css/bootstrap.css"></h:outputStylesheet>
-		<h:outputStylesheet library="default" name="/css/font-awesome.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="/css/font-awesome.css"
+			rel="stylesheet" />
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans'
 			rel='stylesheet' type='text/css' />
 	</h:head>
-	
+
 	<h:body style="background-color: #99D6FF;">
 		<h1>Users:</h1>
-		<h:form >
-			<p:dataTable style="width:80%;" var="user" value="#{usersBean.users}" rows="10"
-				paginator="true"
+		<h:form>
+			<p:dataTable style="width:80%;" var="user" value="#{usersBean.users}"
+				rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
 				<p:column headerText="Id">
@@ -42,9 +43,11 @@
 			</p:dataTable>
 		</h:form>
 		<br />
-		<footer>
-		<a href="#{request.contextPath}//public/createUser.xhtml"><i class="fa fa-dashboard "></i>Create users</a>
-<!-- 		<input type="button" value="Create users" class="btn btn-primary " onclick="/public/createUser.xhtml"></input> -->
+		<footer> <!-- 		<a href="#{request.contextPath}/public/createUser.xhtml"><i class="btn btn-primary"></i>Create users</a> -->
+<!-- 		<input type="button" value="Create users" class="btn btn-primary " onclick="#{request.contextPath}/public/createUser.xhtml"></input> -->
+		<form action="#{request.contextPath}/public/createUser.xhtml" class="inline">
+			<button class="btn btn-primary">Create users</button>
+		</form>
 		</footer>
 	</h:body>
 </f:view>
