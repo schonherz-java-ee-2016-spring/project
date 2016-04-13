@@ -1,6 +1,8 @@
 package hu.schonherz.training.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.List;
 
 public class UserGroupVo implements Serializable {
 
@@ -8,6 +10,8 @@ public class UserGroupVo implements Serializable {
 
 	private Long id;
 	private String groupName;
+	private Date creationDate;
+	private List<RoleGroupVo> roleGroups;
 
 	public Long getId() {
 		return id;
@@ -28,6 +32,30 @@ public class UserGroupVo implements Serializable {
 	@Override
 	public String toString() {
 		return "RoleVO [id=" + id + ", Name=" + groupName + "]";
+	}
+
+	public String getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public List<RoleGroupVo> getRoleGroups() {
+		return roleGroups;
+	}
+
+	public void setRoleGroups(List<RoleGroupVo> roleGroups) {
+		this.roleGroups = roleGroups;
 	}
 
 }
