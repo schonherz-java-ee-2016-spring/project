@@ -31,7 +31,7 @@ public class Feedback extends BaseEntity {
 	 * Column for interview foreign key comes here
 	 */
 
-	@Column(columnDefinition = "ALTER TABLE \"feedback\" ADD COLUMN score smallint NOT NULL;")
+	@Column(name = "score", nullable = false, length = 1)
 	private Integer score;
 
 	@Column(name = "detailed_feedback", nullable = false)
