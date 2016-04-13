@@ -74,5 +74,10 @@
 		<local>hu.schonherz.training.service.UserService</local>
 	</ejb-local-ref>
 	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb.ExamService</ejb-ref-name>
+		<local>hu.schonherz.training.exam.service.ExamService</local>
+	</ejb-local-ref>
+	
 	
 </web-app>

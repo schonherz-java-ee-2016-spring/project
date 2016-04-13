@@ -5,19 +5,15 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
+	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
-		<h:outputText value="Under Construction" />
-
-		<div>THESE ARE ONLY TEST FEATURES</div>
-		<div>
-			<a href="#{request.contextPath}/testfeatures/exams.xhtml">Exams</a>
-		</div>
-		<div>
-			<a href="#{request.contextPath}/testfeatures/addexam.xhtml">Add a
-				new Exam</a>
-		</div>
-
+		<p:dataTable value="#{examListBean.examList}" var="exam">
+			<p:column headerText="Exam ID">
+    			#{exam.id}
+    		</p:column>
+			<p:column headerText="Exam Title">
+    			#{exam.title}
+    		</p:column>
+		</p:dataTable>
 	</ui:define>
-
 </ui:composition>

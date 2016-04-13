@@ -1,5 +1,7 @@
 package hu.schonherz.training.exam.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -29,17 +31,27 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public void createExam(ExamVo examVo) {
+	public List<ExamVo> getExamList() throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void createExam(ExamVo examVo) throws Exception {
 		try {
 			examRepository.saveAndFlush(ExamMapper.toDto(examVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
-
 	}
 
 	@Override
-	public void modifyExamTitle(ExamVo examVo) {
+	public void modifyExamTitle(ExamVo examVo) throws Exception {
 		try {
 			Exam exam = ExamMapper.toDto(examVo);
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());

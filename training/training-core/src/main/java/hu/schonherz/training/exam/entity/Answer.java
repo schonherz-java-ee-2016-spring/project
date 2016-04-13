@@ -23,19 +23,19 @@ public class Answer extends BaseEntity {
 	@JoinColumn(name = "option_id", referencedColumnName = "id")
 	private Option option;
 
-	@Column(name = "right", nullable = true)
-	private Boolean right;
+	@Column(name = "good", nullable = true)
+	private Boolean good;
 
 	public Answer() {
 		super();
 	}
 
-	public Boolean isRight() {
-		return right;
+	public Boolean isGood() {
+		return good;
 	}
 
-	public void setRight(Boolean right) {
-		this.right = right;
+	public void setGood(Boolean good) {
+		this.good = good;
 	}
 
 	public User getUser() {
