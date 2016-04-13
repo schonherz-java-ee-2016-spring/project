@@ -1,5 +1,7 @@
 package hu.schonherz.training.supervisor.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -27,9 +29,9 @@ public class Feedback extends BaseEntity {
 	@JoinColumn(name = "rated_id", referencedColumnName = "id")
 	private User rated;
 
-	/*
-	 * Column for interview foreign key comes here
-	 */
+	@OneToOne
+	@JoinColumn(name = "interview_id", referencedColumnName = "id")
+	private Interview interviewId;
 
 	@Column(name = "score", nullable = false, length = 1)
 	private Integer score;
@@ -40,6 +42,9 @@ public class Feedback extends BaseEntity {
 	
 	@Column(name = "is_public", nullable = false)
 	private boolean isPublic;
+	
+	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Date feedbackDate;
 
 	/**
 	 * 
@@ -116,6 +121,20 @@ public class Feedback extends BaseEntity {
 	 */
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+
+	/**
+	 * @return the feedbackDate
+	 */
+	public Date getFeedbackDate() {
+		return feedbackDate;
+	}
+
+	/**
+	 * @param feedbackDate the feedbackDate to set
+	 */
+	public void setFeedbackDate(Date feedbackDate) {
+		this.feedbackDate = feedbackDate;
 	}
 	
 	
