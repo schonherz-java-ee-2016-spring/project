@@ -6,12 +6,15 @@
 	<ui:define name="content">
 		<p:growl id="messages" life="4000" showDetail="true" />
 		<h:form>
+			<h:outputLink value="usergroups.xhtml" class="btn btn-primary">Back to groups</h:outputLink>
 			<p:panel id="panel" header="Create Group">
-				<p:inputText validatorMessage="Minimum name length: 10"
-					requiredMessage="Group name is required!" value="#{userGroupBean.groupName}" required="true">
-					<f:validateLength minimum="10" />
-				</p:inputText>
-				<p:commandButton update=":messages" value="Create" action="#{userGroupBean.create()}" />
+				<h:panelGrid columns="1" cellpadding="5">
+					<p:inputText validatorMessage="Minimum name length: 10"
+						requiredMessage="Group name is required!" value="#{userGroupBean.groupName}" required="true">
+						<f:validateLength minimum="10" />
+					</p:inputText>
+					<p:commandButton update=":messages" value="Create" action="#{userGroupBean.create()}" />
+				</h:panelGrid>
 			</p:panel>
 		</h:form>
 	</ui:define>

@@ -5,10 +5,10 @@
 
 	<ui:define name="content">
 		<h:form>
-			<h:commandButton class="btn btn-primary" action="createusergroup.xhtml" value="Create Group" />
+			<h:outputLink value="createusergroup.xhtml" class="btn btn-primary">Create Group</h:outputLink>
 			<p:dataTable var="ug" value="#{userGroupsBean.userGroups}" paginator="true">
 				<p:column headerText="Group name">
-					<h:outputText value="#{ug.groupName}" />
+					<h:outputLink value="ugroup.xhtml" >#{ug.groupName}</h:outputLink>
 				</p:column>
 
 				<p:column headerText="Creation date">
