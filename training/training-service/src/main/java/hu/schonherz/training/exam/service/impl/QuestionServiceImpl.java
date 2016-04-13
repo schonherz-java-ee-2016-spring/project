@@ -36,4 +36,14 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 	}
 
+	@Override
+	public void removeQuestion(QuestionVo questionVo) {
+		try {
+//			questionRepository.delete(QuestionMapper.toDto(questionVo));
+			questionRepository.delete(QuestionMapper.toDto(questionVo).getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+
 }

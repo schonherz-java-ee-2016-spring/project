@@ -1,7 +1,7 @@
 package hu.schonherz.training.exam.vo;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 public class ExamVo implements Serializable {
 
@@ -9,7 +9,7 @@ public class ExamVo implements Serializable {
 	
 	private Long id;
 	private String name;
-	private Set<QuestionVo> questionSet;
+	private List<QuestionVo> questionList;
 
 	public ExamVo() {
 		super();
@@ -31,12 +31,12 @@ public class ExamVo implements Serializable {
 		this.name = name;
 	}
 
-	public Set<QuestionVo> getQuestionSet() {
-		return questionSet;
+	public List<QuestionVo> getQuestionList() {
+		return questionList;
 	}
 
-	public void setQuestionSet(Set<QuestionVo> questionSet) {
-		this.questionSet = questionSet;
+	public void setQuestionList(List<QuestionVo> questionList) {
+		this.questionList = questionList;
 	}
 
 }

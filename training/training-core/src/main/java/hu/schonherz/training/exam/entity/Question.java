@@ -14,8 +14,8 @@ public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	@OneToOne
-	@JoinColumn(name = "test_id", referencedColumnName = "id")
-	private Exam test;
+	@JoinColumn(name = "exam_id", referencedColumnName = "id")
+	private Exam exam;
 	
 	@OneToOne
 	@JoinColumn(name = "type_id", referencedColumnName = "id")
@@ -30,17 +30,17 @@ public class Question extends BaseEntity {
 	}
 
 	/**
-	 * @return the test
+	 * @return the exam
 	 */
-	public Exam getTest() {
-		return test;
+	public Exam getExam() {
+		return exam;
 	}
 
 	/**
-	 * @param test the test to set
+	 * @param exam the exam to set
 	 */
-	public void setTest(Exam test) {
-		this.test = test;
+	public void setExam(Exam exam) {
+		this.exam = exam;
 	}
 
 	/**

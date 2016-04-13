@@ -5,5 +5,7 @@ import hu.schonherz.training.exam.vo.ExamVo;
 public interface ExamService {
 
 	public void createExam(ExamVo examVo) throws Exception;
+	
+	public void modifyExamTitle(ExamVo examVo) throws Exception;
 
 }
