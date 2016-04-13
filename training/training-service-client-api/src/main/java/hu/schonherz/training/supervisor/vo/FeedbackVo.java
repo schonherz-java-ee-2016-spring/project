@@ -67,15 +67,15 @@ public class FeedbackVo implements Serializable {
 	}
 
 	/**
-	 * @return the interviewId
+	 * @return the interview
 	 */
 	public InterviewVo getInterview() {
 		return interview;
 	}
 
 	/**
-	 * @param interviewId
-	 *            the interviewId to set
+	 * @param interview
+	 *            the interview to set
 	 */
 	public void setInterview(InterviewVo interview) {
 		this.interview = interview;

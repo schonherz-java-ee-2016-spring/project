@@ -3,6 +3,8 @@ package hu.schonherz.training.supervisor.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import hu.schonherz.training.vo.UserVo;
+
 public class InterviewVo implements Serializable {
 
 	/**
@@ -14,6 +16,8 @@ public class InterviewVo implements Serializable {
 	private String company;
 	private Date interviewDate;
 	private String description;
+	private UserVo interviewer;
+	private UserVo interviewed;
 
 	/**
 	 * @return the id
@@ -75,9 +79,40 @@ public class InterviewVo implements Serializable {
 		this.description = description;
 	}
 
+	/**
+	 * @return the interviewer
+	 */
+	public UserVo getInterviewer() {
+		return interviewer;
+	}
+
+	/**
+	 * @param interviewer
+	 *            the interviewer to set
+	 */
+	public void setInterviewer(UserVo interviewer) {
+		this.interviewer = interviewer;
+	}
+
+	/**
+	 * @return the interviewed
+	 */
+	public UserVo getInterviewed() {
+		return interviewed;
+	}
+
+	/**
+	 * @param interviewed
+	 *            the interviewed to set
+	 */
+	public void setInterviewed(UserVo interviewed) {
+		this.interviewed = interviewed;
+	}
+
 	@Override
 	public String toString() {
 		return "InterviewVO [id = " + id + " company = " + company + " interviewDate = " + interviewDate
-				+ " description = " + description + "]";
+				+ " description = " + description + " interviewer = " + interviewer.getId() + " interviewed = "
+				+ interviewed.getId();
 	}
 }
