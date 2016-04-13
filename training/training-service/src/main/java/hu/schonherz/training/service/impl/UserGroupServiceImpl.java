@@ -44,4 +44,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 		return UserGroupMapper.toVo(userGroupRepository.findOne(userGroupId));
 	}
 
+	@Override
+	public UserGroupVo findGroupByName(String groupName) {
+		return UserGroupMapper.toVo(userGroupRepository.findUserGroupByGroupName(groupName));
+	}
+
 }

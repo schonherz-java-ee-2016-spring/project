@@ -12,5 +12,6 @@ import hu.schonherz.training.entity.UserGroup;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 
+	UserGroup findUserGroupByGroupName(String groupName);
 	
 }
