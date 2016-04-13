@@ -3,7 +3,7 @@ package hu.schonherz.training.exam.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -12,12 +12,12 @@ import hu.schonherz.training.entity.BaseEntity;
 @Table(name = "question")
 public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	
-	@OneToOne
+
+	@ManyToOne
 	@JoinColumn(name = "exam_id", referencedColumnName = "id")
 	private Exam exam;
-	
-	@OneToOne
+
+	@ManyToOne
 	@JoinColumn(name = "type_id", referencedColumnName = "id")
 	private QuestionType questionType;
 
@@ -37,7 +37,8 @@ public class Question extends BaseEntity {
 	}
 
 	/**
-	 * @param exam the exam to set
+	 * @param exam
+	 *            the exam to set
 	 */
 	public void setExam(Exam exam) {
 		this.exam = exam;
@@ -51,10 +52,11 @@ public class Question extends BaseEntity {
 	}
 
 	/**
-	 * @param text the text to set
+	 * @param text
+	 *            the text to set
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 }

@@ -2,9 +2,9 @@ package hu.schonherz.training.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -15,23 +15,27 @@ import hu.schonherz.training.entity.User;
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "option_id", referencedColumnName = "id")
 	private Option option;
 
-	@Column(name = "is_right", nullable = true)
-	private Boolean isRight;
+	@Column(name = "right", nullable = true)
+	private Boolean right;
 
 	public Answer() {
 		super();
 	}
 
 	public Boolean isRight() {
-		return isRight;
+		return right;
+	}
+
+	public void setRight(Boolean right) {
+		this.right = right;
 	}
 
 	public User getUser() {
@@ -48,10 +52,6 @@ public class Answer extends BaseEntity {
 
 	public void setOption(Option option) {
 		this.option = option;
-	}
-
-	public void setRight(Boolean isRight) {
-		this.isRight = isRight;
 	}
 
 }
