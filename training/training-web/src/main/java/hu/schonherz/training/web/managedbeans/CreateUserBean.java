@@ -31,6 +31,7 @@ public class CreateUserBean implements Serializable {
 	public void registration() {
 		UserVo user = null;
 		UserVo useremail = null;
+		UserVo userVo = new UserVo();
 		try {
 			user = userService.findUserByName(username);
 			useremail = userService.findUserByEmail(email);
@@ -40,7 +41,7 @@ public class CreateUserBean implements Serializable {
 		}
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
-		UserVo userVo = new UserVo();
+		
 		
 		userVo.setUserName(username);
 		
@@ -78,7 +79,7 @@ public class CreateUserBean implements Serializable {
 		
 		try {
 			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
-			// getUserService().registrationUser(userVO);
+//			 userService.registrationUser(userVo);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
 			currentInstance.addMessage(null, facesMessage);
