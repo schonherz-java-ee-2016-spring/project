@@ -32,5 +32,6 @@ INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (20
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2004);
 
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (1, 5);
+INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 
 

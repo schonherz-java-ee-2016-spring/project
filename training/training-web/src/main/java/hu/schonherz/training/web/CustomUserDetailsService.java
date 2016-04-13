@@ -1,6 +1,7 @@
 package hu.schonherz.training.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import hu.schonherz.training.service.UserService;
+import hu.schonherz.training.vo.RoleGroupVo;
 import hu.schonherz.training.vo.RoleVo;
 import hu.schonherz.training.vo.UserVo;
 
@@ -25,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@EJB
 	UserService userService;
+	
 
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -34,10 +37,18 @@ public class CustomUserDetailsService implements UserDetailsService {
 			if (user == null) {
 				throw new UsernameNotFoundException(username);
 			}
-			// user = userService.setUpRoles(user); Újra alkotni a logint
-//			List<GrantedAuthority> authorities = buildUserAuthority(user.getRoles());
-//			return buildUserForAuthentication(user, authorities);
-			return null;
+			
+			Collection<RoleGroupVo> rolegroups = user.getRoleGroups();
+			
+			Set<RoleVo> roles = new HashSet<>();
+			for (RoleGroupVo roleGroupVo : rolegroups) {
+				Collection<RoleVo> notAllRoles = roleGroupVo.getRoles();
+				for (RoleVo roleVo : notAllRoles) {
+					roles.add(roleVo);
+				}
+			}
+			List<GrantedAuthority> authorities = buildUserAuthority(roles);
+			return buildUserForAuthentication(user, authorities);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UsernameNotFoundException(e.getMessage());
@@ -48,7 +59,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new User(user.getUserName(), user.getPassword(), true, true, true, true, authorities);
 	}
 
-	private List<GrantedAuthority> buildUserAuthority(List<RoleVo> userRoles) {
+	private List<GrantedAuthority> buildUserAuthority(Set<RoleVo> userRoles) {
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 		for (RoleVo userRole : userRoles) {
 			setAuths.add(new SimpleGrantedAuthority(userRole.getName()));
