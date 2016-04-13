@@ -1,7 +1,8 @@
 package hu.schonherz.training.vo;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Date;
 
 public class UserVo implements Serializable {
 
@@ -11,11 +12,12 @@ public class UserVo implements Serializable {
 	private String userName;
 	private String fullName;
 	private String email;
+	private Date registrationDate;
 	private String password;
-	private List<RoleVo> roles;
+	private boolean isActive;
+	private Collection<RoleGroupVo> roleGroups;
+	private Collection<UserGroupVo> groups;
 
-	
-	
 	public UserVo() {
 		// TODO Auto-generated constructor stub
 	}
@@ -44,18 +46,6 @@ public class UserVo implements Serializable {
 		this.password = password;
 	}
 
-	public List<RoleVo> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<RoleVo> roles) {
-		this.roles = roles;
-	}
-
-	@Override
-	public String toString() {
-		return "UserVO [id=" + id + ", userName=" + userName + ", password=" + password + ", roles=" + roles + "]";
-	}
 
 	public String getFullName() {
 		return fullName;
@@ -71,6 +61,49 @@ public class UserVo implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Collection<RoleGroupVo> getRoleGroups() {
+		return roleGroups;
+	}
+
+	public void setRoleGroups(Collection<RoleGroupVo> roleGroups) {
+		this.roleGroups = roleGroups;
+	}
+
+	public Collection<UserGroupVo> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Collection<UserGroupVo> groups) {
+		this.groups = groups;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "UserVo [id=" + id + ", userName=" + userName + ", fullName=" + fullName + ", email=" + email
+				+ ", registrationDate=" + registrationDate + ", password=" + password + ", isActive=" + isActive
+				+ ", roleGroups=" + roleGroups + ", groups=" + groups + "]";
 	}
 
 }
