@@ -37,6 +37,11 @@ public class UserServiceImpl implements UserService {
 		UserVo vo = UserMapper.toVo(userRepository.findUserByUserName(name));
 		return vo;
 	}
+	@Override
+	public UserVo findUserByEmail(String email) throws Exception {
+		UserVo vo = UserMapper.toVo(userRepository.findUserByEmail(email));
+		return vo;
+	}
 
 	@Override
 	public List<UserVo> findAllUser() throws Exception {
@@ -48,4 +53,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return vos;
 	}
+
+
 }

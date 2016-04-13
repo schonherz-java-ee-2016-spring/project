@@ -14,6 +14,12 @@ public class UserVo implements Serializable {
 	private String password;
 	private List<RoleVo> roles;
 
+	
+	
+	public UserVo() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}
