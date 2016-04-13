@@ -21,7 +21,7 @@ public class UserGroup extends BaseEntity {
 	private String groupName;
 	
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date creaationDate = new Date();
+	private Date creationDate;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "roleGroup_to_userGroup", joinColumns = @JoinColumn(name = "userGroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
@@ -36,11 +36,11 @@ public class UserGroup extends BaseEntity {
 	}
 
 	public Date getCreaationDate() {
-		return creaationDate;
+		return creationDate;
 	}
 
-	public void setCreaationDate(Date creaationDate) {
-		this.creaationDate = creaationDate;
+	public void setCreaationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public Collection<RoleGroup> getRoleGroups() {
@@ -50,6 +50,4 @@ public class UserGroup extends BaseEntity {
 	public void setRoleGroups(Collection<RoleGroup> roleGroups) {
 		this.roleGroups = roleGroups;
 	}
-
-	
 }

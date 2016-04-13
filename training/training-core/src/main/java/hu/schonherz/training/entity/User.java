@@ -29,7 +29,7 @@ public class User extends BaseEntity {
 	private String email;
 
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date registrationDate = new Date();
+	private Date registrationDate;
 
 	@Column(nullable = false)
 	private String password;

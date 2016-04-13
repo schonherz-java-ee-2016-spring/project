@@ -43,4 +43,5 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public UserGroupVo getUserGroupById(Long userGroupId) throws Exception {
 		return UserGroupMapper.toVo(userGroupRepository.findOne(userGroupId));
 	}
+
 }

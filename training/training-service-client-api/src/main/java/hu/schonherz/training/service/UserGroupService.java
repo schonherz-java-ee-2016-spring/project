@@ -13,4 +13,5 @@ public interface UserGroupService {
 	List<UserGroupVo> getUserGroups() throws Exception;
 
 	UserGroupVo getUserGroupById(Long userGroupId) throws Exception;
+
 }

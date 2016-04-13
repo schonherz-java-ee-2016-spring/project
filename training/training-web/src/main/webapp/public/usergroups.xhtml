@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="content">
+		<p:dataTable var="userGroup" value="#{userGroupsBean.userGroups}" paginator="true">
+			<p:column headerText="Csoportnév">
+				<h:outputText value="#{userGroup.groupName}" />
+			</p:column>
+
+			<p:column headerText="Létrehozás dátuma">
+				<h:outputText value="#{userGroup.creationDate}">
+					<f:convertDateTime type="date" pattern="dd-MM-yyyy" />
+				</h:outputText>
+			</p:column>
+
+
+
+		</p:dataTable>
+	</ui:define>
+
+</ui:composition>
