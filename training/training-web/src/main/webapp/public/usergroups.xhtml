@@ -4,19 +4,60 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="content">
-		<h:form>
-			<h:outputLink value="createusergroup.xhtml" class="btn btn-primary">Create Group</h:outputLink>
-			<p:dataTable var="ug" value="#{userGroupsBean.userGroups}" paginator="true">
-				<p:column headerText="Group name">
-					<h:outputLink value="ugroup.xhtml" >#{ug.groupName}</h:outputLink>
-				</p:column>
-
-				<p:column headerText="Creation date">
-					<h:outputText value="#{ug.creationDate}">
+		<h:form id="groupform">
+			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
+				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true">
+				<p:column headerText="id">
+					<h:outputText value="#{ug.id}">
 					</h:outputText>
 				</p:column>
+				<p:column headerText="#{out.groupname}">
+					<h:outputText value="#{ug.groupName}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.description}">
+					<h:outputText value="#{ug.description}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recdate}">
+					<h:outputText value="#{ug.recDate}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moddate}">
+					<h:outputText value="#{ug.modDate}">
+					</h:outputText>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" value="#{out.creategroup}" onclick="PF('dialog').show();" />
+					<p:commandButton process="gtable" update=":groupform" icon="ui-icon-trash" value="#{out.delete}" action="userGroupsBean.delete" />
+					<p:commandButton process="gtable" update=":groupform" icon="ui-icon-trash" value="#{out.edit}" action="userGroupsBean.delete" />
+				</f:facet>
 			</p:dataTable>
 		</h:form>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
+			
+			<h:form styleClass="form-horizontal" id="form">
+				<div class="form-group">
+					<label for="groupname" class="col-sm-3">#{out.groupname}</label>
+					<div class="col-sm-9">
+						<p:inputText styleClass="form-control" id="groupname" value="#{userGroupBean.groupName}"
+							required="true" label="groupname">
+						</p:inputText>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="desc" class="col-sm-3">#{out.description}</label>
+					<div class="col-sm-9">
+						<p:inputTextarea styleClass="form-control" id="desc" value="#{userGroupBean.description}"
+							required="true" label="desc">
+						</p:inputTextarea>
+					</div>
+				</div>
+				<p:commandButton styleClass="btn" value="#{out.create}" update="growl"
+					action="#{userGroupBean.create}" icon="ui-icon-check" />
+			</h:form>
+		</p:dialog>
 	</ui:define>
 
 </ui:composition>

@@ -21,6 +21,7 @@ public class UserGroupBean implements Serializable {
 	private UserGroupService userGroupService;
 
 	private String groupName;
+	private String description;
 
 	public void create() {
 
@@ -30,6 +31,7 @@ public class UserGroupBean implements Serializable {
 		} else {
 			UserGroupVo gvo = new UserGroupVo();
 			gvo.setName(groupName);
+			gvo.setDescription(description);
 			try {
 				userGroupService.createUserGroup(gvo);
 			} catch (Exception e) {
@@ -46,6 +48,14 @@ public class UserGroupBean implements Serializable {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
