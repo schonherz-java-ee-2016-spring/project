@@ -7,7 +7,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
-		<p:dataTable value="#{examListBean.examList}" var="exam">
+		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam">
 			<p:column headerText="Exam ID">
     			#{exam.id}
     		</p:column>
@@ -15,5 +15,22 @@
     			#{exam.title}
     		</p:column>
 		</p:dataTable>
+		
+		<h:form>
+			<p:panel id="panel" header="New Exam">
+				<p:messages id="msgs" showDetail="true" />
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="newExamTitle" value="Exam title:" />
+					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
+						required="true" label="newExamTitle">
+						<f:validateLength minimum="3" />
+						<p:ajax update="newExamTitleMsg" event="keyup" />
+					</p:inputText>
+					<p:message for="newExamTitle" display="icon" id="newExamTitleMsg" />
+				</h:panelGrid>
+				<p:commandButton value="Create" update="panel"
+					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>

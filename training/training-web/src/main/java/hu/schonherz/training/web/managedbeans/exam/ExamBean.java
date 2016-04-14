@@ -1,49 +1,64 @@
 package hu.schonherz.training.web.managedbeans.exam;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.validation.ConstraintViolationException;
+
+import org.primefaces.context.RequestContext;
 
 import hu.schonherz.training.exam.service.ExamService;
 import hu.schonherz.training.exam.vo.ExamVo;
 
-@ManagedBean(name = "examAddBean")
+@ManagedBean(name = "examBean")
 @SessionScoped
-public class ExamAddBean implements Serializable {
-
+public class ExamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
 	private ExamService examService;
 
-	private String examTitle;
+	private String newExamTitle;
 
-	public void registerExam() {
+	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
-		if (examTitle.isEmpty()) {
+		if (newExamTitle.isEmpty()) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Name field is empty!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 
 		ExamVo exam = new ExamVo();
-		exam.setTitle(examTitle);
+		exam.setTitle(newExamTitle);
 
 		try {
 			getExamService().createExam(exam);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "\"" + examTitle + "\" exam created!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+					"\"" + newExamTitle + "\" exam created!");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't create exam: \"" + examTitle + "\"");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Couldn't create exam: \"" + newExamTitle + "\"");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
+		RequestContext.getCurrentInstance().update("examTable");
+	}
+	
+	public List<ExamVo> getExamList() {
+		List<ExamVo> result = new ArrayList<ExamVo>();
+		try {
+			result = getExamService().getExamList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	public ExamService getExamService() {
@@ -54,11 +69,12 @@ public class ExamAddBean implements Serializable {
 		this.examService = examService;
 	}
 
-	public String getExamTitle() {
-		return examTitle;
+	public String getNewExamTitle() {
+		return newExamTitle;
 	}
 
-	public void setExamTitle(String examTitle) {
-		this.examTitle = examTitle;
+	public void setNewExamTitle(String newExamTitle) {
+		this.newExamTitle = newExamTitle;
 	}
+
 }
