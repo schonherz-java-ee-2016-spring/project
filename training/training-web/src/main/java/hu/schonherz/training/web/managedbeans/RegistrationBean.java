@@ -1,11 +1,13 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +31,9 @@ public class RegistrationBean implements Serializable {
 	private String password;
 
 	private String passwordConfirm;
+	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 
 	public void registration() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
@@ -61,7 +66,7 @@ public class RegistrationBean implements Serializable {
 		}
 
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
-		currentInstance.addMessage(null, facesMessage);
+		currentInstance.addMessage("growl", facesMessage);
 	}
 
 	public String getUsername() {
@@ -110,6 +115,14 @@ public class RegistrationBean implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 	
 }
