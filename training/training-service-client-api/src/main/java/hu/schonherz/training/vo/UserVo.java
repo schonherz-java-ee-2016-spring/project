@@ -12,7 +12,10 @@ public class UserVo implements Serializable {
 	private String userName;
 	private String fullName;
 	private String email;
-	private Date registrationDate;
+	private Date recDate;
+	private Date modDate;
+	private String recUser;
+	private String modUser;
 	private String password;
 	private boolean isActive;
 	private Collection<RoleGroupVo> roleGroups;
@@ -63,14 +66,6 @@ public class UserVo implements Serializable {
 		this.email = email;
 	}
 
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
-
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
-	}
-
 	public boolean isActive() {
 		return isActive;
 	}
@@ -102,8 +97,40 @@ public class UserVo implements Serializable {
 	@Override
 	public String toString() {
 		return "UserVo [id=" + id + ", userName=" + userName + ", fullName=" + fullName + ", email=" + email
-				+ ", registrationDate=" + registrationDate + ", password=" + password + ", isActive=" + isActive
+				+ ", registrationDate=" + recDate + ", password=" + password + ", isActive=" + isActive
 				+ ", roleGroups=" + roleGroups + ", groups=" + groups + "]";
+	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
+	}
+
+	public Date getModDate() {
+		return modDate;
+	}
+
+	public void setModDate(Date modDate) {
+		this.modDate = modDate;
+	}
+
+	public String getRecUser() {
+		return recUser;
+	}
+
+	public void setRecUser(String recUser) {
+		this.recUser = recUser;
+	}
+
+	public String getModUser() {
+		return modUser;
+	}
+
+	public void setModUser(String modUser) {
+		this.modUser = modUser;
 	}
 
 }
