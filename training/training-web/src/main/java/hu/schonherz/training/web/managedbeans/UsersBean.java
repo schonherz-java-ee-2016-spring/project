@@ -51,19 +51,20 @@ public class UsersBean implements Serializable {
     }
 	
 	public void onSelect(SelectEvent event) throws Exception {
-			System.out.println("----------------------------------------------------------------------------------------------------"+selectedUser.getFullName());
+//			System.out.println("----------------------------------------------------------------------------------------------------"+selectedUser.getFullName());
 			setSelected(false);
 	}
-	public void deleteUser() throws Exception {
-//		userService.deleteUserById(selectedUser.getId());
-        addMessage(getBundle().getString("succes"), getBundle().getString("succesDelete"));
-    }
-     
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+	public void deleteUser() {
+		try {
+			userService.deleteUserById(selectedUser.getId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"), getBundle().getString("succesDelete"));
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-	
+     
 	public List<UserVo> getAllUser() {
 		List<UserVo> vos = null;
 		try {

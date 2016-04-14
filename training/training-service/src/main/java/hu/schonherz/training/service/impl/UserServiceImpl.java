@@ -28,6 +28,7 @@ import hu.schonherz.training.vo.UserVo;
 @Local(UserService.class)
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class UserServiceImpl implements UserService {
+	
 	@Autowired
 	UserRepository userRepository;
 
