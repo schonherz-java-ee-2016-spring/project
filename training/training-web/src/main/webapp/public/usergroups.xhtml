@@ -29,8 +29,8 @@
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" value="#{out.creategroup}" onclick="PF('dialog').show();" />
-					<p:commandButton process="gtable" update=":groupform" icon="ui-icon-trash" value="#{out.delete}" action="userGroupsBean.delete" />
-					<p:commandButton process="gtable" update=":groupform" icon="ui-icon-trash" value="#{out.edit}" action="userGroupsBean.delete" />
+					<p:commandButton icon="ui-icon-trash" value="#{out.delete}" />
+					<p:commandButton process="gtable" icon="ui-icon-trash" value="#{out.edit}" oncomplete="userGroupsBean.delete()" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
@@ -54,7 +54,7 @@
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.create}" update="growl"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="growl"
 					action="#{userGroupBean.create}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
