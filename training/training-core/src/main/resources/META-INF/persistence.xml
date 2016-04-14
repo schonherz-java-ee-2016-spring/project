@@ -23,7 +23,7 @@
 		<class>hu.schonherz.training.supervisor.entity.Feedback</class>
 		<class>hu.schonherz.training.supervisor.entity.Interview</class>
 
-		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />

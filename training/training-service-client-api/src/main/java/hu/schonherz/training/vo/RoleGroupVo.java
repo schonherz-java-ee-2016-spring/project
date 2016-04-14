@@ -1,6 +1,7 @@
 package hu.schonherz.training.vo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 public class RoleGroupVo implements Serializable{
@@ -14,6 +15,8 @@ public class RoleGroupVo implements Serializable{
 	private String name;
 	private Date createDate;
 	private Date editDate;
+	private Collection<RoleVo> roles;
+	
 	public Long getId() {
 		return id;
 	}
@@ -43,6 +46,12 @@ public class RoleGroupVo implements Serializable{
 	public String toString() {
 		return "RoleGroupVo [id=" + id + ", name=" + name + ", createDate=" + createDate + ", editDate=" + editDate
 				+ "]";
+	}
+	public Collection<RoleVo> getRoles() {
+		return roles;
+	}
+	public void setRoles(Collection<RoleVo> roles) {
+		this.roles = roles;
 	}
 	
 

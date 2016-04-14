@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findUserByUserName(String name) throws Exception;
 
-	User findUserById(Long id);
+	User findUserById(Long id)throws Exception;
+
+	User findUserByEmail(String email)throws Exception;
 
 }

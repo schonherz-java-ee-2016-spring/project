@@ -12,5 +12,5 @@ import hu.schonherz.training.entity.RoleGroup;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
 
-	
+	RoleGroup findByName(String name);
 }
