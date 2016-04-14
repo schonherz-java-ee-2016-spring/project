@@ -1,7 +1,6 @@
 package hu.schonherz.training.entity;
 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
@@ -29,10 +26,6 @@ public class User extends BaseEntity {
 
 	@Column(nullable = false, length = 100, unique = true)
 	private String email;
-
-	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date registrationDate = new Date();
 
 	@Column(nullable = false)
 	private String password;
@@ -79,14 +72,6 @@ public class User extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
-
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
 	}
 
 	public Collection<UserGroup> getGroups() {

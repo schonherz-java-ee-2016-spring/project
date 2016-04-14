@@ -10,7 +10,10 @@ public class UserGroupVo implements Serializable {
 
 	private Long id;
 	private String groupName;
-	private Date creationDate;
+	private Date recDate;
+	private Date modDate;
+	private String recUser;
+	private String modUser;
 	private List<RoleGroupVo> roleGroups;
 
 	public Long getId() {
@@ -42,20 +45,44 @@ public class UserGroupVo implements Serializable {
 		this.groupName = groupName;
 	}
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
-
 	public List<RoleGroupVo> getRoleGroups() {
 		return roleGroups;
 	}
 
 	public void setRoleGroups(List<RoleGroupVo> roleGroups) {
 		this.roleGroups = roleGroups;
+	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
+	}
+
+	public Date getModDate() {
+		return modDate;
+	}
+
+	public void setModDate(Date modDate) {
+		this.modDate = modDate;
+	}
+
+	public String getRecUser() {
+		return recUser;
+	}
+
+	public void setRecUser(String recUser) {
+		this.recUser = recUser;
+	}
+
+	public String getModUser() {
+		return modUser;
+	}
+
+	public void setModUser(String modUser) {
+		this.modUser = modUser;
 	}
 
 }

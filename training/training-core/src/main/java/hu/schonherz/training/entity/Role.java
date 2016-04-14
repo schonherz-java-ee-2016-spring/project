@@ -13,12 +13,23 @@ public class Role extends BaseEntity {
 	@Column(nullable = false, unique = true)
 	private String name;
 
+	@Column(nullable = false, unique = true)
+	private String roleCode;
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 }
