@@ -5,7 +5,31 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Question</ui:define>
 	<ui:define name="content">
-		<h:outputText value="Add a new question" />
+
+		<h:form>
+			<p:panel id="panel" header="New Question">
+				<p:messages id="msgs" showDetail="true" />
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="newQuestionText" value="Question:" >
+					<p:inputText id="newQuestionText" value="#{questionBean.newQuestionText}"
+						required="true" label="newQuestionText">
+						<f:validateLength minimum="3" />
+						<p:ajax update="newQuestionMsg" event="keyup" />
+					</p:inputText>
+					</p:outputLabel>
+					<p:outputLabel for="newQuestionExamID" value="ExamId:" >
+					<p:inputText id="newQuestionExamID" value="#{questionBean.newQuestionExamID}"
+						required="true" label="newQuestionExamID">
+						<p:ajax update="newQuestionMsg" event="keyup" />
+					</p:inputText>
+					</p:outputLabel>
+					<p:message for="newQuestionText" display="icon" id="newQuestionMsg" />
+				</h:panelGrid>
+				<p:commandButton value="Create" update="panel"
+					actionListener="#{questionBean.registerNewQuestion}" icon="ui-icon-check" />
+			</p:panel>
+		</h:form>
 	</ui:define>
 </ui:composition>
