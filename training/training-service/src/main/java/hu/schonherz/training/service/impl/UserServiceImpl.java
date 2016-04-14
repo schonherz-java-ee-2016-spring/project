@@ -72,8 +72,6 @@ public class UserServiceImpl implements UserService {
 		return vos;
 	}
 
-
-
 	@Override
 	public UserVo registrationUser(UserVo userVo) throws Exception {
 		User user = UserMapper.toDto(userVo);
@@ -86,5 +84,10 @@ public class UserServiceImpl implements UserService {
 		user.setRoleGroups(roles);
 		user = userRepository.save(user);
 		return UserMapper.toVo(user);
+	}
+
+	@Override
+	public void deleteUserById(Long id) throws Exception {
+		userRepository.removeUserById(id);
 	}
 }

@@ -3,11 +3,17 @@ package hu.schonherz.training.web.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.event.SelectEvent;
 
 import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
@@ -24,17 +30,38 @@ public class UsersBean implements Serializable {
 	private String username;
 	private String fullname;
 	private String email;
+	private boolean selected;
+	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
+	private UserVo selectedUser;
 	
 	private List<UserVo> users;
 	
 	@PostConstruct
     public void init() {
+		selected = true;
         try {
 			users = userService.findAllUser();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+	
+	public void onSelect(SelectEvent event) throws Exception {
+			System.out.println("----------------------------------------------------------------------------------------------------"+selectedUser.getFullName());
+			setSelected(false);
+	}
+	public void deleteUser() throws Exception {
+//		userService.deleteUserById(selectedUser.getId());
+        addMessage(getBundle().getString("succes"), getBundle().getString("succesDelete"));
+    }
+     
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 	
 	public List<UserVo> getAllUser() {
@@ -82,6 +109,29 @@ public class UsersBean implements Serializable {
 	}
 	public void setUsers(List<UserVo> users) {
 		this.users = users;
+	}
+
+	public UserVo getSelectedUser() {
+		return selectedUser;
+	}
+	public void setSelectedUser(UserVo selectedUser) {
+		this.selectedUser = selectedUser;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	

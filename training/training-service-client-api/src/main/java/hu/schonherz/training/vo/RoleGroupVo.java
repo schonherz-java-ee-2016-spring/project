@@ -33,8 +33,7 @@ public class RoleGroupVo implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "RoleGroupVo [id=" + id + ", name=" + name + ", createDate=" + recDate + ", editDate=" + modDate
-				+ "]";
+		return name;
 	}
 	public Collection<RoleVo> getRoles() {
 		return roles;
