@@ -3,11 +3,13 @@ package hu.schonherz.training.web.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 
 import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
@@ -26,6 +28,9 @@ public class UsersBean implements Serializable {
 	private String email;
 	
 	private List<UserVo> users;
+	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 	
 	@PostConstruct
     public void init() {
@@ -82,6 +87,14 @@ public class UsersBean implements Serializable {
 	}
 	public void setUsers(List<UserVo> users) {
 		this.users = users;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 	
