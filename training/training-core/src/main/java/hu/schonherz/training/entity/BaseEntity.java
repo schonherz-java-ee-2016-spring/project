@@ -92,4 +92,12 @@ public class BaseEntity implements Serializable {
 	public void setModDate(Date modDate) {
 		this.modDate = modDate;
 	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
+	}
 }

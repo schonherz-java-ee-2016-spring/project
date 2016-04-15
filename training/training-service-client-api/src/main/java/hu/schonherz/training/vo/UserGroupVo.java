@@ -33,11 +33,6 @@ public class UserGroupVo implements Serializable {
 		groupName = GroupName;
 	}
 
-	@Override
-	public String toString() {
-		return "RoleVO [id=" + id + ", Name=" + groupName + "]";
-	}
-
 	public String getGroupName() {
 		return groupName;
 	}
