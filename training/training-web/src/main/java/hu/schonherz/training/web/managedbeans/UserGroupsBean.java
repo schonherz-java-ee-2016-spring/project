@@ -1,7 +1,6 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -86,7 +85,9 @@ public class UserGroupsBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			} else {
 				userGroupService.saveUserGroup(selected);
-
+				gvo = userGroupService.getUserGroupById(selected.getId());
+				selected.setModUser(gvo.getModUser());
+				selected.setModDate(gvo.getModDate());
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group updated!");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
