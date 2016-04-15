@@ -7,7 +7,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="content">
-		<h1>Users:</h1>
+		<h1>#{out.users}:</h1>
 		<h:form id="createUserForm">
 			<p:dataTable id="dataTable" name="dataTable" style="width:100%;"
 				var="user" value="#{usersBean.users}" selectionMode="single"
@@ -36,81 +36,137 @@
 				<p:column headerText="#{out.roleGroup}">
 					<h:outputText value="#{user.roleGroups}" />
 				</p:column>
-				<p:ajax event="rowSelect" update="deleteButton"
+				<!-- 				A kiválasztásra aktiválás  -->
+				<p:ajax event="rowSelect" update="deleteButton modifyButton"
 					listener="#{usersBean.onSelect}" />
+				<!-- 				A felhasználó létrehozás dialog gombja -->
+				<f:facet name="footer">
+					<p:commandButton type="button" onclick="PF('dlg1').show();"
+						 value="#{out.create_user}"
+						update="panel" action="#{createUserBean.registration}"
+						oncomplete="dlg1.hide()"></p:commandButton>
+				</f:facet>
+				<!-- 				a felhasználó módosítása gomb -->
+				<f:facet name="footer">
+					<p:commandButton type="button" onclick="PF('modify_user').show();" id="modifyButton"
+						value="#{out.modify_user}" disabled="#{usersBean.selected}" update="panel"
+						action="#{UserBean.modifyUser}" oncomplete="modify_user.hide()"></p:commandButton>
+				</f:facet>
+				
+				<!-- 					A felhasználó törlése gomb -->
 				<f:facet name="footer">
 					<p:growl id="message" showDetail="true" />
-					<p:commandButton update=":groupform:dataTable message" action="#{usersBean.deleteUser()}" id="deleteButton" process="dataTable"
-						value="#{out.deleteUser}" 
-						 disabled="#{(usersBean.selected)}">
+					<p:commandButton update=":createUserForm:dataTable message"
+						action="#{usersBean.deleteUser()}" id="deleteButton"
+						process="dataTable" value="#{out.deleteUser}"
+						disabled="#{(usersBean.selected)}">
 						<p:confirm header="#{out.confirmation}"
 							message="#{out.sureDelete}?" icon="ui-icon-alert" />
 					</p:commandButton>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 						<p:commandButton value="#{out.yes}" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
-				</f:facet>
-				<f:facet name="footer">
-					<p:commandButton type="button"
-						onclick="PF('dlg1').show();" value="#{out.create_user}" update="panel" 	action="#{createUserBean.registration}" oncomplete="dlg1.hide();"></p:commandButton>
 				</f:facet>
 			</p:dataTable>
 
 		</h:form>
 		<br />
-		<footer>
-			<h:form styleClass="form-horizontal" id="form">
 
-				<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true" resizable="false" >
-					<p:panel id="panel">
+		<!-- 			A felhasználó létrehozás dialok -->
+		<h:form styleClass="form-horizontal" id="form_create">
+			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
+				resizable="false">
+				<p:panel id="panel">
 
-						<p:messages id="msgs" showDetail="true" />
-						<h:panelGrid columns="2" cellpadding="5">
-							<div class="form-group">
-								<label for="fullname" class="col-sm-4">#{out.fullname}</label>
-								<div class="col-sm-8">
-									<p:inputText styleClass="form-control" id="fullname"
-										value="#{createUserBean.fullname}" required="true"
-										requiredMessage="#{out.fullname_required}" label="fullname">
-									</p:inputText>
-								</div>
+					<!-- 						<p:messages id="msgs" showDetail="true" /> -->
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="fullname" class="col-sm-4">#{out.fullname}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="fullname"
+									value="#{createUserBean.fullname}" required="true"
+									requiredMessage="#{out.fullname_required}" label="fullname">
+								</p:inputText>
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<label for="username" class="col-sm-4">#{out.username}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="username"
+									value="#{createUserBean.username}" required="true"
+									label="username">
+								</p:inputText>
 							</div>
 
+						</div>
+						<p:message for="username" display="icon" id="usernameMsg" />
 
-							<div class="form-group">
-								<label for="username" class="col-sm-4">#{out.username}</label>
-								<div class="col-sm-8">
-									<p:inputText styleClass="form-control" id="username"
-										value="#{createUserBean.username}" required="true"
-										label="username">
-									</p:inputText>
-								</div>
-
+						<div class="form-group">
+							<label for="email" class="col-sm-4">#{out.email}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="email"
+									value="#{createUserBean.email}" required="true" label="email">
+								</p:inputText>
 							</div>
-							<p:message for="username" display="icon" id="usernameMsg" />
+						</div>
 
-							<div class="form-group">
-								<label for="email" class="col-sm-4">#{out.email}</label>
-								<div class="col-sm-8">
-									<p:inputText styleClass="form-control" id="email"
-										value="#{createUserBean.email}" required="true"
-										label="email">
-									</p:inputText>
-								</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}" update="createUserForm panel"
+						action="#{createUserBean.registration}" icon="ui-icon-check"
+						oncomplete="dlg1.hide();" />
+					<p:commandButton value="#{out.cancel}" onclick="dlg1.hide();" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
+
+		<!-- 			A felhasználó módosítása dialog -->
+		<h:form styleClass="form-horizontal" id="form_modify">
+			<p:dialog header="#{out.modify_user}" widgetVar="modify_user"
+				dynamic="true" resizable="false" responsive="true">
+				<p:panel id="panel">
+					<!-- 						<p:messages id="msgs" showDetail="true" /> -->
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="fullname" class="col-sm-4">#{out.fullname}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="fullname"
+									value="#{UserBean.selectedFullname}" required="true"
+									requiredMessage="#{out.fullname_required}" label="fullname">
+								</p:inputText>
 							</div>
-
-						</h:panelGrid>
-						<p:commandButton value="#{out.save}" update="createUserForm panel"
-							action="#{createUserBean.registration}" icon="ui-icon-check" oncomplete="dlg1.hide();"/>
-						<p:commandButton value="#{out.cancel}" onclick="dlg1.hide();"/>
-					</p:panel>
-				</p:dialog>
-
-			</h:form>
-
-		</footer>
+						</div>
+						<div class="form-group">
+							<label for="username" class="col-sm-4">#{out.username}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="username"
+									value="#{UserBean.selectedUsername}" required="true"
+									label="username">
+								</p:inputText>
+							</div>
+						</div>
+						<p:message for="username" display="icon" id="usernameMsg" />
+						<div class="form-group">
+							<label for="email" class="col-sm-4">#{out.email}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="email"
+									value="#{UserBean.selectedEmail}" required="true"
+									label="email">
+								</p:inputText>
+							</div>
+						</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}" update="createUserForm panel"
+						action="#{UserBean.modifyUser}" icon="ui-icon-check"
+						oncomplete="dlg1.hide();" />
+					<p:commandButton value="#{out.cancel}"
+						onclick="modify_user.hide();" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
 	</ui:define>
 </ui:composition>
