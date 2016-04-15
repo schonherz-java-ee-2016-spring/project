@@ -1,0 +1,55 @@
+h5 {
+    text-align: right;
+    vertical-align:middle;
+}
+
+.media-body{
+padding:20px;
+}
+.sum{
+float:right !important;
+  font-size: 15px;
+}
+.userImage{
+float:left !important;
+}
+.row-header{
+    font-weight: bold;
+
+}
+
+.table-header-rotated {
+  white-space: nowrap !important;
+  font-size: 13px;
+    margin-top: 30px;
+  border-collapse: collapse !important;
+}
+.csstransforms .table-header-rotated td {
+  width: 40px !important;
+}
+.no-csstransforms .table-header-rotated th {
+  padding: 5px 10px !important;
+}
+.table-header-rotated td {
+  text-align: center !important;
+  padding: 10px 5px !important;
+  border: 1px solid #ccc !important;
+}
+.csstransforms .table-header-rotated th.rotate {
+  height: 140px !important;
+  white-space: nowrap !important;
+}
+.csstransforms .table-header-rotated th.rotate > div {
+  -webkit-transform: translate(24px, 48px) rotate(315deg);
+          transform: translate(24px, 48px) rotate(315deg);
+  width: 40px !important;
+   
+}
+.csstransforms .table-header-rotated th.rotate > div > span {
+  border-bottom: 1px solid #ccc !important;
+  padding: 5px 10px !important;
+}
+.table-header-rotated th.row-header {
+  padding: 0 10px !important;
+  border-bottom: 1px solid #ccc !important;
+}
