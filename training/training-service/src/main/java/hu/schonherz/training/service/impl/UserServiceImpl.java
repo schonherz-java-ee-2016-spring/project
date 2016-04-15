@@ -28,7 +28,7 @@ import hu.schonherz.training.vo.UserVo;
 @Local(UserService.class)
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	UserRepository userRepository;
 
@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
 		UserVo vo = UserMapper.toVo(userRepository.findUserByUserName(name));
 		return vo;
 	}
+
 	@Override
 	public UserVo findUserByEmail(String email) throws Exception {
 		UserVo vo = UserMapper.toVo(userRepository.findUserByEmail(email));
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVo registrationUser(UserVo userVo) throws Exception {
+	public void registrationUser(UserVo userVo) {
 		User user = UserMapper.toDto(userVo);
 		Collection<RoleGroup> roles = user.getRoleGroups();
 		if (roles == null || roles.isEmpty()) {
@@ -84,19 +85,18 @@ public class UserServiceImpl implements UserService {
 		roles.add(roleGroup);
 		user.setRoleGroups(roles);
 		user = userRepository.save(user);
-		return UserMapper.toVo(user);
 	}
 
 	@Override
 	public void deleteUserById(Long id) throws Exception {
-		userRepository.removeUserById(id);
+		userRepository.delete(id);
 	}
 
 	@Override
 	public void modifyUser(UserVo selectedUser) {
-		
-		
-		
+//		userRepository.updateUser(selectedUser.getUserName(), selectedUser.getFullName(), selectedUser.getEmail(),
+//				selectedUser.getId());
+		userRepository.save(UserMapper.toDto(selectedUser));
 	}
 
 	@Override

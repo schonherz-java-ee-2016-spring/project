@@ -17,5 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findUserByEmail(String email)throws Exception;
 	
-	void removeUserById(Long id); 
+//	@Modifying
+//	@Query("update User u set u.userName = ?1, u.fullName = ?2 u.email = ?2 where u.id = ?4")
+//	void updateUser(String username, String fullname, String email, Long Id);
 }

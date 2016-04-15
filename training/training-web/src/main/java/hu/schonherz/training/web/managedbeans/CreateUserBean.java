@@ -28,7 +28,7 @@ public class CreateUserBean implements Serializable {
 	private String email;
 
 
-	public void registration() {
+	public void create() {
 		UserVo user = null;
 		UserVo useremail = null;
 		UserVo userVo = new UserVo();
