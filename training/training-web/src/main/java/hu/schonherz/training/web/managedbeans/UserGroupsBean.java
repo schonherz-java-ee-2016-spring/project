@@ -8,6 +8,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import org.primefaces.event.SelectEvent;
+
 import hu.schonherz.training.service.UserGroupService;
 import hu.schonherz.training.vo.UserGroupVo;
 
@@ -24,6 +26,8 @@ public class UserGroupsBean implements Serializable {
 
 	private UserGroupVo selected;
 
+	private Boolean isSelected = true;
+
 	@PostConstruct
 	public void init() {
 		try {
@@ -33,7 +37,11 @@ public class UserGroupsBean implements Serializable {
 		}
 	}
 
-	public void delete() {
+	public void selectGroupListener(SelectEvent event) {
+		isSelected = false;
+	}
+
+	public void deleteGroup() {
 		try {
 			userGroupService.deleteUserGroup(selected.getId());
 		} catch (Exception e) {
@@ -55,6 +63,14 @@ public class UserGroupsBean implements Serializable {
 
 	public void setSelected(UserGroupVo selected) {
 		this.selected = selected;
+	}
+
+	public Boolean getIsSelected() {
+		return isSelected;
+	}
+
+	public void setIsSelected(Boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 
 }
