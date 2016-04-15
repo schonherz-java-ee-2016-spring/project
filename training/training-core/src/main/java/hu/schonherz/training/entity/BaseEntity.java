@@ -25,7 +25,7 @@ public class BaseEntity implements Serializable {
 	
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date recDate;
+	private Date recDate = new Date();
 
 	private Date modDate;
 

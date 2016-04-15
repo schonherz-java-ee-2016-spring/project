@@ -6,7 +6,7 @@
 	<ui:define name="content">
 		<h:form id="groupform">
 			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
-				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true">
+				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"  rowsPerPageTemplate="4,8,12">
 				<p:column headerText="id">
 					<h:outputText value="#{ug.id}">
 					</h:outputText>
@@ -21,10 +21,20 @@
 				</p:column>
 				<p:column headerText="#{out.recdate}">
 					<h:outputText value="#{ug.recDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recuser}">
+					<h:outputText value="#{ug.recUser}">
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{out.moddate}">
 					<h:outputText value="#{ug.modDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moduser}">
+					<h:outputText value="#{ug.modUser}">
 					</h:outputText>
 				</p:column>
 				<f:facet name="footer">

@@ -14,6 +14,6 @@ public interface UserGroupService {
 
 	UserGroupVo getUserGroupById(Long userGroupId) throws Exception;
 
-	UserGroupVo findGroupByName(String groupName);
+	UserGroupVo findGroupByName(String groupName) throws Exception;
 
 }

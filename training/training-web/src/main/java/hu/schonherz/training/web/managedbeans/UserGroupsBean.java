@@ -1,6 +1,8 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +22,7 @@ import hu.schonherz.training.vo.UserGroupVo;
 public class UserGroupsBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private UserGroupService userGroupService;
 
@@ -48,22 +50,24 @@ public class UserGroupsBean implements Serializable {
 	}
 
 	public void create() {
-		if (userGroupService.findGroupByName(groupName) != null) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING", "User Group already exists!");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			UserGroupVo gvo = new UserGroupVo();
-			gvo.setName(groupName);
-			gvo.setDescription(description);
-			try {
-				userGroupService.saveUserGroup(gvo);
-				userGroups.add(userGroupService.findGroupByName(gvo.getGroupName()));
-			} catch (Exception e) {
-				e.printStackTrace();
+		UserGroupVo gvo = new UserGroupVo();
+		gvo.setName(groupName);
+		gvo.setDescription(description);
+		try {
+			userGroupService.saveUserGroup(gvo);
+			userGroups.add(userGroupService.findGroupByName(gvo.getGroupName()));
+		} catch (SQLException e) {
+			if (e.getErrorCode() == 23505) {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
+						"User Group already exists!");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				return;
 			}
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group created!");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			e.getMessage();
 		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group created!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void deleteGroup() {
@@ -76,17 +80,27 @@ public class UserGroupsBean implements Serializable {
 	}
 
 	public void updateGroup() {
-			UserGroupVo gvo = new UserGroupVo();
-			gvo.setId(selected.getId());
-			gvo.setName(selected.getGroupName());
-			gvo.setDescription(selected.getDescription());
-			try {
-				userGroupService.saveUserGroup(gvo);
-			} catch (Exception e) {
-				e.printStackTrace();
+		UserGroupVo gvo = new UserGroupVo();
+		selected.setModDate(new Date(System.currentTimeMillis()));
+		gvo.setId(selected.getId());
+		gvo.setName(selected.getGroupName());
+		gvo.setDescription(selected.getDescription());
+		gvo.setModDate(selected.getModDate());
+		try {
+			userGroupService.saveUserGroup(gvo);
+		} catch (SQLException e) {
+			if (e.getErrorCode() == 23505) {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
+						"User Group already exists!");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+				return;
 			}
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group updated!");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group updated!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public List<UserGroupVo> getUserGroups() {
