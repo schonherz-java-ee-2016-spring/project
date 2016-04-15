@@ -18,8 +18,8 @@ public class RoleGroupsBean implements Serializable{
 	@EJB
 	RoleGroupService roleGroupService;
 	
-	List<RoleGroupVo> allRoleGroup;
-	RoleGroupVo selectedRoleGroup;
+	private List<RoleGroupVo> allRoleGroup;
+	private RoleGroupVo selectedRoleGroup;
 	
 	
 	// bevitelhez szükséges adatok
@@ -37,11 +37,27 @@ public class RoleGroupsBean implements Serializable{
 //		allRoleGroup.get(0).getRecUser();
 //		allRoleGroup.get(0).getRoles();
 		try {
-			allRoleGroup = roleGroupService.getAllRoleGroup();
-			selectedRoleGroup = new RoleGroupVo();
+			setAllRoleGroup(roleGroupService.getAllRoleGroup());
+			setSelectedRoleGroup(new RoleGroupVo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<RoleGroupVo> getAllRoleGroup() {
+		return allRoleGroup;
+	}
+
+	public void setAllRoleGroup(List<RoleGroupVo> allRoleGroup) {
+		this.allRoleGroup = allRoleGroup;
+	}
+
+	public RoleGroupVo getSelectedRoleGroup() {
+		return selectedRoleGroup;
+	}
+
+	public void setSelectedRoleGroup(RoleGroupVo selectedRoleGroup) {
+		this.selectedRoleGroup = selectedRoleGroup;
 	}
 	
 
