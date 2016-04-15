@@ -7,15 +7,19 @@ import hu.schonherz.training.supervisor.vo.InterviewVo;
 
 public interface InterviewService {
 
-	public InterviewVo addInterview(InterviewVo interviewVo) throws Exception;
+	public void addInterview(InterviewVo interviewVo) throws Exception;
 	
 	public InterviewVo getInterview(Long interviewId) throws Exception;
 	
 	public List<InterviewVo> getAll() throws Exception;
 	
-	public List<InterviewVo> getAllByUser(Long userId) throws Exception;
+	public List<InterviewVo> getAllByInterviewed(Long userId) throws Exception;
 	
-	public List<InterviewVo> getAllByUserAndDate(Long userId, Date interviewDate) throws Exception;
+	public List<InterviewVo> getAllByInterviewer(Long userId) throws Exception;
+	
+	public List<InterviewVo> getAllByInterviewedAndDate(Long userId, Date interviewDate) throws Exception;
+	
+	public List<InterviewVo> getAllByInterviewerAndDate(Long userId, Date interviewDate) throws Exception;
 	
 	public void deleteInterview(Long interviewId) throws Exception;
 	
