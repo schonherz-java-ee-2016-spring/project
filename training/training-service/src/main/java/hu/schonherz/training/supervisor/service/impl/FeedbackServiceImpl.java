@@ -1,5 +1,6 @@
 package hu.schonherz.training.supervisor.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -19,7 +20,7 @@ import hu.schonherz.training.supervisor.service.FeedbackService;
 import hu.schonherz.training.supervisor.service.mapper.FeedbackMapper;
 import hu.schonherz.training.supervisor.vo.FeedbackVo;
 
-@Stateless(mappedName = "feedbackService", name = "feedbackService")
+@Stateless(mappedName = "FeedbackService", name = "FeedbackService")
 @Transactional(value = TxType.REQUIRED)
 @Local(FeedbackService.class)
 @Interceptors({SpringBeanAutowiringInterceptor.class})
@@ -51,6 +52,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 		try {
 			List<Feedback> feedbacks = feedbackRepository.findAll();
 			for (Feedback feedback : feedbacks) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (feedback.getSender().getId() == userId) {
 					result.add(FeedbackMapper.toVo(feedback));
 				}
@@ -69,6 +73,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 		try {
 			List<Feedback> feedbacks = feedbackRepository.findAll();
 			for (Feedback feedback : feedbacks) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (feedback.getRated().getId() == userId) {
 					result.add(FeedbackMapper.toVo(feedback));
 				}

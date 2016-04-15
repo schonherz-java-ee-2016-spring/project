@@ -1,6 +1,7 @@
 package hu.schonherz.training.supervisor.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,20 +24,126 @@ public class InterviewsBean implements Serializable {
 
 	@EJB
 	private InterviewService interviewService;
-	
+
 	private String company;
 	private String description;
 	private Date interviewDate;
 	private Long interviewedId;
 	private Long interviewerId;
+
 	private List<InterviewVo> interviews;
-	
+
 	@PostConstruct
-	public void pcon() {
+	public void init() {
 		try {
 			interviews = interviewService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	public List<InterviewVo> getAllInterviews() {
+		List<InterviewVo> interviewVos = null;
+		try {
+			if (interviewService.getAll() == null) {
+				interviewVos = new ArrayList<>();
+			} else {
+				interviewVos = interviewService.getAll();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return interviewVos;
+	}
+
+	/**
+	 * @return the company
+	 */
+	public String getCompany() {
+		return company;
+	}
+
+	/**
+	 * @param company
+	 *            the company to set
+	 */
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the interviewDate
+	 */
+	public Date getInterviewDate() {
+		return interviewDate;
+	}
+
+	/**
+	 * @param interviewDate
+	 *            the interviewDate to set
+	 */
+	public void setInterviewDate(Date interviewDate) {
+		this.interviewDate = interviewDate;
+	}
+
+	/**
+	 * @return the interviewedId
+	 */
+	public Long getInterviewedId() {
+		return interviewedId;
+	}
+
+	/**
+	 * @param interviewedId
+	 *            the interviewedId to set
+	 */
+	public void setInterviewedId(Long interviewedId) {
+		this.interviewedId = interviewedId;
+	}
+
+	/**
+	 * @return the interviewerId
+	 */
+	public Long getInterviewerId() {
+		return interviewerId;
+	}
+
+	/**
+	 * @param interviewerId
+	 *            the interviewerId to set
+	 */
+	public void setInterviewerId(Long interviewerId) {
+		this.interviewerId = interviewerId;
+	}
+
+	/**
+	 * @return the interviews
+	 */
+	public List<InterviewVo> getInterviews() {
+		return interviews;
+	}
+
+	/**
+	 * @param interviews
+	 *            the interviews to set
+	 */
+	public void setInterviews(List<InterviewVo> interviews) {
+		this.interviews = interviews;
+	}
+
 }

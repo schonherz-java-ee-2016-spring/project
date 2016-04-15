@@ -1,5 +1,6 @@
 package hu.schonherz.training.supervisor.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +58,9 @@ public class InterviewServiceImpl implements InterviewService {
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (interview.getInterviewed().getId() == userId) {
 					result.add(InterviewMapper.toVo(interview));
 				}
@@ -74,6 +78,9 @@ public class InterviewServiceImpl implements InterviewService {
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (interview.getInterviewer().getId() == userId) {
 					result.add(InterviewMapper.toVo(interview));
 				}
@@ -91,6 +98,9 @@ public class InterviewServiceImpl implements InterviewService {
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (interview.getInterviewed().getId() == userId && interview.getInterviewDate() == interviewDate) {
 					result.add(InterviewMapper.toVo(interview));
 				}
@@ -108,6 +118,9 @@ public class InterviewServiceImpl implements InterviewService {
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
+				if (result == null) {
+					result = new ArrayList<>();
+				}
 				if (interview.getInterviewer().getId() == userId && interview.getInterviewDate() == interviewDate) {
 					result.add(InterviewMapper.toVo(interview));
 				}
