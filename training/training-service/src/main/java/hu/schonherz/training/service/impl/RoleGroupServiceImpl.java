@@ -2,9 +2,21 @@ package hu.schonherz.training.service.impl;
 
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
+import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+
 import hu.schonherz.training.service.RoleGroupService;
 import hu.schonherz.training.vo.RoleGroupVo;
 
+@Stateless(mappedName = "RoleGroupService", name = "RoleGroupService")
+@Transactional(value = TxType.REQUIRED)
+@Local(RoleGroupService.class)
+@Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class RoleGroupServiceImpl implements RoleGroupService {
 
 	@Override
