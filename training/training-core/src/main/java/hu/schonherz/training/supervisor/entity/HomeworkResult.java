@@ -11,6 +11,12 @@ import javax.persistence.Table;
 import hu.schonherz.training.entity.BaseEntity;
 import hu.schonherz.training.entity.User;
 
+/**
+ * HomeworkResult entity for managing homework results.
+ * 
+ * @author Mark Bohan
+ *
+ */
 @Entity
 @Table(name = "homework_result")
 public class HomeworkResult extends BaseEntity implements Serializable {
@@ -34,34 +40,79 @@ public class HomeworkResult extends BaseEntity implements Serializable {
 		super();
 	}
 
+	/**
+	 * Returns the user.
+	 * 
+	 * @return the user
+	 */
 	public User getUser() {
 		return user;
 	}
+
+	/**
+	 * Sets the user.
+	 * 
+	 * @param user
+	 *            the user
+	 */
 
 	public void setUser(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Returns the homework
+	 * 
+	 * @return the homework
+	 */
 	public Homework getHomework() {
 		return homework;
 	}
 
+	/**
+	 * Sets the homework.
+	 * 
+	 * @param homework
+	 *            the homework.
+	 */
 	public void setHomework(Homework homework) {
 		this.homework = homework;
 	}
 
+	/**
+	 * Returns the score.
+	 * 
+	 * @return the score
+	 */
 	public Integer getScore() {
 		return score;
 	}
 
+	/**
+	 * Sets the score.
+	 * 
+	 * @param score
+	 *            the score
+	 */
 	public void setScore(Integer score) {
 		this.score = score;
 	}
 
+	/**
+	 * Returns the comment.
+	 * 
+	 * @return the comment
+	 */
 	public String getComment() {
 		return comment;
 	}
 
+	/**
+	 * Sets the comment
+	 * 
+	 * @param comment
+	 *            the comment.
+	 */
 	public void setComment(String comment) {
 		this.comment = comment;
 	}

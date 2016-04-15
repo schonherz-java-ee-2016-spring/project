@@ -12,7 +12,6 @@ import javax.transaction.Transactional.TxType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.supervisor.entity.Homework;
 import hu.schonherz.training.supervisor.repository.HomeworkRepository;
 import hu.schonherz.training.supervisor.service.HomeworkService;
