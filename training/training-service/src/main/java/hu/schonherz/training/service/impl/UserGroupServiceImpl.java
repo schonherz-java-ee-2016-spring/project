@@ -30,7 +30,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 	}
 
 	@Override
-	public void createUserGroup(UserGroupVo userGroupVo) throws Exception {
+	public void saveUserGroup(UserGroupVo userGroupVo) throws Exception {
 		userGroupRepository.save(UserGroupMapper.toDto(userGroupVo));
 	}
 
@@ -45,7 +45,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 	}
 
 	@Override
-	public UserGroupVo findGroupByName(String groupName) {
+	public UserGroupVo findGroupByName(String groupName) throws Exception {
 		return UserGroupMapper.toVo(userGroupRepository.findUserGroupByGroupName(groupName));
 	}
 

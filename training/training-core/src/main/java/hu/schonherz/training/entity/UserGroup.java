@@ -16,9 +16,10 @@ public class UserGroup extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String groupName;
 	
+	@Column(nullable = false)
 	private String description;
 
 	@ManyToMany(fetch = FetchType.LAZY)
