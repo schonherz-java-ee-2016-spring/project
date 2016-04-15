@@ -8,7 +8,7 @@ public interface UserGroupService {
 
 	void deleteUserGroup(Long userGroupId) throws Exception;
 
-	void createUserGroup(UserGroupVo userGroupVo) throws Exception;
+	void saveUserGroup(UserGroupVo userGroupVo) throws Exception;
 
 	List<UserGroupVo> getUserGroups() throws Exception;
 

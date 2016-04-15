@@ -30,7 +30,7 @@ public class UserGroupServiceImpl implements UserGroupService {
 	}
 
 	@Override
-	public void createUserGroup(UserGroupVo userGroupVo) throws Exception {
+	public void saveUserGroup(UserGroupVo userGroupVo) throws Exception {
 		userGroupRepository.save(UserGroupMapper.toDto(userGroupVo));
 	}
 
