@@ -71,7 +71,7 @@
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="growl"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:groupform:gtable"
 					action="#{userGroupsBean.create}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
@@ -100,7 +100,7 @@
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="growl"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,form2,:groupform:gtable"
 					action="#{userGroupsBean.updateGroup}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>

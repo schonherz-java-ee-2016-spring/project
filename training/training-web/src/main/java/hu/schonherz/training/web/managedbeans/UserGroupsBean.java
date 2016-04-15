@@ -57,6 +57,7 @@ public class UserGroupsBean implements Serializable {
 			gvo.setDescription(description);
 			try {
 				userGroupService.saveUserGroup(gvo);
+				userGroups.add(userGroupService.findGroupByName(gvo.getGroupName()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -68,16 +69,13 @@ public class UserGroupsBean implements Serializable {
 	public void deleteGroup() {
 		try {
 			userGroupService.deleteUserGroup(selected.getId());
+			userGroups.remove(selected);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void updateGroup() {
-		if (userGroupService.findGroupByName(selected.getGroupName()) != null) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING", "User Group already exists!");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
 			UserGroupVo gvo = new UserGroupVo();
 			gvo.setId(selected.getId());
 			gvo.setName(selected.getGroupName());
@@ -89,7 +87,6 @@ public class UserGroupsBean implements Serializable {
 			}
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group updated!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
 	}
 
 	public List<UserGroupVo> getUserGroups() {
