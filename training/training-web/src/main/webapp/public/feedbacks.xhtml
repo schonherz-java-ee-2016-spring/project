@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="content">
+		<h:outputStylesheet library="default" name="css/result-overview.css"
+			rel="stylesheet" />
+			<h2 class="text-muted">Interview feedback</h2>
+			<body>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion"
+								href="#collapse1">Fiction software</a>
+								<h5>2045.12.05</h5>
+						</h4>
+					</div>
+				</div>
+			</body>
+	</ui:define>
+	
+</ui:composition>
