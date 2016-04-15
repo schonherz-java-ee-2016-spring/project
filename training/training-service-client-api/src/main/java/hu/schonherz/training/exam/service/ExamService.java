@@ -8,6 +8,10 @@ public interface ExamService {
 
 	public List<ExamVo> getExamList() throws Exception;
 	
+	public List<ExamVo> getExamListSortedById() throws Exception;
+	
+	public ExamVo getExamById(Long id) throws Exception;
+	
 	public void createExam(ExamVo examVo) throws Exception;
 	
 	public void modifyExamTitle(ExamVo examVo) throws Exception;

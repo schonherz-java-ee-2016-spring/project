@@ -7,15 +7,22 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
+
 		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam">
-			<p:column headerText="Exam ID">
+			<p:column headerText="Exam Id">
     			#{exam.id}
     		</p:column>
 			<p:column headerText="Exam Title">
     			#{exam.title}
     		</p:column>
+    		
+    		<p:column headerText="Details">
+    		<div>
+			<a href="#{request.contextPath}/testfeatures/examdetails.xhtml">More information(Link)</a>
+		</div>
+    		</p:column>
 		</p:dataTable>
-		
+
 		<h:form>
 			<p:panel id="panel" header="New Exam">
 				<p:messages id="msgs" showDetail="true" />
@@ -27,10 +34,48 @@
 						<p:ajax update="newExamTitleMsg" event="keyup" />
 					</p:inputText>
 					<p:message for="newExamTitle" display="icon" id="newExamTitleMsg" />
+
+
 				</h:panelGrid>
 				<p:commandButton value="Create" update="panel"
 					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
 			</p:panel>
+		</h:form>
+
+
+		<h:form id="renameForm">
+			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
+				title="rename">
+				<p:commandButton value="Rename Exam"/>
+			</h:outputLink>
+
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+			<p:dialog header="Rename" widgetVar="dlg" resizable="false">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="examTitleList" value="Exam title:" />
+					<p:selectOneMenu id="examTitleList"
+						value="#{examBean.examIdAsString}" panelStyle="width:180px"
+						effect="fade" style="width:160px" filter="true"
+						filterMatchMode="startsWith">
+						<f:selectItems value="#{examBean.examList}" var="examVo"
+							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="modifiedTitle" value="New Title:" />
+					<p:inputText id="modifiedTitle" value="#{examBean.modifiedTitle}"
+						required="true">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+					<f:facet name="footer">
+						<p:commandButton value="Save" update="growl"
+							actionListener="#{examBean.renameTitle}" />
+					</f:facet>
+
+
+
+				</h:panelGrid>
+			</p:dialog>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -24,6 +24,30 @@ public class ExamBean implements Serializable {
 	private ExamService examService;
 
 	private String newExamTitle;
+	private String examIdAsString;
+	private String modifiedTitle;
+
+	public void renameTitle() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		Long selectedExamId = Long.parseLong(examIdAsString);
+
+		try {
+			ExamVo examVo = examService.getExamById(selectedExamId);
+			examVo.setTitle(modifiedTitle);
+			examService.modifyExamTitle(examVo);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+					"\"" + modifiedTitle + "\" exam renamed!");
+			currentInstance.addMessage(null, facesMessage);
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Couldn't rename exam: \"" + modifiedTitle + "\"");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+
+		RequestContext.getCurrentInstance().update("examTable");
+		RequestContext.getCurrentInstance().update("renameForm");
+	}
 
 	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
@@ -49,12 +73,13 @@ public class ExamBean implements Serializable {
 			e.printStackTrace();
 		}
 		RequestContext.getCurrentInstance().update("examTable");
+		RequestContext.getCurrentInstance().update("renameForm");
 	}
-	
+
 	public List<ExamVo> getExamList() {
 		List<ExamVo> result = new ArrayList<ExamVo>();
 		try {
-			result = getExamService().getExamList();
+			result = getExamService().getExamListSortedById();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,6 +100,22 @@ public class ExamBean implements Serializable {
 
 	public void setNewExamTitle(String newExamTitle) {
 		this.newExamTitle = newExamTitle;
+	}
+
+	public String getExamIdAsString() {
+		return examIdAsString;
+	}
+
+	public void setExamIdAsString(String examIdAsString) {
+		this.examIdAsString = examIdAsString;
+	}
+
+	public String getModifiedTitle() {
+		return modifiedTitle;
+	}
+
+	public void setModifiedTitle(String modifiedTitle) {
+		this.modifiedTitle = modifiedTitle;
 	}
 
 }

@@ -39,6 +39,18 @@ public class ExamServiceImpl implements ExamService {
 			throw ex;
 		}
 	}
+	
+
+	@Override
+	public List<ExamVo> getExamListSortedById() throws Exception {
+	
+		try {
+			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
 
 	@Override
 	public void createExam(ExamVo examVo) throws Exception {
@@ -57,6 +69,23 @@ public class ExamServiceImpl implements ExamService {
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
 	}
+
+	@Override
+	public ExamVo getExamById(Long id) throws Exception {
+		ExamVo examVo = null;
+		try {
+			examVo = ExamMapper.toVo(examRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+		return examVo;
+		
+	}
+
+	
+	
 }
