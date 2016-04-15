@@ -20,14 +20,14 @@ INSERT INTO public."user"( id, email, fullname, isactive, password, username) VA
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2003, 'email3@localhost.com', 'Student', 1, '$2a$10$WsPLcPRqMEmhocByrPrq5./ZxBmoqKvtG9WRyKMiRHZ8dR779Uo3O','student');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2004, 'email4@localhost.com', 'Observer', 1, '$2a$10$0DjpO.K9ZF61wSGCltEYMuCxw30ayi.hlkyGakjrQNdpboVFv67yG','observer');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2005, 'email5@localhost.com', 'Guest', 1, '$2a$10$bsK0W.yFGYivJFw1bYfFL.WjKIF6smUfzmUIgIKjOe7jzGMw8Kb56','guest');
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2001,'JavaEE 2016 Tavasz 1','JavaEE 2016 Tavasz 1','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2002,'JavaEE 2016 Tavasz 2','JavaEE 2016 Tavasz 2','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2003,'JavaEE 2016 Tavasz 3','JavaEE 2016 Tavasz 3','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2004,'JavaEE 2016 Tavasz 4','JavaEE 2016 Tavasz 4','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2005,'JavaEE 2016 Tavasz 5','JavaEE 2016 Tavasz 5','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2006,'JavaEE 2016 Tavasz 6','JavaEE 2016 Tavasz 6','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2007,'JavaEE 2016 Tavasz 7','JavaEE 2016 Tavasz 7','UNKNOWN');  
-INSERT INTO public.usergroup(id, groupname,description,recuser)  VALUES (2008,'JavaEE 2016 Tavasz 8','JavaEE 2016 Tavasz 8','UNKNOWN');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2001,'JavaEE 2016 Tavasz 1','JavaEE 2016 Tavasz 1');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2002,'JavaEE 2016 Tavasz 2','JavaEE 2016 Tavasz 2');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2003,'JavaEE 2016 Tavasz 3','JavaEE 2016 Tavasz 3');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2004,'JavaEE 2016 Tavasz 4','JavaEE 2016 Tavasz 4');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2005,'JavaEE 2016 Tavasz 5','JavaEE 2016 Tavasz 5');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2006,'JavaEE 2016 Tavasz 6','JavaEE 2016 Tavasz 6');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2007,'JavaEE 2016 Tavasz 7','JavaEE 2016 Tavasz 7');  
+INSERT INTO public.usergroup(id, groupname,description)  VALUES (2008,'JavaEE 2016 Tavasz 8','JavaEE 2016 Tavasz 8');  
 
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2001, 2001);
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2002, 2001);

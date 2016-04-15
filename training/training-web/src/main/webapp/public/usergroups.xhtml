@@ -6,7 +6,8 @@
 	<ui:define name="content">
 		<h:form id="groupform">
 			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
-				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"  rowsPerPageTemplate="4,8,12">
+				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"
+				rowsPerPageTemplate="4,8,12">
 				<p:column headerText="id">
 					<h:outputText value="#{ug.id}">
 					</h:outputText>
@@ -21,7 +22,7 @@
 				</p:column>
 				<p:column headerText="#{out.recdate}">
 					<h:outputText value="#{ug.recDate}">
-					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{out.recuser}">
@@ -30,7 +31,7 @@
 				</p:column>
 				<p:column headerText="#{out.moddate}">
 					<h:outputText value="#{ug.modDate}">
-					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{out.moduser}">
@@ -66,8 +67,8 @@
 					<div class="col-sm-9">
 						<p:inputText styleClass="form-control" id="groupname" value="#{userGroupsBean.groupName}"
 							required="true" label="groupname">
-								<f:validateRequired />
-								<f:validateLength minimum="8" />
+							<f:validateRequired />
+							<f:validateLength minimum="8" />
 						</p:inputText>
 					</div>
 				</div>
@@ -85,26 +86,26 @@
 					action="#{userGroupsBean.create}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
-		
-		
+
+
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog2" modal="true" resizable="false">
 
 			<h:form styleClass="form-horizontal" id="form2">
 				<div class="form-group">
 					<label for="groupname" class="col-sm-3">#{out.groupname}</label>
 					<div class="col-sm-9">
-						<p:inputText styleClass="form-control" id="groupname" value="#{userGroupsBean.selected.groupName}"
-							required="true" label="groupname">
-								<f:validateRequired />
-								<f:validateLength minimum="8" />
+						<p:inputText styleClass="form-control" id="groupname"
+							value="#{userGroupsBean.selected.groupName}" required="true" label="groupname">
+							<f:validateRequired />
+							<f:validateLength minimum="8" />
 						</p:inputText>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="desc" class="col-sm-3">#{out.description}</label>
 					<div class="col-sm-9">
-						<p:inputTextarea styleClass="form-control" id="desc" value="#{userGroupsBean.selected.description}"
-							required="true" label="desc">
+						<p:inputTextarea styleClass="form-control" id="desc"
+							value="#{userGroupsBean.selected.description}" required="true" label="desc">
 							<f:validateRequired />
 							<f:validateLength maximum="1000" />
 						</p:inputTextarea>
@@ -114,6 +115,7 @@
 					action="#{userGroupsBean.updateGroup}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
+
 	</ui:define>
 
 </ui:composition>
