@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import hu.schonherz.training.vo.UserVo;
 
+/**
+ * Value object represents homework results
+ * @author Mark Bohan
+ *
+ */
 public class HomeworkResultVo implements Serializable {
 
 	private static final long serialVersionUID = -8110648162093644756L;
