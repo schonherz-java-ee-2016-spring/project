@@ -23,50 +23,53 @@ public class ModifyUserBean implements Serializable {
 	private String username;
 	private String fullname;
 	private String email;
-
+	
+	UsersBean bean;
+	
+//	@Autowired
+	private UserVo selectedUser = bean.getSelectedUser();
+	
 	public void modifyUser() {
-		UserVo user = null;
-		UserVo useremail = null;
 		UserVo userVo = new UserVo();
+		UserVo confirmUser = new UserVo();
 		try {
-			user = userService.findUserByName(username);
-			useremail = userService.findUserByEmail(email);
+			confirmUser = userService.findUserById(selectedUser.getId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		
-		userVo.setUserName(username);
-		
+		//Confirm username
 		if (username == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username must filled!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		if (user != null) {
+		if (username.equals(confirmUser.getUserName())) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username already exists!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
+		userVo.setUserName(username);
 		
 		userVo.setFullName(fullname);
 		
-		userVo.setEmail(email);
-		
+		//Confirm email
 		if (email == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		if (useremail != null) {
+		if (email.equals(confirmUser.getEmail())) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail already exists!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-
+		userVo.setEmail(email);
+		
 		try {
-			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
+			//Modify user
 			 userService.modifyUser(userVo);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
@@ -108,6 +111,14 @@ public class ModifyUserBean implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public UserVo getSelectedUser() {
+		return selectedUser;
+	}
+
+	public void setSelectedUser(UserVo selectedUser) {
+		this.selectedUser = selectedUser;
 	}
 	
 }

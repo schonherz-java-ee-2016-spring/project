@@ -50,7 +50,7 @@
 				<f:facet name="footer">
 					<p:commandButton type="button" onclick="PF('modify_user').show();" id="modifyButton"
 						value="#{out.modify_user}" disabled="#{usersBean.selected}" update="panel"
-						action="#{UserBean.modifyUser}" oncomplete="modify_user.hide()"></p:commandButton>
+						action="#{modifyUserBean.modifyUser}" oncomplete="modify_user.hide()"></p:commandButton>
 				</f:facet>
 				
 				<!-- 					A felhasználó törlése gomb -->
@@ -127,7 +127,7 @@
 		<!-- 			A felhasználó módosítása dialog -->
 		<h:form styleClass="form-horizontal" id="form_modify">
 			<p:dialog header="#{out.modify_user}" widgetVar="modify_user"
-				dynamic="true" resizable="false" responsive="true">
+				dynamic="true" resizable="false">
 				<p:panel id="panel">
 					<!-- 						<p:messages id="msgs" showDetail="true" /> -->
 					<h:panelGrid columns="2" cellpadding="5">
@@ -135,7 +135,7 @@
 							<label for="fullname" class="col-sm-4">#{out.fullname}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="fullname"
-									value="#{UserBean.selectedFullname}" required="true"
+									value="#{modifyUserBean.fullname}" required="true"
 									requiredMessage="#{out.fullname_required}" label="fullname">
 								</p:inputText>
 							</div>
@@ -144,7 +144,7 @@
 							<label for="username" class="col-sm-4">#{out.username}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="username"
-									value="#{UserBean.selectedUsername}" required="true"
+									value="#{modifyUserBean.username}" required="true"
 									label="username">
 								</p:inputText>
 							</div>
@@ -154,7 +154,7 @@
 							<label for="email" class="col-sm-4">#{out.email}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="email"
-									value="#{UserBean.selectedEmail}" required="true"
+									value="#{modifyUserBean.email}" required="true"
 									label="email">
 								</p:inputText>
 							</div>
