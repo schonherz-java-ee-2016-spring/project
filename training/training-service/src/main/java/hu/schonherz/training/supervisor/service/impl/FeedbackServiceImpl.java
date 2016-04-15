@@ -23,11 +23,11 @@ import hu.schonherz.training.supervisor.vo.FeedbackVo;
 @Stateless(mappedName = "FeedbackService", name = "FeedbackService")
 @Transactional(value = TxType.REQUIRED)
 @Local(FeedbackService.class)
-@Interceptors({SpringBeanAutowiringInterceptor.class})
+@Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class FeedbackServiceImpl implements FeedbackService {
-	
+
 	static final Logger logger = LogManager.getLogger(FeedbackServiceImpl.class.getName());
-	
+
 	@Autowired
 	FeedbackRepository feedbackRepository;
 
@@ -64,9 +64,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 			logger.error(e.getMessage(), e);
 			return null;
 		}
-		
+
 	}
-	
+
 	@Override
 	public List<FeedbackVo> getAllFeedbackByRated(Long userId) throws Exception {
 		List<FeedbackVo> result = null;
@@ -80,6 +80,17 @@ public class FeedbackServiceImpl implements FeedbackService {
 					result.add(FeedbackMapper.toVo(feedback));
 				}
 			}
+			return result;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return null;
+		}
+	}
+
+	@Override
+	public List<FeedbackVo> getAll() throws Exception {
+		try {
+			List<FeedbackVo> result = FeedbackMapper.toVo(feedbackRepository.findAll());
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

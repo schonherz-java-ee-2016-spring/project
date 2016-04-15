@@ -93,16 +93,14 @@ public class InterviewServiceImpl implements InterviewService {
 	}
 
 	@Override
-	public List<InterviewVo> getAllByInterviewedAndDate(Long userId, Date interviewDate) throws Exception {
-		List<InterviewVo> result = null;
+	public InterviewVo getAllByInterviewedAndDate(Long userId, Date interviewDate) throws Exception {
+		InterviewVo result = null;
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
+				
 				if (interview.getInterviewed().getId() == userId && interview.getInterviewDate() == interviewDate) {
-					result.add(InterviewMapper.toVo(interview));
+					result = InterviewMapper.toVo(interview);
 				}
 			}
 			return result;
@@ -113,16 +111,13 @@ public class InterviewServiceImpl implements InterviewService {
 	}
 
 	@Override
-	public List<InterviewVo> getAllByInterviewerAndDate(Long userId, Date interviewDate) throws Exception {
-		List<InterviewVo> result = null;
+	public InterviewVo getAllByInterviewerAndDate(Long userId, Date interviewDate) throws Exception {
+		InterviewVo result = null;
 		try {
 			List<Interview> interviews = interviewRepository.findAll();
 			for (Interview interview : interviews) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
 				if (interview.getInterviewer().getId() == userId && interview.getInterviewDate() == interviewDate) {
-					result.add(InterviewMapper.toVo(interview));
+					result = InterviewMapper.toVo(interview);
 				}
 			}
 			return result;

@@ -17,9 +17,9 @@ public interface InterviewService {
 	
 	public List<InterviewVo> getAllByInterviewer(Long userId) throws Exception;
 	
-	public List<InterviewVo> getAllByInterviewedAndDate(Long userId, Date interviewDate) throws Exception;
+	public InterviewVo getAllByInterviewedAndDate(Long userId, Date interviewDate) throws Exception;
 	
-	public List<InterviewVo> getAllByInterviewerAndDate(Long userId, Date interviewDate) throws Exception;
+	public InterviewVo getAllByInterviewerAndDate(Long userId, Date interviewDate) throws Exception;
 	
 	public void deleteInterview(Long interviewId) throws Exception;
 	
