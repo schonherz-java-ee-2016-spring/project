@@ -7,15 +7,45 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
-		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam">
-			<p:column headerText="Exam ID">
+		<!-- 		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam"> -->
+		<!-- 			<p:column headerText="Exam ID"> -->
+		<!--     			#{exam.id} -->
+		<!--     		</p:column> -->
+		<!-- 			<p:column headerText="Exam Title"> -->
+		<!--     			#{exam.title} -->
+		<!--     		</p:column> -->
+		<!-- 		</p:dataTable> -->
+
+		<form id="form">
+			<!-- 	<p:messages id="msgs" showDetail="true" /> -->
+			<p:dataTable id="examTable" value="#{examBean.examList}" var="exam"
+				editable="true" editMode="cell">
+
+				<p:ajax event="cellEdit" listener="#{examBean.modifyExamTitle}" />
+				<p:column headerText="Exam ID">
     			#{exam.id}
     		</p:column>
-			<p:column headerText="Exam Title">
-    			#{exam.title}
-    		</p:column>
-		</p:dataTable>
-		
+
+				<p:column headerText="Year">
+					<p:cellEditor>
+
+						<f:facet name="output">
+							<h:outputText value="#{exam.title}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{exam.title}" id="modifiedTitle"
+								style="width:96%" label="modifiedExamTitle" />
+						</f:facet>
+
+					</p:cellEditor>
+				</p:column>
+
+				<!-- 			<p:column headerText="Exam Title"> -->
+				<!--     			#{exam.title} -->
+				<!--     		</p:column> -->
+			</p:dataTable>
+		</form>
+
 		<h:form>
 			<p:panel id="panel" header="New Exam">
 				<p:messages id="msgs" showDetail="true" />
