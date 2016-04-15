@@ -91,4 +91,23 @@ public class UserServiceImpl implements UserService {
 	public void deleteUserById(Long id) throws Exception {
 		userRepository.removeUserById(id);
 	}
+
+	@Override
+	public void modifyUser(UserVo selectedUser) {
+		
+		
+		
+	}
+
+	@Override
+	public UserVo findUserById(Long id) {
+		User user = null;
+		try {
+			user = userRepository.findUserById(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return UserMapper.toVo(user);
+	}
 }

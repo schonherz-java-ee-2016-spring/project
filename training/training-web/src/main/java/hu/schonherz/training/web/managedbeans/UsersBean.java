@@ -64,6 +64,22 @@ public class UsersBean implements Serializable {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"), getBundle().getString("succesDelete"));
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
+	
+	public void modifyUser() {
+		FacesMessage message = null;
+		UserVo confirmUser = userService.findUserById(selectedUser.getId());
+		if (selectedUser.getUserName().equals(confirmUser.getUserName())) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("error"), getBundle().getString("usernameExists"));
+			return;
+		}
+		if (selectedUser.getEmail().equals(confirmUser.getEmail())) {
+			message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("error"), getBundle().getString("emailExists"));
+			return;
+		}
+		if (!selectedUser.getUserName().equals(confirmUser.getUserName()) && !selectedUser.getEmail().equals(confirmUser.getEmail()))
+		userService.modifyUser(selectedUser);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+	}
      
 	public List<UserVo> getAllUser() {
 		List<UserVo> vos = null;

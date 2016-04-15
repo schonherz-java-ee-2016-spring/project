@@ -15,5 +15,9 @@ public interface UserService {
 	public List<UserVo> findAllUser() throws Exception;
 	
 	public void deleteUserById(Long id) throws Exception;
+
+	public void modifyUser(UserVo selectedUser);
+
+	public UserVo findUserById(Long id);
 	
 }

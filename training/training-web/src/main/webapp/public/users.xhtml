@@ -40,15 +40,15 @@
 					listener="#{usersBean.onSelect}" />
 				<f:facet name="footer">
 					<p:growl id="message" showDetail="true" />
-					<p:commandButton id="deleteButton" process="dataTable"
-						value="#{out.deleteUser}" onclick="#{usersBean.deleteUser()}"
-						update=":groupform:dataTable message" disabled="#{(usersBean.selected)}">
+					<p:commandButton update=":groupform:dataTable message" action="#{usersBean.deleteUser()}" id="deleteButton" process="dataTable"
+						value="#{out.deleteUser}" 
+						 disabled="#{(usersBean.selected)}">
 						<p:confirm header="#{out.confirmation}"
 							message="#{out.sureDelete}?" icon="ui-icon-alert" />
 					</p:commandButton>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 						<p:commandButton value="#{out.yes}" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
