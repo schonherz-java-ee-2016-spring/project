@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	
+	<ui:define name="content">
+	
+	<p:dataTable id="rolegrouptable"
+				 var="rolegroup"
+				 value="#{roleGroupsBean.allRoleGroup}"
+				 selectionMode="single"
+				 selection=""
+				 rowKey="#{roleGroup.id}"
+				 paginator="true"
+				 rows="12"
+				 rowsPerPageTemplate="4,8,12">
+				 
+				<p:column headerText="id">
+					<h:outputText value="#{rolegroup.id}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="modDate">
+					<h:outputText value="#{rolegroup.modDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="modUser">
+					<h:outputText value="#{rolegroup.modUser}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="name">
+					<h:outputText value="#{rolegroup.name}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="recDate">
+					<h:outputText value="#{rolegroup.recDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="recUser">
+					<h:outputText value="#{rolegroup.recUser}">
+					</h:outputText>
+				</p:column>
+<!-- 				Valahogy meg kellene oldani hogy a jogcsoporthoz tartozó jogokat is meg tudja jelenítani -->
+<!-- 				<p:column headerText="roles"> -->
+<!-- 					<h:outputText value=""> -->
+<!-- 					</h:outputText> -->
+<!-- 				</p:column> -->
+				
+				
+				<f:facet name="footer">
+				<!-- Create -->
+					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
+									value="Create role group"
+									onclick="" />
+				<!-- Edit -->
+					<p:commandButton id="editButton" icon="ui-icon-pencil"
+									process="rolegrouptable" 
+									disabled=""
+									value="Edit selected role group" 
+									onclick="" />
+				<!-- Delete -->
+					<p:commandButton id="deleteButton" icon="ui-icon-trash"
+									process="rolegrouptable"
+									disabled=""
+									update=""
+									value="Delete Selected group"
+									>
+<!-- 									action=""> -->
+						
+						<p:confirm icon="ui-icon-alert"
+								  header="Delete Role Group" 
+								  message="Are you sure you want to delete?" /> 
+					</p:commandButton>
+				</f:facet>
+				
+			</p:dataTable>
+	
+	</ui:define>
+	
+</ui:composition>
