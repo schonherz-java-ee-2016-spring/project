@@ -39,6 +39,9 @@ public class UsersBean implements Serializable {
 	
 	private List<UserVo> users;
 	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
 	@PostConstruct
     public void init() {
 		selected = true;
