@@ -5,22 +5,85 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
 	<ui:define name="content">
 		<h:outputStylesheet library="default" name="css/result-overview.css"
 			rel="stylesheet" />
-			<h2 class="text-muted">Interview feedback</h2>
-			<body>
+		<h2 class="text-muted">Interview feedbacks</h2>
+		<body>
+			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion"
-								href="#collapse1">Fiction software</a>
-								<h5>2045.12.05</h5>
-						</h4>
+						<h5>2045.12.05.</h5>
+						<h3>Fiction Software</h3>
+						<h4>Interviewer: Observer</h4>	
+						<a class="feedback-menu" data-toggle="collapse" data-parent="#accordion"
+							href="#collapse1">Detailed description</a>
 					</div>
+					<div id="collapse1" class="panel-collapse collapse">
+						<div class="panel-body csstransforms">
+							<table class="table-header-rotated">
+								<tr>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Curabitur molestie nibh eget tellus interdum, id vestibulum erat
+									sollicitudin. Nam ut sapien ut neque feugiat pellentesque. Mauris
+									quis pellentesque erat, sit amet elementum dui. Nulla ornare nulla
+									ac dolor tempor, in elementum justo mattis. In ultrices massa eget
+									est finibus scelerisque. Suspendisse laoreet purus ac mauris consequat
+									rutrum. Proin lacinia porttitor felis, consequat congue sapien
+									tristique eu.</p>
+									<p>Mauris porttitor eleifend felis eu cursus. Proin lobortis tortor quis
+									diam tempus, pharetra feugiat est convallis. Praesent blandit mi purus,
+									sit amet ultricies ligula sodales eget. Vestibulum condimentum, ligula a
+									bibendum pellentesque, ligula nibh consectetur nunc, id rutrum tortor
+									libero id erat. Praesent a congue sapien. Quisque placerat lacus ut magna
+									ultrices, id fermentum justo tempor. Etiam posuere, turpis id dignissim
+									tristique, augue metus auctor nibh, sit amet aliquam lectus tellus ut
+									purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+									posuere cubilia Curae; Aenean pharetra vel neque sit amet iaculis. Sed
+									fringilla suscipit ultricies. Interdum et malesuada fames ac ante ipsum
+									primis in faucibus.</p>
+								</tr>
+							</table>
+						</div>
+					</div>			
 				</div>
-			</body>
-	</ui:define>
-	
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h5>Fiction Software</h5>
+						<h3>Student</h3>
+						<h4>2045.12.05.</h4>	
+						<a class="feedback-menu" data-toggle="collapse" data-parent="#accordion"
+							href="#collapse2">Detailed description</a>
+					</div>
+					<div id="collapse2" class="panel-collapse collapse">
+						<div class="panel-body csstransforms">
+							<table class="table-header-rotated">
+								<tr>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Curabitur molestie nibh eget tellus interdum, id vestibulum erat
+									sollicitudin. Nam ut sapien ut neque feugiat pellentesque. Mauris
+									quis pellentesque erat, sit amet elementum dui. Nulla ornare nulla
+									ac dolor tempor, in elementum justo mattis. In ultrices massa eget
+									est finibus scelerisque. Suspendisse laoreet purus ac mauris consequat
+									rutrum. Proin lacinia porttitor felis, consequat congue sapien
+									tristique eu.</p>
+									<p>Mauris porttitor eleifend felis eu cursus. Proin lobortis tortor quis
+									diam tempus, pharetra feugiat est convallis. Praesent blandit mi purus,
+									sit amet ultricies ligula sodales eget. Vestibulum condimentum, ligula a
+									bibendum pellentesque, ligula nibh consectetur nunc, id rutrum tortor
+									libero id erat. Praesent a congue sapien. Quisque placerat lacus ut magna
+									ultrices, id fermentum justo tempor. Etiam posuere, turpis id dignissim
+									tristique, augue metus auctor nibh, sit amet aliquam lectus tellus ut
+									purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+									posuere cubilia Curae; Aenean pharetra vel neque sit amet iaculis. Sed
+									fringilla suscipit ultricies. Interdum et malesuada fames ac ante ipsum
+									primis in faucibus.</p>
+								</tr>
+							</table>
+						</div>
+					</div>			
+				</div>
+			</div>		
+		</body>
+	</ui:define>				
 </ui:composition>
