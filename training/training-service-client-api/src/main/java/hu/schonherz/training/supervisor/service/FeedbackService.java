@@ -8,6 +8,8 @@ public interface FeedbackService {
 
 	public void giveFeedback(FeedbackVo feedbackVo) throws Exception;
 	
+	public List<FeedbackVo> getAll() throws Exception;
+	
 	public FeedbackVo getFeedback(Long feedbackId) throws Exception;
 	
 	public List<FeedbackVo> getAllFeedbackBySender(Long userId) throws Exception;
