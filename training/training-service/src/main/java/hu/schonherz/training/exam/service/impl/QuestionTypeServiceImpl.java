@@ -1,5 +1,7 @@
 package hu.schonherz.training.exam.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -28,13 +30,35 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	QuestionTypeRepository questionTypeRepository;
 
 	@Override
+	public List<QuestionTypeVo> getQuestionTypeList() throws Exception {
+		try {
+			return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+	
+	@Override
 	public void createQuestionType(QuestionTypeVo questionTypeVo) throws Exception {
 		try {
 			questionTypeRepository.saveAndFlush(QuestionTypeMapper.toDto(questionTypeVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
 
 	}
 
+	@Override
+	public QuestionTypeVo getQuestionTypeById(Long questionTypeId) throws Exception {
+		QuestionTypeVo questionTypeVo = null;
+		try {
+			questionTypeVo = QuestionTypeMapper.toVo(questionTypeRepository.findOne(questionTypeId));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+		return questionTypeVo;
+	}
 }

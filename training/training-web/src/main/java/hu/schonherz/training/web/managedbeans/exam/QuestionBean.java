@@ -13,6 +13,9 @@ import org.primefaces.context.RequestContext;
 
 import hu.schonherz.training.exam.service.ExamService;
 import hu.schonherz.training.exam.service.QuestionService;
+import hu.schonherz.training.exam.service.QuestionTypeService;
+import hu.schonherz.training.exam.vo.ExamVo;
+import hu.schonherz.training.exam.vo.QuestionTypeVo;
 import hu.schonherz.training.exam.vo.QuestionVo;
 
 @ManagedBean(name = "questionBean")
@@ -25,12 +28,15 @@ public class QuestionBean implements Serializable {
 	private QuestionService questionService;
 	@EJB
 	private ExamService examService;
+	@EJB
+	private QuestionTypeService questionTypeService;
 
 	private String newQuestionExamID;
 	private String newQuestionText;
+	private String questionTypeIdAsString;
 	private String examIdAsString;
 	private Integer newQuestionType;
-	
+
 	public String goToCreateQuestionPage() {
 		return "createQuestion";
 	}
@@ -40,10 +46,21 @@ public class QuestionBean implements Serializable {
 		List<QuestionVo> questionVoList = null;
 		try {
 			questionVoList = examService.getExamById(examId).getQuestionList();
+//			questionVoList = examService.getExamById(examId).getQuestionList();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return questionVoList;
+	}
+
+	public List<QuestionTypeVo> getQuestionTypeList() {
+		List<QuestionTypeVo> questionTypeVoList = null;
+		try {
+			questionTypeVoList = questionTypeService.getQuestionTypeList();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return questionTypeVoList;
 	}
 
 	public void registerNewQuestion() throws Exception {
@@ -55,24 +72,24 @@ public class QuestionBean implements Serializable {
 			return;
 		}
 		
-		Long examid = Long.parseLong(examIdAsString);
-		QuestionVo questionVo = new QuestionVo();
-		questionVo.setExam(examService.getExamById(examid));
-		System.out.println(examService.getExamById(examid));
-		System.out.println("tortent e vmi");
-		questionVo.setText(newQuestionText);
-		//questionVo.setQuestionType(questionType);
+		QuestionTypeVo questionTypeVo = questionTypeService.getQuestionTypeById(Long.parseLong(questionTypeIdAsString));
 
-		// +Questiontype
+		ExamVo examVo = examService.getExamById(Long.parseLong(examIdAsString));
+		
+		QuestionVo questionVo = new QuestionVo();
+		questionVo.setExam(examVo);
+		questionVo.setOptionList(null);
+		questionVo.setQuestionType(questionTypeVo);
+		questionVo.setText(newQuestionText);
 
 		try {
 			getQuestionService().createQuestion(questionVo);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newQuestionText + "\" exam created!");
+					"\"" + newQuestionText + "\" question created!");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create exam: \"" + newQuestionText + "\"");
+					"Couldn't create question: \"" + newQuestionText + "\"");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -118,5 +135,29 @@ public class QuestionBean implements Serializable {
 	public void setNewQuestionType(Integer newQuestionType) {
 		this.newQuestionType = newQuestionType;
 	}
-	
+
+	public ExamService getExamService() {
+		return examService;
+	}
+
+	public void setExamService(ExamService examService) {
+		this.examService = examService;
+	}
+
+	public QuestionTypeService getQuestionTypeService() {
+		return questionTypeService;
+	}
+
+	public void setQuestionTypeService(QuestionTypeService questionTypeService) {
+		this.questionTypeService = questionTypeService;
+	}
+
+	public String getQuestionTypeIdAsString() {
+		return questionTypeIdAsString;
+	}
+
+	public void setQuestionTypeIdAsString(String questionTypeAsString) {
+		this.questionTypeIdAsString = questionTypeAsString;
+	}
+
 }

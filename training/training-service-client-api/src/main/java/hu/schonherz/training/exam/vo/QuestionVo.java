@@ -8,6 +8,7 @@ public class QuestionVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	private ExamVo exam;
 	private String text;
 	private QuestionTypeVo questionType;
 	private List<OptionVo> optionList;
@@ -46,6 +47,21 @@ public class QuestionVo implements Serializable {
 
 	public void setOptionList(List<OptionVo> optionList) {
 		this.optionList = optionList;
+	}
+
+	/**
+	 * @return the exam
+	 */
+	public ExamVo getExam() {
+		return exam;
+	}
+
+	/**
+	 * @param exam
+	 *            the exam to set
+	 */
+	public void setExam(ExamVo exam) {
+		this.exam = exam;
 	}
 
 }

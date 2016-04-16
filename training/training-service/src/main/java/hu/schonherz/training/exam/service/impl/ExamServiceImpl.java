@@ -82,10 +82,6 @@ public class ExamServiceImpl implements ExamService {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
-		return examVo;
-		
+		return examVo;	
 	}
-
-	
-	
 }

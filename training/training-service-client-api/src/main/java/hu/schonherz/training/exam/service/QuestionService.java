@@ -8,5 +8,4 @@ public interface QuestionService {
 
 	public void removeQuestion(QuestionVo questionVo) throws Exception;
 	
-	
 }
