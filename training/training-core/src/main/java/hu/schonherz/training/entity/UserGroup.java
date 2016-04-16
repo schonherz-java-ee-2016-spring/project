@@ -1,8 +1,8 @@
 package hu.schonherz.training.entity;
 
 import java.util.Collection;
-import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,10 +16,12 @@ public class UserGroup extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(nullable = false, unique = true)
 	private String groupName;
 	
-	private Date creaationDate;
-	
+	@Column(nullable = false)
+	private String description;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "roleGroup_to_userGroup", joinColumns = @JoinColumn(name = "userGroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
 	private Collection<RoleGroup> roleGroups;
@@ -32,14 +34,6 @@ public class UserGroup extends BaseEntity {
 		this.groupName = groupName;
 	}
 
-	public Date getCreaationDate() {
-		return creaationDate;
-	}
-
-	public void setCreaationDate(Date creaationDate) {
-		this.creaationDate = creaationDate;
-	}
-
 	public Collection<RoleGroup> getRoleGroups() {
 		return roleGroups;
 	}
@@ -48,5 +42,11 @@ public class UserGroup extends BaseEntity {
 		this.roleGroups = roleGroups;
 	}
 
-	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

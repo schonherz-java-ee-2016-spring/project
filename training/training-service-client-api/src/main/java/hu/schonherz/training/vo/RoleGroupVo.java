@@ -1,6 +1,7 @@
 package hu.schonherz.training.vo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 public class RoleGroupVo implements Serializable{
@@ -12,8 +13,12 @@ public class RoleGroupVo implements Serializable{
 	
 	private Long id;
 	private String name;
-	private Date createDate;
-	private Date editDate;
+	private Date recDate;
+	private Date modDate;
+	private String recUser;
+	private String modUser;
+	private Collection<RoleVo> roles;
+	
 	public Long getId() {
 		return id;
 	}
@@ -26,23 +31,48 @@ public class RoleGroupVo implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getEditDate() {
-		return editDate;
-	}
-	public void setEditDate(Date editDate) {
-		this.editDate = editDate;
-	}
-	
 	@Override
 	public String toString() {
-		return "RoleGroupVo [id=" + id + ", name=" + name + ", createDate=" + createDate + ", editDate=" + editDate
+		return "RoleGroupVo [id=" + id + ", name=" + name + ", createDate=" + recDate + ", editDate=" + modDate
 				+ "]";
+	}
+	public Collection<RoleVo> getRoles() {
+		return roles;
+	}
+	public void setRoles(Collection<RoleVo> roles) {
+		this.roles = roles;
+	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
+	}
+
+	public Date getModDate() {
+		return modDate;
+	}
+
+	public void setModDate(Date modDate) {
+		this.modDate = modDate;
+	}
+
+	public String getRecUser() {
+		return recUser;
+	}
+
+	public void setRecUser(String recUser) {
+		this.recUser = recUser;
+	}
+
+	public String getModUser() {
+		return modUser;
+	}
+
+	public void setModUser(String modUser) {
+		this.modUser = modUser;
 	}
 	
 

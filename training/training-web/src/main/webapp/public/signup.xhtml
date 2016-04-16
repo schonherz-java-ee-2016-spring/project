@@ -5,58 +5,82 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	
+
 	<ui:define name="content">
-		<h:form>
-			<p:panel id="panel" header="New User">
+		<h:form styleClass="form-horizontal" id="form">
 
-				<p:messages id="msgs" showDetail="true" />
+			<p:messages id="msgs"  />
+<!-- showDetail="true" -->
 
-				<h:panelGrid columns="1" cellpadding="5">
-					<p:outputLabel for="fullname" value="Full name:" />
-					<p:inputText id="fullname" value="#{registrationBean.fullname}"
-						required="true" label="fullname">
-<!-- 						<f:validateLength minimum="5" /> -->	
+			<div class="form-group">
+				<label for="fullname" class="col-sm-3">#{out.fullname}</label>
+				<div class="col-sm-9">
+					<p:inputText styleClass="form-control" id="fullname"
+						value="#{registrationBean.fullname}" required="true" requiredMessage="#{out.fullname_required}"
+						label="fullname">
+						<!-- 						<f:validateLength minimum="5" /> -->
 
 					</p:inputText>
-				
-					<p:outputLabel for="username" value="Username:" />
-					<p:inputText id="username" value="#{registrationBean.username}"
-						required="true" label="username">
-<!-- 						<f:validateLength minimum="5" /> -->	
-						<p:ajax update="usernameMsg" event="keyup" />
-					</p:inputText>
-					<p:message for="username" display="icon" id="usernameMsg" />
+				</div>
+			</div>
 
-					<p:outputLabel for="email" value="Email:" />
-						<p:inputText id="email" value="#{registrationBean.email}"
-								required="true" label="email">
-					</p:inputText>
 
-					<p:outputLabel for="password" value="Password:" />
-					<p:password id="password" value="#{registrationBean.password}"
-						label="password" required="true" match="passwordConfirm">
-<!-- 						<f:validateLength minimum="2" /> -->
-					
+			<div class="form-group">
+				<label for="username" class="col-sm-3">#{out.username}</label>
+				<div class="col-sm-9">
+					<p:inputText styleClass="form-control" id="username"
+						value="#{registrationBean.username}" required="true"
+						label="username">
+						<!-- 						<f:validateLength minimum="5" /> -->
+<!-- 						<p:ajax update="usernameMsg" event="keyup" /> -->
+					</p:inputText>
+				</div>
+<!-- 				<div class="col-sm-9"> -->
+<!-- 					<p:message for="username" display="icon" id="usernameMsg" /> -->
+<!-- 				</div> -->
+			</div>
+
+
+			<div class="form-group">
+				<label for="email" class="col-sm-3">#{out.email}</label>
+				<div class="col-sm-9">
+					<p:inputText styleClass="form-control" id="email"
+						value="#{registrationBean.email}" required="true" label="email">
+					</p:inputText>
+				</div>
+			</div>
+
+<!-- 			<p:message for="password" id="msgpassword" showDetail="true" /> -->
+
+			<div class="form-group">
+				<label for="password" class="col-sm-3">#{out.password}</label>
+				<div class="col-sm-9">
+					<p:password styleClass="form-control" id="password"
+						value="#{registrationBean.password}" label="password"
+						required="true" match="passwordConfirm">
+						<!-- 						<f:validateLength minimum="2" /> -->
+
 					</p:password>
-					<p:message for="password" id="msgpassword" showDetail="true" />
+				</div>
+			</div>
 
-					<p:outputLabel for="passwordConfirm" value="PasswordConfirm:" />
-					
-					<p:password id="passwordConfirm" 
+<!-- 			<p:message for="passwordConfirm" id="msgpasswordConfirm" -->
+<!-- 				showDetail="true" /> -->
+
+			<div class="form-group">
+				<label for="passwordConfirm" class="col-sm-3">#{out.passwordconfirm}</label>
+				<div class="col-sm-9">
+					<p:password styleClass="form-control" id="passwordConfirm"
 						value="#{registrationBean.passwordConfirm}"
 						label="passwordConfirm" required="true">
-<!-- 						<f:validateLength minimum="2" /> -->
-						
-					</p:password>
-					<p:message for="passwordConfirm" id="msgpasswordConfirm"
-						showDetail="true" />
-				</h:panelGrid>
+						<!-- 						<f:validateLength minimum="2" /> -->
 
-				<p:commandButton value="Save" update="panel"
-					action="#{registrationBean.registration}"
-					icon="ui-icon-check" />
-			</p:panel>
+					</p:password>
+				</div>
+			</div>
+
+			<p:commandButton styleClass="btn btn-primary" value="Save" update="form,growl"
+				action="#{registrationBean.registration}" icon="ui-icon-check" />
 		</h:form>
 	</ui:define>
 </ui:composition>
