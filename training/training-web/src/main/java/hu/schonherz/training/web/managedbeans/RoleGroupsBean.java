@@ -57,12 +57,10 @@ public class RoleGroupsBean implements Serializable{
 		
 		try {
 			if (roleGroupService.getRoleGroupByName(roleGroupName) != null ) {
-				System.out.println("ALREADY EXISTS");
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR",
 						"Role Group already exists!");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			} else {
-				System.out.println("CREATING NEW ROLEGROUP");
 				RoleGroupVo newRG = new RoleGroupVo();
 				newRG.setName(roleGroupName);
 				
@@ -81,6 +79,34 @@ public class RoleGroupsBean implements Serializable{
 		try {
 			roleGroupService.deleteRoleGroup(selectedRoleGroup.getId());
 			allRoleGroup.remove(selectedRoleGroup);
+			
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
+					"Role Group deleted!");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void edit(){
+		try {
+			disabled = true;
+			
+			// kitöröljük a listából
+			allRoleGroup.remove(selectedRoleGroup);
+			
+			// beállítjuk az új nevet
+			selectedRoleGroup.setName(roleGroupName);
+			
+			// updateljük a jogcsoportot
+			roleGroupService.updateRoleGroup(selectedRoleGroup);
+			
+			// visszarakjuk a listába
+			allRoleGroup.add(roleGroupService.getRoleGroupByName(roleGroupName));
+			
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
+					"Role Group edited!");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

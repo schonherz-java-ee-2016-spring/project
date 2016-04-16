@@ -54,7 +54,7 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 
 	@Override
 	public void updateRoleGroup(RoleGroupVo roleGroup) {
-		// TODO Auto-generated method stub
+		roleGroupRepository.updateRoleGroup(roleGroup.getId(), roleGroup.getName());
 		
 	}
 
