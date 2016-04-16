@@ -16,9 +16,12 @@ public class UserGroup extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String groupName;
 	
+	@Column(nullable = false)
+	private String description;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "roleGroup_to_userGroup", joinColumns = @JoinColumn(name = "userGroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
 	private Collection<RoleGroup> roleGroups;
@@ -37,5 +40,13 @@ public class UserGroup extends BaseEntity {
 
 	public void setRoleGroups(Collection<RoleGroup> roleGroups) {
 		this.roleGroups = roleGroups;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

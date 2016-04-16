@@ -10,6 +10,7 @@ public class UserGroupVo implements Serializable {
 
 	private Long id;
 	private String groupName;
+	private String description;
 	private Date recDate;
 	private Date modDate;
 	private String recUser;
@@ -30,11 +31,6 @@ public class UserGroupVo implements Serializable {
 
 	public void setName(String GroupName) {
 		groupName = GroupName;
-	}
-
-	@Override
-	public String toString() {
-		return "RoleVO [id=" + id + ", Name=" + groupName + "]";
 	}
 
 	public String getGroupName() {
@@ -83,6 +79,14 @@ public class UserGroupVo implements Serializable {
 
 	public void setModUser(String modUser) {
 		this.modUser = modUser;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

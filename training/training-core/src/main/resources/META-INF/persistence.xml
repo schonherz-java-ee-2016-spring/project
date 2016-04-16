@@ -22,6 +22,8 @@
 		<class>hu.schonherz.training.exam.entity.QuestionType</class>
 		<class>hu.schonherz.training.supervisor.entity.Feedback</class>
 		<class>hu.schonherz.training.supervisor.entity.Interview</class>
+		<class>hu.schonherz.training.supervisor.entity.Homework</class>
+		<class>hu.schonherz.training.supervisor.entity.HomeworkResult</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 

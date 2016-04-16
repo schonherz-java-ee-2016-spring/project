@@ -3,13 +3,16 @@ package hu.schonherz.training.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @MappedSuperclass
 public class BaseEntity implements Serializable {
@@ -19,15 +22,44 @@ public class BaseEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String recUser;
-	
-	private String modUser;
-	
-	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date recDate;
+	String recUser;
 
-	private Date modDate;
+	String modUser;
+	@Temporal(TemporalType.TIMESTAMP)
+	Date recDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	Date modDate;
+
+	@PrePersist
+	public void prePersist() {
+		recUser = getUser();
+		recDate = new Date();
+
+	}
+
+	private String getUser() {
+		String userName;
+		try {
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (principal instanceof String) {
+				userName = (String) principal;
+			} else {
+				org.springframework.security.core.userdetails.User userPrincipal = (org.springframework.security.core.userdetails.User) principal;
+				userName = userPrincipal.getUsername();
+			}
+
+		} catch (Exception e) {
+			userName = "unknown";
+		}
+		return userName;
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+		modUser = getUser();
+		modDate = new Date();
+	}
 
 	public Long getId() {
 		return id;
@@ -59,5 +91,13 @@ public class BaseEntity implements Serializable {
 
 	public void setModDate(Date modDate) {
 		this.modDate = modDate;
+	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
 	}
 }
