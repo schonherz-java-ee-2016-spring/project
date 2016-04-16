@@ -18,36 +18,12 @@
     		</p:column>
 		</p:dataTable>
 
-<h:form id="newQuestionForm">
-			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
-				title="newQuestion">
-				<p:commandButton value="Add a new question" />
-			</h:outputLink>
-			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-<!-- 			ez ide minek nem értem -->
-			<p:dialog header="Add a new question" widgetVar="dlg" resizable="false" modal="true">
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="newQuestionText" value="Question:" />
-					<p:inputText id="newQuestionText" value="#{questionBean.newQuestionText}"
-						required="true">
-						<f:validateLength minimum="5" />
-					</p:inputText>
-					
-<!-- 					<p:selectOneMenu id="newQuestionType" -->
-<!-- 						value="#{examBean.examIdAsString}" panelStyle="width:180px" -->
-<!-- 						effect="fade" style="width:160px" filter="true" -->
-<!-- 						filterMatchMode="startsWith"> -->
-<!-- 						<f:selectItems value="#{examBean.examList}" var="examVo" -->
-<!-- 							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" /> -->
-<!-- 					</p:selectOneMenu> -->
+		<h:form id="form">
 
-					
-					<f:facet name="footer">
-						<p:commandButton value="Save" update="growl"
-							actionListener="#{examBean.renameTitle}" />
-					</f:facet>
-				</h:panelGrid>
-			</p:dialog>
+			<h:commandButton action="#{questionBean.goToCreateQuestionPage}"
+				value="Add a new question" icon="ui-icon-check">
+			</h:commandButton>
+
 		</h:form>
 	</ui:define>
 </ui:composition>
