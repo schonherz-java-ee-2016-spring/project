@@ -10,10 +10,12 @@ public interface RoleGroupService {
 	
 	void deleteRoleGroup( Long roleGroupId );
 	
+	void updateRoleGroup( RoleGroupVo roleGroup );
+	
 	List<RoleGroupVo> getAllRoleGroup();
 	
-	RoleGroupVo getRoleGroupByName();
+	RoleGroupVo getRoleGroupByName( String roleGroupName );
 	
-	RoleGroupVo getRoleGroupById();
+	RoleGroupVo getRoleGroupById( Long roleGroupId );
 
 }
