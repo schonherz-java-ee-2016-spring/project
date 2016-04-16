@@ -15,13 +15,19 @@
 			<p:column headerText="Exam Title">
     			#{exam.title}
     		</p:column>
-    		
-    		<p:column headerText="Details">
-    		<div>
-			<a href="#{request.contextPath}/testfeatures/examdetails.xhtml">More information(Link)</a>
-		</div>
-    		</p:column>
+
+			<p:column headerText="Details">
+				<h:form id="form">
+					<h:commandButton
+						action="#{examBean.goToExamDetailsPage}"
+						value="More information">
+						<f:setPropertyActionListener target="#{questionBean.examIdAsString}"
+							value="#{exam.id}" />
+					</h:commandButton>
+				</h:form>
+			</p:column>
 		</p:dataTable>
+
 
 		<h:form>
 			<p:panel id="panel" header="New Exam">
@@ -46,11 +52,10 @@
 		<h:form id="renameForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
 				title="rename">
-				<p:commandButton value="Rename Exam"/>
+				<p:commandButton value="Rename Exam" />
 			</h:outputLink>
-
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
+			
 			<p:dialog header="Rename" widgetVar="dlg" resizable="false">
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel for="examTitleList" value="Exam title:" />
@@ -71,9 +76,6 @@
 						<p:commandButton value="Save" update="growl"
 							actionListener="#{examBean.renameTitle}" />
 					</f:facet>
-
-
-
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>

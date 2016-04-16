@@ -17,15 +17,6 @@ public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * The {@link Exam} that contains the Question
-	 * 
-	 * Represented as {@code exam_id} in the database 
-	 */
-	@ManyToOne
-	@JoinColumn(name = "exam_id", referencedColumnName = "id")
-	private Exam exam;
-
-	/**
 	 * The {@link QuestionType} of the Question
 	 * 
 	 * Represented as {@code type_id} in the database
@@ -43,21 +34,6 @@ public class Question extends BaseEntity {
 
 	public Question() {
 		super();
-	}
-
-	/**
-	 * @return the exam
-	 */
-	public Exam getExam() {
-		return exam;
-	}
-
-	/**
-	 * @param exam
-	 *            the exam to set
-	 */
-	public void setExam(Exam exam) {
-		this.exam = exam;
 	}
 
 	/**

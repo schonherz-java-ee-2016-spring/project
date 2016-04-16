@@ -45,5 +45,4 @@ public class QuestionServiceImpl implements QuestionService {
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-
 }

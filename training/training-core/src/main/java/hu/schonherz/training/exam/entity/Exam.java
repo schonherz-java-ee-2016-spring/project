@@ -1,7 +1,13 @@
 package hu.schonherz.training.exam.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -17,11 +23,22 @@ public class Exam extends BaseEntity {
 	/**
 	 * The title of the Exam
 	 * 
-	 * Every Title is unique
-	 * Titles cannot be empty
+	 * Every Title is unique Titles cannot be empty
 	 */
 	@Column(unique = true, nullable = false)
 	private String title;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "exam_id")
+	private List<Question> questionList;
+
+	public List<Question> getQuestionList() {
+		return questionList;
+	}
+
+	public void setQuestionList(List<Question> questionList) {
+		this.questionList = questionList;
+	}
 
 	public Exam() {
 		super();
@@ -41,5 +58,6 @@ public class Exam extends BaseEntity {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 
 }

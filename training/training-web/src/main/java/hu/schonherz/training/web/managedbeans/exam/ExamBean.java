@@ -26,6 +26,10 @@ public class ExamBean implements Serializable {
 	private String newExamTitle;
 	private String examIdAsString;
 	private String modifiedTitle;
+	
+	public String goToExamDetailsPage() {
+		return "examDetails";
+	}
 
 	public void renameTitle() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();

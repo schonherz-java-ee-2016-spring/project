@@ -6,14 +6,12 @@ import java.util.List;
 public class QuestionVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	private ExamVo exam;
 	private String text;
 	private QuestionTypeVo questionType;
-	
 	private List<OptionVo> optionList;
-	
+
 	public QuestionVo() {
 		super();
 	}
@@ -24,14 +22,6 @@ public class QuestionVo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public ExamVo getExam() {
-		return exam;
-	}
-
-	public void setExam(ExamVo exam) {
-		this.exam = exam;
 	}
 
 	public String getText() {
@@ -58,6 +48,4 @@ public class QuestionVo implements Serializable {
 		this.optionList = optionList;
 	}
 
-	
-	
 }
