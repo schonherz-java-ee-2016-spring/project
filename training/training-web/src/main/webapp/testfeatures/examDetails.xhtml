@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Question</ui:define>
+	<ui:define name="content">
+
+		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
+			var="question">
+			<p:column headerText="Question Id">
+    			#{question.id}
+    		</p:column>
+			<p:column headerText="Question Title">
+    			#{question.text}
+    		</p:column>
+		</p:dataTable>
+
+<h:form id="newQuestionForm">
+			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
+				title="newQuestion">
+				<p:commandButton value="Add a new question" />
+			</h:outputLink>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+<!-- 			ez ide minek nem értem -->
+			<p:dialog header="Add a new question" widgetVar="dlg" resizable="false" modal="true">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="newQuestionText" value="Question:" />
+					<p:inputText id="newQuestionText" value="#{questionBean.newQuestionText}"
+						required="true">
+						<f:validateLength minimum="5" />
+					</p:inputText>
+					
+<!-- 					<p:selectOneMenu id="newQuestionType" -->
+<!-- 						value="#{examBean.examIdAsString}" panelStyle="width:180px" -->
+<!-- 						effect="fade" style="width:160px" filter="true" -->
+<!-- 						filterMatchMode="startsWith"> -->
+<!-- 						<f:selectItems value="#{examBean.examList}" var="examVo" -->
+<!-- 							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" /> -->
+<!-- 					</p:selectOneMenu> -->
+
+					
+					<f:facet name="footer">
+						<p:commandButton value="Save" update="growl"
+							actionListener="#{examBean.renameTitle}" />
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

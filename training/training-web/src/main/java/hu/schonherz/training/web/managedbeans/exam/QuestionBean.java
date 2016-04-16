@@ -29,7 +29,8 @@ public class QuestionBean implements Serializable {
 	private String newQuestionExamID;
 	private String newQuestionText;
 	private String examIdAsString;
-
+	private Integer newQuestionType;
+	
 	public String goToCreateQuestionPage() {
 		return "createQuestion";
 	}
@@ -45,7 +46,7 @@ public class QuestionBean implements Serializable {
 		return questionVoList;
 	}
 
-	public void registerNewQuestion() {
+	public void registerNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
 		if (newQuestionText.isEmpty()) {
@@ -53,17 +54,19 @@ public class QuestionBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-
+		
+		Long examid = Long.parseLong(examIdAsString);
 		QuestionVo questionVo = new QuestionVo();
+		questionVo.setExam(examService.getExamById(examid));
+		System.out.println(examService.getExamById(examid));
+		System.out.println("tortent e vmi");
 		questionVo.setText(newQuestionText);
-
-		// +Exam
+		//questionVo.setQuestionType(questionType);
 
 		// +Questiontype
 
 		try {
 			getQuestionService().createQuestion(questionVo);
-
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" exam created!");
 			currentInstance.addMessage(null, facesMessage);
@@ -108,4 +111,12 @@ public class QuestionBean implements Serializable {
 		this.newQuestionExamID = newQuestionExamID;
 	}
 
+	public Integer getNewQuestionType() {
+		return newQuestionType;
+	}
+
+	public void setNewQuestionType(Integer newQuestionType) {
+		this.newQuestionType = newQuestionType;
+	}
+	
 }

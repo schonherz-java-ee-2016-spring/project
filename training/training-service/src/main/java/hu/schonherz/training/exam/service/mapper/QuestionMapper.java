@@ -29,8 +29,8 @@ public class QuestionMapper {
 
 	public static List<QuestionVo> toVo(List<Question> questionDtos) {
 		List<QuestionVo> questionVos = new ArrayList<>();
-		for (Question examDto : questionDtos) {
-			questionVos.add(toVo(examDto));
+		for (Question questionDto : questionDtos) {
+			questionVos.add(toVo(questionDto));
 		}
 		return questionVos;
 	}
