@@ -39,7 +39,23 @@ INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 INSERT INTO public.interview(id, company, description, interview_date, interviewed_id, interviewer_id) VALUES (3001, 'Fiction Software', 'Dear Student! We want to invite you to a job interview!', to_date('05 Dec 2045', 'DD Mon YYYY'), 2003, 2004);
 
 INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, score, interview_id, rated_id, sender_id) VALUES (4001, 'The student was great, he/she will start to work next week.', to_date('06 Dec 2045', 'DD Mon YYYY'), TRUE, 5, 3001, 2003, 2004);
+
+
 -- Exam-module
-INSERT INTO public.question_type(id, name) VALUES(1, 'One answer1');
+
+INSERT INTO public.exam(id, title) VALUES(1, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(3, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(4, 'Macska');
+
+
+INSERT INTO public.question(id, text, exam_id) VALUES(1, 'First question for JPA', 1);
+INSERT INTO public.question(id, text, exam_id) VALUES(2, 'First question for EJB', 2);
+INSERT INTO public.question(id, text, exam_id) VALUES(3, 'First question for JSF', 3);
+INSERT INTO public.question(id, text, exam_id) VALUES(4, 'First question for Macska', 4);
+INSERT INTO public.question(id, text, exam_id) VALUES(5, 'Second question for Macska', 4);
+
+
+INSERT INTO public.question_type(id, name) VALUES(1, 'One answer');
 INSERT INTO public.question_type(id, name) VALUES(2, 'Many answer');
 INSERT INTO public.question_type(id, name) VALUES(3, 'Text answer');

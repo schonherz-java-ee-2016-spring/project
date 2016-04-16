@@ -20,7 +20,7 @@
 				<h:form id="form">
 					<h:commandButton
 						action="#{examBean.goToExamDetailsPage}"
-						value="More information">
+						value="More information(Click me)">
 						<f:setPropertyActionListener target="#{questionBean.examIdAsString}"
 							value="#{exam.id}" />
 					</h:commandButton>
@@ -56,7 +56,7 @@
 			</h:outputLink>
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 			
-			<p:dialog header="Rename" widgetVar="dlg" resizable="false">
+			<p:dialog header="Rename" widgetVar="dlg" resizable="false" modal="true">
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel for="examTitleList" value="Exam title:" />
 					<p:selectOneMenu id="examTitleList"
