@@ -34,3 +34,9 @@ INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (1,
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (1, 5);
 
 
+
+
+-- Exam-module
+INSERT INTO public.question_type(id, name) VALUES(1, 'One answer1');
+INSERT INTO public.question_type(id, name) VALUES(2, 'Many answer');
+INSERT INTO public.question_type(id, name) VALUES(3, 'Text answer');
