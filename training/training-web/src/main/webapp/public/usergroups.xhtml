@@ -39,12 +39,12 @@
 					</h:outputText>
 				</p:column>
 				<f:facet name="footer">
-					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" update="form"
+					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" update="msgs,form"
 						action="#{userGroupsBean.createAction()}" value="#{out.creategroup}" onclick="PF('dialog').show();" />
 					<p:commandButton id="editButton" process="gtable" icon="ui-icon-pencil"
-						disabled="#{userGroupsBean.isDisabled}" value="#{out.edit}" update="form"
+						disabled="#{userGroupsBean.isDisabled}" value="#{out.edit}" update="msgs,form"
 						onclick="PF('dialog').show();" />
-					<p:commandButton id="deleteButton" process="gtable" update=":groupform:gtable"
+					<p:commandButton id="deleteButton" process="gtable" update="msgs,:groupform:gtable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{userGroupsBean.isDisabled}"
 						action="#{userGroupsBean.deleteGroup()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
@@ -61,6 +61,7 @@
 		</p:confirmDialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
+			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn"/>
 			<h:form styleClass="form-horizontal" id="form">
 				<div class="form-group">
 					<label for="groupname" class="col-sm-3">#{out.groupname}</label>
@@ -82,7 +83,7 @@
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:groupform:gtable"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="msgs,growl,:groupform:gtable"
 					action="#{userGroupsBean.save()}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
