@@ -60,7 +60,7 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel for="examTitleList" value="Exam title:" />
 					<p:selectOneMenu id="examTitleList"
-						value="#{examBean.examIdAsString}" panelStyle="width:180px"
+						value="#{examBean.examIdAsString}" panelStyle="position:fixed"
 						effect="fade" style="width:160px" filter="true"
 						filterMatchMode="startsWith">
 						<f:selectItems value="#{examBean.examList}" var="examVo"
