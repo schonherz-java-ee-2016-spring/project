@@ -4,16 +4,19 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	
 	<ui:define name="content">
-	
+	<h:form id="roleform">
+	<p:messages id="msgs" />
 	<p:dataTable id="rolegrouptable"
-				 var="rolegroup"
 				 value="#{roleGroupsBean.allRoleGroup}"
+				 var="rolegroup"
 				 selectionMode="single"
-				 selection=""
-				 rowKey="#{roleGroup.id}"
+				 selection="#{roleGroupsBean.selectedRoleGroup}"
+				 rowKey="#{rolegroup.id}"
 				 paginator="true"
 				 rows="12"
 				 rowsPerPageTemplate="4,8,12">
+				 
+				 
 				 
 				<p:column headerText="id">
 					<h:outputText value="#{rolegroup.id}">
@@ -52,29 +55,59 @@
 				<!-- Create -->
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
 									value="Create role group"
-									onclick="" />
+									onclick="PF('createDialog').show();" />
 				<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 									process="rolegrouptable" 
-									disabled=""
+									disabled="#{roleGroupsBean.disabled}"
 									value="Edit selected role group" 
 									onclick="" />
 				<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 									process="rolegrouptable"
-									disabled=""
-									update=""
+									disabled="#{roleGroupsBean.disabled}"
 									value="Delete Selected group"
-									>
-<!-- 									action=""> -->
+									action="#{roleGroupsBean.delete()}" >
 						
 						<p:confirm icon="ui-icon-alert"
 								  header="Delete Role Group" 
 								  message="Are you sure you want to delete?" /> 
 					</p:commandButton>
 				</f:facet>
+				<p:ajax event="rowSelect" 
+				listener="#{roleGroupsBean.onRowSelect}" 
+				update="editButton,deleteButton" />
 				
 			</p:dataTable>
+			</h:form>
+			
+			<p:confirmDialog global="true" responsive="true" showEffect="clip">
+				<p:commandButton value="Yes" type="button" update=":roleform:rolegrouptable" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
+			<p:dialog header="Create new Role Group" widgetVar="createDialog" modal="true" height="100"
+						resizable="false" draggable="false" responsive="true" >
+    			<h:form id="newrolegroup" styleClass="form-horizontal" >
+    				<div class="form-group">
+						<label for="rolegroupname" class="col-sm-3">Role Group name</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="rolegroupname"
+								value="#{roleGroupsBean.roleGroupName}" required="true"
+								label="rolegroupname">
+							</p:inputText>
+						</div>
+					</div>
+					<p:commandButton styleClass="btn" value="Save" update=":roleform:rolegrouptable"
+					action="#{roleGroupsBean.create}" icon="ui-icon-check" oncomplete="closeDialog()"/>
+    			</h:form>
+    			<script type="text/javascript">
+    				function closeDialog() {
+            			PF('createDialog').hide();
+    				}
+				</script>
+			</p:dialog>   
+			
 	
 	</ui:define>
 	

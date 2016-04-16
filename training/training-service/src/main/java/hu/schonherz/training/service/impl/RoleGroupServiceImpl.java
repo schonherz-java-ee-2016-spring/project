@@ -8,9 +8,12 @@ import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.repository.RoleGroupRepository;
 import hu.schonherz.training.service.RoleGroupService;
+import hu.schonherz.training.service.mapper.RoleGroupMapper;
 import hu.schonherz.training.vo.RoleGroupVo;
 
 @Stateless(mappedName = "RoleGroupService", name = "RoleGroupService")
@@ -18,35 +21,41 @@ import hu.schonherz.training.vo.RoleGroupVo;
 @Local(RoleGroupService.class)
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class RoleGroupServiceImpl implements RoleGroupService {
+	
+	@Autowired
+	RoleGroupRepository roleGroupRepository;
 
 	@Override
 	public void createRoleGroup(RoleGroupVo roleGroup) {
-		// TODO Auto-generated method stub
+		roleGroupRepository.save( RoleGroupMapper.toDto(roleGroup) );
 		
 	}
 
 	@Override
 	public void deleteRoleGroup(Long roleGroupId) {
-		// TODO Auto-generated method stub
+		roleGroupRepository.delete(roleGroupId);
 		
 	}
 
 	@Override
 	public List<RoleGroupVo> getAllRoleGroup() {
-		// TODO Auto-generated method stub
-		return null;
+		return RoleGroupMapper.toVo(roleGroupRepository.findAll());
 	}
 
 	@Override
-	public RoleGroupVo getRoleGroupByName() {
-		// TODO Auto-generated method stub
-		return null;
+	public RoleGroupVo getRoleGroupByName( String roleGroupName ) {
+		return RoleGroupMapper.toVo(roleGroupRepository.findByName(roleGroupName));
 	}
 
 	@Override
-	public RoleGroupVo getRoleGroupById() {
+	public RoleGroupVo getRoleGroupById( Long roleGroupId ) {
+		return RoleGroupMapper.toVo(roleGroupRepository.findOne(roleGroupId));
+	}
+
+	@Override
+	public void updateRoleGroup(RoleGroupVo roleGroup) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 }
