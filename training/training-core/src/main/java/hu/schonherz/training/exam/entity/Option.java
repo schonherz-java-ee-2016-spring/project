@@ -27,7 +27,7 @@ public class Option extends BaseEntity {
 	 * Represented as {@code question_id} in the database
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "question_id", referencedColumnName = "id")
+	@JoinColumn(name = "question_id")
 	private Question question;
 
 	/**

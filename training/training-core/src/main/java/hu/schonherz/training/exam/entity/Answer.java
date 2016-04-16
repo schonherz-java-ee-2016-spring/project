@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -21,13 +22,19 @@ import hu.schonherz.training.entity.User;
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
+	@OneToOne(mappedBy = "answer")
+	private AnswerNote answerNote;
+	
+	@OneToOne(mappedBy = "answer")
+	private AnswerText answerText;
+	
 	/**
 	 * The {@link User} who submitted the Answer
 	 * 
 	 * Represented as {@code user_id} in the database
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	/**
@@ -36,7 +43,7 @@ public class Answer extends BaseEntity {
 	 * Represented as {@code option_id} in the database
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "option_id", referencedColumnName = "id")
+	@JoinColumn(name = "option_id")
 	private Option option;
 
 	/**
@@ -96,6 +103,22 @@ public class Answer extends BaseEntity {
 	 */
 	public void setGood(Boolean good) {
 		this.good = good;
+	}
+
+	public AnswerNote getAnswerNote() {
+		return answerNote;
+	}
+
+	public void setAnswerNote(AnswerNote answerNote) {
+		this.answerNote = answerNote;
+	}
+
+	public AnswerText getAnswerText() {
+		return answerText;
+	}
+
+	public void setAnswerText(AnswerText answerText) {
+		this.answerText = answerText;
 	}
 
 }

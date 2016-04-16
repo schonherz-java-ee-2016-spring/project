@@ -2,8 +2,8 @@ package hu.schonherz.training.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -24,7 +24,7 @@ public class AnswerNote extends BaseEntity {
 	 * Represented as {@code answer_id} in the database
 	 */
 	@OneToOne
-	@JoinColumn(name = "answer_id", referencedColumnName = "id")
+	@PrimaryKeyJoinColumn
 	private Answer answer;
 
 	/**
