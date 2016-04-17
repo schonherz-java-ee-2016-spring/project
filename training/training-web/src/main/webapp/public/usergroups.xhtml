@@ -87,7 +87,7 @@
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="msgs,growl,:groupform:gtable"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="form,msgs,growl,:groupform:gtable"
 					action="#{userGroupsBean.save()}" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
@@ -101,7 +101,7 @@
 					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
 				</p:pickList>
 				<p:commandButton id="userSubmit" action="#{userGroupsBean.saveUsers()}" value="#{out.save}"
-					update=":groupform:gtable" />
+					update=":groupform:gtable,growl" />
 			</h:form>
 		</p:dialog>
 	</ui:define>
