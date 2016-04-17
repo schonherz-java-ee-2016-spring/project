@@ -1,6 +1,8 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,9 +13,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 
 import hu.schonherz.training.service.UserGroupService;
+import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserGroupVo;
+import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name = "userGroupsBean")
 @ViewScoped
@@ -24,8 +29,15 @@ public class UserGroupsBean implements Serializable {
 	@EJB
 	private UserGroupService userGroupService;
 
+	@EJB
+	private UserService userService;
+
 	private List<UserGroupVo> userGroups;
 
+	private DualListModel<UserVo> users;
+	private List<UserVo> allUser;
+	private List<UserVo> usersSource;
+	private List<UserVo> usersTarget;
 	/**
 	 * UserGroupVo a kiválasztott csoport és a dialog ablakban megjelenő csoport
 	 * adataihoz
@@ -43,6 +55,9 @@ public class UserGroupsBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
+			usersSource = new ArrayList<>();
+			usersTarget = new ArrayList<>();
+			users = new DualListModel<>();
 			userGroups = userGroupService.getUserGroups();
 			selected = new UserGroupVo();
 		} catch (Exception e) {
@@ -66,6 +81,42 @@ public class UserGroupsBean implements Serializable {
 	 */
 	public void createAction() {
 		selected = new UserGroupVo();
+	}
+
+	public void manageAction() {
+		usersSource = new ArrayList<>();
+		usersTarget = new ArrayList<>();
+		try {
+			allUser = userService.findAllUser();
+			for (UserVo userVo : allUser) {
+				int o = 0;
+				for (UserGroupVo group : userVo.getGroups()) {
+					if (group.getId().equals(selected.getId())) {
+						usersTarget.add(userVo);
+						o = 1 ;
+						// break;
+					} 
+				}
+				if (o != 1) {
+					usersSource.add(userVo);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		users = new DualListModel<UserVo>(usersSource, usersTarget);
+	}
+
+	public void saveUsers() {
+		for (UserVo userVo : users.getSource()) {
+			userVo.getGroups().remove(selected);
+			userService.updateUser(userVo);
+		}
+		for (UserVo userVo : users.getTarget()) {
+			userVo.getGroups().remove(selected);
+			userVo.getGroups().add(selected);
+			userService.updateUser(userVo);
+		}
 	}
 
 	/**
@@ -144,4 +195,37 @@ public class UserGroupsBean implements Serializable {
 	public void setIsDisabled(Boolean isDisabled) {
 		this.isDisabled = isDisabled;
 	}
+
+	public DualListModel<UserVo> getUsers() {
+		return users;
+	}
+
+	public void setUsers(DualListModel<UserVo> users) {
+		this.users = users;
+	}
+
+	public List<UserVo> getUsersSource() {
+		return usersSource;
+	}
+
+	public void setUsersSource(List<UserVo> usersSource) {
+		this.usersSource = usersSource;
+	}
+
+	public List<UserVo> getUsersTarget() {
+		return usersTarget;
+	}
+
+	public void setUsersTarget(List<UserVo> usersTarget) {
+		this.usersTarget = usersTarget;
+	}
+
+	public List<UserVo> getAllUser() {
+		return allUser;
+	}
+
+	public void setAllUser(List<UserVo> allUser) {
+		this.allUser = allUser;
+	}
+
 }
