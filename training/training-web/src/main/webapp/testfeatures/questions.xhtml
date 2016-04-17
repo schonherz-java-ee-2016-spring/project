@@ -6,17 +6,28 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
+	<f:metadata>
+		<f:viewParam name="requestedExamId" value="#{questionBean.examIdAsString}" />
+	</f:metadata>
 	<ui:define name="pageTitle">Question</ui:define>
 	<ui:define name="content">
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
-			<p:column headerText="Question Id">
-    			#{question.id}
-    		</p:column>
-			<p:column headerText="Question Title">
-    			#{question.text}
-    		</p:column>
+			<p:column headerText="Id">
+				<h:outputText value="#{question.id}" />
+			</p:column>
+			<p:column headerText="Date created">
+				<h:outputText value="#{question.recDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Question">
+				<h:link outcome="#{questionBean.goToQuestionDetailsPage}">
+					<h:outputText value="#{question.text}" />
+					<f:param name="requestedQuestionId" value="#{question.id}" />
+				</h:link>
+			</p:column>
 		</p:dataTable>
 
 		<h:form id="newQuestionForm">
@@ -36,10 +47,11 @@
 					</p:inputText>
 
 					<p:selectOneMenu id="questionType"
-						value="#{questionBean.questionTypeIdAsString}" panelStyle="position:fixed"
-						effect="fade" style="width:160px">
-						<f:selectItems value="#{questionBean.questionTypeList}" var="questionTypeVo"
-							itemLabel="#{questionTypeVo.name}" itemValue="#{questionTypeVo.id}" />
+						value="#{questionBean.questionTypeIdAsString}"
+						panelStyle="position:fixed" effect="fade" style="width:160px">
+						<f:selectItems value="#{questionBean.questionTypeList}"
+							var="questionTypeVo" itemLabel="#{questionTypeVo.name}"
+							itemValue="#{questionTypeVo.id}" />
 					</p:selectOneMenu>
 
 					<f:facet name="footer">

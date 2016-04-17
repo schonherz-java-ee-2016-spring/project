@@ -27,8 +27,8 @@ public class ExamBean implements Serializable {
 	private String examIdAsString;
 	private String modifiedTitle;
 
-	public String goToExamDetailsPage() {
-		return "examDetails";
+	public String goToQuestionsPage() {
+		return "questions.xhtml";
 	}
 
 	public void renameTitle() throws Exception {
