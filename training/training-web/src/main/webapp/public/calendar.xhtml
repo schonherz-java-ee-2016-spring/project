@@ -1,0 +1,54 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="content">
+		<h:outputStylesheet library="default" name="css/calendar.css"
+			rel="stylesheet" />
+		<h2 class="text-muted">Calendar</h2>
+		<body>
+			<select class="selectpicker">
+				<option>Homework</option>
+				<option>Test</option>
+				<option>Interview</option>
+			</select>
+
+
+			<div class="container">
+				<ul class="timeline">
+					<li>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">Homework 1</h4>
+								<p>
+									<small class="text-muted">date: 2040.11.22 </small>
+								</p>
+							</div>
+							<div class="timeline-body">
+								<p>You have plenty of time. Do homework1!</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">Homework 2</h4>
+								<p>
+									<small class="text-muted">date: 2009.11.22 </small>
+								</p>
+							</div>
+							<div class="timeline-body">
+								<p>You realy had one job, and you didn't do it!</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</body>
+	</ui:define>
+
+</ui:composition>

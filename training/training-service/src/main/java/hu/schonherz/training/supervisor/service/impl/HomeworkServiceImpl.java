@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
+import javax.faces.bean.ViewScoped;
 import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
