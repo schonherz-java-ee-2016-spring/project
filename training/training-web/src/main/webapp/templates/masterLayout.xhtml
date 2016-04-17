@@ -53,7 +53,7 @@
 	</h:head>
 
 	<h:body>
-	<p:growl id="growl" showDetail="true" life="4000" globalOnly="true"/>  
+	<p:growl id="growl" showDetail="true" life="4000" globalOnly="true" severity="info"/>  
 		<div id="wrapper">
 			<nav class="navbar navbar-default navbar-cls-top " role="navigation"
 				style="margin-bottom: 0">
@@ -111,6 +111,8 @@
 					</sec:authorize>
 					
 					<li><a href="#{request.contextPath}/public/usergroups.xhtml"><i class="fa fa-dashboard "></i>User Groups</a></li>
+					
+					<li><a href="#{request.contextPath}/public/rolegroups.xhtml"><i class="fa fa-dashboard "></i>Role Groups</a></li>
 					
 					<li><a href="#{request.contextPath}/public/users.xhtml"><i class="fa fa-dashboard "></i>Users</a></li>
 					

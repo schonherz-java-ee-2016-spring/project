@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<context:component-scan base-package="hu.schonherz.training" />
-	
+
 	<jpa:repositories base-package="hu.schonherz.training"
 		repository-impl-postfix="Impl" entity-manager-factory-ref="entityManagerFactory" />
 
@@ -25,4 +25,5 @@
 		class="org.springframework.transaction.jta.JtaTransactionManager">
 	</bean>
 	<tx:annotation-driven />
+	<tx:jta-transaction-manager></tx:jta-transaction-manager>
 </beans>

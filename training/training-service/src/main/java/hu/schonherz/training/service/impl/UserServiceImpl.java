@@ -1,9 +1,8 @@
 package hu.schonherz.training.service.impl;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import java.util.Collection;
+import java.util.List;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -109,5 +108,10 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return UserMapper.toVo(user);
+	}
+
+	@Override
+	public void updateUser(UserVo userVo) {
+		userRepository.save(UserMapper.toDto(userVo));
 	}
 }
