@@ -72,7 +72,7 @@ public class QuestionBean implements Serializable {
 		}
 		
 		QuestionTypeVo questionTypeVo = questionTypeService.getQuestionTypeById(Long.parseLong(questionTypeIdAsString));
-
+		
 		ExamVo examVo = examService.getExamById(Long.parseLong(examIdAsString));
 		
 		QuestionVo questionVo = new QuestionVo();
@@ -82,7 +82,21 @@ public class QuestionBean implements Serializable {
 		questionVo.setText(newQuestionText);
 
 		try {
-			getQuestionService().createQuestion(questionVo);
+			questionService.createQuestion(questionVo);
+			
+//			System.out.println("ASDASD------------22");
+//			questionService.
+//			System.out.println("ASDASD------------22");
+			
+//			examVo = examService.getExamById(Long.parseLong(examIdAsString));
+//			System.out.println("ASDASD------------22");
+//			examVo.getQuestionList().forEach(System.out::println);
+//			System.out.println("ASDASD------------22");
+//			questionTypeVo = questionTypeService.getQuestionTypeById(Long.parseLong(questionTypeIdAsString));
+//			System.out.println("ASDASD------------");
+//			questionTypeVo.getQuestionList().forEach(System.out::println);
+//			System.out.println("ASDASD------------");
+			
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" question created!");
 			currentInstance.addMessage(null, facesMessage);

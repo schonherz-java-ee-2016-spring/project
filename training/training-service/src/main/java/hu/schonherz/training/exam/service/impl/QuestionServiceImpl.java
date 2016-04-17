@@ -13,7 +13,9 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.exam.repository.QuestionRepository;
 import hu.schonherz.training.exam.service.QuestionService;
+import hu.schonherz.training.exam.service.mapper.ExamMapper;
 import hu.schonherz.training.exam.service.mapper.QuestionMapper;
+import hu.schonherz.training.exam.vo.ExamVo;
 import hu.schonherz.training.exam.vo.QuestionVo;
 
 @Stateless(mappedName = "QuestionService", name = "QuestionService")
@@ -33,16 +35,29 @@ public class QuestionServiceImpl implements QuestionService {
 			questionRepository.saveAndFlush(QuestionMapper.toDto(questionVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
 	}
 
 	@Override
 	public void removeQuestion(QuestionVo questionVo) {
 		try {
-//			questionRepository.delete(QuestionMapper.toDto(questionVo));
 			questionRepository.delete(QuestionMapper.toDto(questionVo).getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
+	}
+
+	@Override
+	public QuestionVo getQuestionById(Long id) throws Exception {
+		QuestionVo questionVo = null;
+		try {
+//			questionVo = QuestionMapper.toVo(questionRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+		return questionVo;
 	}
 }

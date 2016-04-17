@@ -39,11 +39,10 @@ public class ExamServiceImpl implements ExamService {
 			throw ex;
 		}
 	}
-	
 
 	@Override
 	public List<ExamVo> getExamListSortedById() throws Exception {
-	
+
 		try {
 			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
 		} catch (Exception ex) {
@@ -83,9 +82,6 @@ public class ExamServiceImpl implements ExamService {
 			throw ex;
 		}
 		return examVo;
-		
-	}
 
-	
-	
+	}
 }

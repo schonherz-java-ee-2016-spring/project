@@ -43,19 +43,19 @@ INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, scor
 
 -- Exam-module
 
-INSERT INTO public.exam(id, title) VALUES(1, 'JPA');
-INSERT INTO public.exam(id, title) VALUES(2, 'EJB');
-INSERT INTO public.exam(id, title) VALUES(3, 'JSF');
-INSERT INTO public.exam(id, title) VALUES(4, 'Macska');
+INSERT INTO public.exam(id, title) VALUES(2001, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2002, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2003, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2004, 'Macska');
 
 
-INSERT INTO public.question(id, text, exam_id) VALUES(1, 'First question for JPA', 1);
-INSERT INTO public.question(id, text, exam_id) VALUES(2, 'First question for EJB', 2);
-INSERT INTO public.question(id, text, exam_id) VALUES(3, 'First question for JSF', 3);
-INSERT INTO public.question(id, text, exam_id) VALUES(4, 'First question for Macska', 4);
-INSERT INTO public.question(id, text, exam_id) VALUES(5, 'Second question for Macska', 4);
+INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'First question for JPA', 2001);
+INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'First question for EJB', 2002);
+INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'First question for JSF', 2003);
+INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'First question for Macska', 2004);
+INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Second question for Macska', 2004);
 
 
-INSERT INTO public.question_type(id, name) VALUES(1, 'One answer');
-INSERT INTO public.question_type(id, name) VALUES(2, 'Many answer');
-INSERT INTO public.question_type(id, name) VALUES(3, 'Text answer');
+INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
+INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
+INSERT INTO public.question_type(id, name) VALUES(3, 'Text');

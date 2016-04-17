@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -27,7 +28,7 @@ public class Question extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
-	
+
 	// Rich text pls
 	/**
 	 * The text (or picture) of the Question
@@ -44,7 +45,7 @@ public class Question extends BaseEntity {
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
 
-	@OneToMany(mappedBy = "question")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
 	private List<Option> optionList;
 
 	public Question() {

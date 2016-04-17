@@ -2,8 +2,10 @@ package hu.schonherz.training.exam.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,7 +19,7 @@ import hu.schonherz.training.entity.BaseEntity;
 public class QuestionType extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy = "questionType")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionType")
 	private List<Question> questionList;
 
 	/**

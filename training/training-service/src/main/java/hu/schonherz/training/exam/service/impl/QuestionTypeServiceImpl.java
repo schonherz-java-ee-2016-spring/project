@@ -35,6 +35,7 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 			questionTypeRepository.saveAndFlush(QuestionTypeMapper.toDto(questionTypeVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
 
 	}
