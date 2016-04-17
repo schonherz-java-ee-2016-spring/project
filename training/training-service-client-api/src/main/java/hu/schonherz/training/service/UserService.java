@@ -14,6 +14,7 @@ public interface UserService {
 	public UserVo findUserByEmail(String email) throws Exception;
 	
 	public List<UserVo> findAllUser() throws Exception;
-	
-	
+
+	public void updateUser(UserVo userVo);
+
 }
