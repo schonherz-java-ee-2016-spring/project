@@ -1,7 +1,6 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -174,20 +173,6 @@ public class UsersBean implements Serializable {
 				bundle.getString("succesUpdate"));
 		currentInstance.addMessage(null, facesMessage);
 //		selectedUser = new UserVo();
-	}
-
-	public List<UserVo> getAllUser() {
-		List<UserVo> vos = null;
-		try {
-			if (userService.findAllUser() == null) {
-				vos = new ArrayList<>();
-			} else {
-				vos = userService.findAllUser();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return vos;
 	}
 
 	public String getUsername() {
