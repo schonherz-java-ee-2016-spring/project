@@ -28,7 +28,7 @@ public class UsersBean implements Serializable {
 	private String email;
 	
 	private List<UserVo> users;
-	
+
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
 	

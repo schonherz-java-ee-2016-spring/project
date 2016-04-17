@@ -15,6 +15,10 @@ public class Role extends BaseEntity {
 
 	@Column(nullable = false, unique = true)
 	private String roleCode;
+	
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(name = "role", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rolegroup_id", referencedColumnName = "id"))
+//	private Collection<Role> roles;
 
 	public String getName() {
 		return name;

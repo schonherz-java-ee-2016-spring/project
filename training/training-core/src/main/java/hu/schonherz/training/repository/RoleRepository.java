@@ -11,4 +11,8 @@ import hu.schonherz.training.entity.Role;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+
+	Role findByName(String name);
+	
+	Role findByRoleCode(String roleCode);
 }
