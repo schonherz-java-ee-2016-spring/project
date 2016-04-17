@@ -109,12 +109,26 @@ public class UserGroupsBean implements Serializable {
 
 	public void saveUsers() {
 		for (UserVo userVo : users.getSource()) {
-			userVo.getGroups().remove(selected);
+			Collection<UserGroupVo> ugvo = userVo.getGroups();
+			for (UserGroupVo userGroupVo : ugvo) {
+				if (userGroupVo.getId().equals(selected.getId())){
+					ugvo.remove(userGroupVo);
+					break;
+				}
+			}
+			userVo.setGroups(ugvo);
 			userService.updateUser(userVo);
 		}
 		for (UserVo userVo : users.getTarget()) {
-			userVo.getGroups().remove(selected);
-			userVo.getGroups().add(selected);
+			Collection<UserGroupVo> ugvo = userVo.getGroups();
+			for (UserGroupVo userGroupVo : ugvo) {
+				if (userGroupVo.getId().equals(selected.getId())){
+					ugvo.remove(userGroupVo);
+					break;
+				}
+			}
+			ugvo.add(selected);
+			userVo.setGroups(ugvo);
 			userService.updateUser(userVo);
 		}
 	}
