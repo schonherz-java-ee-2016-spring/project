@@ -1,12 +1,14 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,73 +29,69 @@ public class CreateUserBean implements Serializable {
 	private String fullname;
 	private String email;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
+	public void create() throws Exception {
 
-	public void create() {
-		UserVo user = null;
-		UserVo useremail = null;
-		UserVo userVo = new UserVo();
+		UserVo validUsername = new UserVo();
+		UserVo validemail = new UserVo();
 		try {
-			user = userService.findUserByName(username);
-			useremail = userService.findUserByEmail(email);
+			validUsername = userService.findUserByName(username);
+			validemail = userService.findUserByEmail(email);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
-
-		
-		
-		userVo.setUserName(username);
 		
 		if (username == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username must filled!");
-			currentInstance.addMessage(null, facesMessage);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameReq"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return;
 		}
-		if (user != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username already exists!");
-			currentInstance.addMessage(null, facesMessage);
+		if (validUsername != null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameExists"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return;
 		}
-		
-		userVo.setFullName(fullname);
-		
-		userVo.setEmail(email);
-		
 		if (email == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
-			currentInstance.addMessage(null, facesMessage);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailReq"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return;
 		}
-		if (useremail != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail already exists!");
-			currentInstance.addMessage(null, facesMessage);
+		if (validemail != null) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailExists"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return;
 		}
-
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
-		String uuid = UUID.randomUUID().toString();
-		
-		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
-		
 		try {
-			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
-			 userService.registrationUser(userVo);
+			UserVo uservo = new UserVo();
+			uservo.setUserName(username);
+			uservo.setEmail(email);
+			uservo.setFullName(fullname);
+			
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			String uuid = UUID.randomUUID().toString();
+			uservo.setPassword(bCryptPasswordEncoder.encode(uuid));
+			userService.registrationUser(uservo);
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("succesCreate"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
-			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
-		currentInstance.addMessage(null, facesMessage);
+		@SuppressWarnings("unused")
+		String username = null;
+		@SuppressWarnings("unused")
+		String fullname = null;		
+		@SuppressWarnings("unused")
+		String email = null;
+		
 	}
-	
-//	public String goToCreate() {
-//	    // ...
-//	    return "/public/createUser.xhtml";
-//	}
 
 	public String getUsername() {
 		return username;
@@ -125,6 +123,14 @@ public class CreateUserBean implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 	
 }

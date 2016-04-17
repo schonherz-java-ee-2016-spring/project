@@ -57,7 +57,7 @@
 				<f:facet name="footer">
 					<p:growl id="message" showDetail="true" />
 					<p:commandButton id="deleteButton" process="dataTable"
-						update="growl,createUserForm" icon="ui-icon-trash"
+						update=":createUserForm:dataTable" icon="ui-icon-trash"
 						value="#{out.delete}" disabled="#{(usersBean.selected)}"
 						action="#{usersBean.deleteUser}" oncomplete="dlg1.hide">
 						<p:confirm header="#{out.confirmation}"
@@ -81,7 +81,7 @@
 				<div class="form-group">
 					<label for="username" class="col-sm-4">#{out.username}</label>
 					<div class="col-sm-8">
-						<p:inputText styleClass="form-control" id="username" value="#{usersBean.username}"
+						<p:inputText styleClass="form-control" id="username" value="#{createUserBean.username}"
 							required="true" label="username">
 							<f:validateRequired />
 						</p:inputText>
@@ -90,7 +90,7 @@
 				<div class="form-group">
 					<label for="fullname" class="col-sm-4">#{out.fullname}</label>
 					<div class="col-sm-8">
-						<p:inputText styleClass="form-control" id="fullname" value="#{usersBean.fullname}"
+						<p:inputText styleClass="form-control" id="fullname" value="#{createUserBean.fullname}"
 							required="true" label="fullname">
 							<f:validateRequired />
 						</p:inputText>
@@ -99,14 +99,16 @@
 				<div class="form-group">
 					<label for="email" class="col-sm-4">#{out.email}</label>
 					<div class="col-sm-8">
-						<p:inputText styleClass="form-control" id="email" value="#{usersBean.email}"
+						<p:inputText styleClass="form-control" id="email" value="#{createUserBean.email}"
 							required="true" label="email">
 							<f:validateRequired />
 						</p:inputText>
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,form,createUserForm"
-					action="#{usersBean.create}" icon="ui-icon-check" oncomplete="dlg1.hide)"/>
+					action="#{createUserBean.create()}" icon="ui-icon-check" onsuccess="dlg1.hide)"/>
+				<p:commandButton styleClass="btn" value="#{out.cancel}" 
+					 onclick="dlg1.hide)" icon="ui-icon-check" />
 			</h:form>
 		</p:dialog>
 
