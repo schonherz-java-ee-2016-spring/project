@@ -79,5 +79,9 @@
 		<local>hu.schonherz.training.service.UserService</local>
 	</ejb-local-ref>
 	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb.InterviewService</ejb-ref-name>
+		<local>hu.schonherz.training.supervisor.service.InterviewService</local>
+	</ejb-local-ref>
 	
 </web-app>

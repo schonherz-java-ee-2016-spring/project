@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.supervisor.service.InterviewService;
@@ -14,7 +14,7 @@ import hu.schonherz.training.supervisor.vo.InterviewVo;
 import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name = "createInterviewBean")
-@SessionScoped
+@ViewScoped
 public class CreateInterviewBean implements Serializable {
 
 	/**

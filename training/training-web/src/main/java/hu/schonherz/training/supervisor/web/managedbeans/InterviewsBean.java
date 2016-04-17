@@ -8,13 +8,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.supervisor.service.InterviewService;
 import hu.schonherz.training.supervisor.vo.InterviewVo;
 
 @ManagedBean(name = "interviewsBean")
-@SessionScoped
+@ViewScoped
 public class InterviewsBean implements Serializable {
 
 	/**
@@ -26,7 +26,6 @@ public class InterviewsBean implements Serializable {
 	private InterviewService interviewService;
 
 	private String company;
-	private String description;
 	private Date interviewDate;
 	private Long interviewedId;
 	private Long interviewerId;
@@ -69,21 +68,6 @@ public class InterviewsBean implements Serializable {
 	 */
 	public void setCompany(String company) {
 		this.company = company;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	/**

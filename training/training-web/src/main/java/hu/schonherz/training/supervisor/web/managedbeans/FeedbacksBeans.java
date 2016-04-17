@@ -7,13 +7,13 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.supervisor.service.FeedbackService;
 import hu.schonherz.training.supervisor.vo.FeedbackVo;
 
 @ManagedBean(name = "feedbacksBean")
-@SessionScoped
+@ViewScoped
 public class FeedbacksBeans implements Serializable {
 
 	/**

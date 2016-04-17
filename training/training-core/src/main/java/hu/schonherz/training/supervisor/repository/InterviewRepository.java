@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.schonherz.training.supervisor.entity.Interview;
 
 @Repository
-@Transactional(propagation = Propagation.SUPPORTS)
+@Transactional(propagation = Propagation.REQUIRED)
 public interface InterviewRepository extends JpaRepository<Interview, Long> {
 
 }

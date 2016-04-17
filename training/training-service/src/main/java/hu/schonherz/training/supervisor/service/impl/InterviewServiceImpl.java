@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.repository.UserRepository;
 import hu.schonherz.training.supervisor.entity.Interview;
 import hu.schonherz.training.supervisor.repository.InterviewRepository;
 import hu.schonherz.training.supervisor.service.InterviewService;
@@ -29,9 +30,17 @@ public class InterviewServiceImpl implements InterviewService {
 
 	static final Logger logger = LogManager.getLogger(InterviewServiceImpl.class.getName());
 
+	public InterviewServiceImpl() {
+		
+	}
+	
 	@Autowired
 	InterviewRepository interviewRepository;
 
+	@Autowired
+	UserRepository userRepository;
+	
+	
 	@Override
 	public void addInterview(InterviewVo interviewVo) throws Exception {
 		try {
@@ -49,7 +58,13 @@ public class InterviewServiceImpl implements InterviewService {
 
 	@Override
 	public List<InterviewVo> getAll() throws Exception {
-		return InterviewMapper.toVo(interviewRepository.findAll());
+		List<InterviewVo> interviewVos;
+		if(interviewRepository.findAll() == null) {
+			interviewVos = new ArrayList<>();
+		} else {
+			interviewVos = InterviewMapper.toVo(interviewRepository.findAll());
+		}
+		return interviewVos;
 	}
 
 	@Override
