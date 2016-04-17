@@ -1,6 +1,7 @@
 package hu.schonherz.training.exam.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -19,19 +20,10 @@ import hu.schonherz.training.entity.BaseEntity;
 public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The {@link Answer} which has the text attached to it
-	 * 
-	 * Represented as {@code answer_id} in the database
-	 */
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Answer answer;
 
-	/**
-	 * The submitted text answer
-	 */
-	// @Type(type = "org.hibernate.type.StringClobType")
 	@Lob
 	private String text;
 
@@ -39,33 +31,20 @@ public class AnswerText extends BaseEntity {
 		super();
 	}
 
-	/**
-	 * @return the answer
-	 */
 	public Answer getAnswer() {
 		return answer;
 	}
 
-	/**
-	 * @param answer
-	 *            the answer to set
-	 */
 	public void setAnswer(Answer answer) {
 		this.answer = answer;
 	}
 
-	/**
-	 * @return the text
-	 */
 	public String getText() {
 		return text;
 	}
 
-	/**
-	 * @param text
-	 *            the text to set
-	 */
 	public void setText(String text) {
 		this.text = text;
 	}
+
 }

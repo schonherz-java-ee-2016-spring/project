@@ -20,28 +20,14 @@ import hu.schonherz.training.entity.BaseEntity;
 public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * The {@link Exam} of the Question
-	 * 
-	 * Represented as {@code type_id} in the database
-	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
 
-	// Rich text pls
-	/**
-	 * The text (or picture) of the Question
-	 */
 	@Column(name = "text")
 	private String text;
 
-	/**
-	 * The {@link QuestionType} of the Question
-	 * 
-	 * Represented as {@code type_id} in the database
-	 */
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
 
@@ -52,27 +38,28 @@ public class Question extends BaseEntity {
 		super();
 	}
 
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
-
-	/**
-	 * @param text
-	 *            the text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
-	}
-
 	public Exam getExam() {
 		return exam;
 	}
 
 	public void setExam(Exam exam) {
 		this.exam = exam;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public QuestionType getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(QuestionType questionType) {
+		this.questionType = questionType;
 	}
 
 	public List<Option> getOptionList() {

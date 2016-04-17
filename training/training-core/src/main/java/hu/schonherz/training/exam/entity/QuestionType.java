@@ -18,36 +18,15 @@ import hu.schonherz.training.entity.BaseEntity;
 @Table(name = "question_type")
 public class QuestionType extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "questionType")
 	private List<Question> questionList;
 
-	/**
-	 * The name of the Question type
-	 * 
-	 * Every Name is unique
-	 * Names cannot be empty
-	 */
 	@Column(nullable = false, unique = true)
 	private String name;
 
 	public QuestionType() {
 		super();
-	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Question> getQuestionList() {
@@ -56,6 +35,14 @@ public class QuestionType extends BaseEntity {
 
 	public void setQuestionList(List<Question> questionList) {
 		this.questionList = questionList;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

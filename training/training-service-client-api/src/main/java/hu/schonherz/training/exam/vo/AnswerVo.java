@@ -1,31 +1,18 @@
 package hu.schonherz.training.exam.vo;
 
-import java.io.Serializable;
-
 import hu.schonherz.training.vo.UserVo;
 
-public class AnswerVo implements Serializable {
+public class AnswerVo extends BaseIdentityVo {
+	private static final long serialVersionUID = 844532347627686325L;
 
-	private static final long serialVersionUID = 1L;
-
-	private Long id;
 	private UserVo user;
 	private OptionVo option;
 	private Boolean good;
-	
 	private AnswerNoteVo answerNote;
 	private AnswerTextVo answerText;
 
 	public AnswerVo() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public UserVo getUser() {
@@ -44,7 +31,7 @@ public class AnswerVo implements Serializable {
 		this.option = option;
 	}
 
-	public Boolean getGood() {
+	public Boolean isGood() {
 		return good;
 	}
 

@@ -21,7 +21,6 @@ import hu.schonherz.training.exam.vo.QuestionVo;
 @ManagedBean(name = "questionBean")
 @SessionScoped
 public class QuestionBean implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@EJB
@@ -31,21 +30,15 @@ public class QuestionBean implements Serializable {
 	@EJB
 	private QuestionTypeService questionTypeService;
 
-	private String newQuestionExamID;
 	private String newQuestionText;
 	private String questionTypeIdAsString;
 	private String examIdAsString;
-	private Integer newQuestionType;
-
-	public String goToCreateQuestionPage() {
-		return "createQuestion";
-	}
 
 	public List<QuestionVo> getQuestionList() {
 		Long examId = Long.parseLong(examIdAsString);
 		List<QuestionVo> questionVoList = null;
 		try {
-			questionVoList = examService.getExamById(examId).getQuestionList();
+			questionVoList = examService.findById(examId).getQuestionList();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -55,48 +48,22 @@ public class QuestionBean implements Serializable {
 	public List<QuestionTypeVo> getQuestionTypeList() {
 		List<QuestionTypeVo> questionTypeVoList = null;
 		try {
-			questionTypeVoList = questionTypeService.getQuestionTypeList();
+			questionTypeVoList = questionTypeService.findAll();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return questionTypeVoList;
 	}
 
+	
+
 	public void registerNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-
-		if (newQuestionText.isEmpty()) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Text field is empty!");
-			currentInstance.addMessage(null, facesMessage);
-			return;
-		}
-		
-		QuestionTypeVo questionTypeVo = questionTypeService.getQuestionTypeById(Long.parseLong(questionTypeIdAsString));
-		
-		ExamVo examVo = examService.getExamById(Long.parseLong(examIdAsString));
-		
 		QuestionVo questionVo = new QuestionVo();
-		questionVo.setExam(examVo);
-		questionVo.setOptionList(null);
-		questionVo.setQuestionType(questionTypeVo);
-		questionVo.setText(newQuestionText);
+		setUpQuestionVo(questionVo);
 
 		try {
-			questionService.createQuestion(questionVo);
-			
-//			System.out.println("ASDASD------------22");
-//			questionService.
-//			System.out.println("ASDASD------------22");
-			
-//			examVo = examService.getExamById(Long.parseLong(examIdAsString));
-//			System.out.println("ASDASD------------22");
-//			examVo.getQuestionList().forEach(System.out::println);
-//			System.out.println("ASDASD------------22");
-//			questionTypeVo = questionTypeService.getQuestionTypeById(Long.parseLong(questionTypeIdAsString));
-//			System.out.println("ASDASD------------");
-//			questionTypeVo.getQuestionList().forEach(System.out::println);
-//			System.out.println("ASDASD------------");
-			
+			questionService.create(questionVo);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" question created!");
 			currentInstance.addMessage(null, facesMessage);
@@ -133,22 +100,6 @@ public class QuestionBean implements Serializable {
 		this.examIdAsString = examIdAsString;
 	}
 
-	public String getNewQuestionExamID() {
-		return newQuestionExamID;
-	}
-
-	public void setNewQuestionExamID(String newQuestionExamID) {
-		this.newQuestionExamID = newQuestionExamID;
-	}
-
-	public Integer getNewQuestionType() {
-		return newQuestionType;
-	}
-
-	public void setNewQuestionType(Integer newQuestionType) {
-		this.newQuestionType = newQuestionType;
-	}
-
 	public ExamService getExamService() {
 		return examService;
 	}
@@ -171,6 +122,19 @@ public class QuestionBean implements Serializable {
 
 	public void setQuestionTypeIdAsString(String questionTypeAsString) {
 		this.questionTypeIdAsString = questionTypeAsString;
+	}
+	
+	private void setUpQuestionVo(QuestionVo questionVo) throws Exception {
+		Long questionTyId = Long.parseLong(questionTypeIdAsString);
+		Long examId = Long.parseLong(examIdAsString);
+
+		QuestionTypeVo questionTypeVo = questionTypeService.findById(questionTyId);
+		ExamVo examVo = examService.findById(examId);
+
+		questionVo.setExam(examVo);
+		questionVo.setOptionList(null);
+		questionVo.setQuestionType(questionTypeVo);
+		questionVo.setText(newQuestionText);
 	}
 
 }

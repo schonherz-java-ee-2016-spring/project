@@ -1,13 +1,10 @@
 package hu.schonherz.training.exam.vo;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class QuestionVo implements Serializable {
+public class QuestionVo extends BaseIdentityVo {
+	private static final long serialVersionUID = -3071254276606991707L;
 
-	private static final long serialVersionUID = 1L;
-
-	private Long id;
 	private ExamVo exam;
 	private String text;
 	private QuestionTypeVo questionType;
@@ -17,12 +14,12 @@ public class QuestionVo implements Serializable {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public ExamVo getExam() {
+		return exam;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setExam(ExamVo exam) {
+		this.exam = exam;
 	}
 
 	public String getText() {
@@ -47,14 +44,6 @@ public class QuestionVo implements Serializable {
 
 	public void setOptionList(List<OptionVo> optionList) {
 		this.optionList = optionList;
-	}
-
-	public ExamVo getExam() {
-		return exam;
-	}
-
-	public void setExam(ExamVo exam) {
-		this.exam = exam;
 	}
 
 }

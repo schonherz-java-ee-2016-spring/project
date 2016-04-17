@@ -31,7 +31,29 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public List<ExamVo> getExamList() throws Exception {
+	public void create(ExamVo vo) throws Exception {
+		try {
+			examRepository.saveAndFlush(ExamMapper.toDto(vo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public ExamVo findById(Long id) throws Exception {
+		ExamVo examVo = null;
+		try {
+			examVo = ExamMapper.toVo(examRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+		return examVo;
+	}
+
+	@Override
+	public List<ExamVo> findAll() throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAll());
 		} catch (Exception ex) {
@@ -41,8 +63,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamVo> getExamListSortedById() throws Exception {
-
+	public List<ExamVo> findAllSortedById() throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
 		} catch (Exception ex) {
@@ -52,17 +73,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void createExam(ExamVo examVo) throws Exception {
-		try {
-			examRepository.saveAndFlush(ExamMapper.toDto(examVo));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public void modifyExamTitle(ExamVo examVo) throws Exception {
+	public void modifyTitle(ExamVo examVo) throws Exception {
 		try {
 			Exam exam = ExamMapper.toDto(examVo);
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
@@ -72,16 +83,4 @@ public class ExamServiceImpl implements ExamService {
 		}
 	}
 
-	@Override
-	public ExamVo getExamById(Long id) throws Exception {
-		ExamVo examVo = null;
-		try {
-			examVo = ExamMapper.toVo(examRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-		return examVo;
-
-	}
 }

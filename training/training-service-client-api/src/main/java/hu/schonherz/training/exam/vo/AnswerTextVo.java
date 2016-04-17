@@ -1,21 +1,13 @@
 package hu.schonherz.training.exam.vo;
 
-public class AnswerTextVo {
+public class AnswerTextVo extends BaseIdentityVo {
+	private static final long serialVersionUID = -6407762391623541803L;
 
-	private Long id;
 	private AnswerVo answer;
 	private String text;
 
 	public AnswerTextVo() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public AnswerVo getAnswer() {

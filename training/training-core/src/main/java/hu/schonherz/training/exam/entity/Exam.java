@@ -18,17 +18,24 @@ import hu.schonherz.training.entity.BaseEntity;
 @Table(name = "exam")
 public class Exam extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * The title of the Exam
-	 * 
-	 * Every Title is unique Titles cannot be empty
-	 */
+	
 	@Column(unique = true, nullable = false)
 	private String title;
-
+	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "exam")
 	private List<Question> questionList;
+
+	public Exam() {
+		super();
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 	public List<Question> getQuestionList() {
 		return questionList;
@@ -37,25 +44,5 @@ public class Exam extends BaseEntity {
 	public void setQuestionList(List<Question> questionList) {
 		this.questionList = questionList;
 	}
-
-	public Exam() {
-		super();
-	}
-
-	/**
-	 * @return the title
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @param title
-	 *            the title to set
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 
 }

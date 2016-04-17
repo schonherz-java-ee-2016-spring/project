@@ -26,19 +26,20 @@ public class ExamBean implements Serializable {
 	private String newExamTitle;
 	private String examIdAsString;
 	private String modifiedTitle;
-	
+
 	public String goToExamDetailsPage() {
 		return "examDetails";
 	}
 
-	public void renameTitle() {
+	public void renameTitle() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
+
 		Long selectedExamId = Long.parseLong(examIdAsString);
+		ExamVo examVo = examService.findById(selectedExamId);
+		examVo.setTitle(modifiedTitle);
 
 		try {
-			ExamVo examVo = examService.getExamById(selectedExamId);
-			examVo.setTitle(modifiedTitle);
-			examService.modifyExamTitle(examVo);
+			examService.modifyTitle(examVo);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + modifiedTitle + "\" exam renamed!");
 			currentInstance.addMessage(null, facesMessage);
@@ -56,17 +57,11 @@ public class ExamBean implements Serializable {
 	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
-		if (newExamTitle.isEmpty()) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Name field is empty!");
-			currentInstance.addMessage(null, facesMessage);
-			return;
-		}
-
 		ExamVo exam = new ExamVo();
 		exam.setTitle(newExamTitle);
 
 		try {
-			getExamService().createExam(exam);
+			getExamService().create(exam);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newExamTitle + "\" exam created!");
 			currentInstance.addMessage(null, facesMessage);
@@ -83,7 +78,7 @@ public class ExamBean implements Serializable {
 	public List<ExamVo> getExamList() {
 		List<ExamVo> result = new ArrayList<ExamVo>();
 		try {
-			result = getExamService().getExamListSortedById();
+			result = getExamService().findAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

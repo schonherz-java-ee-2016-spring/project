@@ -1,5 +1,7 @@
 package hu.schonherz.training.exam.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -13,9 +15,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.exam.repository.QuestionRepository;
 import hu.schonherz.training.exam.service.QuestionService;
-import hu.schonherz.training.exam.service.mapper.ExamMapper;
 import hu.schonherz.training.exam.service.mapper.QuestionMapper;
-import hu.schonherz.training.exam.vo.ExamVo;
 import hu.schonherz.training.exam.vo.QuestionVo;
 
 @Stateless(mappedName = "QuestionService", name = "QuestionService")
@@ -30,9 +30,9 @@ public class QuestionServiceImpl implements QuestionService {
 	QuestionRepository questionRepository;
 
 	@Override
-	public void createQuestion(QuestionVo questionVo) throws Exception {
+	public void create(QuestionVo vo) throws Exception {
 		try {
-			questionRepository.saveAndFlush(QuestionMapper.toDto(questionVo));
+			questionRepository.saveAndFlush(QuestionMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -40,9 +40,9 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void removeQuestion(QuestionVo questionVo) {
+	public QuestionVo findById(Long id) throws Exception {
 		try {
-			questionRepository.delete(QuestionMapper.toDto(questionVo).getId());
+			return QuestionMapper.toVo(questionRepository.findOne(id));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -50,14 +50,12 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public QuestionVo getQuestionById(Long id) throws Exception {
-		QuestionVo questionVo = null;
+	public List<QuestionVo> findAll() throws Exception {
 		try {
-//			questionVo = QuestionMapper.toVo(questionRepository.findOne(id));
+			return QuestionMapper.toVo(questionRepository.findAll());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
-		return questionVo;
 	}
 }
