@@ -3,26 +3,34 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
 
 		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam">
-			<p:column headerText="Exam Id">
-    			#{exam.id}
-    		</p:column>
-			<p:column headerText="Exam Title">
-    			#{exam.title}
-    		</p:column>
+			<p:column headerText="Id">
+				<h:outputText value="#{exam.id}" />
+			</p:column>
+			<p:column headerText="Date created">
+				<h:outputText value="#{exam.recDate}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Title">
+				<h:outputText value="#{exam.title}" />
+			</p:column>
+			<p:column headerText="Number of questions">
+				<h:outputText value="#{fn:length(exam.questionList)}" />
+			</p:column>
 
 			<p:column headerText="Details">
 				<h:form id="form">
-					<h:commandButton
-						action="#{examBean.goToExamDetailsPage}"
-						value="More information(Click me)">
-						<f:setPropertyActionListener target="#{questionBean.examIdAsString}"
-							value="#{exam.id}" />
+					<h:commandButton action="#{examBean.goToExamDetailsPage}"
+						value="Details">
+						<f:setPropertyActionListener
+							target="#{questionBean.examIdAsString}" value="#{exam.id}" />
 					</h:commandButton>
 				</h:form>
 			</p:column>
@@ -55,8 +63,9 @@
 				<p:commandButton value="Rename Exam" />
 			</h:outputLink>
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-			
-			<p:dialog header="Rename" widgetVar="dlg" resizable="false" modal="true">
+
+			<p:dialog header="Rename" widgetVar="dlg" resizable="false"
+				modal="true">
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel for="examTitleList" value="Exam title:" />
 					<p:selectOneMenu id="examTitleList"
