@@ -19,36 +19,71 @@
 				</h:outputText>
 			</p:column>
 			<p:column headerText="Title">
-				<h:link outcome="questions">
-					<h:outputText value="#{exam.title}" />
-					<f:param name="requestedExamId" value="#{exam.id}"/>
-				</h:link>
+				<h:outputText value="#{exam.title}" />
 			</p:column>
 			<p:column headerText="Number of questions">
 				<h:outputText value="#{fn:length(exam.questionList)}" />
 			</p:column>
+
+			<p:column headerText="Details">
+				<h:form id="form">
+					<h:commandButton action="goToExamQuestionsPage"
+						value="Details">
+						<f:setPropertyActionListener
+							target="#{questionBean.examIdAsString}" value="#{exam.id}" />
+					</h:commandButton>
+				</h:form>
+			</p:column>
 		</p:dataTable>
 
 
-		<h:form id="newExamForm">
+		<h:form>
+			<p:panel id="panel" header="New Exam">
+				<p:messages id="msgs" showDetail="true" />
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="newExamTitle" value="Exam title:" />
+					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
+						required="true" label="newExamTitle">
+						<f:validateLength minimum="3" />
+						<p:ajax update="newExamTitleMsg" event="keyup" />
+					</p:inputText>
+					<p:message for="newExamTitle" display="icon" id="newExamTitleMsg" />
+
+
+				</h:panelGrid>
+				<p:commandButton value="Create" update="panel"
+					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
+			</p:panel>
+		</h:form>
+
+
+		<h:form id="renameForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
-				title="newExam">
-				<p:commandButton value="New exam" />
+				title="rename">
+				<p:commandButton value="Rename Exam" />
 			</h:outputLink>
 			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-			<p:dialog header="Add a new exam" widgetVar="dlg" resizable="false"
+			<p:dialog header="Rename" widgetVar="dlg" resizable="false"
 				modal="true">
 				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="newExamTitle" value="Title:" />
-					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
+					<p:outputLabel for="examTitleList" value="Exam title:" />
+					<p:selectOneMenu id="examTitleList"
+						value="#{examBean.examIdAsString}" panelStyle="position:fixed"
+						effect="fade" style="width:160px" filter="true"
+						filterMatchMode="startsWith">
+						<f:selectItems value="#{examBean.examList}" var="examVo"
+							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="modifiedTitle" value="New Title:" />
+					<p:inputText id="modifiedTitle" value="#{examBean.modifiedTitle}"
 						required="true">
 						<f:validateLength minimum="3" />
 					</p:inputText>
-
 					<f:facet name="footer">
-						<p:commandButton value="Create" update="growl"
-							actionListener="#{examBean.registerNewExam}" />
+						<p:commandButton value="Save" update="growl"
+							actionListener="#{examBean.renameExamTitle}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>

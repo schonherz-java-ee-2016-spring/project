@@ -27,11 +27,9 @@ public class ExamBean implements Serializable {
 	private String examIdAsString;
 	private String modifiedTitle;
 
-	public String goToQuestionsPage() {
-		return "questions.xhtml";
-	}
+	
 
-	public void renameTitle() throws Exception {
+	public void renameExamTitle() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
 		Long selectedExamId = Long.parseLong(examIdAsString);
@@ -78,7 +76,7 @@ public class ExamBean implements Serializable {
 	public List<ExamVo> getExamList() {
 		List<ExamVo> result = new ArrayList<ExamVo>();
 		try {
-			result = getExamService().findAll();
+			result = getExamService().findAllSortedById();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

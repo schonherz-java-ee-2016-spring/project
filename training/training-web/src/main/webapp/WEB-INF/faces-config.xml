@@ -5,11 +5,8 @@
         http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
 	
-
 	<application>
-	
 	 <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
-	 
 		<locale-config>
 			<default-locale>hu_HU</default-locale>
 			<supported-locale>en</supported-locale>
@@ -21,7 +18,37 @@
             </base-name>
             <var>out</var>	
         </resource-bundle>
-		
-		
 	</application>
+	
+	 <navigation-rule>
+		<from-view-id>/testfeatures/exams.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/examQuestions.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToSingleQuestionPage</from-outcome>
+			<to-view-id>/testfeatures/singleQuestion.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToMultipleQuestionPage</from-outcome>
+			<to-view-id>/testfeatures/multipleQuestion.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToTextbasedQuestionPage</from-outcome>
+			<to-view-id>/testfeatures/textbasedQuestion.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	
+
 </faces-config>

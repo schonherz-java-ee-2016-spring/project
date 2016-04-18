@@ -33,28 +33,6 @@ public class QuestionBean implements Serializable {
 	private String newQuestionText;
 	private String questionTypeIdAsString;
 	private String examIdAsString;
-	private String requestedQuestionId;
-
-	public String goToQuestionDetailsPage() {
-		System.out.println("PAISJAHSIASPISHPSHAPISITT IS");
-		System.out.println(requestedQuestionId);
-		int questionTypeId = Integer.parseInt(requestedQuestionId);
-
-		switch (questionTypeId) {
-		case 1:
-			return "questionSingle";
-		case 2:
-			return "questionMulti";
-		case 3:
-			return "questionTextbased";
-		default:
-			System.out.println("PAISJAHSIASPISHPSHAPIS");
-			System.out.println("PAISJAHSIASPISHPSHAPIS");
-			System.out.println("PAISJAHSIASPISHPSHAPIS");
-			System.out.println("PAISJAHSIASPISHPSHAPIS");
-			return "";
-		}
-	}
 
 	public List<QuestionVo> getQuestionList() {
 		Long examId = Long.parseLong(examIdAsString);
@@ -76,6 +54,8 @@ public class QuestionBean implements Serializable {
 		}
 		return questionTypeVoList;
 	}
+
+	
 
 	public void registerNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
@@ -144,7 +124,6 @@ public class QuestionBean implements Serializable {
 		this.questionTypeIdAsString = questionTypeAsString;
 	}
 	
-
 	private void setUpQuestionVo(QuestionVo questionVo) throws Exception {
 		Long questionTyId = Long.parseLong(questionTypeIdAsString);
 		Long examId = Long.parseLong(examIdAsString);
@@ -156,20 +135,6 @@ public class QuestionBean implements Serializable {
 		questionVo.setOptionList(null);
 		questionVo.setQuestionType(questionTypeVo);
 		questionVo.setText(newQuestionText);
-	}
-
-	/**
-	 * @return the requestedQuestionId
-	 */
-	public String getRequestedQuestionId() {
-		return requestedQuestionId;
-	}
-
-	/**
-	 * @param requestedQuestionId the requestedQuestionId to set
-	 */
-	public void setRequestedQuestionId(String requestedQuestionId) {
-		this.requestedQuestionId = requestedQuestionId;
 	}
 
 }
