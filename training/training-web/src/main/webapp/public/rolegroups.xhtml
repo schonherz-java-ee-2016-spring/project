@@ -16,34 +16,34 @@
 				 rows="12"
 				 rowsPerPageTemplate="4,8,12">
 	
-				<p:column headerText="id">
+				<p:column headerText="#{out.jogid}">
 					<h:outputText value="#{rolegroup.id}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="modDate">
+				<p:column headerText="#{out.moddate}">
 					<h:outputText value="#{rolegroup.modDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="modUser">
+				<p:column headerText="#{out.moduser}">
 					<h:outputText value="#{rolegroup.modUser}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="name">
+				<p:column headerText="#{out.jognev}">
 					<h:outputText value="#{rolegroup.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="recDate">
+				<p:column headerText="#{out.recdate}">
 					<h:outputText value="#{rolegroup.recDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="recUser">
+				<p:column headerText="#{out.recuser}">
 					<h:outputText value="#{rolegroup.recUser}">
 					</h:outputText>
 				</p:column>
 <!-- 				Valahogy meg kellene oldani hogy a jogcsoporthoz tartozó jogokat is meg tudja jelenítani -->
-				<p:column headerText="roles">
+				<p:column headerText="#{out.jogok}">
 					<p:dataList value="#{rolegroup.roles}" var="role" >
         				#{role.name}
     				</p:dataList>
@@ -53,52 +53,53 @@
 				<f:facet name="footer">
 				<!-- Create -->
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
-									value="Create role group"
+									value="#{out.createrolegroup}"
 									onclick="PF('createDialog').show();" />
 				<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 									process="rolegrouptable" 
 									disabled="#{roleGroupsBean.disabled}"
-									value="Edit selected role group" 
+									value="#{out.modifyrolegroup}" 
 									onclick="PF('editDialog').show();" />
 				<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 									process="rolegrouptable"
 									update="growl,:roleform:rolegrouptable"
 									disabled="#{roleGroupsBean.disabled}"
-									value="Delete Selected group"
+									value="#{out.deleterolegroup}"
 									action="#{roleGroupsBean.delete()}" >
 						
 						<p:confirm icon="ui-icon-alert"
-								  header="Delete Role Group" 
-								  message="Are you sure you want to delete?" /> 
+								  header="#{out.deletergconfirmh}" 
+								  message="#{out.deletergconfirm}" /> 
 					</p:commandButton>
 					
 					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
 									 process="rolegrouptable"
 									 update="growl,:roleform:rolegrouptable"
-									 value="Manage roles"
-									 onclick="PF('manageDialog').show();">
+									 disabled="#{roleGroupsBean.disabled}"
+									 value="#{out.managerolesofrolegroup}"
+									 onclick="PF('manageDialog').show();" >
 					
 					</p:commandButton>
 				</f:facet>
 				<p:ajax event="rowSelect" 
 				listener="#{roleGroupsBean.onRowSelect}" 
-				update="growl,editButton,deleteButton" />
+				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList" />
 				
 			</p:dataTable>
 			</h:form>
 			
 			<p:confirmDialog global="true" responsive="true" showEffect="clip">
-				<p:commandButton value="Yes" type="button" update="growl,:roleform:rolegrouptable" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				<p:commandButton value="#{out.yes}" type="button" update="growl,:roleform:rolegrouptable" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="#{out.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 			
-			<p:dialog header="Create new Role Group" widgetVar="createDialog" modal="true" height="100"
+			<p:dialog header="#{out.createrolegroup}" widgetVar="createDialog" modal="true" height="100"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="newrolegroup" styleClass="form-horizontal" >
     				<div class="form-group">
-						<label for="rolegroupname" class="col-sm-3">Role Group name</label>
+						<label for="rolegroupname" class="col-sm-3">#{out.rolegroupname}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolegroupname"
 								value="#{roleGroupsBean.roleGroupName}" required="true"
@@ -106,7 +107,7 @@
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="Save" update="growl,:roleform:rolegrouptable"
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
 					action="#{roleGroupsBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
     			</h:form>
     			<script type="text/javascript">
@@ -116,11 +117,11 @@
 				</script>
 			</p:dialog>  
 			
-			<p:dialog header="Edit Role Group" widgetVar="editDialog" modal="true" height="100"
+			<p:dialog header="#{out.modifyrolegroup}" widgetVar="editDialog" modal="true" height="100"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="editrolegroup" styleClass="form-horizontal" >
     				<div class="form-group">
-						<label for="rolegroupname" class="col-sm-3">Role Group name</label>
+						<label for="rolegroupname" class="col-sm-3">#{out.rolegroupname}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolegroupname"
 								value="#{roleGroupsBean.roleGroupName}" required="true"
@@ -128,7 +129,7 @@
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="Save" update="growl,:roleform:rolegrouptable"
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
 					action="#{roleGroupsBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
     			</h:form>
     			<script type="text/javascript">
@@ -138,18 +139,28 @@
 				</script>
 			</p:dialog>   
 			
-			<p:dialog header="Manage Roles" widgetVar="manageDialog" modal="true" height="100"
+			<p:dialog header="#{out.managerolesofrolegroup}" widgetVar="manageDialog" modal="true" 
 						resizable="false" draggable="false" responsive="true" >
+    				<h:form id="pickform">
+	    				<p:pickList id="pickList" 
+		    				value="#{roleGroupsBean.selectedRoleGroup_sRoles}" 
+		    				var="roles"
+		    				itemValue="#{roles}"
+		    				itemLabel="#{roles.name}"
+		    				converter="RoleConverter">
+			
+	    				
+	    				</p:pickList>
     				
-<!--     				<p:pickList id="pickList"  -->
-<!--     				value="#{roleGroupsBean.selectedRoleGroup_sRoles}"  -->
-<!--     				var="roles"  -->
-<!--     				itemLabel="available"  -->
-<!--     				itemValue="in role group" > -->
-		
+	    				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
+						action="#{roleGroupsBean.saveManaged}" icon="ui-icon-check" oncomplete="closeManageDialog()"/>
+    				</h:form>
     				
-<!--     				</p:pickList> -->
-    				
+    				<script type="text/javascript">
+    				function closeManageDialog() {
+            			PF('manageDialog').hide();
+    				}
+				</script>
 			</p:dialog>  
 	
 	</ui:define>

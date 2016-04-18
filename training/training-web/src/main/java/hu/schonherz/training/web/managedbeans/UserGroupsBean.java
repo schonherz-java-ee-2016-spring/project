@@ -23,7 +23,6 @@ import hu.schonherz.training.vo.UserVo;
 @ManagedBean(name = "userGroupsBean")
 @ViewScoped
 public class UserGroupsBean implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@EJB
@@ -31,12 +30,21 @@ public class UserGroupsBean implements Serializable {
 
 	@EJB
 	private UserService userService;
-
 	private List<UserGroupVo> userGroups;
 
+	/**
+	 * DualListModel a picklist megvalósítás érdekében.
+	 */
 	private DualListModel<UserVo> users;
-	private List<UserVo> allUser;
+
+	/**
+	 * User lista, a picklist forrás oldalához.
+	 */
 	private List<UserVo> usersSource;
+
+	/**
+	 * User lista, a picklist cél oldalához.
+	 */
 	private List<UserVo> usersTarget;
 	/**
 	 * UserGroupVo a kiválasztott csoport és a dialog ablakban megjelenő csoport
@@ -50,16 +58,14 @@ public class UserGroupsBean implements Serializable {
 	private Boolean isDisabled = true;
 
 	/**
-	 * Init metódus, beolvassuk a csoportokat.
+	 * Init metódus, beolvassuk a csoportokat. Példányosítjuk amit kell.
 	 */
 	@PostConstruct
 	public void init() {
 		try {
-			usersSource = new ArrayList<>();
-			usersTarget = new ArrayList<>();
 			users = new DualListModel<>();
-			userGroups = userGroupService.getUserGroups();
 			selected = new UserGroupVo();
+			userGroups = userGroupService.getUserGroups();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -83,20 +89,27 @@ public class UserGroupsBean implements Serializable {
 		selected = new UserGroupVo();
 	}
 
+	
+	/**
+	 * Userek kezeléséhez létrehozott metódus, a picklist megfelelő feltöltésére
+	 */
 	public void manageAction() {
 		usersSource = new ArrayList<>();
 		usersTarget = new ArrayList<>();
 		try {
-			allUser = userService.findAllUser();
-			for (UserVo userVo : allUser) {
+			// Megkeressük a usereket és bejárjuk őket.
+			for (UserVo userVo : userService.findAllUser()) {
 				int o = 0;
+				// Bejárjuk a user csoportjait, ha van a selecteddel azonos
+				// csoportja van a cél oldalra kerül.
 				for (UserGroupVo group : userVo.getGroups()) {
 					if (group.getId().equals(selected.getId())) {
 						usersTarget.add(userVo);
 						o = 1 ;
-						// break;
+						break;
 					} 
 				}
+				// Ha nem került a cél oldalra tegyük a kezdő oldalra.
 				if (o != 1) {
 					usersSource.add(userVo);
 				}
@@ -104,21 +117,35 @@ public class UserGroupsBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		// A picklisthez gyártsuk le a két oldal listájával
 		users = new DualListModel<UserVo>(usersSource, usersTarget);
 	}
 
+	/**
+	 * Userek picklist utáni mentése
+	 */
 	public void saveUsers() {
+		// Bejárjuk a lista forrás (csoportba nem lévő userek) oldalát
 		for (UserVo userVo : users.getSource()) {
+			// lekérjük a user csoportjait
 			Collection<UserGroupVo> ugvo = userVo.getGroups();
+			// bejárjuk a csoportokat
 			for (UserGroupVo userGroupVo : ugvo) {
+				// Ha van köztük az aktuálisan kezelt csoportnak megfelelő
+				// Akkor azt töröljük a listából, és ezzel kész vagyunk
 				if (userGroupVo.getId().equals(selected.getId())){
 					ugvo.remove(userGroupVo);
 					break;
 				}
 			}
+			// Vissza adjuk neki az új csoportot, frissítjük a usert.
 			userVo.setGroups(ugvo);
 			userService.updateUser(userVo);
 		}
+		// Megtesszük az előbbi folyamatot a cél oldalon, csak itt újra
+		// felvesszük neki
+		// Mivel lehet olyan user aki újonnan kapja a csoportot, és olyan is
+		// akinek már volt
 		for (UserVo userVo : users.getTarget()) {
 			Collection<UserGroupVo> ugvo = userVo.getGroups();
 			for (UserGroupVo userGroupVo : ugvo) {
@@ -131,6 +158,8 @@ public class UserGroupsBean implements Serializable {
 			userVo.setGroups(ugvo);
 			userService.updateUser(userVo);
 		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Users saved!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	/**
@@ -233,13 +262,4 @@ public class UserGroupsBean implements Serializable {
 	public void setUsersTarget(List<UserVo> usersTarget) {
 		this.usersTarget = usersTarget;
 	}
-
-	public List<UserVo> getAllUser() {
-		return allUser;
-	}
-
-	public void setAllUser(List<UserVo> allUser) {
-		this.allUser = allUser;
-	}
-
 }
