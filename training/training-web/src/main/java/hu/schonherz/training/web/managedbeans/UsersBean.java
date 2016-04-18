@@ -7,15 +7,15 @@ import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name="usersBean")
-@SessionScoped
+@ViewScoped
 public class UsersBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
