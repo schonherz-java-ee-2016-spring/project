@@ -66,5 +66,14 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/singleQuestion.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 
 </faces-config>

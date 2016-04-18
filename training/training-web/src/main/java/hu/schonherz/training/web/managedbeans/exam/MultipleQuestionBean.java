@@ -67,6 +67,8 @@ public class MultipleQuestionBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
+		newOptions.clear();
+		newQuestionText = "";
 	}
 	
 	public void addNewOption() {
