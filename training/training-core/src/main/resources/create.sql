@@ -1,8 +1,8 @@
-INSERT INTO public.role( id, name)  VALUES (2001,'ROLE_1');
-INSERT INTO public.role( id, name)  VALUES (2002,'ROLE_2');
-INSERT INTO public.role( id, name)  VALUES (2003,'ROLE_3');
-INSERT INTO public.role( id, name)  VALUES (2004,'ROLE_4');
-INSERT INTO public.role( id, name)  VALUES (2005,'ROLE_5');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2001, 'ROLE_1','1');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2002,'ROLE_2','2');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2003,'ROLE_3','3');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2004,'ROLE_4','4');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2005,'ROLE_5','5');
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'ROLE_ADMIN');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'ROLE_INSTRUCTOR');
 INSERT INTO public.rolegroup( id, name)  VALUES (2003,'ROLE_STUDENT');
@@ -46,3 +46,9 @@ INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
 INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
 
 
+<<<<<<< HEAD
+=======
+INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, score, interview_id, rated_id, sender_id) VALUES (4001, 'The student was great, he/she will start to work next week.', to_date('06 Dec 2045', 'DD Mon YYYY'), TRUE, 5, 3001, 2003, 2004);
+
+ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
+>>>>>>> Supervisor-modul

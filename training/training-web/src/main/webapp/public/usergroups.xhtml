@@ -40,17 +40,21 @@
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" update="msgs,form"
-						action="#{userGroupsBean.createAction()}" value="#{out.creategroup}" onclick="PF('dialog').show();" />
+						action="#{userGroupsBean.createAction()}" value="#{out.creategroup}"
+						onclick="PF('dialog').show();" />
 					<p:commandButton id="editButton" process="gtable" icon="ui-icon-pencil"
 						disabled="#{userGroupsBean.isDisabled}" value="#{out.edit}" update="msgs,form"
 						onclick="PF('dialog').show();" />
+					<p:commandButton id="manageButton" process="gtable" icon="ui-icon-pencil"
+						disabled="#{userGroupsBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
+						action="#{userGroupsBean.manageAction()}" onclick="PF('pickdialog').show();" />
 					<p:commandButton id="deleteButton" process="gtable" update="msgs,:groupform:gtable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{userGroupsBean.isDisabled}"
 						action="#{userGroupsBean.deleteGroup()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton"
+				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton"
 					listener="#{userGroupsBean.selectGroupListener}" />
 			</p:dataTable>
 		</h:form>
@@ -61,13 +65,13 @@
 		</p:confirmDialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
-			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn"/>
+			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
 			<h:form styleClass="form-horizontal" id="form">
 				<div class="form-group">
 					<label for="groupname" class="col-sm-3">#{out.groupname}</label>
 					<div class="col-sm-9">
-						<p:inputText styleClass="form-control" id="groupname" value="#{userGroupsBean.selected.groupName}"
-							required="true" label="groupname">
+						<p:inputText styleClass="form-control" id="groupname"
+							value="#{userGroupsBean.selected.groupName}" required="true" label="groupname">
 							<f:validateRequired />
 							<f:validateLength minimum="8" />
 						</p:inputText>
@@ -76,15 +80,28 @@
 				<div class="form-group">
 					<label for="desc" class="col-sm-3">#{out.description}</label>
 					<div class="col-sm-9">
-						<p:inputTextarea styleClass="form-control" id="desc" value="#{userGroupsBean.selected.description}"
-							required="true" label="desc">
+						<p:inputTextarea styleClass="form-control" id="desc"
+							value="#{userGroupsBean.selected.description}" required="true" label="desc">
 							<f:validateRequired />
 							<f:validateLength maximum="1000" />
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="msgs,growl,:groupform:gtable"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="form,msgs,growl,:groupform:gtable"
 					action="#{userGroupsBean.save()}" icon="ui-icon-check" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog" modal="true"
+			resizable="false">
+			<h:form id="pickform">
+				<p:pickList id="pickList" value="#{userGroupsBean.users}" var="user"
+					itemLabel="#{user.fullName} (#{user.userName})" itemValue="#{user}"  converter="UserConverter">
+					<f:facet name="sourceCaption">#{out.notingroupusers}</f:facet>
+					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
+				</p:pickList>
+				<p:commandButton id="userSubmit" action="#{userGroupsBean.saveUsers()}" value="#{out.save}"
+					update=":groupform:gtable,growl" />
 			</h:form>
 		</p:dialog>
 	</ui:define>

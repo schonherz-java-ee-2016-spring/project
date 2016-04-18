@@ -43,10 +43,11 @@
 					</h:outputText>
 				</p:column>
 <!-- 				Valahogy meg kellene oldani hogy a jogcsoporthoz tartozó jogokat is meg tudja jelenítani -->
-<!-- 				<p:column headerText="roles"> -->
-<!-- 					<h:outputText value=""> -->
-<!-- 					</h:outputText> -->
-<!-- 				</p:column> -->
+				<p:column headerText="roles">
+					<p:dataList value="#{rolegroup.roles}" var="role" >
+        				#{role.name}
+    				</p:dataList>
+				</p:column>
 				
 				
 				<f:facet name="footer">
@@ -71,6 +72,14 @@
 						<p:confirm icon="ui-icon-alert"
 								  header="Delete Role Group" 
 								  message="Are you sure you want to delete?" /> 
+					</p:commandButton>
+					
+					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
+									 process="rolegrouptable"
+									 update="growl,:roleform:rolegrouptable"
+									 value="Manage roles"
+									 onclick="PF('manageDialog').show();">
+					
 					</p:commandButton>
 				</f:facet>
 				<p:ajax event="rowSelect" 
@@ -129,6 +138,19 @@
 				</script>
 			</p:dialog>   
 			
+			<p:dialog header="Manage Roles" widgetVar="manageDialog" modal="true" height="100"
+						resizable="false" draggable="false" responsive="true" >
+    				
+<!--     				<p:pickList id="pickList"  -->
+<!--     				value="#{roleGroupsBean.selectedRoleGroup_sRoles}"  -->
+<!--     				var="roles"  -->
+<!--     				itemLabel="available"  -->
+<!--     				itemValue="in role group" > -->
+		
+    				
+<!--     				</p:pickList> -->
+    				
+			</p:dialog>  
 	
 	</ui:define>
 	
