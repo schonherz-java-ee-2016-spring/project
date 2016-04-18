@@ -13,7 +13,6 @@
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>6.0-6</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -24,12 +23,10 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-core</artifactId>
-			<version>2.2.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.openejb</groupId>
 			<artifactId>openejb-core</artifactId>
-			<version>4.7.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -92,7 +89,6 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
 		</dependency>
 	</dependencies>
 	<build>
