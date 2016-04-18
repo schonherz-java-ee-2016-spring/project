@@ -3,7 +3,6 @@ package hu.schonherz.training.web.managedbeans.exam;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -36,12 +35,13 @@ public class SingleQuestionBean implements Serializable {
 	private OptionService optionService;
 
 	private String examIdAsString;
+
 	private QuestionVo newQuestion;
 	private String newQuestionText;
 
 	private List<OptionVo> newOptions;
+	private OptionVo correctOption;
 	private String newOptionText;
-	private boolean newOptionCorrect;
 
 	@PostConstruct
 	private void initBean() {
@@ -49,55 +49,52 @@ public class SingleQuestionBean implements Serializable {
 	}
 
 	public void saveNewQuestion() throws Exception {
-		
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
 		setUpQuestionVo(newQuestion);
+		newOptions.forEach(o -> o.setQuestion(newQuestion));
+		if (correctOption == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Only one option must be correct!");
+			currentInstance.addMessage(null, facesMessage);
+		} else {
+			correctOption.setCorrect(true);
+			try {
+				questionService.create(newQuestion);
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+						"\"" + newQuestionText + "\" question created!");
+				currentInstance.addMessage(null, facesMessage);
 
-		try {
-			boolean isOnlyOneRightOption = newOptions.stream().filter(o -> o.getCorrect()).collect(Collectors.toList())
-					.size() == 1;
-			if (!isOnlyOneRightOption) {
-				throw new IllegalStateException("There must be only one right answer!");
+				newOptions.clear();
+				newQuestionText = "";
+				RequestContext.getCurrentInstance().update("optionTableForm");
+				RequestContext.getCurrentInstance().update("questionTitleForm");
+			} catch (Exception e) {
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+						"Couldn't create question: \"" + newQuestionText + "\"");
+				currentInstance.addMessage(null, facesMessage);
+				e.printStackTrace();
 			}
-			
-			
-			questionService.create(newQuestion);
-			
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newQuestionText + "\" question created!");
-			currentInstance.addMessage(null, facesMessage);
-			
-		} catch (IllegalStateException ex) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create question: \"" + newQuestionText + "\"\n" + "There must be only one right answer!");
-			currentInstance.addMessage(null, facesMessage);
-			ex.printStackTrace();
-		} catch (Exception ex) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create question: \"" + newQuestionText + "\"");
-			currentInstance.addMessage(null, facesMessage);
-			ex.printStackTrace();
-		}
-		
-		cleanPropertites();
-		RequestContext.getCurrentInstance().update("optionTable");
 
+		}
 	}
 
 	public void addNewOption() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		newOptions.add(optionVo);
-		RequestContext.getCurrentInstance().update("optionTable");
-	}
-
-	private void cleanPropertites() {
-		newQuestion = null;
-		newOptions.clear();
-		newQuestionText = "";
-		newOptionText = "";
-		newOptionCorrect = false;
+		if (newOptions.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
+				.count() > 0) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Option already exists: \"" + optionVo.getOptionText() + "\"");
+			currentInstance.addMessage(null, facesMessage);
+		} else {
+			newOptions.add(optionVo);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+					"\"" + optionVo.getOptionText() + "\" option created!");
+			currentInstance.addMessage(null, facesMessage);
+		}
+		RequestContext.getCurrentInstance().update("optionTableForm");
 	}
 
 	public QuestionService getQuestionService() {
@@ -156,25 +153,16 @@ public class SingleQuestionBean implements Serializable {
 		this.newOptionText = newOptionText;
 	}
 
-	public boolean isNewOptionCorrect() {
-		return newOptionCorrect;
-	}
-
-	public void setNewOptionCorrect(boolean newOptionCorrect) {
-		this.newOptionCorrect = newOptionCorrect;
-	}
-
 	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
 		questionVo.setExam(examService.findById(Long.parseLong(examIdAsString)));
 		questionVo.setOptionList(newOptions);
-		questionVo.setQuestionType(questionTypeService.findById(1L));
+		questionVo.setQuestionType(questionTypeService.findById(2L));
 		questionVo.setText(newQuestionText);
 	}
 
 	private void setUpOptionVo(OptionVo optionVo) {
 		optionVo.setQuestion(newQuestion);
 		optionVo.setOptionText(newOptionText);
-		optionVo.setCorrect(newOptionCorrect);
 	}
 
 	public QuestionTypeService getQuestionTypeService() {
@@ -191,5 +179,14 @@ public class SingleQuestionBean implements Serializable {
 
 	public void setExamService(ExamService examService) {
 		this.examService = examService;
+	}
+
+
+	public OptionVo getCorrectOption() {
+		return correctOption;
+	}
+
+	public void setCorrectOption(OptionVo correctOption) {
+		this.correctOption = correctOption;
 	}
 }
