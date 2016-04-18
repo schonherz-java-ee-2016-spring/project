@@ -84,7 +84,7 @@
 				</f:facet>
 				<p:ajax event="rowSelect" 
 				listener="#{roleGroupsBean.onRowSelect}" 
-				update="growl,editButton,deleteButton" />
+				update="growl,editButton,deleteButton,:pickform:pickList" />
 				
 			</p:dataTable>
 			</h:form>
@@ -138,18 +138,28 @@
 				</script>
 			</p:dialog>   
 			
-			<p:dialog header="Manage Roles" widgetVar="manageDialog" modal="true" height="100"
+			<p:dialog header="Manage Roles" widgetVar="manageDialog" modal="true" 
 						resizable="false" draggable="false" responsive="true" >
+    				<h:form id="pickform">
+	    				<p:pickList id="pickList" 
+		    				value="#{roleGroupsBean.selectedRoleGroup_sRoles}" 
+		    				var="roles"
+		    				itemValue="#{roles}"
+		    				itemLabel="#{roles.name}"
+		    				converter="RoleConverter">
+			
+	    				
+	    				</p:pickList>
     				
-<!--     				<p:pickList id="pickList"  -->
-<!--     				value="#{roleGroupsBean.selectedRoleGroup_sRoles}"  -->
-<!--     				var="roles"  -->
-<!--     				itemLabel="available"  -->
-<!--     				itemValue="in role group" > -->
-		
+	    				<p:commandButton styleClass="btn" value="Save" update="growl,:roleform:rolegrouptable"
+						action="#{roleGroupsBean.saveManaged}" icon="ui-icon-check" oncomplete="closeManageDialog()"/>
+    				</h:form>
     				
-<!--     				</p:pickList> -->
-    				
+    				<script type="text/javascript">
+    				function closeManageDialog() {
+            			PF('manageDialog').hide();
+    				}
+				</script>
 			</p:dialog>  
 	
 	</ui:define>

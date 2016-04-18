@@ -2,6 +2,7 @@ package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,11 +13,15 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import hu.schonherz.training.service.RoleGroupService;
+import hu.schonherz.training.service.RoleService;
 import hu.schonherz.training.vo.RoleGroupVo;
 import hu.schonherz.training.vo.RoleVo;
+import hu.schonherz.training.vo.UserGroupVo;
+import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name= "roleGroupsBean")
 @ViewScoped
@@ -27,13 +32,24 @@ public class RoleGroupsBean implements Serializable{
 	@EJB
 	RoleGroupService roleGroupService;
 	
-//	RoleService roleService;
+	@EJB
+	RoleService roleService;
 	
+	// ebben tároljuk az összes jogcsoportot
 	private List<RoleGroupVo> allRoleGroup;
+	
+	// az összes létező jog
+	private List<RoleVo> allRoles;
+	
+	// itt tároljuk azt a jogcsoportott amit kiválasztott a user
 	private RoleGroupVo selectedRoleGroup;
 	
+	// a picklisthez
 	private DualListModel<RoleVo> selectedRoleGroup_sRoles;
 	
+	private List<RoleVo> jogcsoportJogai;
+	
+	// ki van-e választva valamilyen sor?
 	private Boolean disabled = true;	
 	
 	// bevitelhez szükséges adatok
@@ -51,10 +67,17 @@ public class RoleGroupsBean implements Serializable{
 //		.getRecUser();
 //		.getRoles();
 		try {
+			// betöltjük az összes jogcsoportot
 			setAllRoleGroup(roleGroupService.getAllRoleGroup());
+			// kezdetben a kiválasztott csoport egy üres rolegroup
 			setSelectedRoleGroup(new RoleGroupVo());
-//			selectedRoleGroup_sRoles = new DualListModel<RoleVo>( new ArrayList<RoleVo>(),
-//					(List<RoleVo>)selectedRoleGroup.getRoles());
+			
+			// felhozzuk az összes jogot
+			allRoles = roleService.getAllRole();
+			
+			// kezdetben a picklist elemei üresek
+			selectedRoleGroup_sRoles = new DualListModel<RoleVo>();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,16 +143,60 @@ public class RoleGroupsBean implements Serializable{
 	}
 
 	public void onRowSelect(SelectEvent event) {
-//		List<RoleVo> roles = (List<RoleVo>)selectedRoleGroup.getRoles();
-//		setSelectedRoleGroup_sRoles(new DualListModel<RoleVo>( new ArrayList<RoleVo>(),  roles));
-//		
-//		if( selectedRoleGroup_sRoles == null )
-//		{
-//			System.out.println("selectedRoleGroup_sRoles is NULL!");			
-//		} else {
-//			System.out.println("selectedRoleGroup_sRoles is NOT NOT NOT NULL!");
+
+		// lekérjük a kiválasztott jogcsoport jogait
+		jogcsoportJogai = (List<RoleVo>)selectedRoleGroup.getRoles();
+		
+		// kivesszük az összes jogok közül azokat amik megvannak ennél a jogcsoportnál
+		List<RoleVo> aTobbiJog = new ArrayList<>();
+		
+//		System.out.println("JOGCsOPORT JOGAI");
+//		for (RoleVo roleVo : jogcsoportJogai) {
+//			System.out.println( roleVo.getId() );
 //		}
+		
+		
+		for (RoleVo roleVo : allRoles) {
+			boolean volt = false;
+			for ( RoleVo roleVo2 : jogcsoportJogai){
+//				System.out.println("Vizsgalat: " + roleVo.getId() + " " + roleVo2.getId());
+				if( roleVo.getId().equals(roleVo2.getId()) ){
+//					System.out.println("Ilyen jog van mar! "+ roleVo.getId());
+					volt = true;				
+				}
+			}
+			if( !volt ){
+				aTobbiJog.add(roleVo);
+			}
+		}
+		
+//		System.out.println("A TOBBI JOG");
+//		for (RoleVo roleVo : aTobbiJog) {
+//			System.out.println( roleVo.getId() );
+//		}
+
+		// megvan a picklist két oldala!
+		selectedRoleGroup_sRoles = new DualListModel<RoleVo>( aTobbiJog, jogcsoportJogai );
+		
+		
+		// ha valaki kiválaszt egy sort, akkor a gombok elérhetővé válnak
 		disabled = false;
+	}
+	
+	 public void onTransfer(TransferEvent event) {
+	 }
+	
+	public void saveManaged(){
+	
+		System.out.println("A JOGCSOPRT UJ JOGAI:");
+//		
+//		// beállítom a kiválasztott csoport új jogait
+		selectedRoleGroup.setRoles(selectedRoleGroup_sRoles.getTarget());
+//
+		System.out.println( selectedRoleGroup.getRoles() );
+//		
+//		// elmentem a kivaálsztott jogcsoportot
+		roleGroupService.updateRoleGroup(selectedRoleGroup);
 	}
 
 	public List<RoleGroupVo> getAllRoleGroup() {
@@ -174,6 +241,22 @@ public class RoleGroupsBean implements Serializable{
 
 	public void setSelectedRoleGroup_sRoles(DualListModel<RoleVo> selectedRoleGroup_sRoles) {
 		this.selectedRoleGroup_sRoles = selectedRoleGroup_sRoles;
+	}
+
+	public List<RoleVo> getAllRoles() {
+		return allRoles;
+	}
+
+	public void setAllRoles(List<RoleVo> allRoles) {
+		this.allRoles = allRoles;
+	}
+
+	public List<RoleVo> getJogcsoportJogai() {
+		return jogcsoportJogai;
+	}
+
+	public void setJogcsoportJogai(List<RoleVo> jogcsoportJogai) {
+		this.jogcsoportJogai = jogcsoportJogai;
 	}
 	
 
