@@ -20,7 +20,6 @@
 				value="#{textBasedQuestionBean.newQuestionText}" maxlength="200"
 				counterTemplate="{0} characters remaining." autoResize="false"
 				id="newQuestionTextarea">
-				<f:validateLength minimum="3" />
 				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>
 			<p:message for="newQuestionTextarea" id="newQuestionTextMsg" />
@@ -32,14 +31,15 @@
 				update="growl form"
 				actionListener="#{textBasedQuestionBean.createTextBasedQuestion}">
 			</p:commandButton>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
 		</h:form>
 		<p />
-		
+
 		<h:form>
-		<p:commandButton value="Back" action="goToExamQuestionsPage" />
+			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
-		
+
 	</ui:define>
 
 </ui:composition>

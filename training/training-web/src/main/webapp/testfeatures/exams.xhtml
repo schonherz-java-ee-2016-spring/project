@@ -9,7 +9,11 @@
 	<ui:define name="pageTitle">Exams</ui:define>
 	<ui:define name="content">
 
-		<p:dataTable id="examTable" value="#{examBean.examList}" var="exam">
+		<p:dataTable style="width:100%;" id="examTable" var="exam"
+			value="#{examBean.examList}" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="1,5,10,15,">
+			
 			<p:column headerText="Id">
 				<h:outputText value="#{exam.id}" />
 			</p:column>
@@ -27,8 +31,7 @@
 
 			<p:column headerText="Details">
 				<h:form id="form">
-					<h:commandButton action="goToExamQuestionsPage"
-						value="Details">
+					<h:commandButton action="goToExamQuestionsPage" value="Details">
 						<f:setPropertyActionListener
 							target="#{questionBean.examIdAsString}" value="#{exam.id}" />
 					</h:commandButton>

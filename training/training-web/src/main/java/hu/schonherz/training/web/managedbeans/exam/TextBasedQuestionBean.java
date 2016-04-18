@@ -56,11 +56,20 @@ public class TextBasedQuestionBean implements Serializable {
 		newOption.setQuestion(newQuestion);
 
 		try {
+			if(newQuestionText.isEmpty()) throw new IllegalStateException();
+			
 			getOptionService().create(newOption);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" Text based question created!");
 			currentInstance.addMessage(null, facesMessage);
-		} catch (Exception e) {
+		}catch (IllegalStateException ex){
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Question text can't be empty");
+			currentInstance.addMessage(null, facesMessage);
+			ex.printStackTrace();
+		} 
+		
+		catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Couldn't create textbased question: \"" + newQuestionText + "\"");
 			currentInstance.addMessage(null, facesMessage);
