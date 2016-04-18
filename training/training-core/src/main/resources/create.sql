@@ -39,3 +39,10 @@ INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 INSERT INTO public.interview(id, company, interviewdate) VALUES (3001, 'Fiction Software', to_date('05 Dec 2045', 'DD Mon YYYY'));
 INSERT INTO public.interviewed_to_interview(interviewed_id, interview_id) VALUES (2003, 3001);
 INSERT INTO public.interviewer_to_interview(interviewer_id, interview_id) VALUES (2004, 3001);
+
+INSERT INTO public.feedback(id, detailed_feedback, is_public, score, recdate) VALUES (5000, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie nibh eget tellus interdum, id vestibulum erat sollicitudin. Nam ut sapien ut neque feugiat pellentesque. Mauris quis pellentesque erat, sit amet elementum dui. Nulla ornare nulla ac dolor tempor, in elementum justo mattis. In ultrices massa eget est finibus scelerisque. Suspendisse laoreet purus ac mauris consequat rutrum. Proin lacinia porttitor felis, consequat congue sapien tristique eu.', TRUE, 5, to_date('06 Dec 2045', 'DD Mon YYYY'));
+INSERT INTO public.interview_to_feedback(feedback_id, interview_id) VALUES (3001, 5000);
+INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
+INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
+
+

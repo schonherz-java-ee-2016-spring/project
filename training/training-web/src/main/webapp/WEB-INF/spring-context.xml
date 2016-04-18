@@ -21,4 +21,8 @@
 	<jee:local-slsb id="InterviewService"
 		jndi-name="java:global/ear/training-service/InterviewService!hu.schonherz.training.supervisor.service.InterviewService"
 		business-interface="hu.schonherz.training.supervisor.service.InterviewService" />
+		
+	<jee:local-slsb id="FeedbackService"
+		jndi-name="java:global/ear/training-service/FeedbackService!hu.schonherz.training.supervisor.service.FeedbackService"
+		business-interface="hu.schonherz.training.supervisor.service.FeedbackService" />	
 </beans>

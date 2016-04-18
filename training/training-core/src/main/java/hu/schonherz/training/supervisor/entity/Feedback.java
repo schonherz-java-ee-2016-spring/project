@@ -1,11 +1,12 @@
 package hu.schonherz.training.supervisor.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,16 +22,16 @@ public class Feedback extends BaseEntity {
 	 */
 	private static final long serialVersionUID = -6712969283784007008L;
 
-	@OneToOne
-	@JoinColumn(name = "sender_id", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinTable(name = "sender_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
 	private User sender;
 
-	@OneToOne
-	@JoinColumn(name = "rated_id", referencedColumnName = "id")
+	@ManyToOne
+	@JoinTable(name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
 	private User rated;
 
 	@OneToOne
-	@JoinColumn(name = "interview_id", referencedColumnName = "id")
+	@JoinTable(name = "interview_to_feedback", joinColumns = @JoinColumn(name = "interview_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"))
 	private Interview interviewId;
 
 	@Column(name = "score", nullable = false, length = 1)
@@ -39,19 +40,9 @@ public class Feedback extends BaseEntity {
 	@Column(name = "detailed_feedback", nullable = false)
 	@Lob
 	private String detailedFeedback;
-	
+
 	@Column(name = "is_public", nullable = false)
 	private boolean isPublic;
-	
-	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Date feedbackDate;
-
-	/**
-	 * 
-	 */
-	public Feedback() {
-		super();
-	}
 
 	/**
 	 * @return the sender
@@ -61,7 +52,8 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @param sender the sender to set
+	 * @param sender
+	 *            the sender to set
 	 */
 	public void setSender(User sender) {
 		this.sender = sender;
@@ -75,7 +67,8 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @param rated the rated to set
+	 * @param rated
+	 *            the rated to set
 	 */
 	public void setRated(User rated) {
 		this.rated = rated;
@@ -89,7 +82,8 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @param score the score to set
+	 * @param score
+	 *            the score to set
 	 */
 	public void setScore(Integer score) {
 		this.score = score;
@@ -103,7 +97,8 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @param detailedFeedback the detailedFeedback to set
+	 * @param detailedFeedback
+	 *            the detailedFeedback to set
 	 */
 	public void setDetailedFeedback(String detailedFeedback) {
 		this.detailedFeedback = detailedFeedback;
@@ -117,25 +112,11 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @param isPublic the isPublic to set
+	 * @param isPublic
+	 *            the isPublic to set
 	 */
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
 
-	/**
-	 * @return the feedbackDate
-	 */
-	public Date getFeedbackDate() {
-		return feedbackDate;
-	}
-
-	/**
-	 * @param feedbackDate the feedbackDate to set
-	 */
-	public void setFeedbackDate(Date feedbackDate) {
-		this.feedbackDate = feedbackDate;
-	}
-	
-	
 }

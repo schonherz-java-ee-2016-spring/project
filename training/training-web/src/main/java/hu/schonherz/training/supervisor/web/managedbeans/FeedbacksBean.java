@@ -14,7 +14,7 @@ import hu.schonherz.training.supervisor.vo.FeedbackVo;
 
 @ManagedBean(name = "feedbacksBean")
 @ViewScoped
-public class FeedbacksBeans implements Serializable {
+public class FeedbacksBean implements Serializable {
 
 	/**
 	 * 
@@ -25,7 +25,7 @@ public class FeedbacksBeans implements Serializable {
 	private FeedbackService feedbackService;
 
 	private String detailedFeedback;
-	private Date feedbackDate;
+	private Date recDate;
 	private boolean isPublic;
 	private Integer score;
 	private Long interviewId;
@@ -72,18 +72,18 @@ public class FeedbacksBeans implements Serializable {
 	}
 
 	/**
-	 * @return the feedbackDate
+	 * @return the recDate
 	 */
-	public Date getFeedbackDate() {
-		return feedbackDate;
+	public Date getRecDate() {
+		return recDate;
 	}
 
 	/**
-	 * @param feedbackDate
-	 *            the feedbackDate to set
+	 * @param recDate
+	 *            the recDate to set
 	 */
-	public void setFeedbackDate(Date feedbackDate) {
-		this.feedbackDate = feedbackDate;
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
 	}
 
 	/**

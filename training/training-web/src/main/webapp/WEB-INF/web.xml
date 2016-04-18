@@ -84,4 +84,9 @@
 		<local>hu.schonherz.training.supervisor.service.InterviewService</local>
 	</ejb-local-ref>
 	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb.FeedbackService</ejb-ref-name>
+		<local>hu.schonherz.training.supervisor.service.FeedbackService</local>
+	</ejb-local-ref>
+	
 </web-app>
