@@ -13,11 +13,13 @@
 			<groupId>hu.schonherz.training.web</groupId>
 			<artifactId>training-web</artifactId>
 			<type>war</type>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>hu.schonherz.training.service</groupId>
 			<artifactId>training-service</artifactId>
 			<type>ejb</type>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>

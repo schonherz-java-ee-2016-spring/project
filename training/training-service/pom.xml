@@ -11,84 +11,30 @@
 	<packaging>ejb</packaging>
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.openejb</groupId>
-			<artifactId>javaee-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openejb</groupId>
-			<artifactId>openejb-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openejb</groupId>
-			<artifactId>openejb-junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-commons-annotations</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>hu.schonherz.training.core</groupId>
 			<artifactId>training-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>hu.schonherz.training.service</groupId>
 			<artifactId>training-service-client-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.dozer</groupId>
 			<artifactId>dozer</artifactId>
+			<version>5.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
 		</dependency>
 	</dependencies>
 	<build>
