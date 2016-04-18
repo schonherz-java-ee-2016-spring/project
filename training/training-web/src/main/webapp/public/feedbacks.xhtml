@@ -9,33 +9,12 @@
 	<ui:define name="content">
 		<h1>Feedbacks:</h1>
 		<h:form>
-			<p:dataTable style="width:100%;" var="feedback" value="#{feedbacksBean.feedbacks}"
-				rows="10" paginator="true"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="1,5,10,15,">
-				<p:column headerText="ID">
-					<h:outputText value="#{feedback.id}" />
+			<p:dataTable var="feedback" value="#{feedbacksBean.feedbacks}">
+				<p:column>
+					
 				</p:column>
-
-				<p:column headerText="Interviewer">
-					<h:outputText value="#{feedback.sender.getFullName()}" />
-				</p:column>
-
-				<p:column headerText="Detailed Feedback">
-					<h:outputText value="#{feedback.detailedFeedback}" />
-				</p:column>
-				
-				<p:column headerText="Score">
-					<h:outputText value="#{feedback.score}" />
-				</p:column>
-				
 			</p:dataTable>
 		</h:form>
 		<br />
-<!-- 		<footer> -->
-<!-- 		<form action="#{request.contextPath}/public/createUser.xhtml" class="inline"> -->
-<!-- 			<button class="btn btn-primary">Create users</button> -->
-<!-- 		</form> -->
-<!-- 		</footer> -->
 	</ui:define>
 </ui:composition>

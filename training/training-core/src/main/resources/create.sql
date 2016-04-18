@@ -45,10 +45,3 @@ INSERT INTO public.interview_to_feedback(feedback_id, interview_id) VALUES (3001
 INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
 INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
 
-
-<<<<<<< HEAD
-=======
-INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, score, interview_id, rated_id, sender_id) VALUES (4001, 'The student was great, he/she will start to work next week.', to_date('06 Dec 2045', 'DD Mon YYYY'), TRUE, 5, 3001, 2003, 2004);
-
-ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
->>>>>>> Supervisor-modul
