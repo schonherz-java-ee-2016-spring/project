@@ -28,7 +28,17 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
-
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/textbasedQuestion.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	
 	<navigation-rule>
 		<from-view-id>/testfeatures/examQuestions.xhtml</from-view-id>
 		<navigation-case>
@@ -50,14 +60,6 @@
 	
 	<navigation-rule>
 		<from-view-id>/testfeatures/multipleQuestion.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>goToExamQuestionsPage</from-outcome>
-			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
-			<redirect/>
-		</navigation-case>
-	</navigation-rule>	
-	<navigation-rule>
-		<from-view-id>/testfeatures/textbasedQuestion.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>goToExamQuestionsPage</from-outcome>
 			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>

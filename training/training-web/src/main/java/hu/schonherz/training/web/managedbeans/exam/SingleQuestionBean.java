@@ -48,9 +48,6 @@ public class SingleQuestionBean implements Serializable {
 		newOptions = new ArrayList<OptionVo>();
 	}
 
-	public void handleKeyEvent() {
-	}
-
 	public void saveNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
@@ -59,11 +56,13 @@ public class SingleQuestionBean implements Serializable {
 		try {
 			boolean isOnlyOneRightOption = newOptions.stream().filter(o -> o.getCorrect()).collect(Collectors.toList())
 					.size() == 1;
+			System.out.println(isOnlyOneRightOption);
 			if (!isOnlyOneRightOption) {
 				throw new IllegalArgumentException();
 			}
 
 			questionService.create(newQuestion);
+			cleanPropertites();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" question created!");
 			currentInstance.addMessage(null, facesMessage);
@@ -71,6 +70,7 @@ public class SingleQuestionBean implements Serializable {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Couldn't create question: \"" + newQuestionText + "\"" + "There must be only one right answer!");
 			currentInstance.addMessage(null, facesMessage);
+			System.out.println("Macksa");
 			ex.printStackTrace();
 		} catch (Exception ex) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
@@ -78,7 +78,8 @@ public class SingleQuestionBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			ex.printStackTrace();
 		}
-		cleanPropertites();
+		
+		RequestContext.getCurrentInstance().update("optionTable");
 
 	}
 
@@ -164,7 +165,7 @@ public class SingleQuestionBean implements Serializable {
 	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
 		questionVo.setExam(examService.findById(Long.parseLong(examIdAsString)));
 		questionVo.setOptionList(newOptions);
-		questionVo.setQuestionType(questionTypeService.findById(2L));
+		questionVo.setQuestionType(questionTypeService.findById(1L));
 		questionVo.setText(newQuestionText);
 	}
 

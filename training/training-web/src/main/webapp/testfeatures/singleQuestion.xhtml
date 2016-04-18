@@ -9,13 +9,16 @@
 	<ui:define name="pageTitle">singleQuestion</ui:define>
 	<ui:define name="content">
 
-		<h:form>
+
+		<h:form id="form">
 			<h3>Question Title</h3>
 			<p:inputTextarea rows="4" cols="100" counter="display"
 				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{singleQuestionBean.newQuestionText}">
-				<p:ajax event="keyup" />
+				autoResize="false" value="#{singleQuestionBean.newQuestionText}" id="newQuestionTextarea">
+				<f:validateLength minimum="3" />
+				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>
+			<p:message for="newQuestionTextarea" id="newQuestionTextMsg" />
 	
 			<h:outputText id="display" />
 		</h:form>
@@ -55,7 +58,7 @@
 			</p:dialog>
 		</h:form>
 		<h:form>
-			<p:commandButton value="Save"
+			<p:commandButton value="Save" update="growl form"
 				action="#{singleQuestionBean.saveNewQuestion}" />
 		</h:form>
 		<h:form id="backForm">
