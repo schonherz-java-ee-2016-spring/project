@@ -41,7 +41,7 @@ public class OptionBean implements Serializable {
 
 		
 	try {
-		getOptionService().createOption(option);
+		getOptionService().create(option);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}

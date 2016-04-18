@@ -75,7 +75,7 @@ public class Answer extends BaseEntity {
 		this.option = option;
 	}
 
-	public Boolean isGood() {
+	public Boolean getGood() {
 		return good;
 	}
 

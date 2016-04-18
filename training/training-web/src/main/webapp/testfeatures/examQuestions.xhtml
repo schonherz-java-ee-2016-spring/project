@@ -20,15 +20,24 @@
 		</p:dataTable>
 
 		<h:form id="newQuestionForm">
-
-		
-				<p:commandButton value="Add a new single question" action="goToSingleQuestionPage"/>
-				<p:commandButton value="Add a new multiple question" action="goToMultipleQuestionPage"/>
-				<p:commandButton value="Add a new textbased question" action="goToTextbasedQuestionPage"/>
-
-	
-
-			
+			<p:commandButton value="Add a new single question"
+				action="goToSingleQuestionPage">
+				<f:setPropertyActionListener
+					target="#{multipleQuestionBean.examIdAsString}"
+					value="#{questionBean.examIdAsString}" />
+			</p:commandButton>
+			<p:commandButton value="Add a new multiple question"
+				action="goToMultipleQuestionPage">
+				<f:setPropertyActionListener
+					target="#{multipleQuestionBean.examIdAsString}"
+					value="#{questionBean.examIdAsString}" />
+			</p:commandButton>
+			<p:commandButton value="Add a new textbased question"
+				action="goToTextbasedQuestionPage">
+				<f:setPropertyActionListener
+					target="#{multipleQuestionBean.examIdAsString}"
+					value="#{questionBean.examIdAsString}" />
+			</p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>

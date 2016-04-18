@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14602400762710" configfile="/training-web/src/main/webapp/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/exams.xhtml" x="122" y="562" id="pf14609651688840" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14609651689101" path="/testfeatures/exams.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examDetails.xhtml" x="338" y="562" id="pf14609651689112" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14609651689113 pf14609651689114 pf14609651689115" inlinks="pf14609651689101" path="/testfeatures/examQuestions.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/exams.xhtml" x="122" y="562" id="pf14609651688840" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14609651689101" path="/testfeatures/exams.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examDetails.xhtml" x="338" y="562" id="pf14609651689112" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf14609651689113 pf14609651689114 pf14609651689115" inlinks="pf14609651689101 pf14609744641680" path="/testfeatures/examQuestions.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="testfeatures/singleQuestion.xhtml" x="554" y="178" id="pf14609651689116" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14609651689113" path="/testfeatures/singleQuestion.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/multipleQuestion.xhtml" x="554" y="562" id="pf14609651689117" referenceLink="//@navigationRule.1/@navigationCase.1/@toViewId|" inlinks="pf14609651689114" path="/testfeatures/multipleQuestion.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/multipleQuestion.xhtml" x="554" y="562" id="pf14609651689117" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14609744641680" inlinks="pf14609651689114" path="/testfeatures/multipleQuestion.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="testfeatures/textbasedQuestion.xhtml" x="554" y="946" id="pf14609651689118" referenceLink="//@navigationRule.1/@navigationCase.2/@toViewId|" inlinks="pf14609651689115" path="/testfeatures/textbasedQuestion.xhtml"/>
   <links id="pf14609651689101" target="pf14609651689112" source="pf14609651688840" outcome="goToExamQuestionsPage" redirect="true"/>
   <links id="pf14609651689113" target="pf14609651689116" source="pf14609651689112" outcome="goToSingleQuestionPage" redirect="true"/>
   <links id="pf14609651689114" target="pf14609651689117" source="pf14609651689112" outcome="goToMultipleQuestionPage" redirect="true"/>
   <links id="pf14609651689115" target="pf14609651689118" source="pf14609651689112" outcome="goToTextbasedQuestionPage" redirect="true"/>
+  <links id="pf14609744641680" target="pf14609651689112" source="pf14609651689117" outcome="goToExamQuestionsPage" redirect="true"/>
 </pageflow:Pageflow>

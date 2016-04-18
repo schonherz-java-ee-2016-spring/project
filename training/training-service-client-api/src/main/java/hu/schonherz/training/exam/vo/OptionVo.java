@@ -19,7 +19,7 @@ public class OptionVo extends BaseIdentityVo {
 		this.question = question;
 	}
 
-	public Boolean isCorrect() {
+	public Boolean getCorrect() {
 		return correct;
 	}
 

@@ -31,7 +31,7 @@ public class AnswerVo extends BaseIdentityVo {
 		this.option = option;
 	}
 
-	public Boolean isGood() {
+	public Boolean getGood() {
 		return good;
 	}
 

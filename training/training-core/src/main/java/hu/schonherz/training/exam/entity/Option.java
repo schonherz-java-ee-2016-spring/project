@@ -43,7 +43,7 @@ public class Option extends BaseEntity {
 		this.question = question;
 	}
 
-	public Boolean isCorrect() {
+	public Boolean getCorrect() {
 		return correct;
 	}
 
