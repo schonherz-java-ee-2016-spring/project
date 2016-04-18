@@ -2,10 +2,7 @@ package hu.schonherz.training.exam.service;
 
 import hu.schonherz.training.exam.vo.OptionVo;
 
-public interface OptionService {
+public interface OptionService extends BaseService<OptionVo> {
 
-	public void createOption(OptionVo optionVo) throws Exception;
-
-	public void deleteOption(OptionVo optionVo) throws Exception;
 
 }

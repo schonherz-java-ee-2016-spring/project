@@ -1,5 +1,7 @@
 package hu.schonherz.training.exam.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -20,27 +22,41 @@ import hu.schonherz.training.exam.vo.OptionVo;
 @Transactional(value = TxType.REQUIRED)
 @Local(OptionService.class)
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
-public class OptionServiceImpl implements OptionService{
+public class OptionServiceImpl implements OptionService {
+
+	static final Logger logger = LogManager.getLogger(OptionServiceImpl.class.getName());
 
 	@Autowired
 	OptionRepository optionRepository;
-	
-	static final Logger logger = LogManager.getLogger(OptionServiceImpl.class.getName());
 
-	
 	@Override
-	public void createOption(OptionVo optionVo) throws Exception {
+	public void create(OptionVo vo) throws Exception {
 		try {
-			optionRepository.saveAndFlush(OptionMapper.toDto(optionVo));
+			optionRepository.saveAndFlush(OptionMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
 	}
 
 	@Override
-	public void deleteOption(OptionVo optionVo) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public OptionVo findById(Long id) throws Exception {
+		try {
+			return OptionMapper.toVo(optionRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public List<OptionVo> findAll() throws Exception {
+		try {
+			return OptionMapper.toVo(optionRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 }

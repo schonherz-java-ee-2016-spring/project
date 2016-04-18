@@ -6,7 +6,17 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">SigleQuestion</ui:define>
+	<ui:define name="pageTitle">SingleQuestion</ui:define>
+	
+	<ui:define name="content">
+		<h:form>
+			<h3>Question Title</h3>
+			<p:inputTextarea rows="4" cols="100" counter="display" maxlength="200"
+				counterTemplate="{0} characters remaining." autoResize="false" /><p/>
+			<h:outputText id="display" />
+		</h:form>
+
+	</ui:define>
 
 
 </ui:composition>

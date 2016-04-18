@@ -42,14 +42,12 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public ExamVo findById(Long id) throws Exception {
-		ExamVo examVo = null;
 		try {
-			examVo = ExamMapper.toVo(examRepository.findOne(id));
+			return ExamMapper.toVo(examRepository.findOne(id));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
-		return examVo;
 	}
 
 	@Override
