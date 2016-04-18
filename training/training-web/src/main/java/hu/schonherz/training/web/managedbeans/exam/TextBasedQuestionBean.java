@@ -2,6 +2,7 @@ package hu.schonherz.training.web.managedbeans.exam;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -20,8 +21,13 @@ import hu.schonherz.training.exam.vo.QuestionVo;
 public class TextBasedQuestionBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String newQuestionText;
+	private String newQuestionText = "";
 	private String examIdAsString;
+
+	@PostConstruct
+	public void init() {
+		newQuestionText = "";
+	}
 
 	@EJB
 	private QuestionService questionService;
@@ -60,6 +66,7 @@ public class TextBasedQuestionBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
+		
 	}
 
 	public String getNewQuestionText() {
