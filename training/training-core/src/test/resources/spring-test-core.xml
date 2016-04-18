@@ -15,7 +15,7 @@
 
 
 
-	<jpa:repositories base-package="hu.schonherz.training.service"
+	<jpa:repositories base-package="hu.schonherz.training.repository"
 		repository-impl-postfix="Impl" />
 
 	<bean id="entityManagerFactory"

@@ -15,12 +15,12 @@
 
 
 
-	<jpa:repositories base-package="hu.schonherz.java.dao"
+	<jpa:repositories base-package="hu.schonherz.training.repository"
 		repository-impl-postfix="Impl" />
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="hu.schonherz.java.jpa.test" />
+		<property name="persistenceUnitName" value="training-core.test" />
 	</bean>
 
 	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
