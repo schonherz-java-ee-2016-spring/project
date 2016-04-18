@@ -49,6 +49,7 @@ public class SingleQuestionBean implements Serializable {
 	}
 
 	public void saveNewQuestion() throws Exception {
+		
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
 		setUpQuestionVo(newQuestion);
@@ -56,21 +57,21 @@ public class SingleQuestionBean implements Serializable {
 		try {
 			boolean isOnlyOneRightOption = newOptions.stream().filter(o -> o.getCorrect()).collect(Collectors.toList())
 					.size() == 1;
-			System.out.println(isOnlyOneRightOption);
 			if (!isOnlyOneRightOption) {
-				throw new IllegalArgumentException();
+				throw new IllegalStateException("There must be only one right answer!");
 			}
-
+			
+			
 			questionService.create(newQuestion);
-			cleanPropertites();
+			
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
 					"\"" + newQuestionText + "\" question created!");
 			currentInstance.addMessage(null, facesMessage);
-		} catch (IllegalArgumentException ex) {
+			
+		} catch (IllegalStateException ex) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create question: \"" + newQuestionText + "\"" + "There must be only one right answer!");
+					"Couldn't create question: \"" + newQuestionText + "\"\n" + "There must be only one right answer!");
 			currentInstance.addMessage(null, facesMessage);
-			System.out.println("Macksa");
 			ex.printStackTrace();
 		} catch (Exception ex) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
@@ -79,6 +80,7 @@ public class SingleQuestionBean implements Serializable {
 			ex.printStackTrace();
 		}
 		
+		cleanPropertites();
 		RequestContext.getCurrentInstance().update("optionTable");
 
 	}
