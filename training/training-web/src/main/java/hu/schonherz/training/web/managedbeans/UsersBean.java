@@ -64,7 +64,6 @@ public class UsersBean implements Serializable {
 			user = userService.findUserByName(username);
 			useremail = userService.findUserByEmail(email);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
