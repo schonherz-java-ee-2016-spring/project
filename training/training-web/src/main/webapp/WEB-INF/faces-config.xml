@@ -5,6 +5,15 @@
         http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
 	
+	<converter>
+    	<converter-id>UserConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.UserConverter</converter-class>
+	</converter>
+	
+	<converter>
+    	<converter-id>RoleConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.RoleConverter</converter-class>
+	</converter>
 
 	<application>
 	
