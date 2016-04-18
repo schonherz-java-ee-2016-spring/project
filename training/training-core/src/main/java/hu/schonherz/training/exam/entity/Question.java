@@ -2,6 +2,7 @@ package hu.schonherz.training.exam.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class Question extends BaseEntity {
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question" , cascade = CascadeType.ALL)
 	private List<Option> optionList;
 
 	public Question() {

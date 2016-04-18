@@ -1,5 +1,6 @@
 package hu.schonherz.training.exam.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +22,7 @@ import hu.schonherz.training.entity.BaseEntity;
 public class Option extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
 	private Question question;
 

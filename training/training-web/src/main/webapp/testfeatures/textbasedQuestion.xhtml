@@ -8,5 +8,29 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Textbased</ui:define>
 
+	<ui:define name="content">
+		<h:form>
+			<h3>Question Title</h3>
+			<p:inputTextarea rows="4" cols="100" counter="display"
+				value="#{textBasedQuestionBean.newQuestionText}"
+				maxlength="200" counterTemplate="{0} characters remaining."
+				autoResize="false" id="newQuestionTextarea"  required="true">
+				<f:validateLength minimum="3" />
+				<p:ajax update="newQuestionTextMsg" event="blur" />
+			</p:inputTextarea>
+			<p:message for="newQuestionTextarea" 
+				id="newQuestionTextMsg" />
+
+			<p />
+			<h:outputText id="display" />
+			<p></p>
+			<p:commandButton value="Add new Question" id="addQuestionButton"
+				update="growl"
+				actionListener="#{textBasedQuestionBean.createTextBasedQuestion}" />
+			
+		</h:form>
+		<p/>
+<p:commandButton value="Back" action="goToExamQuestionsPage" />
+	</ui:define>
 
 </ui:composition>

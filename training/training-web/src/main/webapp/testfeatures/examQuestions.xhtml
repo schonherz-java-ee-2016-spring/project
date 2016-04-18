@@ -21,14 +21,22 @@
 
 		<h:form id="newQuestionForm">
 
-		
-				<p:commandButton value="Add a new single question" action="goToSingleQuestionPage"/>
-				<p:commandButton value="Add a new multiple question" action="goToMultipleQuestionPage"/>
-				<p:commandButton value="Add a new textbased question" action="goToTextbasedQuestionPage"/>
 
-	
 
-			
+			<p:commandButton value="Add a new single question"
+				action="goToSingleQuestionPage" />
+			<p:commandButton value="Add a new multiple question"
+				action="goToMultipleQuestionPage" />
+			<p:commandButton value="Add a new textbased question"
+				action="goToTextbasedQuestionPage">
+				<f:setPropertyActionListener
+					target="#{textBasedQuestionBean.examIdAsString}"
+					value="#{questionBean.examIdAsString}" />
+			</p:commandButton>
+
+
+
+
 		</h:form>
 	</ui:define>
 </ui:composition>

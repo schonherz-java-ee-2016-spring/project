@@ -1,8 +1,8 @@
 package hu.schonherz.training.exam.vo;
 
 public class OptionVo extends BaseIdentityVo {
-	private static final long serialVersionUID = -5078968289408234317L;
 
+	private static final long serialVersionUID = 1L;
 	private QuestionVo question;
 	private Boolean correct;
 	private String optionText;
