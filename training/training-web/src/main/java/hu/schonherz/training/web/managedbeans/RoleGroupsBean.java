@@ -2,7 +2,6 @@ package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,15 +12,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import hu.schonherz.training.service.RoleGroupService;
 import hu.schonherz.training.service.RoleService;
 import hu.schonherz.training.vo.RoleGroupVo;
 import hu.schonherz.training.vo.RoleVo;
-import hu.schonherz.training.vo.UserGroupVo;
-import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name= "roleGroupsBean")
 @ViewScoped
@@ -47,8 +43,6 @@ public class RoleGroupsBean implements Serializable{
 	// a picklisthez
 	private DualListModel<RoleVo> selectedRoleGroup_sRoles;
 	
-	private List<RoleVo> jogcsoportJogai;
-	
 	// ki van-e választva valamilyen sor?
 	private Boolean disabled = true;	
 	
@@ -59,13 +53,7 @@ public class RoleGroupsBean implements Serializable{
 	
 	@PostConstruct
 	public void init() {
-//		.getId();
-//		.getModDate();
-//		.getModUser();
-//		.getName();
-//		.getRecDate();
-//		.getRecUser();
-//		.getRoles();
+
 		try {
 			// betöltjük az összes jogcsoportot
 			setAllRoleGroup(roleGroupService.getAllRoleGroup());
@@ -145,35 +133,28 @@ public class RoleGroupsBean implements Serializable{
 	public void onRowSelect(SelectEvent event) {
 
 		// lekérjük a kiválasztott jogcsoport jogait
-		jogcsoportJogai = (List<RoleVo>)selectedRoleGroup.getRoles();
+		List<RoleVo> jogcsoportJogai = (List<RoleVo>)selectedRoleGroup.getRoles();
 		
+		// a picklist bal oldala
 		// kivesszük az összes jogok közül azokat amik megvannak ennél a jogcsoportnál
-		List<RoleVo> aTobbiJog = new ArrayList<>();
+		List<RoleVo> aTobbiJog = new ArrayList<>();		
 		
-//		System.out.println("JOGCsOPORT JOGAI");
-//		for (RoleVo roleVo : jogcsoportJogai) {
-//			System.out.println( roleVo.getId() );
-//		}
-		
-		
+		// itt csináljuk meg a picklist bal oldalát
+		// végigmegyünk az összes létező jogon
 		for (RoleVo roleVo : allRoles) {
 			boolean volt = false;
+			// végigmegyünk a kiválasztott jogcsoport jogain
 			for ( RoleVo roleVo2 : jogcsoportJogai){
-//				System.out.println("Vizsgalat: " + roleVo.getId() + " " + roleVo2.getId());
+				// ha van egyezés, akkor nem fogjuk belerakni a listába azt a jogot
 				if( roleVo.getId().equals(roleVo2.getId()) ){
-//					System.out.println("Ilyen jog van mar! "+ roleVo.getId());
 					volt = true;				
 				}
 			}
+			// ha nem volt ilyen jog akkor belerakjuk a listába
 			if( !volt ){
 				aTobbiJog.add(roleVo);
 			}
 		}
-		
-//		System.out.println("A TOBBI JOG");
-//		for (RoleVo roleVo : aTobbiJog) {
-//			System.out.println( roleVo.getId() );
-//		}
 
 		// megvan a picklist két oldala!
 		selectedRoleGroup_sRoles = new DualListModel<RoleVo>( aTobbiJog, jogcsoportJogai );
@@ -183,19 +164,12 @@ public class RoleGroupsBean implements Serializable{
 		disabled = false;
 	}
 	
-	 public void onTransfer(TransferEvent event) {
-	 }
-	
 	public void saveManaged(){
-	
-		System.out.println("A JOGCSOPRT UJ JOGAI:");
-//		
-//		// beállítom a kiválasztott csoport új jogait
+
+		// beállítom a kiválasztott csoport új jogait
 		selectedRoleGroup.setRoles(selectedRoleGroup_sRoles.getTarget());
-//
-		System.out.println( selectedRoleGroup.getRoles() );
-//		
-//		// elmentem a kivaálsztott jogcsoportot
+
+		// elmentem a kivaálsztott jogcsoportot
 		roleGroupService.updateRoleGroup(selectedRoleGroup);
 	}
 
@@ -250,14 +224,4 @@ public class RoleGroupsBean implements Serializable{
 	public void setAllRoles(List<RoleVo> allRoles) {
 		this.allRoles = allRoles;
 	}
-
-	public List<RoleVo> getJogcsoportJogai() {
-		return jogcsoportJogai;
-	}
-
-	public void setJogcsoportJogai(List<RoleVo> jogcsoportJogai) {
-		this.jogcsoportJogai = jogcsoportJogai;
-	}
-	
-
 }
