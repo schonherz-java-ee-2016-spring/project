@@ -21,15 +21,15 @@ public class CreateContext {
 		try {
 			final Properties p = new Properties();
 
-			p.put("hu.schonherz.training.java.jpa.hibernate.hbm2ddl.auto", "create");
-			p.put("hu.schonherz.training.java.jpa.hibernate.default_schema", "PUBLIC");
-			p.put("hu.schonherz.training.java.jpa.hibernate.transaction.jta.platform",
+			p.put("training-core.hibernate.hbm2ddl.auto", "create");
+			p.put("training-core.hibernate.default_schema", "PUBLIC");
+			p.put("training-core.hibernate.transaction.jta.platform",
 					"org.apache.openejb.hibernate.OpenEJBJtaPlatform2");
-			p.put("hu.schonherz.training.java.jpa.hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-			p.put("hu.schonherz.training.java.jpa.database.test", "new://Resource?type=DataSource");
-			p.put("hu.schonherz.training.java.jpa.database.test.JtaManaged", "true");
-			p.put("hu.schonherz.training.java.jpa.database.test.JdbcDriver", "org.hsqldb.jdbcDriver");
-			p.put("hu.schonherz.training.java.jpa.database.test.JdbcUrl", "jdbc:hsqldb:file:target/db/test_db;shutdown=true");
+			p.put("training-core.hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+			p.put("training-core.database.test", "new://Resource?type=DataSource");
+			p.put("training-core.database.test.JtaManaged", "true");
+			p.put("training-core.database.test.JdbcDriver", "org.hsqldb.jdbcDriver");
+			p.put("training-core.database.test.JdbcUrl", "jdbc:hsqldb:file:target/db/test_db;shutdown=true");
 
 			ejbContainer = EJBContainer.createEJBContainer(p);
 		} catch (Throwable e) {

@@ -9,6 +9,11 @@
     	<converter-id>UserConverter</converter-id>
     	<converter-class>hu.schonherz.training.web.UserConverter</converter-class>
 	</converter>
+	
+	<converter>
+    	<converter-id>RoleConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.RoleConverter</converter-class>
+	</converter>
 
 	<application>
 	

@@ -1,5 +1,6 @@
 package hu.schonherz.training.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -11,10 +12,13 @@ import javax.transaction.Transactional.TxType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.entity.Role;
 import hu.schonherz.training.repository.RoleGroupRepository;
 import hu.schonherz.training.service.RoleGroupService;
 import hu.schonherz.training.service.mapper.RoleGroupMapper;
+import hu.schonherz.training.service.mapper.RoleMapper;
 import hu.schonherz.training.vo.RoleGroupVo;
+import hu.schonherz.training.vo.RoleVo;
 
 @Stateless(mappedName = "RoleGroupService", name = "RoleGroupService")
 @Transactional(value = TxType.REQUIRED)
@@ -54,7 +58,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 
 	@Override
 	public void updateRoleGroup(RoleGroupVo roleGroup) {
-		roleGroupRepository.updateRoleGroup(roleGroup.getId(), roleGroup.getName());
+		// DTO-t csinálok a RoleVo listából
+//		List<Role> roles = RoleMapper.toDto((List<RoleVo>)roleGroup.getRoles());
+		
+//		System.out.println("A SERVICE-BEN: " + roles);
+		
+		// updatelem a jogcsoportot
+//		roleGroupRepository.updateRoleGroup(roleGroup.getId(), roleGroup.getName(), roles);
+		roleGroupRepository.save( RoleGroupMapper.toDto(roleGroup));
 		
 	}
 
