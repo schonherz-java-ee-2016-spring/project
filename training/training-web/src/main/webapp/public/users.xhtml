@@ -40,7 +40,7 @@
 				<f:facet name="footer">
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
-						update="createUserForm dlg1" oncomplete="dlg1.hide)"></p:commandButton>
+						update=":createUserForm:dataTable, dlg1" oncomplete="dlg1.hide)"></p:commandButton>
 				</f:facet>
 				<!-- 				a felhasználó módosítása dialog gomb -->
 				<f:facet name="footer">
@@ -76,14 +76,14 @@
 		<h:form styleClass="form-horizontal" id="form">
 			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
 				resizable="false" responsive="true">
-				<p:panel id="panel">
+				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<div class="form-group">
 							<label for="fullname" class="col-sm-4">#{out.fullname}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="fullname"
-									value="#{createUserBean.fullname}" required="true"
+									value="#{usersBean.fullname}" required="true"
 									requiredMessage="#{out.fullname_required}" label="fullname">
 								</p:inputText>
 							</div>
@@ -92,7 +92,7 @@
 							<label for="username" class="col-sm-4">#{out.username}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="username"
-									value="#{createUserBean.username}" required="true"
+									value="#{usersBean.username}" required="true"
 									label="username">
 								</p:inputText>
 							</div>
@@ -103,15 +103,14 @@
 							<label for="email" class="col-sm-4">#{out.email}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="email"
-									value="#{createUserBean.email}" required="true" label="email">
+									value="#{usersBean.email}" required="true" label="email">
 								</p:inputText>
 							</div>
 						</div>
 					</h:panelGrid>
-					<p:commandButton value="#{out.save}" update="createUserForm panel"
-						action="#{createUserBean.create}" icon="ui-icon-check"
+					<p:commandButton value="#{out.save}" update="panel2,growl,form2,:createUserForm:dataTable"
+						action="#{usersBean.create}" icon="ui-icon-check" 
 						oncomplete="dlg1.hide)" />
-					<p:commandButton value="#{out.cancel}" onclick="dlg1.hide)" />
 				</p:panel>
 			</p:dialog>
 		</h:form>

@@ -5,10 +5,10 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +17,7 @@ import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
 
 @ManagedBean(name = "createUserBean")
-@SessionScoped
+@ViewScoped
 public class CreateUserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;

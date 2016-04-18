@@ -5,16 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import hu.schonherz.training.entity.RoleGroup;
-
+import hu.schonherz.training.entity.Role;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
+public interface TrainingRepository extends JpaRepository<Role, Long> {
 
-	RoleGroup findByName(String name);
-	
-//	@Modifying
-//	@Query("update RoleGroup rg set rg.name = ?2, rg.roles = ?3 where rg.id = ?1")
-//	int updateRoleGroup( Long id, String name, List<Role> roles );
 }
