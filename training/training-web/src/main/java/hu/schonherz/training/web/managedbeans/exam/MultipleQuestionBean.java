@@ -24,7 +24,7 @@ import hu.schonherz.training.exam.vo.QuestionVo;
 @SessionScoped
 public class MultipleQuestionBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -40,42 +40,57 @@ public class MultipleQuestionBean implements Serializable {
 	private String newQuestionText;
 
 	private List<OptionVo> newOptions;
+	private List<OptionVo> correctOptions;
 	private String newOptionText;
-	private boolean newOptionCorrect;
 
 	@PostConstruct
 	private void initBean() {
 		newOptions = new ArrayList<OptionVo>();
 	}
-	
-	public void handleKeyEvent() {
-	}
-	
+
 	public void saveNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
 		setUpQuestionVo(newQuestion);
-		System.out.println(newQuestion.getText());
-		try {
-			questionService.create(newQuestion);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newQuestionText + "\" question created!");
-			currentInstance.addMessage(null, facesMessage);
-		} catch (Exception e) {
+		newOptions.forEach(o -> o.setQuestion(newQuestion));
+		if (correctOptions.size() < 1) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create question: \"" + newQuestionText + "\"");
+					"At least one option must be correct!");
 			currentInstance.addMessage(null, facesMessage);
-			e.printStackTrace();
+		} else {
+			getCorrectOptions().forEach(o -> o.setCorrect(true));
+			try {
+				questionService.create(newQuestion);
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+						"\"" + newQuestionText + "\" question created!");
+				currentInstance.addMessage(null, facesMessage);
+			} catch (Exception e) {
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+						"Couldn't create question: \"" + newQuestionText + "\"");
+				currentInstance.addMessage(null, facesMessage);
+				e.printStackTrace();
+			}
+			newOptions.clear();
+			newQuestionText = "";
 		}
-		newOptions.clear();
-		newQuestionText = "";
 	}
-	
+
 	public void addNewOption() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		newOptions.add(optionVo);
-		RequestContext.getCurrentInstance().update("optionTable");
+		if (newOptions.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
+				.count() > 0) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Option already exists: \"" + optionVo.getOptionText() + "\"");
+			currentInstance.addMessage(null, facesMessage);
+		} else {
+			newOptions.add(optionVo);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
+					"\"" + optionVo.getOptionText() + "\" option created!");
+			currentInstance.addMessage(null, facesMessage);
+		}
+		RequestContext.getCurrentInstance().update("optionTableForm");
 	}
 
 	public QuestionService getQuestionService() {
@@ -134,14 +149,6 @@ public class MultipleQuestionBean implements Serializable {
 		this.newOptionText = newOptionText;
 	}
 
-	public boolean isNewOptionCorrect() {
-		return newOptionCorrect;
-	}
-
-	public void setNewOptionCorrect(boolean newOptionCorrect) {
-		this.newOptionCorrect = newOptionCorrect;
-	}
-	
 	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
 		questionVo.setExam(examService.findById(Long.parseLong(examIdAsString)));
 		questionVo.setOptionList(newOptions);
@@ -152,7 +159,6 @@ public class MultipleQuestionBean implements Serializable {
 	private void setUpOptionVo(OptionVo optionVo) {
 		optionVo.setQuestion(newQuestion);
 		optionVo.setOptionText(newOptionText);
-		optionVo.setCorrect(newOptionCorrect);
 	}
 
 	public QuestionTypeService getQuestionTypeService() {
@@ -169,5 +175,13 @@ public class MultipleQuestionBean implements Serializable {
 
 	public void setExamService(ExamService examService) {
 		this.examService = examService;
+	}
+
+	public List<OptionVo> getCorrectOptions() {
+		return correctOptions;
+	}
+
+	public void setCorrectOptions(List<OptionVo> correctOptions) {
+		this.correctOptions = correctOptions;
 	}
 }

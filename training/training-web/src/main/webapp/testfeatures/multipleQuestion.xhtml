@@ -8,7 +8,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">MultipleQuestion</ui:define>
 	<ui:define name="content">
-
+		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 		<h:form>
 			<h3>Question Title</h3>
 			<p:inputTextarea rows="4" cols="100" counter="display"
@@ -18,22 +18,29 @@
 			</p:inputTextarea>
 			<h:outputText id="display" />
 		</h:form>
-		<p:dataTable id="optionTable"
-			value="#{multipleQuestionBean.newOptions}" var="option">
-			<p:column headerText="Option Text">
-				<h:outputText value="#{option.optionText}" />
-			</p:column>
-			<p:column headerText="Correct">
-				<h:outputText value="#{option.correct}" />
-			</p:column>
-		</p:dataTable>
-
+		<h:form id="optionTableForm">
+			<p:dataTable id="optionTable"
+				value="#{multipleQuestionBean.newOptions}" var="option"
+				selection="#{multipleQuestionBean.correctOptions}"
+				rowKey="#{option.optionText}">
+				<f:facet name="header">
+				Options
+			</f:facet>
+				<p:column selectionMode="multiple" />
+				<p:column headerText="Option Text">
+					<h:outputText value="#{option.optionText}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Save" update="message"
+						action="#{multipleQuestionBean.saveNewQuestion}" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
 		<h:form id="newOptionForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
 				title="newOption">
 				<p:commandButton value="New Option" />
 			</h:outputLink>
-			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
 			<p:dialog header="New Option" widgetVar="dlg" resizable="false"
 				modal="true">
@@ -43,19 +50,12 @@
 						value="#{multipleQuestionBean.newOptionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
-					<h:outputLabel for="newOptionText" value="Correct:" />
-					<p:selectBooleanCheckbox
-						value="#{multipleQuestionBean.newOptionCorrect}" />
 					<f:facet name="footer">
-						<p:commandButton value="Add" update="growl"
+						<p:commandButton value="Add" update="message"
 							actionListener="#{multipleQuestionBean.addNewOption}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
-		</h:form>
-		<h:form>
-			<p:commandButton value="Save"
-				action="#{multipleQuestionBean.saveNewQuestion}" />
 		</h:form>
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />

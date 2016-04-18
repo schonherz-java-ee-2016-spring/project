@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
@@ -22,11 +23,11 @@ import hu.schonherz.training.entity.BaseEntity;
 public class Option extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
 	private Question question;
 
-	@Column(name = "correct", nullable = true)
+	@Column(name = "correct", columnDefinition = "boolean default false")
 	private Boolean correct;
 
 	@Column(name = "option_text", nullable = true)
@@ -58,6 +59,13 @@ public class Option extends BaseEntity {
 
 	public void setOptionText(String optionText) {
 		this.optionText = optionText;
+	}
+
+	@PrePersist
+	public void prePersist() {
+		if (getCorrect() == null) {
+			setCorrect(false);
+		}
 	}
 
 }
