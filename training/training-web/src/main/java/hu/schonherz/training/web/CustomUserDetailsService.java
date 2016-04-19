@@ -16,11 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import hu.schonherz.training.service.UserService;
-import hu.schonherz.training.vo.RoleGroupVo;
-import hu.schonherz.training.vo.RoleVo;
-import hu.schonherz.training.vo.UserGroupVo;
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
+import hu.schonherz.training.service.admin.vo.RoleVo;
+import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @Service("customUserDetailsService")
 @EJB(name = "UserService", beanInterface = UserService.class)

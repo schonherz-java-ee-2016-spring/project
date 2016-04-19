@@ -13,8 +13,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import hu.schonherz.training.service.UserService;
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ManagedBean

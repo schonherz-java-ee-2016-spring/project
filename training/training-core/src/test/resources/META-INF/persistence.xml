@@ -3,13 +3,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
 	version="1.0">
-	<persistence-unit name="training-core.test">
+	<persistence-unit name="hu.schonherz.training.test">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<class>hu.schonherz.training.entity.BaseEntity</class>
-		<class>hu.schonherz.training.entity.User</class>
-		<class>hu.schonherz.training.entity.Role</class>
-		<class>hu.schonherz.training.entity.RoleGroup</class>
-		<class>hu.schonherz.training.entity.UserGroup</class>
+		<class>hu.schonherz.training.core.admin.entity.BaseEntity</class>
+		<class>hu.schonherz.training.core.admin.entity.User</class>
+		<class>hu.schonherz.training.core.admin.entity.Role</class>
+		<class>hu.schonherz.training.core.admin.entity.RoleGroup</class>
+		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class, hbm" />
