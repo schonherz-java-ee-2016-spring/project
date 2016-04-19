@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,14 +30,13 @@ public class Feedback extends BaseEntity {
 	private User rated;
 
 	@OneToOne
-	@JoinTable(name = "interview_to_feedback", joinColumns = @JoinColumn(name = "interview_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"))
+	@JoinTable(name = "interview_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "interview_id", referencedColumnName = "id"))
 	private Interview interviewId;
 
 	@Column(name = "score", nullable = false, length = 1)
 	private Integer score;
 
-	@Column(name = "detailed_feedback", nullable = false)
-	@Lob
+	@Column(name = "detailed_feedback", nullable = false, columnDefinition = "text")
 	private String detailedFeedback;
 
 	@Column(name = "is_public", nullable = false)

@@ -2,14 +2,16 @@ package hu.schonherz.training.supervisor.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.supervisor.service.FeedbackService;
+import hu.schonherz.training.supervisor.service.InterviewService;
 import hu.schonherz.training.supervisor.vo.FeedbackVo;
 
 @ManagedBean(name = "feedbacksBean")
@@ -19,146 +21,40 @@ public class FeedbacksBean implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4486666013742222540L;
+	private static final long serialVersionUID = 6239504593798844987L;
 
 	@EJB
-	private FeedbackService feedbackService;
-
-	private String detailedFeedback;
-	private Date recDate;
-	private boolean isPublic;
-	private Integer score;
-	private Long interviewId;
-	private Long ratedId;
-	private Long senderId;
-
+	private FeedbackService feedbackServie;
+	
+	@EJB
+	private InterviewService interviewService;
+	
+	@ManagedProperty(value = "#{interviewsBean}")
+	InterviewsBean interviewsBean;
+	
 	private List<FeedbackVo> feedbacks;
-
+	
+	@PostConstruct
 	public void init() {
 		try {
-			feedbacks = feedbackService.getAll();
+			feedbacks = feedbackServie.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public List<FeedbackVo> getAllFeedbacks() {
-		List<FeedbackVo> feedbackVos = null;
+		List<FeedbackVo> vos = null;
 		try {
-			if (feedbackService.getAll() == null) {
-				feedbackVos = new ArrayList<>();
+			if (feedbackServie.getAll() == null) {
+				vos = new ArrayList<>();
 			} else {
-				feedbackVos = feedbackService.getAll();
+				vos = feedbackServie.getAll();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return feedbackVos;
-	}
-
-	/**
-	 * @return the detailedFeedback
-	 */
-	public String getDetailedFeedback() {
-		return detailedFeedback;
-	}
-
-	/**
-	 * @param detailedFeedback
-	 *            the detailedFeedback to set
-	 */
-	public void setDetailedFeedback(String detailedFeedback) {
-		this.detailedFeedback = detailedFeedback;
-	}
-
-	/**
-	 * @return the recDate
-	 */
-	public Date getRecDate() {
-		return recDate;
-	}
-
-	/**
-	 * @param recDate
-	 *            the recDate to set
-	 */
-	public void setRecDate(Date recDate) {
-		this.recDate = recDate;
-	}
-
-	/**
-	 * @return the isPublic
-	 */
-	public boolean isPublic() {
-		return isPublic;
-	}
-
-	/**
-	 * @param isPublic
-	 *            the isPublic to set
-	 */
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}
-
-	/**
-	 * @return the score
-	 */
-	public Integer getScore() {
-		return score;
-	}
-
-	/**
-	 * @param score
-	 *            the score to set
-	 */
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-
-	/**
-	 * @return the interviewId
-	 */
-	public Long getInterviewId() {
-		return interviewId;
-	}
-
-	/**
-	 * @param interviewId
-	 *            the interviewId to set
-	 */
-	public void setInterviewId(Long interviewId) {
-		this.interviewId = interviewId;
-	}
-
-	/**
-	 * @return the ratedId
-	 */
-	public Long getRatedId() {
-		return ratedId;
-	}
-
-	/**
-	 * @param ratedId
-	 *            the ratedId to set
-	 */
-	public void setRatedId(Long ratedId) {
-		this.ratedId = ratedId;
-	}
-
-	/**
-	 * @return the senderId
-	 */
-	public Long getSenderId() {
-		return senderId;
-	}
-
-	/**
-	 * @param senderId
-	 *            the senderId to set
-	 */
-	public void setSenderId(Long senderId) {
-		this.senderId = senderId;
+		return vos;
 	}
 
 	/**
@@ -169,11 +65,25 @@ public class FeedbacksBean implements Serializable {
 	}
 
 	/**
-	 * @param feedbacks
-	 *            the feedbacks to set
+	 * @param feedbacks the feedbacks to set
 	 */
 	public void setFeedbacks(List<FeedbackVo> feedbacks) {
 		this.feedbacks = feedbacks;
 	}
 
+	/**
+	 * @return the interviewsBean
+	 */
+	public InterviewsBean getInterviewsBean() {
+		return interviewsBean;
+	}
+
+	/**
+	 * @param interviewsBean the interviewsBean to set
+	 */
+	public void setInterviewsBean(InterviewsBean interviewsBean) {
+		this.interviewsBean = interviewsBean;
+	}
+
+	
 }
