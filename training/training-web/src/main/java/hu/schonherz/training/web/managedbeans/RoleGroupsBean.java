@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +12,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 
 import hu.schonherz.training.service.RoleGroupService;
 import hu.schonherz.training.vo.RoleGroupVo;
-import hu.schonherz.training.vo.UserGroupVo;
+import hu.schonherz.training.vo.RoleVo;
 
 @ManagedBean(name= "roleGroupsBean")
 @ViewScoped
@@ -25,11 +27,14 @@ public class RoleGroupsBean implements Serializable{
 	@EJB
 	RoleGroupService roleGroupService;
 	
+//	RoleService roleService;
+	
 	private List<RoleGroupVo> allRoleGroup;
 	private RoleGroupVo selectedRoleGroup;
 	
-	private Boolean disabled = true;
+	private DualListModel<RoleVo> selectedRoleGroup_sRoles;
 	
+	private Boolean disabled = true;	
 	
 	// bevitelhez szükséges adatok
 	private String roleGroupName;
@@ -48,6 +53,8 @@ public class RoleGroupsBean implements Serializable{
 		try {
 			setAllRoleGroup(roleGroupService.getAllRoleGroup());
 			setSelectedRoleGroup(new RoleGroupVo());
+//			selectedRoleGroup_sRoles = new DualListModel<RoleVo>( new ArrayList<RoleVo>(),
+//					(List<RoleVo>)selectedRoleGroup.getRoles());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -113,6 +120,15 @@ public class RoleGroupsBean implements Serializable{
 	}
 
 	public void onRowSelect(SelectEvent event) {
+//		List<RoleVo> roles = (List<RoleVo>)selectedRoleGroup.getRoles();
+//		setSelectedRoleGroup_sRoles(new DualListModel<RoleVo>( new ArrayList<RoleVo>(),  roles));
+//		
+//		if( selectedRoleGroup_sRoles == null )
+//		{
+//			System.out.println("selectedRoleGroup_sRoles is NULL!");			
+//		} else {
+//			System.out.println("selectedRoleGroup_sRoles is NOT NOT NOT NULL!");
+//		}
 		disabled = false;
 	}
 
@@ -150,6 +166,14 @@ public class RoleGroupsBean implements Serializable{
 
 	public void setRoleGroupName(String roleGroupName) {
 		this.roleGroupName = roleGroupName;
+	}
+
+	public DualListModel<RoleVo> getSelectedRoleGroup_sRoles() {
+		return selectedRoleGroup_sRoles;
+	}
+
+	public void setSelectedRoleGroup_sRoles(DualListModel<RoleVo> selectedRoleGroup_sRoles) {
+		this.selectedRoleGroup_sRoles = selectedRoleGroup_sRoles;
 	}
 	
 
