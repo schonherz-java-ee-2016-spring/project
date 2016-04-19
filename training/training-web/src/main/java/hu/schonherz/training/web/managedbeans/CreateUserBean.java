@@ -1,12 +1,14 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,12 +16,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import hu.schonherz.training.service.UserService;
 import hu.schonherz.training.vo.UserVo;
 
-@ManagedBean(name="createUserBean")
-@SessionScoped
+@ManagedBean(name = "createUserBean")
+@ViewScoped
 public class CreateUserBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private UserService userService;
 
@@ -27,8 +29,11 @@ public class CreateUserBean implements Serializable {
 	private String fullname;
 	private String email;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 
-	public void registration() {
+	public void create() {
+
 		UserVo user = null;
 		UserVo useremail = null;
 		UserVo userVo = new UserVo();
@@ -41,32 +46,33 @@ public class CreateUserBean implements Serializable {
 		}
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
-		
-		
 		userVo.setUserName(username);
-		
+
 		if (username == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username must filled!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Username must filled!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (user != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Username already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Username already exists!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		
+
 		userVo.setFullName(fullname);
-		
+
 		userVo.setEmail(email);
-		
+
 		if (email == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (useremail != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"E-mail already exists!");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
@@ -74,14 +80,16 @@ public class CreateUserBean implements Serializable {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
 		String uuid = UUID.randomUUID().toString();
-		
+
 		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
-		
+
 		try {
-			// itt kell majd az userService regisztrációs szolgáltatását meghívni, majd ha lesz.
-			 userService.registrationUser(userVo);
+			// itt kell majd az userService regisztrációs szolgáltatását
+			// meghívni, majd ha lesz.
+			userService.registrationUser(userVo);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Error in creating new user!");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -89,11 +97,6 @@ public class CreateUserBean implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
 		currentInstance.addMessage(null, facesMessage);
 	}
-	
-//	public String goToCreate() {
-//	    // ...
-//	    return "/public/createUser.xhtml";
-//	}
 
 	public String getUsername() {
 		return username;
@@ -126,5 +129,13 @@ public class CreateUserBean implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
 }

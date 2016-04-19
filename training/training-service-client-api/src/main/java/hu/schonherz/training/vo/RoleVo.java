@@ -13,6 +13,12 @@ public class RoleVo implements Serializable {
 	private Date modDate;
 	private String recUser;
 	private String modUser;
+	private String roleCode;
+
+	
+	
+	public RoleVo() {
+	}
 
 	public Long getId() {
 		return id;
@@ -65,6 +71,14 @@ public class RoleVo implements Serializable {
 
 	public void setModUser(String modUser) {
 		this.modUser = modUser;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode2) {
+		this.roleCode = roleCode2;
 	}
 
 }
