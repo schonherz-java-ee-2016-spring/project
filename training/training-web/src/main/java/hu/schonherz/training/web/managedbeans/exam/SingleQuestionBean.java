@@ -35,7 +35,6 @@ public class SingleQuestionBean implements Serializable {
 	private OptionService optionService;
 
 	private String examIdAsString;
-
 	private QuestionVo newQuestion;
 	private String newQuestionText;
 
@@ -156,7 +155,7 @@ public class SingleQuestionBean implements Serializable {
 	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
 		questionVo.setExam(examService.findById(Long.parseLong(examIdAsString)));
 		questionVo.setOptionList(newOptions);
-		questionVo.setQuestionType(questionTypeService.findById(2L));
+		questionVo.setQuestionType(questionTypeService.findById(1L));
 		questionVo.setText(newQuestionText);
 	}
 
