@@ -2,38 +2,32 @@ package hu.schonherz.training.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
 
+/**
+ * The database entity of an Answer note
+ * 
+ * These notes are written by the Instructor to comment your {@link Answer}
+ */
 @Entity
 @Table(name = "answer_note")
 public class AnswerNote extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne
-	@JoinColumn(name = "answer_id", referencedColumnName = "id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	private Answer answer;
 
 	@Column(nullable = true)
-	// TODO
-	// @Type(type = "org.hibernate.type.StringClobType")
-	@Lob
 	private String note;
 
 	public AnswerNote() {
 		super();
-	}
-
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
 	}
 
 	public Answer getAnswer() {
@@ -42,6 +36,14 @@ public class AnswerNote extends BaseEntity {
 
 	public void setAnswer(Answer answer) {
 		this.answer = answer;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 }

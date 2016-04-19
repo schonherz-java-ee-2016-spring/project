@@ -1,41 +1,31 @@
 package hu.schonherz.training.exam.vo;
 
-import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
-public class ExamVo implements Serializable {
-	private static final long serialVersionUID = -3247852666302347423L;
+public class ExamVo extends BaseIdentityVo {
+	private static final long serialVersionUID = -3311497706032167761L;
 
-	private Long id;
-	private String name;
-	private Set<QuestionVo> questionSet;
+	private String title;
+	private List<QuestionVo> questionList;
 
 	public ExamVo() {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getName() {
-		return name;
+	public List<QuestionVo> getQuestionList() {
+		return questionList;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<QuestionVo> getQuestionSet() {
-		return questionSet;
-	}
-
-	public void setQuestionSet(Set<QuestionVo> questionSet) {
-		this.questionSet = questionSet;
+	public void setQuestionList(List<QuestionVo> questionList) {
+		this.questionList = questionList;
 	}
 
 }
