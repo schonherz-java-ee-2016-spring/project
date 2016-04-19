@@ -1,60 +1,74 @@
 package hu.schonherz.training.exam.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
 
+/**
+ * The database entity of a Question
+ */
 @Entity
 @Table(name = "question")
 public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	
-	@OneToOne
-	@JoinColumn(name = "test_id", referencedColumnName = "id")
-	private Exam test;
-	
-	@OneToOne
-	@JoinColumn(name = "type_id", referencedColumnName = "id")
-	private QuestionType questionType;
 
-	// Rich text pls
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "exam_id")
+	private Exam exam;
+
 	@Column(name = "text")
 	private String text;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "type_id")
+	private QuestionType questionType;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question" , cascade = CascadeType.ALL)
+	private List<Option> optionList;
 
 	public Question() {
 		super();
 	}
 
-	/**
-	 * @return the test
-	 */
-	public Exam getTest() {
-		return test;
+	public Exam getExam() {
+		return exam;
 	}
 
-	/**
-	 * @param test the test to set
-	 */
-	public void setTest(Exam test) {
-		this.test = test;
+	public void setExam(Exam exam) {
+		this.exam = exam;
 	}
 
-	/**
-	 * @return the text
-	 */
 	public String getText() {
 		return text;
 	}
 
-	/**
-	 * @param text the text to set
-	 */
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
+	public QuestionType getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(QuestionType questionType) {
+		this.questionType = questionType;
+	}
+
+	public List<Option> getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(List<Option> optionList) {
+		this.optionList = optionList;
+	}
+
 }

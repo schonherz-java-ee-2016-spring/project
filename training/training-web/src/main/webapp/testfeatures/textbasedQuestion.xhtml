@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Textbased</ui:define>
+
+
+
+	<ui:define name="content">
+
+		<f:event type="preRenderView" listener="#{textBasedQuestionBean.init}" />
+
+		<h:form id="form">
+			<h3>Question Title</h3>
+			<p:inputTextarea rows="4" cols="100" counter="display"
+				value="#{textBasedQuestionBean.newQuestionText}" maxlength="200"
+				counterTemplate="{0} characters remaining." autoResize="false"
+				id="newQuestionTextarea">
+				<p:ajax update="newQuestionTextMsg" event="keyup" />
+			</p:inputTextarea>
+			<p:message for="newQuestionTextarea" id="newQuestionTextMsg" />
+
+			<p />
+			<h:outputText id="display" />
+			<p></p>
+			<p:commandButton value="Add new Question" id="addQuestionButton"
+				update="growl form"
+				actionListener="#{textBasedQuestionBean.createTextBasedQuestion}">
+			</p:commandButton>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+		</h:form>
+		<p />
+
+		<h:form>
+			<p:commandButton value="Back" action="goToExamQuestionsPage" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

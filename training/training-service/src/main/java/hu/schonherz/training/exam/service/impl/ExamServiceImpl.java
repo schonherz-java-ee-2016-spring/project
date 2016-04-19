@@ -1,5 +1,7 @@
 package hu.schonherz.training.exam.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -11,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.exam.entity.Exam;
 import hu.schonherz.training.exam.repository.ExamRepository;
 import hu.schonherz.training.exam.service.ExamService;
 import hu.schonherz.training.exam.service.mapper.ExamMapper;
@@ -28,12 +31,54 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public void createExam(ExamVo examVo) throws Exception {
+	public void create(ExamVo vo) throws Exception {
 		try {
-			examRepository.saveAndFlush(ExamMapper.toDto(examVo));
+			examRepository.saveAndFlush(ExamMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
+			throw ex;
 		}
-
 	}
+
+	@Override
+	public ExamVo findById(Long id) throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public List<ExamVo> findAll() throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public List<ExamVo> findAllSortedById() throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void modifyTitle(ExamVo examVo) throws Exception {
+		try {
+			Exam exam = ExamMapper.toDto(examVo);
+			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
 }

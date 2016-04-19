@@ -40,4 +40,23 @@ INSERT INTO public.interview(id, company, description, interview_date, interview
 
 INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, score, interview_id, rated_id, sender_id) VALUES (4001, 'The student was great, he/she will start to work next week.', to_date('06 Dec 2045', 'DD Mon YYYY'), TRUE, 5, 3001, 2003, 2004);
 
+-- Exam-module
+
+INSERT INTO public.exam(id, title) VALUES(2001, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2002, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2003, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2004, 'Macska');
+
+
+INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'First question for JPA', 2001);
+INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'First question for EJB', 2002);
+INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'First question for JSF', 2003);
+INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'First question for Macska', 2004);
+INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Second question for Macska', 2004);
+
+INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
+INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
+INSERT INTO public.question_type(id, name) VALUES(3, 'Text');
+
+
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
