@@ -10,6 +10,9 @@
 		<jta-data-source>java:jboss/datasources/SCHTraining</jta-data-source>
 		<class>hu.schonherz.training.entity.BaseEntity</class>
 		<class>hu.schonherz.training.entity.Role</class>
+		<class>hu.schonherz.training.entity.Event</class>
+		<class>hu.schonherz.training.entity.Training</class>
+		<class>hu.schonherz.training.entity.Theme</class>
 		<class>hu.schonherz.training.entity.RoleGroup</class>
 		<class>hu.schonherz.training.entity.User</class>
 		<class>hu.schonherz.training.entity.UserGroup</class>
@@ -22,6 +25,8 @@
 		<class>hu.schonherz.training.exam.entity.QuestionType</class>
 		<class>hu.schonherz.training.supervisor.entity.Feedback</class>
 		<class>hu.schonherz.training.supervisor.entity.Interview</class>
+		<class>hu.schonherz.training.supervisor.entity.Homework</class>
+		<class>hu.schonherz.training.supervisor.entity.HomeworkResult</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
