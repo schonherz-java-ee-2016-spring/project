@@ -94,7 +94,6 @@ public class RoleBean implements Serializable {
 	}
 	
 	public void edit(){
-		System.out.println("EEEEEEEEEEEEEEEEEEE");
 		try {
 			disabled = true;
 			
@@ -104,7 +103,7 @@ public class RoleBean implements Serializable {
 			// beállítjuk az új nevet
 			selectedRole.setName(roleName);
 			
-			// updateljük a jogcsoportot
+			// updateljük a jogot
 			roleService.updateRole(selectedRole);
 			
 			// visszarakjuk a listába

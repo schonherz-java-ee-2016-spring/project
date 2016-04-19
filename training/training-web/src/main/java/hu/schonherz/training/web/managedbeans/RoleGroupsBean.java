@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -60,7 +61,7 @@ public class RoleGroupsBean implements Serializable{
 			setSelectedRoleGroup(new RoleGroupVo());
 			
 			// felhozzuk az összes jogot
-			allRoles = roleService.getAllRole();
+			allRoles = roleService.findAllRole();
 			
 			// kezdetben a picklist elemei üresek
 			selectedRoleGroup_sRoles = new DualListModel<RoleVo>();
