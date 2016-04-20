@@ -21,6 +21,10 @@
 			<name>PrimeFaces Maven Repository</name>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>openejb-repo</id>
+			<url>https://repository.jboss.org</url>
+		</repository>
 	</repositories>
 
 	<build>
