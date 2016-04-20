@@ -11,9 +11,9 @@
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-	<context:component-scan base-package="hu.schonherz.training" />
+	<context:component-scan base-package="hu.schonherz.training.core" />
 
-	<jpa:repositories base-package="hu.schonherz.training"
+	<jpa:repositories base-package="hu.schonherz.training.core"
 		repository-impl-postfix="Impl" entity-manager-factory-ref="entityManagerFactory" />
 
 	<bean id="entityManagerFactory" class="org.hibernate.jpa.internal.EntityManagerFactoryImpl"

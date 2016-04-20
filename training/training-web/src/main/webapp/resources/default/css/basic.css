@@ -59,7 +59,7 @@ body {
     =============================================*/
 .navbar-cls-top .navbar-brand {
 	color: #fff;
-	background: #78B1D2;
+	background: #999999;
 	width: 260px;
 	text-align: center;
 	height: 75px;
@@ -79,7 +79,7 @@ body {
 
 
 .navbar-cls-top .navbar-brand:hover {
-	background: #78B1D2;
+	background: #999999;
 	color: #fff;
 }
 
@@ -190,7 +190,7 @@ body {
 }
 
 .navbar-header {
-	background: #78B1D2;
+	background: #999999;
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus
