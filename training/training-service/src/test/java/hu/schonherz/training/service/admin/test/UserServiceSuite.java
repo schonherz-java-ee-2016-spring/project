@@ -1,4 +1,4 @@
-package hu.schonherz.training.admin.service.test;
+package hu.schonherz.training.service.admin.test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

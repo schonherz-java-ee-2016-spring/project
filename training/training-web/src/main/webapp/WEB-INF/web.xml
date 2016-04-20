@@ -76,17 +76,17 @@
 	
 	<ejb-local-ref>
 		<ejb-ref-name>ejb.UserService</ejb-ref-name>
-		<local>hu.schonherz.training.service.UserService</local>
+		<local>hu.schonherz.training.service.admin.UserService</local>
 	</ejb-local-ref>
 	
 	<ejb-local-ref>
 		<ejb-ref-name>ejb.ExamService</ejb-ref-name>
-		<local>hu.schonherz.training.exam.service.ExamService</local>
+		<local>hu.schonherz.training.service.exam.ExamService</local>
 	</ejb-local-ref>
 	
 	<ejb-local-ref>
 		<ejb-ref-name>ejb.QuestionService</ejb-ref-name>
-		<local>hu.schonherz.training.exam.service.QuestionService</local>
+		<local>hu.schonherz.training.service.exam.QuestionService</local>
 	</ejb-local-ref>
 	
 	
