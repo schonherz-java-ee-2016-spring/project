@@ -8,7 +8,7 @@ import javax.faces.convert.FacesConverter;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
 
-import hu.schonherz.training.vo.RoleVo;
+import hu.schonherz.training.service.admin.vo.RoleVo;
 
 @FacesConverter(value = "RoleConverter")
 public class RoleConverter implements Converter {
