@@ -31,6 +31,20 @@ public class CreateContext {
 			p.put("training-core.database.test.JdbcDriver", "org.hsqldb.jdbcDriver");
 			p.put("training-core.database.test.JdbcUrl", "jdbc:hsqldb:file:target/db/test_db;shutdown=true");
 
+			
+//			<properties>
+//			<property name="hibernate.show_sql" value="true" />
+//			<property name="hibernate.format_sql" value="true" />
+//			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+//			<property name="hibernate.hbm2ddl.auto" value="create" />
+//			<property name="hibernate.default_schema" value="public" />
+//			<property name="hibernate.hbm2ddl.import_files" value="create.sql" />
+//			<property name="hibernate.transaction.jta.platform"
+//				value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+//			<property name="hibernate.ejb.entitymanager_factory_name"
+//				value="EntityManagerJNDI" />
+//		</properties>
+			
 			ejbContainer = EJBContainer.createEJBContainer(p);
 		} catch (Throwable e) {
 			logger.error(e.getMessage(), e);

@@ -1,9 +1,11 @@
 package hu.schonherz.training.admin.service.test;
 
 import java.util.List;
+import java.util.Properties;
 
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
+import javax.ejb.embeddable.EJBContainer;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -24,13 +26,32 @@ public class UserServiceTest {
 	@EJB
 	UserService serviceLocal;
 
+	protected static EJBContainer ejbContainer;
+	
 	@Before
 	public void startTheContainer() throws Exception {
+//		try {
+//			CreateContext.ejbContainer.getContext().bind("inject", this);
+//		} catch (Throwable e) {
+//			logger.error(e.getMessage(), e);
+//			throw e;
+//		}
 		try {
-			CreateContext.ejbContainer.getContext().bind("inject", this);
+			final Properties p = new Properties();
+
+			p.put("training-core.hibernate.hbm2ddl.auto", "create");
+			p.put("training-core.hibernate.default_schema", "PUBLIC");
+			p.put("training-core.hibernate.transaction.jta.platform",
+					"org.apache.openejb.hibernate.OpenEJBJtaPlatform2");
+			p.put("training-core.hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+			p.put("training-core.database.test", "new://Resource?type=DataSource");
+			p.put("training-core.database.test.JtaManaged", "true");
+			p.put("training-core.database.test.JdbcDriver", "org.hsqldb.jdbcDriver");
+			p.put("training-core.database.test.JdbcUrl", "jdbc:hsqldb:file:target/db/test_db;shutdown=true");
+
+			ejbContainer = EJBContainer.createEJBContainer(p);
 		} catch (Throwable e) {
 			logger.error(e.getMessage(), e);
-			throw e;
 		}
 	}
 

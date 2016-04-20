@@ -1,8 +1,13 @@
 package hu.schonherz.training.entity;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -15,6 +20,11 @@ public class Training extends BaseEntity{
 	private String name;
 	private Date beginning;
 	private Date end;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "theme_to_training", joinColumns = @JoinColumn(name = "training_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "theme_id", referencedColumnName = "id"))
+	private Collection<Theme> themes;
+	
 	public String getName() {
 		return name;
 	}
