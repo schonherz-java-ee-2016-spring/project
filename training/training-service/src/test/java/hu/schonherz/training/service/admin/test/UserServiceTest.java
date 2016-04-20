@@ -81,14 +81,6 @@ public class UserServiceTest {
 	@Test
 	public void test2FindByUsername(){
 		
-		// először regisztráljunk be valakit
-		UserVo userVO = new UserVo();
-		userVO.setUserName("IWantToLogin");
-		userVO.setPassword("WithMyPassword");
-		userVO.setFullName("Mr IWantToLogin");
-		userVO.setEmail("IWantToLogin@login.log");
-		
-		// nézzük meg hogy vissza tudjuk-e hozni
 		UserVo back = null;
 		try {
 			back = serviceLocal.findUserByName("IWantToLogin");

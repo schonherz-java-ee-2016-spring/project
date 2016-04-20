@@ -1,6 +1,5 @@
 package hu.schonherz.training.service.admin.impl;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -12,13 +11,11 @@ import javax.transaction.Transactional.TxType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-import hu.schonherz.training.core.admin.entity.Role;
+import hu.schonherz.training.core.admin.entity.RoleGroup;
 import hu.schonherz.training.core.admin.repository.RoleGroupRepository;
 import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.mapper.RoleGroupMapper;
-import hu.schonherz.training.service.admin.mapper.RoleMapper;
 import hu.schonherz.training.service.admin.vo.RoleGroupVo;
-import hu.schonherz.training.service.admin.vo.RoleVo;
 
 @Stateless(mappedName = "RoleGroupService", name = "RoleGroupService")
 @Transactional(value = TxType.REQUIRED)
@@ -42,29 +39,25 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 	}
 
 	@Override
-	public List<RoleGroupVo> getAllRoleGroup() {
+	public List<RoleGroupVo> getAllRoleGroup() throws Exception {
 		return RoleGroupMapper.toVo(roleGroupRepository.findAll());
 	}
 
 	@Override
-	public RoleGroupVo getRoleGroupByName( String roleGroupName ) {
-		return RoleGroupMapper.toVo(roleGroupRepository.findByName(roleGroupName));
+	public RoleGroupVo getRoleGroupByName( String roleGroupName ) throws Exception {
+		RoleGroup findByName = roleGroupRepository.findByName(roleGroupName);
+		if( findByName == null )
+			throw new Exception("No Result");
+		return RoleGroupMapper.toVo(findByName);
 	}
 
 	@Override
-	public RoleGroupVo getRoleGroupById( Long roleGroupId ) {
+	public RoleGroupVo getRoleGroupById( Long roleGroupId ) throws Exception {
 		return RoleGroupMapper.toVo(roleGroupRepository.findOne(roleGroupId));
 	}
 
 	@Override
 	public void updateRoleGroup(RoleGroupVo roleGroup) {
-		// DTO-t csinálok a RoleVo listából
-//		List<Role> roles = RoleMapper.toDto((List<RoleVo>)roleGroup.getRoles());
-		
-//		System.out.println("A SERVICE-BEN: " + roles);
-		
-		// updatelem a jogcsoportot
-//		roleGroupRepository.updateRoleGroup(roleGroup.getId(), roleGroup.getName(), roles);
 		roleGroupRepository.save( RoleGroupMapper.toDto(roleGroup));
 		
 	}
