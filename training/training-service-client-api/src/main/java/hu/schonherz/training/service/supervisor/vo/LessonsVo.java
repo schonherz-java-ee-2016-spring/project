@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.vo;
+package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
 

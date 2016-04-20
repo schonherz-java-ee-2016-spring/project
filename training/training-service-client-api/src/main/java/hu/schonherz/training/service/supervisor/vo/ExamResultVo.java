@@ -1,9 +1,9 @@
-package hu.schonherz.training.supervisor.vo;
+package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
 
-import hu.schonherz.training.exam.vo.ExamVo;
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 public class ExamResultVo implements Serializable {
 

@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.web.managedbeans;
+package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.training.supervisor.vo.ExamResultVo;
-import hu.schonherz.training.supervisor.vo.HomeworkResultVo;
-import hu.schonherz.training.supervisor.vo.LessonsVo;
-import hu.schonherz.training.vo.UserGroupVo;
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
+import hu.schonherz.training.service.supervisor.vo.LessonsVo;
+import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "resultsBean")
 @ViewScoped
