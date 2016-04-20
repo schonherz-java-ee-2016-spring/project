@@ -18,19 +18,15 @@
 				</p:column>
 
 				<p:column headerText="Company">
-					<h:outputText value="#{interviewsBean.interviews.company}" />
+					<h:outputText value="#{feedback.interview.company}" />
 				</p:column>
 
-				<p:column headerText="Date of interview">
-					<h:outputText value="#{feedback.interview.getInterviewDate}" />
-				</p:column>
-				
 				<p:column headerText="Interviewer">
-					<h:outputText value="#{feedback.interview.interviewer.getFullName()}" />
+					<h:outputText value="#{feedback.sender.getFullName()}" />
 				</p:column>
 				
 				<p:column headerText="Student">
-					<h:outputText value="#{feedback.interview.interviewed.getFullName()}" />
+					<h:outputText value="#{feedback.rated.getFullName()}" />
 				</p:column>
 				
 				<p:column headerText="Score">

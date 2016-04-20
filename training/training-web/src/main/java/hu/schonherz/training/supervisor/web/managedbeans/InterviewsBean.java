@@ -2,19 +2,18 @@ package hu.schonherz.training.supervisor.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 
 import hu.schonherz.training.supervisor.service.InterviewService;
 import hu.schonherz.training.supervisor.vo.InterviewVo;
 
 @ManagedBean(name = "interviewsBean")
-@ViewScoped
+@SessionScoped
 public class InterviewsBean implements Serializable {
 
 	/**
@@ -24,11 +23,6 @@ public class InterviewsBean implements Serializable {
 
 	@EJB
 	private InterviewService interviewService;
-
-	private String company;
-	private Date interviewDate;
-	private Long interviewedId;
-	private Long interviewerId;
 
 	private List<InterviewVo> interviews;
 
@@ -56,66 +50,6 @@ public class InterviewsBean implements Serializable {
 	}
 
 	/**
-	 * @return the company
-	 */
-	public String getCompany() {
-		return company;
-	}
-
-	/**
-	 * @param company
-	 *            the company to set
-	 */
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	/**
-	 * @return the interviewDate
-	 */
-	public Date getInterviewDate() {
-		return interviewDate;
-	}
-
-	/**
-	 * @param interviewDate
-	 *            the interviewDate to set
-	 */
-	public void setInterviewDate(Date interviewDate) {
-		this.interviewDate = interviewDate;
-	}
-
-	/**
-	 * @return the interviewedId
-	 */
-	public Long getInterviewedId() {
-		return interviewedId;
-	}
-
-	/**
-	 * @param interviewedId
-	 *            the interviewedId to set
-	 */
-	public void setInterviewedId(Long interviewedId) {
-		this.interviewedId = interviewedId;
-	}
-
-	/**
-	 * @return the interviewerId
-	 */
-	public Long getInterviewerId() {
-		return interviewerId;
-	}
-
-	/**
-	 * @param interviewerId
-	 *            the interviewerId to set
-	 */
-	public void setInterviewerId(Long interviewerId) {
-		this.interviewerId = interviewerId;
-	}
-
-	/**
 	 * @return the interviews
 	 */
 	public List<InterviewVo> getInterviews() {
@@ -128,6 +62,21 @@ public class InterviewsBean implements Serializable {
 	 */
 	public void setInterviews(List<InterviewVo> interviews) {
 		this.interviews = interviews;
+	}
+
+	/**
+	 * @return the interviewService
+	 */
+	public InterviewService getInterviewService() {
+		return interviewService;
+	}
+
+	/**
+	 * @param interviewService
+	 *            the interviewService to set
+	 */
+	public void setInterviewService(InterviewService interviewService) {
+		this.interviewService = interviewService;
 	}
 
 }
