@@ -1,13 +1,10 @@
 package hu.schonherz.training.service.admin.test;
 
-import java.util.List;
-
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -33,19 +30,49 @@ public class UserServiceTest {
 			throw e;
 		}
 	}
+	
+	private UserVo userVO;
 
 	@Test
 	public void test1Registration() {
-		UserVo userVO = new UserVo();
+		userVO = new UserVo();
+		userVO.setId(1L);
 		userVO.setUserName("test");
 		userVO.setPassword("test");
 		userVO.setFullName("test");
 		userVO.setEmail("test");
-		List<UserVo> users = null;
 		try {
 			serviceLocal.registrationUser(userVO);
-			users = serviceLocal.findAllUser();
-			Assert.assertEquals(true, (users == null ? false : true));
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Test
+	public void test2ModifyUser() {
+		try {
+			userVO = serviceLocal.findUserByName("test");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		userVO.setUserName("test2");
+		userVO.setFullName("test2");
+		userVO.setEmail("test2");
+		try {
+			serviceLocal.modifyUser(userVO);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Test
+	public void test3DeleteUser() {
+		try {
+			UserVo vo = serviceLocal.findUserByName("test2");
+			serviceLocal.deleteUserById(vo.getId());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
