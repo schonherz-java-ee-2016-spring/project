@@ -8,8 +8,17 @@
 	<converter>
     	<converter-id>UserConverter</converter-id>
     	<converter-class>hu.schonherz.training.web.UserConverter</converter-class>
-	</converter>	<application>
+	</converter>
+	
+	<converter>
+    	<converter-id>RoleConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.RoleConverter</converter-class>
+	</converter>
+
+	<application>
+	
 	 <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	 
 		<locale-config>
 			<default-locale>hu_HU</default-locale>
 			<supported-locale>en</supported-locale>

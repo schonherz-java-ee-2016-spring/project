@@ -33,7 +33,7 @@ INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (20
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2003);
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2004);
 
-INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (1, 5);
+INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2005);
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 
 INSERT INTO public.interview(id, company, interviewdate) VALUES (3001, 'Fiction Software', to_date('05 Dec 2045', 'DD Mon YYYY'));
