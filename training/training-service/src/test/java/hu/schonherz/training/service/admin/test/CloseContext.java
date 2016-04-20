@@ -9,7 +9,6 @@ public class CloseContext {
 
 	@Test
 	public void stopTheContainer() throws Exception {
-
 		CreateContext.ejbContainer.close();
 	}
 
