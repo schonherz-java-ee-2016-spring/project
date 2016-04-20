@@ -29,18 +29,18 @@ public class ResultsBean implements Serializable {
 	private static String[] lessonNames = { "Verzió kezelés", "Fejesztői eszközök", "Java alapok",
 			"Objektum orientált design", "Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC",
 			"Multitier architecture", "Spring", "Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice",
-			"Fejlesztési módszertanok" };
+			"Fejlesztési módszertanok", "Összesen" };
 
 	private List<HomeworkResultVo> homeworkResults = new ArrayList<>();
-	private static Integer[] homeworkResultPoints = { 8, 10, 9, 7, 5, 4, 7, 10, 9, 10, 6, 4, 8, 9, 10, 8, 9, 10 };
+	private static Integer[] homeworkResultPoints = { 8, 10, 9, 7, 5, 4, 7, 10, 9, 10, 6, 4, 8, 9, 10, 8, 9, 10, 132 };
 	private List<ExamResultVo> examResults = new ArrayList<>();
-	private static Integer[] examResultPoints = { 9, 8, 7, 9, 8, 9, 8, 9, 8, 9, 8, 10, 9, 8, 9, 10, 7, 4 };
+	private static Integer[] examResultPoints = { 9, 8, 7, 9, 8, 9, 8, 9, 8, 9, 8, 10, 9, 8, 9, 10, 7, 4, 143 };
 
 	@PostConstruct
 	public void init() {
 
 		// Lessons & Results
-		for (int i = 0; i < 18; i++) {
+		for (int i = 0; i < 18 + 1; i++) {
 			lessons.add(new LessonsVo());
 			homeworkResults.add(new HomeworkResultVo());
 			examResults.add(new ExamResultVo());
@@ -63,6 +63,7 @@ public class ResultsBean implements Serializable {
 		}
 
 		// UserGroups
+		userGroups.add(new UserGroupVo());
 		userGroups.add(new UserGroupVo());
 		for (UserGroupVo userGroup : userGroups) {
 			userGroup.setGroupName("Schonherz Java EE Training 2016");
