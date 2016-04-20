@@ -9,7 +9,7 @@
 	<ui:define name="content">
 		<h1>Feedbacks:</h1>
 		<h:form>
-			<p:dataTable style="width:100%;" var="feedback" value="#{feedbacksBean.feedbacks}"
+			<p:dataTable style="width:100%; text-align:center;" var="feedback" value="#{feedbacksBean.feedbacks}"
 				rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
@@ -17,23 +17,22 @@
 					<h:outputText value="#{feedback.id}" />
 				</p:column>
 
-				<p:column headerText="Company">
-					<h:outputText value="#{feedback.interview.company}" />
+				<p:column headerText="Sent">
+					<h:outputText value="#{feedback.recDate}" />
 				</p:column>
 
-				<p:column headerText="Interviewer">
+				<p:column headerText="Score">
+					<h:outputText value="#{feedback.score}" />
+				</p:column>
+				
+				<p:column headerText="Feedback sent by">
 					<h:outputText value="#{feedback.sender.getFullName()}" />
 				</p:column>
 				
 				<p:column headerText="Student">
 					<h:outputText value="#{feedback.rated.getFullName()}" />
 				</p:column>
-				
-				<p:column headerText="Score">
-					<h:outputText value="#{feedback.score}" />
-				</p:column>
 			</p:dataTable>
-		</h:form>
-		<br />
+		</h:form>	
 	</ui:define>
 </ui:composition>
