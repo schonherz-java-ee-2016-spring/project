@@ -38,6 +38,7 @@ public class UserServiceTest {
 	public void test1Registration() {
 		UserVo userVO = new UserVo();
 		userVO.setUserName("test");
+		userVO.setPassword("test");
 		userVO.setFullName("test");
 		userVO.setEmail("test");
 		List<UserVo> users = null;
@@ -45,55 +46,6 @@ public class UserServiceTest {
 			serviceLocal.registrationUser(userVO);
 			users = serviceLocal.findAllUser();
 			Assert.assertEquals(true, (users == null ? false : true));
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
-	}
-
-	@Test
-	public void test2ModifyUser() {
-		UserVo userVO = new UserVo();
-		userVO.setId(1L);
-		userVO.setUserName("test");
-		userVO.setFullName("test");
-		userVO.setEmail("test");
-		UserVo userVO2 = new UserVo();
-		userVO2.setUserName("test2");
-		userVO2.setFullName("test2");
-		userVO2.setEmail("test2");
-		try {
-			serviceLocal.registrationUser(userVO);
-			serviceLocal.modifyUser(userVO2);
-			int confirm = serviceLocal.findUserById(1L).getUserName().length();
-			Assert.assertEquals(5, confirm);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
-		
-	}
-	
-	@Test
-	public void test3DeleteUser() {
-		UserVo userVO = new UserVo();
-		userVO.setId(1L);
-		userVO.setUserName("test");
-		userVO.setFullName("test");
-		userVO.setEmail("test");
-		UserVo userVO2 = new UserVo();
-		userVO2.setId(2L);
-		userVO2.setUserName("test2");
-		userVO2.setFullName("test2");
-		userVO2.setEmail("test2");
-		List<UserVo> users = null;
-		try {
-			serviceLocal.registrationUser(userVO);
-			serviceLocal.registrationUser(userVO2);
-			serviceLocal.deleteUserById(userVO2.getId());
-			users = serviceLocal.findAllUser();
-			int confirm = users.size();
-			Assert.assertEquals(1, confirm);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
