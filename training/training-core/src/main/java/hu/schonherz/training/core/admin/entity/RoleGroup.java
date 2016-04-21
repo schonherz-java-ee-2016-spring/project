@@ -20,7 +20,7 @@ public class RoleGroup extends BaseEntity {
 	private String name;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "role_to_roleGroup", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
+	@JoinTable(name = "role_to_roleGroup", joinColumns = @JoinColumn(name = "rolegroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;	
 	
 	public String getName() {
