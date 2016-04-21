@@ -56,26 +56,29 @@
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-binding</artifactId>
 		</dependency>
+<!-- 		HIBA -->
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
+			<version>2.4.2.RELEASE</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<scope>provided</scope>
 		</dependency>
-<!-- 		HIBA  ha ott a scope a fő pomba -->
+<!-- 		HIBA -->
 		<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
+				<version>4.2.5.RELEASE</version>
 				<scope>provided</scope>
 			</dependency>
-<!-- 		HIBA  ha ott a scope a fő pomba -->
+<!-- 		HIBA -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
+			<version>4.2.5.RELEASE</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
