@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
@@ -18,8 +20,10 @@ public class Training extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginning;
-	private Date end;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date endDate;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "theme_to_training", joinColumns = @JoinColumn(name = "training_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "theme_id", referencedColumnName = "id"))
@@ -37,14 +41,25 @@ public class Training extends BaseEntity{
 	public void setBeginning(Date beginning) {
 		this.beginning = beginning;
 	}
-	public Date getEnd() {
-		return end;
-	}
-	public void setEnd(Date end) {
-		this.end = end;
-	}
+
 	@Override
 	public String toString() {
-		return "Training [name=" + name + ", beginning=" + beginning + ", end=" + end + "]";
+		return "Training [name=" + name + ", beginning=" + beginning + ", end=" + endDate + "]";
+	}
+
+	public Collection<Theme> getThemes() {
+		return themes;
+	}
+
+	public void setThemes(Collection<Theme> themes) {
+		this.themes = themes;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 }
