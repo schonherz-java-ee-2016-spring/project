@@ -14,6 +14,10 @@
     	<converter-id>RoleConverter</converter-id>
     	<converter-class>hu.schonherz.training.web.RoleConverter</converter-class>
 	</converter>
+	<converter>
+    	<converter-id>RoleGroupConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.RoleGroupConverter</converter-class>
+	</converter>
 
 	<application>
 	

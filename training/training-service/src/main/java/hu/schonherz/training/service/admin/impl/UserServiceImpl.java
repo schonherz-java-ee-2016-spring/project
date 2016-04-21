@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private RoleGroup getGuestRoleGroup() throws Exception {
-		RoleGroup roleGroup = roleGroupRepository.findByName("ROLE_GUEST");
+		RoleGroup roleGroup = roleGroupRepository.findByName("Guest Role Group");
 		if (roleGroup == null) {
 			roleGroup = new RoleGroup();
-			roleGroup.setName("ROLE_GUEST");
+			roleGroup.setName("Guest Role Group");
 			roleGroup = roleGroupRepository.save(roleGroup);
 		}
 		return roleGroup;
