@@ -14,7 +14,7 @@
 	<name>training-web Maven Webapp</name>
 
 	<dependencies>
-		<dependency>
+<dependency>
 			<groupId>hu.schonherz.training.service</groupId>
 			<artifactId>training-service-client-api</artifactId>
 			<scope>provided</scope>
@@ -60,19 +60,17 @@
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<scope>provided</scope>
 		</dependency>
-<!-- 		HIBA  ha ott a scope a fő pomba -->
+
 		<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<scope>provided</scope>
-			</dependency>
-<!-- 		HIBA  ha ott a scope a fő pomba -->
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
