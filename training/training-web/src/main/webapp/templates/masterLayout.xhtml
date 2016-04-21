@@ -86,16 +86,20 @@
 
 
 					<li><a href="#{request.contextPath}/index.xhtml"><i class="fa fa-home "></i>Home</a></li>
-					<li><a href="#" data-target="#item1" data-toggle="collapse"><i class="fa fa-users "></i>User Management<span
-							class="caret arrow"></span>
-					</a>
-						<ul class="nav nav-stacked collapse left-submenu" id="item1">
-							<li><a href="#{request.contextPath}/public/users.xhtml">Users</a></li>
-							<li><a href="#{request.contextPath}/public/usergroups.xhtml">User Groups</a></li>
-						</ul></li>
-					<li><a href="#" data-target="#item2" data-toggle="collapse"><i class="fa fa-lock "></i>Role Management<span
-							class="caret arrow"></span>
-					</a>
+					<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
+						<li><a href="#" data-target="#item1" data-toggle="collapse"><i class="fa fa-users "></i>User
+								Management<span class="caret arrow"></span> </a>
+							<ul class="nav nav-stacked collapse left-submenu" id="item1">
+								<sec:authorize access="hasRole('USERS')">
+									<li><a href="#{request.contextPath}/secured/users.xhtml">Users</a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('UGS')">
+									<li><a href="#{request.contextPath}/secured/usergroups.xhtml">User Groups</a></li>
+								</sec:authorize>
+							</ul></li>
+					</sec:authorize>
+					<li><a href="#" data-target="#item2" data-toggle="collapse"><i class="fa fa-lock "></i>Role
+							Management<span class="caret arrow"></span> </a>
 						<ul class="nav nav-stacked collapse left-submenu" id="item2">
 							<li><a href="#{request.contextPath}/public/roles.xhtml">Roles</a></li>
 							<li><a href="#{request.contextPath}/public/rolegroups.xhtml">Role Groups</a></li>
@@ -103,15 +107,12 @@
 
 					<li><a href="#{request.contextPath}/public/results.xhtml"><i class="fa fa-trophy "></i>Results</a></li>
 
-					
+
 					<li><a href="#{request.contextPath}/testfeatures/exams.xhtml"><i class="fa fa-magic "></i>Exams</a></li>
-					
-					<li><a href="#{request.contextPath}/public/feedbacks.xhtml"><i class="fa fa-comments-o "></i>Feedbacks</a></li>
-					
-					<li><a href="#{request.contextPath}/public/calendar.xhtml"><i class="fa fa-dashboard "></i>Calendar</a></li>
-					
-					<li><a href="#{request.contextPath}/public/interviews.xhtml"><i class="fa fa-dashboard "></i>Interviews</a></li>
-					
+
+					<li><a href="#{request.contextPath}/public/feedbacks.xhtml"><i
+							class="fa fa-comments-o "></i>Feedbacks</a></li>
+
 				</ul>
 			</div>
 

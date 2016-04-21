@@ -2,6 +2,7 @@ package hu.schonherz.training.core.admin.entity;
 
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,8 +20,8 @@ public class RoleGroup extends BaseEntity {
 	@Column(nullable = false)
 	private String name;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "role_to_roleGroup", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "roleGroup_id", referencedColumnName = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name = "role_to_roleGroup", joinColumns = @JoinColumn(name = "rolegroup_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private Collection<Role> roles;	
 	
 	public String getName() {

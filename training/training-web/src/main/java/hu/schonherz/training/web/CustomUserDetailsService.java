@@ -95,7 +95,7 @@ try {
 	private List<GrantedAuthority> buildUserAuthority(Set<RoleVo> userRoles) {
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 		for (RoleVo userRole : userRoles) {
-			setAuths.add(new SimpleGrantedAuthority(userRole.getName()));
+			setAuths.add(new SimpleGrantedAuthority(userRole.getRoleCode()));
 		}
 		List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
 		return Result;
