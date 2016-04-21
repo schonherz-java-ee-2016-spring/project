@@ -1,10 +1,14 @@
 package hu.schonherz.training.service.admin.test;
 
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -29,20 +33,45 @@ public class UserServiceTest {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
+		
+		// minden teszt előtt beregisztrálunk valakit
+		UserVo userVO = new UserVo();
+//		userVo.setId( 978 );
+		userVO.setUserName("IWantToLogin");
+		userVO.setPassword("WithMyPassword");
+		userVO.setFullName("Mr IWantToLogin");
+		userVO.setEmail("IWantToLogin@login.log");
+		
+		serviceLocal.registrationUser(userVO);
 	}
 	
-	private UserVo userVO;
+	@After
+	public void tearDown(){
+		try {
+			UserVo user = serviceLocal.findUserByName("IWantToLogin");
+			serviceLocal.deleteUserById(user.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* TESZTELNI:
+	 * findUserByName kész
+	 * registrationUser kész
+	 * findUserByEmail kész
+	 * findAllUser kész
+	 * deleteUserById 
+	 * modifyUser kész
+	 * findUserById
+	 * updateUser kész
+	 * */
 
 	@Test
-	public void test1Registration() {
-		userVO = new UserVo();
-		userVO.setId(1L);
-		userVO.setUserName("test");
-		userVO.setPassword("test");
-		userVO.setFullName("test");
-		userVO.setEmail("test");
+	public void test1FindAllUser() {
+		List<UserVo> users = null;
 		try {
-			serviceLocal.registrationUser(userVO);
+			users = serviceLocal.findAllUser();
+			Assert.assertEquals(true, (users == null ? false : true));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
@@ -50,33 +79,87 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void test2ModifyUser() {
+	public void test2FindByUsername(){
+		
+		UserVo back = null;
 		try {
-			userVO = serviceLocal.findUserByName("test");
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		userVO.setUserName("test2");
-		userVO.setFullName("test2");
-		userVO.setEmail("test2");
-		try {
-			serviceLocal.modifyUser(userVO);
+			back = serviceLocal.findUserByName("IWantToLogin");
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		Assert.assertEquals("Mr IWantToLogin", back.getFullName());
+	}
+	
+	@Test
+	public void test3FindUserByEmail(){
+		
+		// nézzük meg hogy vissza tudjuk-e hozni email alapján
+		UserVo back = null;
+		try {
+			back = serviceLocal.findUserByEmail("IWantToLogin@login.log");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+				
+		Assert.assertEquals("IWantToLogin@login.log", back.getEmail());
+	}
+	
+//	@Test(expected=Exception.class)
+//	public void test4DeleteUserById(){
+//		try {
+//			serviceLocal.deleteUserById( 978L );
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Assert.fail();
+//		}
+//		
+//		serviceLocal.findUserById( 978L );
+//	}
+	
+	@Test
+	public void test5ModifyUser(){
+		
+		// megkeressük az user-t
+		try {
+			UserVo user = serviceLocal.findUserByName("IWantToLogin");
+			
+			user.setFullName("AnotherUser Name");
+			serviceLocal.modifyUser(user);
+			
+			UserVo back = serviceLocal.findUserByName("IWantToLogin");
+			
+			Assert.assertEquals("AnotherUser Name", back.getFullName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
 		}
 	}
 	
 	@Test
-	public void test3DeleteUser() {
+	public void test6UpdateUser(){
 		try {
-			UserVo vo = serviceLocal.findUserByName("test2");
-			serviceLocal.deleteUserById(vo.getId());
+			UserVo user = serviceLocal.findUserByName("IWantToLogin");
+			
+			user.setFullName("AnotherUser Name");
+			serviceLocal.updateUser(user);
+			
+			UserVo back = serviceLocal.findUserByName("IWantToLogin");
+			
+			Assert.assertEquals("AnotherUser Name", back.getFullName());
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
+			e.printStackTrace();
+			Assert.fail();
 		}
 	}
+	
+//	@Test
+//	public void test7FindUserById(){
+//		UserVo user = serviceLocal.findUserById( 978L );
+//		
+//		Assert.assertEquals("IWantToLogin", user.getUserName());
+//	}
 
 }

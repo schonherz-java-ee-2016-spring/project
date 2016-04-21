@@ -15,8 +15,10 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
+import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
@@ -57,6 +59,13 @@ public class UserGroupsBean implements Serializable {
 	 */
 	private Boolean isDisabled = true;
 
+	private DualListModel<RoleGroupVo> rGroups;
+	private List<RoleGroupVo> rGroupsSource;
+	private List<RoleGroupVo> rGroupsTarget;
+
+	@EJB
+	private RoleGroupService roleGroupService;
+
 	/**
 	 * Init metódus, beolvassuk a csoportokat. Példányosítjuk amit kell.
 	 */
@@ -64,6 +73,7 @@ public class UserGroupsBean implements Serializable {
 	public void init() {
 		try {
 			users = new DualListModel<>();
+			rGroups = new DualListModel<>();
 			selected = new UserGroupVo();
 			userGroups = userGroupService.getUserGroups();
 		} catch (Exception e) {
@@ -89,7 +99,6 @@ public class UserGroupsBean implements Serializable {
 		selected = new UserGroupVo();
 	}
 
-	
 	/**
 	 * Userek kezeléséhez létrehozott metódus, a picklist megfelelő feltöltésére
 	 */
@@ -105,9 +114,9 @@ public class UserGroupsBean implements Serializable {
 				for (UserGroupVo group : userVo.getGroups()) {
 					if (group.getId().equals(selected.getId())) {
 						usersTarget.add(userVo);
-						o = 1 ;
+						o = 1;
 						break;
-					} 
+					}
 				}
 				// Ha nem került a cél oldalra tegyük a kezdő oldalra.
 				if (o != 1) {
@@ -119,6 +128,66 @@ public class UserGroupsBean implements Serializable {
 		}
 		// A picklisthez gyártsuk le a két oldal listájával
 		users = new DualListModel<UserVo>(usersSource, usersTarget);
+	}
+
+	public void roleManageAction() {
+		rGroupsSource = new ArrayList<>();
+		rGroupsTarget = new ArrayList<>();
+		try {
+			for (RoleGroupVo rGroupVo : roleGroupService.getAllRoleGroup()) {
+				int o = 0;
+				for (RoleGroupVo rgroup : userGroupService.findGroupByName(selected.getName()).getRoleGroups()) {
+					if (rgroup.getId().equals(rGroupVo.getId())) {
+						rGroupsTarget.add(rGroupVo);
+						o = 1;
+						break;
+					}
+				}
+				if (o != 1) {
+					rGroupsSource.add(rGroupVo);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		rGroups = new DualListModel<RoleGroupVo>(rGroupsSource, rGroupsTarget);
+	}
+
+	public void saveRoleGroups() {
+		for (RoleGroupVo rGroupVo : rGroups.getSource()) {
+			List<RoleGroupVo> rgvos = selected.getRoleGroups();
+			for (RoleGroupVo rgvo : rgvos) {
+				if (rGroupVo.getId().equals(rgvo.getId())) {
+					rgvos.remove(rgvo);
+					break;
+				}
+			}
+			selected.setRoleGroups(rgvos);
+			try {
+				userGroupService.saveUserGroup(selected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		for (RoleGroupVo rGroupVo : rGroups.getTarget()) {
+			List<RoleGroupVo> rgvos = selected.getRoleGroups();
+			for (RoleGroupVo rgvo : rgvos) {
+				if (rGroupVo.getId().equals(rgvo.getId())) {
+					rgvos.remove(rgvo);
+					break;
+				}
+			}
+			rgvos.add(rGroupVo);
+			selected.setRoleGroups(rgvos);
+			try {
+				userGroupService.saveUserGroup(selected);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role Groups saved!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	/**
@@ -133,7 +202,7 @@ public class UserGroupsBean implements Serializable {
 			for (UserGroupVo userGroupVo : ugvo) {
 				// Ha van köztük az aktuálisan kezelt csoportnak megfelelő
 				// Akkor azt töröljük a listából, és ezzel kész vagyunk
-				if (userGroupVo.getId().equals(selected.getId())){
+				if (userGroupVo.getId().equals(selected.getId())) {
 					ugvo.remove(userGroupVo);
 					break;
 				}
@@ -149,7 +218,7 @@ public class UserGroupsBean implements Serializable {
 		for (UserVo userVo : users.getTarget()) {
 			Collection<UserGroupVo> ugvo = userVo.getGroups();
 			for (UserGroupVo userGroupVo : ugvo) {
-				if (userGroupVo.getId().equals(selected.getId())){
+				if (userGroupVo.getId().equals(selected.getId())) {
 					ugvo.remove(userGroupVo);
 					break;
 				}
@@ -261,5 +330,28 @@ public class UserGroupsBean implements Serializable {
 
 	public void setUsersTarget(List<UserVo> usersTarget) {
 		this.usersTarget = usersTarget;
+	}
+	public DualListModel<RoleGroupVo> getrGroups() {
+		return rGroups;
+	}
+
+	public void setrGroups(DualListModel<RoleGroupVo> rGroups) {
+		this.rGroups = rGroups;
+	}
+
+	public List<RoleGroupVo> getrGroupsSource() {
+		return rGroupsSource;
+	}
+
+	public void setrGroupsSource(List<RoleGroupVo> rGroupsSource) {
+		this.rGroupsSource = rGroupsSource;
+	}
+
+	public List<RoleGroupVo> getrGroupsTarget() {
+		return rGroupsTarget;
+	}
+
+	public void setrGroupsTarget(List<RoleGroupVo> rGroupsTarget) {
+		this.rGroupsTarget = rGroupsTarget;
 	}
 }

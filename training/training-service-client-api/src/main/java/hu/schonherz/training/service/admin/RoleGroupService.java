@@ -12,10 +12,10 @@ public interface RoleGroupService {
 	
 	void updateRoleGroup( RoleGroupVo roleGroup );
 	
-	List<RoleGroupVo> getAllRoleGroup();
+	List<RoleGroupVo> getAllRoleGroup() throws Exception;
 	
-	RoleGroupVo getRoleGroupByName( String roleGroupName );
+	RoleGroupVo getRoleGroupByName( String roleGroupName ) throws Exception;
 	
-	RoleGroupVo getRoleGroupById( Long roleGroupId );
+	RoleGroupVo getRoleGroupById( Long roleGroupId ) throws Exception;
 
 }

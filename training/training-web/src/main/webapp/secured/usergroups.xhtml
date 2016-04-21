@@ -8,10 +8,6 @@
 			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
 				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"
 				rowsPerPageTemplate="4,8,12">
-				<p:column headerText="id">
-					<h:outputText value="#{ug.id}">
-					</h:outputText>
-				</p:column>
 				<p:column headerText="#{out.groupname}">
 					<h:outputText value="#{ug.groupName}">
 					</h:outputText>
@@ -48,13 +44,16 @@
 					<p:commandButton id="manageButton" process="gtable" icon="ui-icon-pencil"
 						disabled="#{userGroupsBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
 						action="#{userGroupsBean.manageAction()}" onclick="PF('pickdialog').show();" />
+					<p:commandButton id="roleManageButton" process="gtable" icon="ui-icon-pencil"
+						disabled="#{userGroupsBean.isDisabled}" value="#{out.roleGroups}" update="msgs,pickform2"
+						action="#{userGroupsBean.roleManageAction()}" onclick="PF('pickdialog2').show();" />
 					<p:commandButton id="deleteButton" process="gtable" update="msgs,:groupform:gtable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{userGroupsBean.isDisabled}"
 						action="#{userGroupsBean.deleteGroup()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton"
+				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,roleManageButton"
 					listener="#{userGroupsBean.selectGroupListener}" />
 			</p:dataTable>
 		</h:form>
@@ -101,6 +100,19 @@
 					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
 				</p:pickList>
 				<p:commandButton id="userSubmit" action="#{userGroupsBean.saveUsers()}" value="#{out.save}"
+					update=":groupform:gtable,growl" />
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog2" modal="true"
+			resizable="false">
+			<h:form id="pickform2">
+				<p:pickList id="pickList2" value="#{userGroupsBean.rGroups}" var="roleGroup"
+					itemLabel="#{roleGroup.name}" itemValue="#{roleGroup}"  converter="RoleGroupConverter">
+					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
+					<f:facet name="targetCaption">#{out.assigned}</f:facet>
+				</p:pickList>
+				<p:commandButton id="roleSubmit" action="#{userGroupsBean.saveRoleGroups()}" value="#{out.save}"
 					update=":groupform:gtable,growl" />
 			</h:form>
 		</p:dialog>

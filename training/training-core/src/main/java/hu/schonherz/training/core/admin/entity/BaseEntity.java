@@ -12,11 +12,15 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	private static final Logger logger = Logger.getLogger(BaseEntity.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
