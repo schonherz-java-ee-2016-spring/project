@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.web.managedbeans;
+package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,8 +8,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.training.supervisor.service.FeedbackService;
-import hu.schonherz.training.supervisor.vo.FeedbackVo;
+import hu.schonherz.training.service.supervisor.FeedbackService;
+import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
 
 @ManagedBean(name = "feedbacksBean")
 @ViewScoped

@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.service.impl;
+package hu.schonherz.training.service.supervisor.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,12 +15,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-import hu.schonherz.training.repository.UserRepository;
-import hu.schonherz.training.supervisor.entity.Interview;
-import hu.schonherz.training.supervisor.repository.InterviewRepository;
-import hu.schonherz.training.supervisor.service.InterviewService;
-import hu.schonherz.training.supervisor.service.mapper.InterviewMapper;
-import hu.schonherz.training.supervisor.vo.InterviewVo;
+import hu.schonherz.training.core.admin.repository.UserRepository;
+import hu.schonherz.training.core.supervisor.entity.Interview;
+import hu.schonherz.training.core.supervisor.repository.InterviewRepository;
+import hu.schonherz.training.service.supervisor.InterviewService;
+import hu.schonherz.training.service.supervisor.mapper.InterviewMapper;
+import hu.schonherz.training.service.supervisor.vo.InterviewVo;
 
 @Stateless(mappedName = "InterviewService", name = "InterviewService")
 @Transactional(value = TxType.REQUIRED)

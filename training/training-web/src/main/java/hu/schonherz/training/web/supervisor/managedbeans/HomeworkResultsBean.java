@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.web.managedbeans;
+package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.training.supervisor.service.HomeworkResultService;
-import hu.schonherz.training.supervisor.vo.HomeworkResultVo;
-import hu.schonherz.training.supervisor.vo.HomeworkVo;
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.supervisor.HomeworkResultService;
+import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.supervisor.vo.HomeworkVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "homeworksBean")
 @ViewScoped
