@@ -1,5 +1,7 @@
 package hu.schonherz.training.service.admin.test;
 
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
@@ -76,65 +78,65 @@ public class RoleServiceTest {
 		
 		Assert.assertEquals("Test_Role", test.getName());
 	}
-//	
-//	@Test(expected=Exception.class)
-//	public void test2DeleteRole() throws Exception{
-//		RoleVo test = null;
-//		try {
-//			test = serviceLocal.getRoleByName("Test_Role");
-//			serviceLocal.deleteRole(test.getId());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//
+	
+	@Test/*(expected=Exception.class)*/
+	public void test2DeleteRole() throws Exception{
+		RoleVo test = null;
+		try {
+			test = serviceLocal.getRoleByName("Test_Role");
+			serviceLocal.deleteRole(test.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
 //		serviceLocal.getRoleByName("Test_Role");
-//	}
-//	
-//	@Test
-//	public void test3GetAllRole(){
-//		
-//		List<RoleVo> allRole = null;
-//		try {
-//			allRole = serviceLocal.findAllRole();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//		
-//		Assert.assertNotNull(allRole);
-//		Assert.assertTrue( allRole.size() > 0 );
-//		
-//	}
-//
-//	@Test
-//	public void test4GetRoleByName(){
-//		try {
-//			serviceLocal.getRoleByName("Test_Role");
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//	}
-//
-//	@Test
-//	public void test6UpdateRole() {
-//		
-//		try {
-//			RoleVo rv = serviceLocal.getRoleByName("Test_Role");
-//			
-//			rv.setName("Another Role Name");
-//			
-//			serviceLocal.updateRole(rv);
-//			
-//			RoleVo test = serviceLocal.getRoleByName("Another Role Name");
-//			
-//			Assert.assertEquals("Another Role Name", test.getName());
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			Assert.fail();
-//		}
-//	}
+	}
+	
+	@Test
+	public void test3GetAllRole(){
+		
+		List<RoleVo> allRole = null;
+		try {
+			allRole = serviceLocal.findAllRole();
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+		
+		Assert.assertNotNull(allRole);
+		Assert.assertTrue( allRole.size() > 0 );
+		
+	}
+
+	@Test
+	public void test4GetRoleByName(){
+		try {
+			serviceLocal.getRoleByName("Test_Role");
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void test6UpdateRole() {
+		
+		try {
+			RoleVo rv = serviceLocal.getRoleByName("Test_Role");
+			
+			rv.setName("Another Role Name");
+			
+			serviceLocal.updateRole(rv);
+			
+			RoleVo test = serviceLocal.getRoleByName("Another Role Name");
+			
+			Assert.assertEquals("Another Role Name", test.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	
 
