@@ -1,4 +1,4 @@
-package hu.schonherz.training.supervisor.web.managedbeans;
+package hu.schonherz.training.web.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.supervisor.service.HomeworkService;
 import hu.schonherz.training.supervisor.vo.HomeworkVo;
 
-@ManagedBean(name = "homeworksBean")
-@SessionScoped
-public class HomeworksBean implements Serializable {
+@ManagedBean(name = "homeworksForCalendarBean")
+@ViewScoped
+public class HomeworksForCalendarBean implements Serializable {
 	private static final long serialVersionUID = -4351328894295907018L;
 
 	@EJB

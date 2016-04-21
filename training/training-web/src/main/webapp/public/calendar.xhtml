@@ -1,10 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	template="/templates/masterLayout.xhtml"
-	xmlns:sec="http://www.springframework.org/security/tags">
+	template="/templates/masterLayout.xhtml">
 
 	<ui:define name="content">
 		<h:outputStylesheet library="default" name="css/calendar.css"
@@ -12,25 +9,32 @@
 		<h2 class="text-muted">Calendar</h2>
 
 
-			<div class="container">
-				<ul class="timeline">
-					<ui:repeat var="#{homeworksBean.homeworks}" value="homework" varStatus="status">
+		<div class="container">
+			<ul class="timeline">
+				<ui:repeat var="#{homeworksForCalendarBean.homeworks}" value="homework" varStatus="status">
 					<li>
 						<div class="timeline-panel">
 							<div class="timeline-heading">
-								<h4 class="timeline-title"> <h:outputText value="#{status}" /> <h:outputText value="#{homework.title}" /></h4>
+								<h4 class="timeline-title">
+									<h:outputText value="#{status}" />
+									<h:outputText value="#{homework.title}" />
+								</h4>
 								<p>
-									<small class="text-muted">date: <h:outputText value="#{homework.deadline}" /> </small>
+									<small class="text-muted">date: <h:outputText
+											value="#{homework.deadline}" />
+									</small>
 								</p>
 							</div>
 							<div class="timeline-body">
-								<p><h:outputText value="#{homework.description}" /></p>
+								<p>
+									<h:outputText value="#{homework.description}" />
+								</p>
 							</div>
 						</div>
 					</li>
-					</ui:repeat>
-				</ul>
-			</div>
+				</ui:repeat>
+			</ul>
+		</div>
 	</ui:define>
 
 </ui:composition>
