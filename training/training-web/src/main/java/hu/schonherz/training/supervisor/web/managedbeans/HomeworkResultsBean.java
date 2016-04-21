@@ -15,7 +15,7 @@ import hu.schonherz.training.supervisor.vo.HomeworkResultVo;
 import hu.schonherz.training.supervisor.vo.HomeworkVo;
 import hu.schonherz.training.vo.UserVo;
 
-@ManagedBean(name = "homeworksBean")
+@ManagedBean(name = "homeworkResultsBean")
 @ViewScoped
 public class HomeworkResultsBean implements Serializable {
 	private static final long serialVersionUID = -2619626826122817902L;

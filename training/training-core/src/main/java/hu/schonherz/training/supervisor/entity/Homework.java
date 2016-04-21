@@ -5,10 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.entity.BaseEntity;
+import hu.schonherz.training.entity.UserGroup;
 
 /**
  * Homework entity for managing homeworks
@@ -30,8 +33,11 @@ public class Homework extends BaseEntity implements Serializable {
 
 	private Integer maximumScore;
 
-	@Lob
 	private String description;
+
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "user_group_id", referencedColumnName = "id")
+	private UserGroup userGroup;
 
 	public Homework() {
 		super();
@@ -113,5 +119,25 @@ public class Homework extends BaseEntity implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * Returns the user group which has the homework.
+	 * 
+	 * @return the user group which has the homework
+	 */
+
+	public UserGroup getUserGroup() {
+		return userGroup;
+	}
+
+	/**
+	 * Sets the user group which has the homework.
+	 * 
+	 * @param userGroup
+	 *            the user group which has the homework
+	 */
+	public void setUserGroup(UserGroup userGroup) {
+		this.userGroup = userGroup;
 	}
 }

@@ -10,45 +10,27 @@
 		<h:outputStylesheet library="default" name="css/calendar.css"
 			rel="stylesheet" />
 		<h2 class="text-muted">Calendar</h2>
-		<body>
-			<select class="selectpicker">
-				<option>Homework</option>
-				<option>Test</option>
-				<option>Interview</option>
-			</select>
 
 
 			<div class="container">
 				<ul class="timeline">
+					<ui:repeat var="#{homeworksBean.homeworks}" value="homework" varStatus="status">
 					<li>
 						<div class="timeline-panel">
 							<div class="timeline-heading">
-								<h4 class="timeline-title">Homework 1</h4>
+								<h4 class="timeline-title"> <h:outputText value="#{status}" /> <h:outputText value="#{homework.title}" /></h4>
 								<p>
-									<small class="text-muted">date: 2040.11.22 </small>
+									<small class="text-muted">date: <h:outputText value="#{homework.deadline}" /> </small>
 								</p>
 							</div>
 							<div class="timeline-body">
-								<p>You have plenty of time. Do homework1!</p>
+								<p><h:outputText value="#{homework.description}" /></p>
 							</div>
 						</div>
 					</li>
-					<li>
-						<div class="timeline-panel">
-							<div class="timeline-heading">
-								<h4 class="timeline-title">Homework 2</h4>
-								<p>
-									<small class="text-muted">date: 2009.11.22 </small>
-								</p>
-							</div>
-							<div class="timeline-body">
-								<p>You realy had one job, and you didn't do it!</p>
-							</div>
-						</div>
-					</li>
+					</ui:repeat>
 				</ul>
 			</div>
-		</body>
 	</ui:define>
 
 </ui:composition>
