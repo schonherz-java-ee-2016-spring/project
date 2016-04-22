@@ -1,6 +1,10 @@
 package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +14,7 @@ import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
+import hu.schonherz.training.service.supervisor.vo.InterviewVo;
 
 @ManagedBean(name = "feedbacksBean")
 @ViewScoped
@@ -25,13 +30,18 @@ public class FeedbacksBean implements Serializable {
 	
 	List<FeedbackVo> feedbacks;
 	
+//	@PostConstruct
+//	public void init() {
+//		try {
+//			feedbacks = feedbackService.getAll();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
 	@PostConstruct
 	public void init() {
-		try {
-			feedbacks = feedbackService.getAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public FeedbacksBean() {

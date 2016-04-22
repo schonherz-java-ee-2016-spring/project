@@ -5,34 +5,31 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	
-	<ui:define name="content">
-		<h1>Feedbacks:</h1>
-		<h:form>
-			<p:dataTable style="width:100%; text-align:center;" var="feedback" value="#{feedbacksBean.feedbacks}"
-				rows="10" paginator="true"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="1,5,10,15,">
-				<p:column headerText="Id">
-					<h:outputText value="#{feedback.id}" />
-				</p:column>
 
-				<p:column headerText="Sent">
-					<h:outputText value="#{feedback.recDate}" />
-				</p:column>
-
-				<p:column headerText="Score">
-					<h:outputText value="#{feedback.score}" />
-				</p:column>
-				
-				<p:column headerText="Feedback sent by">
-					<h:outputText value="#{feedback.sender.getFullName()}" />
-				</p:column>
-				
-				<p:column headerText="Student">
-					<h:outputText value="#{feedback.rated.getFullName()}" />
-				</p:column>
-			</p:dataTable>
-		</h:form>	
-	</ui:define>
+	<ui:component>
+		<ui:repeat var="feedback" value="#{feedbacksBean.feedbacks}">
+			<div class="well">
+				<div class="media">
+					<a class="pull-left" href="#"> <img class="media-object"
+						src="http://placekitten.com/150/150"></a>
+					<div class="media-body">
+						<h4 class="media-heading">#{feedback.company}</h4>
+						<p class="text-right">By #{feedback.sender}</p>
+						<p>#{feedback.description}</p>
+						<ul class="list-inline list-unstyled">
+							<li><span><i class="glyphicon glyphicon-calendar"></i>
+									#{feedback.recDate} </span></li>
+							<li>|</li>
+							<li><span class="glyphicon glyphicon-star"></span> <span
+								class="glyphicon glyphicon-star"></span> <span
+								class="glyphicon glyphicon-star"></span> <span
+								class="glyphicon glyphicon-star"></span> <span
+								class="glyphicon glyphicon-star-empty"></span></li>
+							<li>|</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</ui:repeat>
+	</ui:component>
 </ui:composition>
