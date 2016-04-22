@@ -60,9 +60,9 @@ public class UserServiceTest {
 	 * registrationUser kész
 	 * findUserByEmail kész
 	 * findAllUser kész
-	 * deleteUserById 
+	 * deleteUserById kész
 	 * modifyUser kész
-	 * findUserById
+	 * findUserById kész
 	 * updateUser kész
 	 * */
 
@@ -155,11 +155,18 @@ public class UserServiceTest {
 		}
 	}
 	
-//	@Test
-//	public void test7FindUserById(){
-//		UserVo user = serviceLocal.findUserById( 978L );
-//		
+	@Test
+	public void test7FindUserById(){
+		UserVo user;
+		UserVo user2;
+		try {
+			user = serviceLocal.findUserByName("IWantToLogin");
+			user2 = serviceLocal.findUserById(user.getId());
+		Assert.assertEquals(true, (user2 == null ? false : true));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		Assert.assertEquals("IWantToLogin", user.getUserName());
-//	}
-
+	}
 }

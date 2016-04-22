@@ -9,11 +9,11 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/SCHTraining</jta-data-source>
 		<class>hu.schonherz.training.core.admin.entity.BaseEntity</class>
-		<class>hu.schonherz.training.core.admin.entity.Role</class>
 		<class>hu.schonherz.training.core.admin.entity.Event</class>
-		<class>hu.schonherz.training.core.admin.entity.Training</class>
-		<class>hu.schonherz.training.core.admin.entity.Theme</class>
+		<class>hu.schonherz.training.core.admin.entity.Role</class>
 		<class>hu.schonherz.training.core.admin.entity.RoleGroup</class>
+		<class>hu.schonherz.training.core.admin.entity.Theme</class>
+		<class>hu.schonherz.training.core.admin.entity.Training</class>
 		<class>hu.schonherz.training.core.admin.entity.User</class>
 		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
 		<class>hu.schonherz.training.core.exam.entity.Answer</class>
@@ -24,9 +24,9 @@
 		<class>hu.schonherz.training.core.exam.entity.Question</class>
 		<class>hu.schonherz.training.core.exam.entity.QuestionType</class>
 		<class>hu.schonherz.training.core.supervisor.entity.Feedback</class>
-		<class>hu.schonherz.training.core.supervisor.entity.Interview</class>
 		<class>hu.schonherz.training.core.supervisor.entity.Homework</class>
 		<class>hu.schonherz.training.core.supervisor.entity.HomeworkResult</class>
+		<class>hu.schonherz.training.core.supervisor.entity.Interview</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
