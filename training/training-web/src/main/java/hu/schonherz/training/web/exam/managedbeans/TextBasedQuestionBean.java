@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.QuestionTypeService;
+import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @ManagedBean(name = "textBasedQuestionBean")
@@ -47,6 +49,7 @@ public class TextBasedQuestionBean implements Serializable {
 		Long examId = Long.parseLong(examIdAsString);
 		newQuestion.setText(newQuestionText);
 		newQuestion.setQuestionType(questionTypeService.getById(3L));
+		newQuestion.setOptions(Arrays.asList(new OptionVo()));
 
 		try {
 			questionService.add(newQuestion, examId);
