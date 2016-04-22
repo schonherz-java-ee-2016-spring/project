@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import hu.schonherz.training.core.admin.entity.Role;
+import hu.schonherz.training.core.admin.entity.Theme;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public interface ThemeRepository extends JpaRepository<Role, Long> {
+public interface ThemeRepository extends JpaRepository<Theme, Long> {
 
 }
