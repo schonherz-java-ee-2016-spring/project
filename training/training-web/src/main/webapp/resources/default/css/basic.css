@@ -77,7 +77,6 @@ body {
 	font-size: 16px;
 }
 
-
 .navbar-cls-top .navbar-brand:hover {
 	background: #999999;
 	color: #fff;
@@ -177,12 +176,12 @@ body {
 	border-bottom: none;
 }
 
-.navbar-cls-top .nav>li>a{
-	color:#555555;
+.navbar-cls-top .nav>li>a {
+	color: #555555;
 }
 
-.navbar-cls-top .nav>li>a:hover{
-	color:#000;
+.navbar-cls-top .nav>li>a:hover {
+	color: #000;
 }
 
 .navbar-default {
@@ -232,7 +231,7 @@ body {
     =============================================*/
 @media ( min-width :768px) {
 	#page-wrapper {
-		margin: 0 0 0 180px;
+		margin: 0 0 0 50px;
 		padding: 15px 30px;
 		min-height: 600px;
 	}
@@ -244,10 +243,10 @@ body {
 	.navbar {
 		border-radius: 0px;
 	}
-	.navbar-header, .navbar-brand ,.navbar-cls-top .navbar-brand{
-		width: 180px;
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 220px;
 		font-size: 14px;
-		height:80px;
+		height: 80px;
 	}
 }
 
@@ -265,16 +264,14 @@ body {
 	.navbar {
 		border-radius: 0px;
 	}
-	.navbar-header, .navbar-brand ,.navbar-cls-top .navbar-brand{
-		width: 260px;
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 280px;
 		font-size: 20px;
 	}
-	 .navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand{
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
 		height: 100px;
 	}
 }
-
-
 
 table.leaderboard   td:last-child {
 	font-size: 2em;
@@ -285,13 +282,133 @@ table.leaderboard   td:last-child {
 	border-style: none;
 }
 
-.horizontal { 
-    display: inline;
-    float : left;
-    width: 70px;
-    padding: 0px 0px;
+.horizontal {
+	display: inline;
+	float: left;
+	width: 70px;
+	padding: 0px 0px;
 }
 
-.left-submenu li{
-	padding:0px;
+.left-submenu li {
+	padding: 0px;
+}
+/*==============================================
+   MENU
+    =============================================*/
+@media ( max-width :764px) {
+	.navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 160px;
+		font-size: 14px;
+		height: 80px;
+	}
+}
+
+nav.sidebar, .main {
+	-webkit-transition: margin 200ms ease-out;
+	-moz-transition: margin 200ms ease-out;
+	-o-transition: margin 200ms ease-out;
+	transition: margin 200ms ease-out;
+}
+
+nav.sidebar .navbar-nav .open .dropdown-menu li {
+	padding: 8px;
+}
+
+@media ( min-width : 765px) {
+	nav.sidebar:hover+.main {
+		margin-left: 200px;
+	}
+	nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand
+		{
+		margin-left: 0px;
+	}
+	nav.sidebar .navbar-brand, nav.sidebar .navbar-header {
+		text-align: center;
+		width: 100%;
+		margin-left: 0px;
+	}
+	nav.sidebar a {
+		padding-right: 13px;
+	}
+	nav.sidebar .navbar-nav .open .dropdown-menu {
+		position: static;
+		float: none;
+		width: auto;
+		margin-top: 0;
+		background-color: transparent;
+		border: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	nav.sidebar .navbar-collapse, nav.sidebar .container-fluid {
+		padding: 0 0px 0 0px;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+		color: #777;
+	}
+	nav.sidebar {
+		width: 250px;
+		margin-left: -210px;
+		float: left;
+		margin-bottom: 0px;
+		z-index: 1000;
+		position: absolute;
+	}
+	nav.sidebar li {
+		width: 100%;
+	}
+	nav.sidebar:hover {
+		margin-left: 0px;
+	}
+	.forAnimate {
+		opacity: 0;
+	}
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 160px;
+		font-size: 20px;
+	}
+}
+
+@media ( min-width : 1400px) {
+	.main {
+		width: calc(100% - 200px);
+		margin-left: 200px;
+	}
+	nav.sidebar {
+		margin-left: 0px;
+		float: left;
+	}
+	nav.sidebar .forAnimate {
+		opacity: 1;
+	}
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 260px;
+		font-size: 20px;
+		height: 110px;
+	}
+}
+
+nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus
+	{
+	background-color: transparent;
+	color: #0046A5;
+}
+
+nav.sidebar .navbar-nav li>a:hover, nav.sidebar .navbar-nav li>a:focus {
+	color: #0046A5;
+}
+
+nav:hover .forAnimate {
+	opacity: 1;
+}
+
+section {
+	padding-left: 15px;
+}
+
+@media ( max-width : 765px) {
+	span.pull-right {
+		float: left !important;
+		padding-right: 10px;
+	}
 }
