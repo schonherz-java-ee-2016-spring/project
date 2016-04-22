@@ -127,7 +127,7 @@ public class RoleServiceTest {
 			
 			rv.setName("Another Role Name");
 			
-			serviceLocal.updateRole(rv);
+			serviceLocal.createRole(rv);
 			
 			RoleVo test = serviceLocal.getRoleByName("Another Role Name");
 			
