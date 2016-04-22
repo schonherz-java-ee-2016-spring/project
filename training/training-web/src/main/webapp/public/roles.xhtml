@@ -10,7 +10,6 @@
 		<h1>#{out.roles}:</h1>
 
 		<h:form id="roleForm">
-<!-- 			<p:messages id="msgs" showDetail="true" /> -->
 			<p:dataTable id="roleTable" style="width:100%;" var="role" reflow="true" row="5"
 				value="#{RoleBean.roles}" rows="10" paginator="true"
 				selectionMode="single" selection="#{RoleBean.selectedRole}"
@@ -45,17 +44,17 @@
 					<!-- 				Create -->
 					<p:commandButton type="createButton"
 						onclick="PF('createDialog').show();" value="#{out.createRole}"
-						update=":roleForm:roleTable,msgs,growl" />
+						update=":roleForm:roleTable,growl" />
 						
 											<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 						process="roleTable" disabled="#{RoleBean.disabled}"
 						value="#{out.editRole}" onclick="PF('editDialog').show();" 
-						update="growl,msgs,:roleForm:roleTable" />
+						update="growl,:roleForm:roleTable" />
 
 					<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
-						process="roleTable" update="growl,msgs,:roleForm:roleTable"
+						process="roleTable" update="growl,:roleForm:roleTable"
 						disabled="#{RoleBean.disabled}" value="#{out.deleteRole}"
 						action="#{RoleBean.delete}">
 						<p:confirm icon="ui-icon-alert" header="#{out.deleteRole}"
@@ -77,10 +76,9 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 		<br />
-			
+			<h:form id="dialogForm">
 			<p:dialog header="#{out.createRole}" widgetVar="createDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
-			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
     			<h:form id="newrole" styleClass="form-horizontal" >
     				<div class="form-group">
 						<label for="rolename" class="col-sm-3">#{out.roleName}</label>
@@ -98,7 +96,7 @@
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,msgs,:roleForm:roleTable"
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
 					action="#{RoleBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
     			</h:form>
     			<script type="text/javascript">
@@ -136,6 +134,6 @@
     				}
 				</script>
 			</p:dialog>   
-
+		</h:form>
 	</ui:define>
 </ui:composition>
