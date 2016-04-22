@@ -31,7 +31,7 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public void create(ExamVo vo) throws Exception {
+	public void add(ExamVo vo, Long... id) throws Exception {
 		try {
 			examRepository.saveAndFlush(ExamMapper.toDto(vo));
 		} catch (Exception ex) {
@@ -41,7 +41,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public ExamVo findById(Long id) throws Exception {
+	public ExamVo getById(Long id) throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findOne(id));
 		} catch (Exception ex) {
@@ -51,7 +51,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamVo> findAll() throws Exception {
+	public List<ExamVo> getAll(Long... id) throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAll());
 		} catch (Exception ex) {
@@ -61,7 +61,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamVo> findAllSortedById() throws Exception {
+	public List<ExamVo> getAllSortedById() throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
 		} catch (Exception ex) {
@@ -71,7 +71,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void modifyTitle(ExamVo examVo) throws Exception {
+	public void updateTitle(ExamVo examVo) throws Exception {
 		try {
 			Exam exam = ExamMapper.toDto(examVo);
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());

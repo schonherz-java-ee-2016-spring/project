@@ -30,17 +30,7 @@ public class OptionServiceImpl implements OptionService {
 	OptionRepository optionRepository;
 
 	@Override
-	public void create(OptionVo vo) throws Exception {
-		try {
-			optionRepository.saveAndFlush(OptionMapper.toDto(vo));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public OptionVo findById(Long id) throws Exception {
+	public OptionVo getById(Long id) throws Exception {
 		try {
 			return OptionMapper.toVo(optionRepository.findOne(id));
 		} catch (Exception ex) {
@@ -50,7 +40,7 @@ public class OptionServiceImpl implements OptionService {
 	}
 
 	@Override
-	public List<OptionVo> findAll() throws Exception {
+	public List<OptionVo> getAll(Long... id) throws Exception {
 		try {
 			return OptionMapper.toVo(optionRepository.findAll());
 		} catch (Exception ex) {

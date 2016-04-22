@@ -5,21 +5,12 @@ import java.util.List;
 public class QuestionVo extends BaseIdentityVo {
 	private static final long serialVersionUID = -3071254276606991707L;
 
-	private ExamVo exam;
 	private String text;
 	private QuestionTypeVo questionType;
-	private List<OptionVo> optionList;
+	private List<OptionVo> options;
 
 	public QuestionVo() {
 		super();
-	}
-
-	public ExamVo getExam() {
-		return exam;
-	}
-
-	public void setExam(ExamVo exam) {
-		this.exam = exam;
 	}
 
 	public String getText() {
@@ -38,12 +29,12 @@ public class QuestionVo extends BaseIdentityVo {
 		this.questionType = questionType;
 	}
 
-	public List<OptionVo> getOptionList() {
-		return optionList;
+	public List<OptionVo> getOptions() {
+		return options;
 	}
 
-	public void setOptionList(List<OptionVo> optionList) {
-		this.optionList = optionList;
+	public void setOptions(List<OptionVo> options) {
+		this.options = options;
 	}
 
 }

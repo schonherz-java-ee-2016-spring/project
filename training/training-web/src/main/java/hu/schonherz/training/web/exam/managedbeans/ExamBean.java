@@ -1,13 +1,13 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
@@ -16,7 +16,7 @@ import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 
 @ManagedBean(name = "examBean")
-@SessionScoped
+@ViewScoped
 public class ExamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,30 +26,44 @@ public class ExamBean implements Serializable {
 	private String newExamTitle;
 	private String examIdAsString;
 	private String modifiedTitle;
+	private List<ExamVo> examList;
 
-	
+	@PostConstruct
+	public void init() {
+		updateExamList();
+	}
+
+	public void updateExamList() {
+		try {
+			examList = getExamService().getAllSortedById();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateViewContent() {
+		RequestContext.getCurrentInstance().update("examTable");
+		RequestContext.getCurrentInstance().update("renameForm");
+	}
 
 	public void renameExamTitle() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
 		Long selectedExamId = Long.parseLong(examIdAsString);
-		ExamVo examVo = examService.findById(selectedExamId);
+		ExamVo examVo = examService.getById(selectedExamId);
 		examVo.setTitle(modifiedTitle);
 
 		try {
-			examService.modifyTitle(examVo);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + modifiedTitle + "\" exam renamed!");
+			examService.updateTitle(examVo);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam renamed");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't rename exam: \"" + modifiedTitle + "\"");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't rename exam");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-
-		RequestContext.getCurrentInstance().update("examTable");
-		RequestContext.getCurrentInstance().update("renameForm");
+		updateExamList();
+		updateViewContent();
 	}
 
 	public void registerNewExam() {
@@ -59,28 +73,16 @@ public class ExamBean implements Serializable {
 		exam.setTitle(newExamTitle);
 
 		try {
-			getExamService().create(exam);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newExamTitle + "\" exam created!");
+			getExamService().add(exam);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam created");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create exam: \"" + newExamTitle + "\"");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't create exam");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-		RequestContext.getCurrentInstance().update("examTable");
-		RequestContext.getCurrentInstance().update("renameForm");
-	}
-
-	public List<ExamVo> getExamList() {
-		List<ExamVo> result = new ArrayList<ExamVo>();
-		try {
-			result = getExamService().findAllSortedById();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		updateExamList();
+		updateViewContent();
 	}
 
 	public ExamService getExamService() {
@@ -113,6 +115,14 @@ public class ExamBean implements Serializable {
 
 	public void setModifiedTitle(String modifiedTitle) {
 		this.modifiedTitle = modifiedTitle;
+	}
+
+	public List<ExamVo> getExamList() {
+		return examList;
+	}
+
+	public void setExamList(List<ExamVo> examList) {
+		this.examList = examList;
 	}
 
 }

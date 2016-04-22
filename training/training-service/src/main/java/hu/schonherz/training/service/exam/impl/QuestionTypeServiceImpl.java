@@ -30,7 +30,7 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	QuestionTypeRepository questionTypeRepository;
 
 	@Override
-	public void create(QuestionTypeVo vo) throws Exception {
+	public void add(QuestionTypeVo vo, Long... id) throws Exception {
 		try {
 			questionTypeRepository.saveAndFlush(QuestionTypeMapper.toDto(vo));
 		} catch (Exception ex) {
@@ -40,7 +40,7 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	}
 
 	@Override
-	public QuestionTypeVo findById(Long id) throws Exception {
+	public QuestionTypeVo getById(Long id) throws Exception {
 		try {
 			return QuestionTypeMapper.toVo(questionTypeRepository.findOne(id));
 		} catch (Exception ex) {
@@ -50,7 +50,7 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	}
 
 	@Override
-	public List<QuestionTypeVo> findAll() throws Exception {
+	public List<QuestionTypeVo> getAll(Long... id) throws Exception {
 		try {
 			return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
 		} catch (Exception ex) {

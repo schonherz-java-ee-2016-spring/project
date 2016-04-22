@@ -1,6 +1,9 @@
 package hu.schonherz.training.service.exam.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -13,9 +16,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.core.exam.entity.Exam;
+import hu.schonherz.training.core.exam.entity.Question;
+import hu.schonherz.training.core.exam.repository.ExamRepository;
 import hu.schonherz.training.core.exam.repository.QuestionRepository;
 import hu.schonherz.training.service.exam.QuestionService;
+import hu.schonherz.training.service.exam.mapper.ExamMapper;
 import hu.schonherz.training.service.exam.mapper.QuestionMapper;
+import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @Stateless(mappedName = "QuestionService", name = "QuestionService")
@@ -29,10 +37,19 @@ public class QuestionServiceImpl implements QuestionService {
 	@Autowired
 	QuestionRepository questionRepository;
 
+	@Autowired
+	ExamRepository examRepository;
+
 	@Override
-	public void create(QuestionVo vo) throws Exception {
+	public void add(QuestionVo vo, Long... id) throws Exception {
+		Long examId = id[0];
 		try {
-			questionRepository.saveAndFlush(QuestionMapper.toDto(vo));
+			Exam exam = examRepository.findOne(examId);
+			Collection<Question> questions = exam.getQuestions();
+			if (questions == null) {
+				exam.setQuestions(new ArrayList<>());
+			}
+			exam.getQuestions().add(QuestionMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -40,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public QuestionVo findById(Long id) throws Exception {
+	public QuestionVo getById(Long id) throws Exception {
 		try {
 			return QuestionMapper.toVo(questionRepository.findOne(id));
 		} catch (Exception ex) {
@@ -50,12 +67,17 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<QuestionVo> findAll() throws Exception {
+	public List<QuestionVo> getAll(Long... id) throws Exception {
+		Long examId = id[0];
 		try {
-			return QuestionMapper.toVo(questionRepository.findAll());
+			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
+			List<QuestionVo> questionVoList = examVo.getQuestions();
+
+			return questionVoList.stream().distinct().collect(Collectors.toList());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
 	}
+
 }

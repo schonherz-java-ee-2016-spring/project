@@ -19,7 +19,8 @@
 			<p:inputTextarea rows="4" cols="100" counter="display"
 				value="#{textBasedQuestionBean.newQuestionText}" maxlength="200"
 				counterTemplate="{0} characters remaining." autoResize="false"
-				id="newQuestionTextarea">
+				id="newQuestionTextarea" required="true">
+				<f:validateLength minimum="5" />
 				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>
 			<p:message for="newQuestionTextarea" id="newQuestionTextMsg" />

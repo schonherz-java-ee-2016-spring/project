@@ -10,5 +10,4 @@ import hu.schonherz.training.core.exam.entity.Question;
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-
 }

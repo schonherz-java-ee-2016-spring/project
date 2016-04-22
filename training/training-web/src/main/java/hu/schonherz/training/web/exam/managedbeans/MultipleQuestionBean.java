@@ -52,27 +52,31 @@ public class MultipleQuestionBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
 		setUpQuestionVo(newQuestion);
-		newOptions.forEach(o -> o.setQuestion(newQuestion));
-		if (correctOptions.size() < 1) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"At least one option must be correct!");
+		if (newOptions.isEmpty()) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "At least option");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			getCorrectOptions().forEach(o -> o.setCorrect(true));
 			try {
-				questionService.create(newQuestion);
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-						"\"" + newQuestionText + "\" question created!");
+				Long examId = Long.parseLong(examIdAsString);
+				newQuestion.setOptions(newOptions);
+				questionService.add(newQuestion, examId);
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!","");
 				currentInstance.addMessage(null, facesMessage);
+				updateView();
 			} catch (Exception e) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-						"Couldn't create question: \"" + newQuestionText + "\"");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","");
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
-			newOptions.clear();
-			newQuestionText = "";
 		}
+	}
+	
+	public void updateView() {
+		newOptions.clear();
+		newQuestionText = "";
+		RequestContext.getCurrentInstance().update("optionTableForm");
+		RequestContext.getCurrentInstance().update("questionTitleForm");
 	}
 
 	public void addNewOption() {
@@ -81,15 +85,14 @@ public class MultipleQuestionBean implements Serializable {
 		setUpOptionVo(optionVo);
 		if (newOptions.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
 				.count() > 0) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Option already exists: \"" + optionVo.getOptionText() + "\"");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exist");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			newOptions.add(optionVo);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + optionVo.getOptionText() + "\" option created!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		}
+		
 		RequestContext.getCurrentInstance().update("optionTableForm");
 	}
 
@@ -150,14 +153,12 @@ public class MultipleQuestionBean implements Serializable {
 	}
 
 	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
-		questionVo.setExam(examService.findById(Long.parseLong(examIdAsString)));
-		questionVo.setOptionList(newOptions);
-		questionVo.setQuestionType(questionTypeService.findById(2L));
+		questionVo.setOptions(newOptions);
+		questionVo.setQuestionType(questionTypeService.getById(2L));
 		questionVo.setText(newQuestionText);
 	}
 
 	private void setUpOptionVo(OptionVo optionVo) {
-		optionVo.setQuestion(newQuestion);
 		optionVo.setOptionText(newOptionText);
 	}
 
