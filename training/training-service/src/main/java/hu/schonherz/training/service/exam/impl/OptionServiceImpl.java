@@ -1,5 +1,7 @@
 package hu.schonherz.training.service.exam.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -13,7 +15,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.core.exam.entity.Option;
+import hu.schonherz.training.core.exam.entity.Question;
 import hu.schonherz.training.core.exam.repository.OptionRepository;
+import hu.schonherz.training.core.exam.repository.QuestionRepository;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.mapper.OptionMapper;
 import hu.schonherz.training.service.exam.vo.OptionVo;
@@ -28,6 +33,9 @@ public class OptionServiceImpl implements OptionService {
 
 	@Autowired
 	OptionRepository optionRepository;
+
+	@Autowired
+	QuestionRepository questionRepository;
 
 	@Override
 	public OptionVo getById(Long id) throws Exception {
@@ -47,6 +55,22 @@ public class OptionServiceImpl implements OptionService {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
+	}
+
+	@Override
+	public void add(OptionVo optionVo, Long questionId) {
+		try {
+			Question question = questionRepository.findOne(questionId);
+			Collection<Option> options = question.getOptions();
+			if (options == null) {
+				question.setOptions(new ArrayList<>());
+			}
+			question.getOptions().add(OptionMapper.toDto(optionVo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+
 	}
 
 }
