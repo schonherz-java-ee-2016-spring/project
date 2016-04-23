@@ -12,7 +12,8 @@ import hu.schonherz.training.core.exam.entity.Question;
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface QuestionRepository extends JpaRepository<Question, Long> {
+	
 	@Modifying
 	@Query(value = "UPDATE question SET text = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyQuestionTextById(String text, Long id) throws Exception;
+	public Integer modifyQuestionTitleById(String text, Long id) throws Exception;
 }

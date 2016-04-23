@@ -81,14 +81,25 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateText(QuestionVo vo) throws Exception {
+	public void remove(Long questionId) throws Exception {
 		try {
-			Question question = QuestionMapper.toDto(vo);
-			questionRepository.modifyQuestionTextById(question.getText(), question.getId());
+			questionRepository.delete(questionId);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
+	}
+
+	@Override
+	public void updateTitle(QuestionVo questionVo) throws Exception {
+		try {
+			Question question = QuestionMapper.toDto(questionVo);
+			questionRepository.modifyQuestionTitleById(question.getText(), question.getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+
 	}
 
 }

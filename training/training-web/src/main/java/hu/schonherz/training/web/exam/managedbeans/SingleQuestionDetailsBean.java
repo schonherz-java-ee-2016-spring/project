@@ -1,10 +1,8 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -26,13 +24,10 @@ public class SingleQuestionDetailsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String examIdAsString;
-	private QuestionVo newQuestion;
-	private String newQuestionText;
 	private String questionIdAsString;
 	private Boolean initLoading = true;
 
 	private List<OptionVo> optionList;
-	private List<OptionVo> newOptions;
 	private OptionVo correctOption;
 	private String newOptionText;
 
@@ -45,32 +40,29 @@ public class SingleQuestionDetailsBean implements Serializable {
 	@EJB
 	private OptionService optionService;
 
-	@PostConstruct
-	private void initBean() {
-		newOptions = new ArrayList<OptionVo>();
-	}
-
 	public void saveNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		newQuestion = new QuestionVo();
-		setUpQuestionVo(newQuestion);
 		if (correctOption == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "One answer!!!!");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
-			correctOption.setCorrect(true);
 			try {
 				Long examId = Long.parseLong(examIdAsString);
-				newQuestion.setOptions(optionList);
+				Long questionId = Long.parseLong(questionIdAsString);
+
+				QuestionVo newQuestion = questionService.getById(questionId);
+				setUpQuestionVo(newQuestion);
+				questionService.remove(questionId);
+
 				questionService.add(newQuestion, examId);
-//				questionService.add(newQuestion, examId);
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 				currentInstance.addMessage(null, facesMessage);
-				updateView();
+				updatePageContent();
+				FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
+						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml");
 
 			} catch (Exception e) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-						"Couldn't create question: \"" + newQuestionText + "\"");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
@@ -78,9 +70,7 @@ public class SingleQuestionDetailsBean implements Serializable {
 		}
 	}
 
-	public void updateView() {
-		newOptions.clear();
-		newQuestionText = "";
+	public void updatePageContent() {
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
 	}
@@ -89,8 +79,7 @@ public class SingleQuestionDetailsBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		if (optionList.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
-				.count() > 0) {
+		if (optionList.stream().filter(o -> o.getOptionText().equalsIgnoreCase(optionVo.getOptionText())).count() > 0) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
@@ -125,30 +114,6 @@ public class SingleQuestionDetailsBean implements Serializable {
 		this.examIdAsString = examIdAsString;
 	}
 
-	public QuestionVo getNewQuestion() {
-		return newQuestion;
-	}
-
-	public void setNewQuestion(QuestionVo newQuestion) {
-		this.newQuestion = newQuestion;
-	}
-
-	public String getNewQuestionText() {
-		return newQuestionText;
-	}
-
-	public void setNewQuestionText(String newQuestionText) {
-		this.newQuestionText = newQuestionText;
-	}
-
-	public List<OptionVo> getNewOptions() {
-		return newOptions;
-	}
-
-	public void setNewOptions(List<OptionVo> newOptions) {
-		this.newOptions = newOptions;
-	}
-
 	public String getNewOptionText() {
 		return newOptionText;
 	}
@@ -157,14 +122,22 @@ public class SingleQuestionDetailsBean implements Serializable {
 		this.newOptionText = newOptionText;
 	}
 
-	private void setUpQuestionVo(QuestionVo questionVo) throws NumberFormatException, Exception {
-		questionVo.setOptions(newOptions);
-		questionVo.setQuestionType(questionTypeService.getById(1L));
-		questionVo.setText(newQuestionText);
-	}
-
 	private void setUpOptionVo(OptionVo optionVo) {
 		optionVo.setOptionText(newOptionText);
+	}
+
+	private void setUpQuestionVo(QuestionVo newQuestion) {
+		optionList.stream().forEach(o -> {
+			if (o.getOptionText().equalsIgnoreCase(correctOption.getOptionText())) {
+				o.setCorrect(true);
+			} else {
+				o.setCorrect(false);
+			}
+			o.setId(null);
+		});
+
+		newQuestion.setId(null);
+		newQuestion.setOptions(optionList);
 	}
 
 	public QuestionTypeService getQuestionTypeService() {
@@ -215,5 +188,13 @@ public class SingleQuestionDetailsBean implements Serializable {
 
 	public void setOptionList(List<OptionVo> optionList) {
 		this.optionList = optionList;
+	}
+
+	public Boolean getInitLoading() {
+		return initLoading;
+	}
+
+	public void setInitLoading(Boolean initLoading) {
+		this.initLoading = initLoading;
 	}
 }

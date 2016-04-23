@@ -9,19 +9,18 @@
 	<ui:define name="pageTitle">SingleQuestion</ui:define>
 	<ui:define name="content">
 	
+
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 		
-		<h:form id="questionTitleForm">
-		<h3>Question Edit</h3>
-			<p:inplace id="ajax" editor="true">
-				<p:inputText value="Idejön a Questionneve" required="true"
-					label="text" />
+		<h:form id="examTitleRename">
+			<p:inplace editor="true">
+				<p:inputText value="Macska" />
 			</p:inplace>
 		</h:form>
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable" lazy="true"
 				value="#{singleQuestionDetailsBean.optionList}" var="option"
-				selection="#{singleQuestionBean.correctOption}"
+				selection="#{singleQuestionDetailsBean.correctOption}"
 				rowKey="#{option.optionText}">
 				<f:facet name="header">
 				Options

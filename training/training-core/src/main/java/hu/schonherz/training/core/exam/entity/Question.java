@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -30,6 +31,7 @@ public class Question extends BaseEntity {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
+	@OrderBy("id asc")
 	private Collection<Option> options;
 
 	public Question() {

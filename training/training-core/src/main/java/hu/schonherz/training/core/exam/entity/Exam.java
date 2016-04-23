@@ -24,9 +24,9 @@ public class Exam extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String title;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "exam_id")
-	@OrderBy("id asc")
+	@OrderBy("id")
 	private Collection<Question> questions;
 
 	public Exam() {
