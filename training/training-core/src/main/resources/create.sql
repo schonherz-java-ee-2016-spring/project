@@ -45,18 +45,22 @@ INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, scor
 INSERT INTO public.exam(id, title) VALUES(2001, 'JPA');
 INSERT INTO public.exam(id, title) VALUES(2002, 'EJB');
 INSERT INTO public.exam(id, title) VALUES(2003, 'JSF');
-INSERT INTO public.exam(id, title) VALUES(2004, 'Macska');
+INSERT INTO public.exam(id, title) VALUES(2004, 'Kacsa');
 
-
-INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'First question for JPA', 2001);
-INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'First question for EJB', 2002);
-INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'First question for JSF', 2003);
-INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'First question for Macska', 2004);
-INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Second question for Macska', 2004);
 
 INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
 INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
 INSERT INTO public.question_type(id, name) VALUES(3, 'Text');
 
+INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'Lorem ipsum dolor. Sit amet dolor vestibulum condimentum lacinia quis?', 2001);
+INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'Lorem ipsum dolor sit amet ad. Nulla felis id taciti?', 2002);
+INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'Lorem ipsum dolor sit amet metus. Eu ut adipiscing elit tristique facilisis. Dolor malesuada nullam?', 2003);
+INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'Lorem ipsum dolor sit amet euismod. Risus amet dui. Amet donec suspendisse proin mollis dolor?', 2004);
+INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Lorem ipsum dolor sit amet pulvinar. Aenean fusce non. Ante orci dolor aliquet eu aliquam?', 2004);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2006, 'Question with long options', 1 , 2001);
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2001, true, 'Lorem ipsum dolor sit amet, a sollicitudin, commodo sit. Vitae eu lectus nulla, dictum in mauris, ornare donec vel quisque aenean erat, nullam neque cubilia cubilia vehicula, etiam est ultrices et repudiandae', 2006);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2002, false, 'Lorem ipsum dolor sit amet nec. Elit sollicitudin vel. Fringilla laoreet in cras perspiciatis sociosqu sed et sed a nulla laoreet. Pede maecenas sed. Vestibulum ac proin sem augue eget.', 2006);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2003, false, 'Elit ut imperdiet, facilisis praesent, rutrum urna et egestas est sodales ante. Nunc quis curabitur aliquam faucibus', 2006);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
