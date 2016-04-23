@@ -76,7 +76,7 @@
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">User Management<span
 									class="caret"></span><span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-users"></span></a>
+									class="pull-right showopacity fa fa-users"></span></a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('USERS')">
 										<li><a href="#{request.contextPath}/secured/users.xhtml">Users</a></li>
@@ -87,22 +87,29 @@
 								</ul></li>
 						</sec:authorize>
 
-						<li><a href="#" data-toggle="dropdown">Role Management<span class="caret"></span><span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-lock"></span></a>
+						<li><a href="#" data-toggle="dropdown">Role Management<span class="caret"></span><span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-lock"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
 								<li><a href="#{request.contextPath}/public/roles.xhtml">Roles</a></li>
 								<li><a href="#{request.contextPath}/public/rolegroups.xhtml">Role Groups</a></li>
 							</ul></li>
 
-						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-trophy"></span></a></li>
+						<li class="dropdown"><a href="#" data-toggle="dropdown">Training Management<span
+								class="caret"></span><span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-laptop"></span></a>
+							<ul class="dropdown-menu forAnimate" role="menu">
+								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
+							</ul></li>
+
+						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
 
 
-						<li><a href="#{request.contextPath}/testfeatures/exams.xhtml">Exams<span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-magic"></span></a></li>
+						<li><a href="#{request.contextPath}/testfeatures/exams.xhtml">Exams<span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-magic"></span></a></li>
 
-						<li><a href="#{request.contextPath}/public/feedbacks.xhtml">Feedbacks<span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-comments-o"></span></a></li>
+						<li><a href="#{request.contextPath}/public/feedbacks.xhtml">Feedbacks<span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-comments-o"></span></a></li>
 					</ul>
 				</div>
 			</div>

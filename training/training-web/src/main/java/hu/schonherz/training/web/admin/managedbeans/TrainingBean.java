@@ -47,17 +47,19 @@ public class TrainingBean implements Serializable {
 		}
 	}
 
+	public void saveTraining() {
+
+	}
+
 	public void treeAction(){
 		root1 = new DefaultTreeNode("Root", null);
-		TreeNode training = new DefaultTreeNode(selected.getName(), root1);
 
 		for (int i = 1; i < 4; ++i) {
-			TreeNode t = new DefaultTreeNode("Tematika " + i, training);
+			TreeNode t = new DefaultTreeNode("Tematika " + i, root1);
 			for (int j = 1; j < 4; ++j) {
 				new DefaultTreeNode("Tétel " + j, t);
 			}
 		}
-
 
 		root2 = new DefaultTreeNode("Root2", null);
 		for (int i = 4; i < 10; ++i) {
@@ -80,6 +82,14 @@ public class TrainingBean implements Serializable {
 
 	public void selectTrainingListener(SelectEvent event) {
 		isDisabled = false;
+	}
+
+	public void displaySelectedSingle() {
+		if (selectedNode1 != null) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected",
+					selectedNode1.getData().toString());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 	}
 
 	public void createAction() {

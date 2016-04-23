@@ -52,7 +52,7 @@
 						disabled="#{trainingBean.isDisabled}" value="#{out.edit}" update="msgs,form"
 						onclick="PF('dialog').show();" />
 					<p:commandButton id="treeButton" process="ttable" icon="ui-icon-pencil"
-						disabled="#{trainingBean.isDisabled}" value="#{out.manage}" update="msgs,treeform"
+						disabled="#{trainingBean.isDisabled}" value="#{out.managetraining}" update="msgs,treeform"
 						action="#{trainingBean.treeAction()}" onclick="PF('treedialog').show();" />
 					<p:commandButton id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{trainingBean.isDisabled}"
@@ -114,25 +114,35 @@
 		<p:dialog responsive="true" showEffect="clip" widgetVar="treedialog" modal="true"
 			resizable="false">
 			<h:form id="treeform">
-				<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
-					selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
-					dragdropScope="demo">
-					<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="msgs" />
-					<p:treeNode>
-						<h:outputText value="#{node}" />
-					</p:treeNode>
-				</p:tree>
+				<h:outputText value="#{trainingBean.selected.name}" />
+				<div style="display: block;">
+					<div style="float: left;">
+						<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
+							selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
+							dragdropScope="demo">
+							<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="growl" />
+							<p:treeNode>
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+						</p:tree>
+					</div>
+					<div style="float: left;">
+						<h:graphicImage library="default" name="img/transfer.png" width="100"></h:graphicImage>
+					</div>
+					<div style="float: left;">
+						<p:tree id="tree2" value="#{trainingBean.root2}" var="node" selectionMode="single"
+							selection="#{trainingBean.selectedNode2}" draggable="true" droppable="true"
+							dragdropScope="demo">
+							<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="growl" />
+							<p:treeNode>
+								<h:outputText value="#{node}" />
+							</p:treeNode>
+						</p:tree>
+					</div>
+				</div>
+				<p:commandButton id="trSubmit" action="#{trainingBean.saveTraining()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" />
 
-				<h:graphicImage library="default" name="img/transfer.png" width="100"></h:graphicImage>
-
-				<p:tree id="tree2" value="#{trainingBean.root2}" var="node" selectionMode="single"
-					selection="#{trainingBean.selectedNode2}" draggable="true" droppable="true"
-					dragdropScope="demo">
-					<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="msgs" />
-					<p:treeNode>
-						<h:outputText value="#{node}" />
-					</p:treeNode>
-				</p:tree>
 			</h:form>
 		</p:dialog>
 
