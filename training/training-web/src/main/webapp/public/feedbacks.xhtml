@@ -5,35 +5,13 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	
+
 	<ui:define name="content">
-		<h1>Feedbacks:</h1>
-		<h:form>
-			<p:dataTable style="width:100%;" var="feedback" value="#{feedbacksBean.feedbacks}"
-				rows="10" paginator="true"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="1,5,10,15,">
-				<p:column headerText="Id">
-					<h:outputText value="#{feedback.id}" />
-				</p:column>
-
-				<p:column headerText="Company">
-					<h:outputText value="#{feedback.interview.company}" />
-				</p:column>
-
-				<p:column headerText="Interviewer">
-					<h:outputText value="#{feedback.sender.getFullName()}" />
-				</p:column>
-				
-				<p:column headerText="Student">
-					<h:outputText value="#{feedback.rated.getFullName()}" />
-				</p:column>
-				
-				<p:column headerText="Score">
-					<h:outputText value="#{feedback.score}" />
-				</p:column>
-			</p:dataTable>
-		</h:form>
-		<br />
+		<h:outputStylesheet library="default" name="css/result-overview.css"
+			rel="stylesheet" />
+		<h:body>
+			<ui:include src="feedback-list.xhtml"></ui:include>
+		</h:body>
 	</ui:define>
+
 </ui:composition>

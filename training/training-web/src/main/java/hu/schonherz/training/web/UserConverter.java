@@ -8,7 +8,7 @@ import javax.faces.convert.FacesConverter;
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
 
-import hu.schonherz.training.vo.UserVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @FacesConverter(value = "UserConverter")
 public class UserConverter implements Converter{
