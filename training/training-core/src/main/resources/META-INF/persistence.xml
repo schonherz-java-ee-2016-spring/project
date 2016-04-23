@@ -20,6 +20,7 @@
 		<class>hu.schonherz.training.core.exam.entity.AnswerNote</class>
 		<class>hu.schonherz.training.core.exam.entity.AnswerText</class>
 		<class>hu.schonherz.training.core.exam.entity.Exam</class>
+		<class>hu.schonherz.training.core.exam.entity.ExamResult</class>
 		<class>hu.schonherz.training.core.exam.entity.Option</class>
 		<class>hu.schonherz.training.core.exam.entity.Question</class>
 		<class>hu.schonherz.training.core.exam.entity.QuestionType</class>
