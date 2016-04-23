@@ -61,38 +61,9 @@
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
 		
-		<h:form id="renameOption">
-			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
-				title="rename">
-				<p:commandButton value="Rename Option" />
-			</h:outputLink>
-			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
 
-			<p:dialog header="Rename" widgetVar="dlg" resizable="false"
-				modal="true">
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="Optionlist" value="Option List:" />
-					<p:selectOneMenu id="Optionlist"
-						value="Idejonnekazoptionok" panelStyle="position:fixed"
-						effect="fade" style="width:160px" filter="true"
-						filterMatchMode="startsWith">
-<!-- 						<f:selectItems value="#{examBean.examList}" var="examVo" -->
-<!-- 							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" /> -->
-					</p:selectOneMenu>
-
-					<h:outputLabel for="modifiedOption" value="New Optiontext:" />
-					<p:inputText id="modifiedOption" 
-						required="true">
-						<f:validateLength minimum="3" />
-					</p:inputText>
-					<f:facet name="footer">
-						<p:commandButton value="Save" update="growl"/>
-<!-- 							actionListener="Idejon a renamemetodus" /> -->
-			
-					</f:facet>
-				</h:panelGrid>
-			</p:dialog>
-		</h:form>
-		
+   
+   
+   
 	</ui:define>
 </ui:composition>
