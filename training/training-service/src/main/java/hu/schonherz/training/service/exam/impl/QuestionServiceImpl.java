@@ -80,4 +80,15 @@ public class QuestionServiceImpl implements QuestionService {
 		}
 	}
 
+	@Override
+	public void updateText(QuestionVo vo) throws Exception {
+		try {
+			Question question = QuestionMapper.toDto(vo);
+			questionRepository.modifyQuestionTextById(question.getText(), question.getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
 }

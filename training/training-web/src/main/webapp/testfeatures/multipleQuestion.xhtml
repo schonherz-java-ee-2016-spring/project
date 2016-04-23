@@ -8,20 +8,20 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">MultipleQuestion</ui:define>
 	<ui:define name="content">
+	
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		<h:form id="questionTitleForm">
-			<h3>Question Title</h3>
-			<p:inputTextarea rows="4" cols="100" counter="display"
-				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{multipleQuestionBean.newQuestionText}" required="true">
-				<f:validateLength minimum="5" />
-				<p:ajax event="keyup" />
-			</p:inputTextarea>
-			<h:outputText id="display" />
+		
+		<h:form id="questionTextInputForm">
+			<h3>Question Title: </h3>
+			<p:inplace editor="true">
+				<p:inputText value="#{multipleQuestionBean.questionTextInput}"
+					required="true" label="text" />
+			</p:inplace>
 		</h:form>
+		
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable"
-				value="#{multipleQuestionBean.newOptions}" var="option"
+				value="#{multipleQuestionBean.options}" var="option"
 				selection="#{multipleQuestionBean.correctOptions}"
 				rowKey="#{option.optionText}">
 				<f:facet name="header">
@@ -37,6 +37,7 @@
 				</f:facet>
 			</p:dataTable>
 		</h:form>
+		
 		<h:form id="newOptionForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
 				title="newOption">
@@ -48,7 +49,7 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="newOptionText" value="Option:" />
 					<p:inputText id="newOptionText"
-						value="#{multipleQuestionBean.newOptionText}" required="true">
+						value="#{multipleQuestionBean.optionTextInput}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
 					<f:facet name="footer">
@@ -58,6 +59,7 @@
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
+		
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
