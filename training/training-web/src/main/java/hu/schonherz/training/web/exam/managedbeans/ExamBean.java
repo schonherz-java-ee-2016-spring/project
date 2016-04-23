@@ -25,7 +25,6 @@ public class ExamBean implements Serializable {
 
 	private String newExamTitle;
 	private String examIdAsString;
-	private String modifiedTitle;
 	private List<ExamVo> examList;
 
 	@PostConstruct
@@ -46,26 +45,7 @@ public class ExamBean implements Serializable {
 		RequestContext.getCurrentInstance().update("renameForm");
 	}
 
-	public void renameExamTitle() throws Exception {
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
-
-		Long selectedExamId = Long.parseLong(examIdAsString);
-		ExamVo examVo = examService.getById(selectedExamId);
-		examVo.setTitle(modifiedTitle);
-
-		try {
-			examService.updateTitle(examVo);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam renamed");
-			currentInstance.addMessage(null, facesMessage);
-		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't rename exam");
-			currentInstance.addMessage(null, facesMessage);
-			e.printStackTrace();
-		}
-		updateExamList();
-		updateViewContent();
-	}
-
+	
 	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
@@ -107,14 +87,6 @@ public class ExamBean implements Serializable {
 
 	public void setExamIdAsString(String examIdAsString) {
 		this.examIdAsString = examIdAsString;
-	}
-
-	public String getModifiedTitle() {
-		return modifiedTitle;
-	}
-
-	public void setModifiedTitle(String modifiedTitle) {
-		this.modifiedTitle = modifiedTitle;
 	}
 
 	public List<ExamVo> getExamList() {

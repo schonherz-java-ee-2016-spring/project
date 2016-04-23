@@ -9,6 +9,12 @@
 	<ui:define name="pageTitle">Question</ui:define>
 	<ui:define name="content">
 
+		<h:form id="examTitleRename">
+			<p:inplace editor="true">
+				<p:inputText value="#{questionBean.examTitleInputText}" />
+			</p:inplace>
+		</h:form>
+
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
 			<p:column headerText="Question Id">
@@ -24,20 +30,20 @@
 				<h:form id="form">
 
 
-					<h:commandButton action="goToSingleQuestionDetailsPage" value="Details"
-						rendered="#{question.questionType.getId() eq 1}">
+					<h:commandButton action="goToSingleQuestionDetailsPage"
+						value="Details" rendered="#{question.questionType.getId() eq 1}">
 						<f:setPropertyActionListener
 							target="#{singleQuestionBean.examIdAsString}"
 							value="#{questionBean.examIdAsString}" />
 					</h:commandButton>
-					<h:commandButton action="goToMultipleQuestionDetailsPage" value="Details"
-						rendered="#{question.questionType.getId() eq 2}">
+					<h:commandButton action="goToMultipleQuestionDetailsPage"
+						value="Details" rendered="#{question.questionType.getId() eq 2}">
 						<f:setPropertyActionListener
 							target="#{multipleQuestionBean.examIdAsString}"
 							value="#{questionBean.examIdAsString}" />
 					</h:commandButton>
-					<h:commandButton action="goToTextbasedQuestionDetailsPage" value="Details"
-						rendered="#{question.questionType.getId() eq 3}">
+					<h:commandButton action="goToTextbasedQuestionDetailsPage"
+						value="Details" rendered="#{question.questionType.getId() eq 3}">
 						<f:setPropertyActionListener
 							target="#{textBasedQuestionBean.examIdAsString}"
 							value="#{questionBean.examIdAsString}" />
