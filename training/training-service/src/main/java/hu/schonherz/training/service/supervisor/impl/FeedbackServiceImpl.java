@@ -16,6 +16,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.core.supervisor.entity.Feedback;
 import hu.schonherz.training.core.supervisor.repository.FeedbackRepository;
+import hu.schonherz.training.core.supervisor.repository.InterviewRepository;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.mapper.FeedbackMapper;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
@@ -30,6 +31,9 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Autowired
 	FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	InterviewRepository interviewRepository;
 
 	@Override
 	public void giveFeedback(FeedbackVo feedbackVo) throws Exception {
@@ -89,13 +93,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	public List<FeedbackVo> getAll() throws Exception {
-		try {
-			List<FeedbackVo> result = FeedbackMapper.toVo(feedbackRepository.findAll());
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
+		List<FeedbackVo> result;
+		if (feedbackRepository.findAll() == null) {
+			result = new ArrayList<>();
+		} else {
+			result = FeedbackMapper.toVo(feedbackRepository.findAll());
 		}
+		return result;
 	}
 
 	/**

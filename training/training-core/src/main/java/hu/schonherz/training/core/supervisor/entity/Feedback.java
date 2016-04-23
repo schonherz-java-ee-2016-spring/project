@@ -25,13 +25,13 @@ public class Feedback extends BaseEntity {
 	@JoinTable(name = "sender_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
 	private User sender;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
 	private User rated;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "interview_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "interview_id", referencedColumnName = "id"))
-	private Interview interviewId;
+	private Interview interview;
 
 	@Column(name = "score", nullable = false, length = 1)
 	private Integer score;
