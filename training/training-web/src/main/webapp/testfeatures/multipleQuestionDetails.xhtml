@@ -10,15 +10,14 @@
 	<ui:define name="content">
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 		<h:form id="questionTitleForm">
-			<h3>Question Title</h3>
-			<p:inputTextarea rows="4" cols="100" counter="display"
-				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{multipleQuestionBean.newQuestionText}" required="true">
-				<f:validateLength minimum="5" />
-				<p:ajax event="keyup" />
-			</p:inputTextarea>
-			<h:outputText id="display" />
+			<h3>Question Edit</h3>
+			<p:inplace id="ajax" editor="true">
+				<p:inputText value="Idejön a Questionneve" required="true"
+					label="text" />
+			</p:inplace>
+
 		</h:form>
+		<p />
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable"
 				value="#{multipleQuestionBean.newOptions}" var="option"
@@ -61,5 +60,40 @@
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
+
+		<h:form id="renameOption">
+			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
+				title="rename">
+				<p:commandButton value="Rename Option" />
+			</h:outputLink>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+			<p:dialog header="Rename" widgetVar="dlg" resizable="false"
+				modal="true">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="Optionlist" value="Option List:" />
+					<p:selectOneMenu id="Optionlist"
+						value="Idejonnekazoptionok" panelStyle="position:fixed"
+						effect="fade" style="width:160px" filter="true"
+						filterMatchMode="startsWith">
+<!-- 						<f:selectItems value="#{examBean.examList}" var="examVo" -->
+<!-- 							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" /> -->
+					</p:selectOneMenu>
+
+					<h:outputLabel for="modifiedOption" value="New Optiontext:" />
+					<p:inputText id="modifiedOption" 
+						required="true">
+						<f:validateLength minimum="3" />
+					</p:inputText>
+					<f:facet name="footer">
+						<p:commandButton value="Save" update="growl"/>
+<!-- 							actionListener="Idejon a renamemetodus" /> -->
+			
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+
 	</ui:define>
 </ui:composition>
