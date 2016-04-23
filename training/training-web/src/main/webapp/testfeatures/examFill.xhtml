@@ -8,33 +8,54 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exam fill</ui:define>
 	<ui:define name="content">
-		
-		
-		<h:form>
-		<p:tabView dynamic="true" id="tabView" value="#{questionBean.questionList}" var="question">
-        <p:tab id="anyad" title="#{question.id}">
-            <p:panel header="#{question.text}">
-             
-          
-			<p:dataTable id="optionTable"
-				value="#{multipleQuestionBean.newOptions}" var="option"
-				selection="#{multipleQuestionBean.correctOptions}"
-				rowKey="#{option.optionText}">
-				<f:facet name="header">
-				Options
-		    	</f:facet>
-				<p:column selectionMode="multiple" />
-				<p:column headerText="Option Text">
-					<h:outputText value="#{option.optionText}" />
-				</p:column>
-			</p:dataTable>
-		
-             
-            </p:panel>
-        </p:tab>
-        </p:tabView>
 
-		</h:form>
-	
+
+
+		<p:tabView id="tabView" value="#{examFillBean.questionList}"
+			var="question" activeIndex="#{examFillBean.counter}">
+			<p:tab id="QuestionTabs" title="#{question.id}" disabled="true">
+				<p:panel header="#{question.text}">
+					<h:form>
+						<p:commandButton value="SYSO"
+							actionListener="#{examFillBean.syso}"></p:commandButton>
+					</h:form>
+					<h:form rendered="#{question.questionType.getId() eq 1}">
+
+						<p:dataTable id="optionTable"
+							value="#{examFillBean.getOptionList()}" var="option"
+							rowKey="#{option.optionText}">
+							<p:column selectionMode="single" />
+							<p:column headerText="Option Text">
+								<h:outputText value="#{option.optionText}" />
+							</p:column>
+						</p:dataTable>
+						<p:commandButton update="tabView"
+							actionListener="#{examFillBean.toTheNextQuestion()}"
+							value="Next(Singlevót)"></p:commandButton>
+
+						<p:commandButton value="RESET"
+							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
+					</h:form>
+					<h:form rendered="#{question.questionType.getId() eq 2}">
+						<p:commandButton value="Next(Multivót)" update="tabView"
+							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
+						<p:commandButton value="RESET"
+							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
+					</h:form>
+					<h:form rendered="#{question.questionType.getId() eq 3}">
+						<p:inputText value="#{examFillBean.getTextbasedOptionAnswer()}"></p:inputText>
+						<p:commandButton value="Next(Textvót)" update="tabView"
+							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
+						<p:commandButton value="RESET"
+							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
+					</h:form>
+
+
+				</p:panel>
+			</p:tab>
+		</p:tabView>
+
+SYSO RESET FOR TESTING PURPOSE ONLY
+
 	</ui:define>
 </ui:composition>

@@ -41,11 +41,12 @@ INSERT INTO public.interview(id, company, description, interview_date, interview
 INSERT INTO public.feedback(id, detailed_feedback, feedbackdate, is_public, score, interview_id, rated_id, sender_id) VALUES (4001, 'The student was great, he/she will start to work next week.', to_date('06 Dec 2045', 'DD Mon YYYY'), TRUE, 5, 3001, 2003, 2004);
 
 -- Exam-module
-
-INSERT INTO public.exam(id, title) VALUES(2001, 'JPA');
-INSERT INTO public.exam(id, title) VALUES(2002, 'EJB');
-INSERT INTO public.exam(id, title) VALUES(2003, 'JSF');
-INSERT INTO public.exam(id, title) VALUES(2004, 'Kacsa');
+INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
+INSERT INTO public.exam(id, title) VALUES(2002, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2003, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2004, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2005, 'Kacsa');
+INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
 
 
 INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
@@ -59,8 +60,59 @@ INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'Lorem ipsum dolor s
 INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Lorem ipsum dolor sit amet pulvinar. Aenean fusce non. Ante orci dolor aliquet eu aliquam?', 2004);
 INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2006, 'Question with long options', 1 , 2001);
 
-INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2001, true, 'Lorem ipsum dolor sit amet, a sollicitudin, commodo sit. Vitae eu lectus nulla, dictum in mauris, ornare donec vel quisque aenean erat, nullam neque cubilia cubilia vehicula, etiam est ultrices et repudiandae', 2006);
-INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2002, false, 'Lorem ipsum dolor sit amet nec. Elit sollicitudin vel. Fringilla laoreet in cras perspiciatis sociosqu sed et sed a nulla laoreet. Pede maecenas sed. Vestibulum ac proin sem augue eget.', 2006);
-INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2003, false, 'Elit ut imperdiet, facilisis praesent, rutrum urna et egestas est sodales ante. Nunc quis curabitur aliquam faucibus', 2006);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2007, 'Single Q with 2 options', 1 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2008, 'Single Q with 3 options', 1 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2009, 'Multi Q with 2 options', 2 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2010, 'Multi Q with 3 options', 2 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2011, 'Text based Q', 3 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2011, 'Another text based Q', 3 , 2005);
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2001, true, 'Option1', 2007);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2002, false, 'Option2', 2007);
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2003, true, 'Option3', 2008);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2004, false, 'Option4', 2008);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2005, false, 'Option5', 2008);
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2006, true, 'Option6', 2009);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2007, false, 'Option7', 2009);
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2009, true, 'Option8', 2010);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2010, false, 'Option9', 2010);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2011, false, 'Option10', 2010);
+
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2011, 'Keremijabeideaszoveget', 2011);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2012, 'justtryout', 2011);
+
+
+
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2013, true, 'Lorem ipsum dolor sit amet, a sollicitudin, commodo sit. Vitae eu lectus nulla, dictum in mauris, ornare donec vel quisque aenean erat, nullam neque cubilia cubilia vehicula, etiam est ultrices et repudiandae', 2006);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2014, false, 'Lorem ipsum dolor sit amet nec. Elit sollicitudin vel. Fringilla laoreet in cras perspiciatis sociosqu sed et sed a nulla laoreet. Pede maecenas sed. Vestibulum ac proin sem augue eget.', 2006);
+INSERT INTO public.option(id, correct, option_text,question_id) VALUES (2015, false, 'Elit ut imperdiet, facilisis praesent, rutrum urna et egestas est sodales ante. Nunc quis curabitur aliquam faucibus', 2006);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
