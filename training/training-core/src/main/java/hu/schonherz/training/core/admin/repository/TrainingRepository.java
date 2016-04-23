@@ -11,4 +11,6 @@ import hu.schonherz.training.core.admin.entity.Training;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface TrainingRepository extends JpaRepository<Training, Long> {
 
+	Training findTrainingByName(String name);
+
 }

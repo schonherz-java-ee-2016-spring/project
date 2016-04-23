@@ -1,0 +1,140 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="content">
+		<h:form id="trainingform">
+			<p:dataTable id="ttable" var="tr" value="#{trainingBean.trainings}" selectionMode="single"
+				selection="#{trainingBean.selected}" rowKey="#{tr.id}" paginator="true" rows="12"
+				rowsPerPageTemplate="4,8,12">
+				<p:column headerText="#{out.trainingname}" priority="1">
+					<h:outputText value="#{tr.name}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.description}" priority="2">
+					<h:outputText value="#{tr.description}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.trainingstart}" priority="2">
+					<h:outputText value="#{tr.beginning}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.trainingend}" priority="2">
+					<h:outputText value="#{tr.endDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recdate}" priority="3">
+					<h:outputText value="#{tr.recDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recuser}" priority="4">
+					<h:outputText value="#{tr.recUser}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moddate}" priority="3">
+					<h:outputText value="#{tr.modDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moduser}" priority="4">
+					<h:outputText value="#{tr.modUser}">
+					</h:outputText>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" update="msgs,form"
+						action="#{trainingBean.createAction()}" value="#{out.createtraining}"
+						onclick="PF('dialog').show();" />
+					<p:commandButton id="editButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.edit}" update="msgs,form"
+						onclick="PF('dialog').show();" />
+					<p:commandButton id="treeButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.manage}" update="msgs,treeform"
+						action="#{trainingBean.treeAction()}" onclick="PF('treedialog').show();" />
+					<p:commandButton id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
+						icon="ui-icon-trash" value="#{out.delete}" disabled="#{trainingBean.isDisabled}"
+						action="#{trainingBean.deleteTraining()}">
+						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
+					</p:commandButton>
+				</f:facet>
+				<p:ajax event="rowSelect" update="deleteButton,editButton,treeButton"
+					listener="#{trainingBean.selectTrainingListener}" />
+			</p:dataTable>
+		</h:form>
+
+		<p:confirmDialog global="true" responsive="true" showEffect="clip">
+			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
+			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
+			<h:form styleClass="form-horizontal" id="form">
+				<div class="form-group">
+					<label for="trainingname" class="col-sm-3">#{out.trainingname}</label>
+					<div class="col-sm-9">
+						<p:inputText styleClass="form-control" id="trainingname" value="#{trainingBean.selected.name}"
+							required="true" label="trainingname">
+							<f:validateRequired />
+							<f:validateLength minimum="8" />
+						</p:inputText>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="desc" class="col-sm-3">#{out.description}</label>
+					<div class="col-sm-9">
+						<p:inputTextarea styleClass="form-control" id="desc"
+							value="#{trainingBean.selected.description}" required="true" label="desc">
+							<f:validateRequired />
+							<f:validateLength maximum="1000" />
+						</p:inputTextarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="begin" class="col-sm-3">#{out.trainingstart}</label>
+					<div class="col-sm-9">
+						<p:calendar id="begin" value="#{trainingBean.selected.beginning}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="endDate" class="col-sm-3">#{out.trainingend}</label>
+					<div class="col-sm-9">
+						<p:calendar id="endDate" value="#{trainingBean.selected.endDate}" />
+					</div>
+				</div>
+				<p:commandButton styleClass="btn" value="#{out.save}"
+					update="form,msgs,growl,:trainingform:ttable" action="#{trainingBean.save()}"
+					icon="ui-icon-check" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="treedialog" modal="true"
+			resizable="false">
+			<h:form id="treeform">
+				<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
+					selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
+					dragdropScope="demo">
+					<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="msgs" />
+					<p:treeNode>
+						<h:outputText value="#{node}" />
+					</p:treeNode>
+				</p:tree>
+
+				<h:graphicImage library="default" name="img/transfer.png" width="100"></h:graphicImage>
+
+				<p:tree id="tree2" value="#{trainingBean.root2}" var="node" selectionMode="single"
+					selection="#{trainingBean.selectedNode2}" draggable="true" droppable="true"
+					dragdropScope="demo">
+					<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="msgs" />
+					<p:treeNode>
+						<h:outputText value="#{node}" />
+					</p:treeNode>
+				</p:tree>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
