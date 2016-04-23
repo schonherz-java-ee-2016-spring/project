@@ -17,6 +17,35 @@
 			<p:column headerText="Question Title">
     			#{question.text}
     		</p:column>
+			<p:column headerText="QType">
+    		    #{question.questionType.getId()}
+    		</p:column>
+			<p:column headerText="Details">
+				<h:form id="form">
+
+
+					<h:commandButton action="goToSingleQuestionDetailsPage" value="Details"
+						rendered="#{question.questionType.getId() eq 1}">
+						<f:setPropertyActionListener
+							target="#{singleQuestionBean.examIdAsString}"
+							value="#{questionBean.examIdAsString}" />
+					</h:commandButton>
+					<h:commandButton action="goToMultipleQuestionDetailsPage" value="Details"
+						rendered="#{question.questionType.getId() eq 2}">
+						<f:setPropertyActionListener
+							target="#{multipleQuestionBean.examIdAsString}"
+							value="#{questionBean.examIdAsString}" />
+					</h:commandButton>
+					<h:commandButton action="goToTextbasedQuestionDetailsPage" value="Details"
+						rendered="#{question.questionType.getId() eq 3}">
+						<f:setPropertyActionListener
+							target="#{textBasedQuestionBean.examIdAsString}"
+							value="#{questionBean.examIdAsString}" />
+					</h:commandButton>
+
+				</h:form>
+			</p:column>
+
 		</p:dataTable>
 
 		<h:form id="newQuestionForm">
