@@ -108,20 +108,17 @@ public class RoleGroupsBean implements Serializable{
 	
 	public void edit(){
 		try {
-			disabled = true;
-			
-			// kitöröljük a listából
-			allRoleGroup.remove(selectedRoleGroup);
 			
 			// beállítjuk az új nevet
-			selectedRoleGroup.setName(roleGroupName);
-			
+			allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)).setName(roleGroupName);
+
 			// updateljük a jogcsoportot
-			roleGroupService.updateRoleGroup(selectedRoleGroup);
+			roleGroupService.updateRoleGroup(allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)));
 			
-			// visszarakjuk a listába
-			allRoleGroup.add(roleGroupService.getRoleGroupByName(roleGroupName));
-			
+			// lefrissítjük a listát
+			allRoleGroup.set(allRoleGroup.indexOf(selectedRoleGroup),
+					roleGroupService.getRoleGroupByName(roleGroupName));
+
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
 					"Role Group edited!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -166,11 +163,27 @@ public class RoleGroupsBean implements Serializable{
 	
 	public void saveManaged(){
 
-		// beállítom a kiválasztott csoport új jogait
-		selectedRoleGroup.setRoles(selectedRoleGroup_sRoles.getTarget());
+		try {
+			// ez azért kell hogy beverje az adatbázisba a módosító user-t is mert ha csak a jogai változnak akkor nem állítja be
+//			allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)).setName(selectedRoleGroup.getName());
+			
+			// beállítom a kiválasztott csoport új jogait
+			allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)).setRoles(selectedRoleGroup_sRoles.getTarget());
 
-		// elmentem a kivaálsztott jogcsoportot
-		roleGroupService.updateRoleGroup(selectedRoleGroup);
+			// elmentem a kivaálsztott jogcsoportot
+			roleGroupService.updateRoleGroup(allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)));
+			
+			// lefrissítjük a listát
+			allRoleGroup.set(allRoleGroup.indexOf(selectedRoleGroup),
+								roleGroupService.getRoleGroupByName(selectedRoleGroup.getName()));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
+				"Role Group Roles edited!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public List<RoleGroupVo> getAllRoleGroup() {

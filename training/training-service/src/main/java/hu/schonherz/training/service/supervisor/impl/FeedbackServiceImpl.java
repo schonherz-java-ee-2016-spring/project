@@ -98,4 +98,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public FeedbackServiceImpl() {
+
+	}
+
 }

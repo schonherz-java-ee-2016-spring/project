@@ -5,7 +5,7 @@
 	
 	<ui:define name="content">
 	<h:form id="roleform">
-	<p:messages id="msgs" />
+	<p:messages id="msgs" showDetail="true" severity="error,fatal,warn" />
 	<p:dataTable id="rolegrouptable"
 				 value="#{roleGroupsBean.allRoleGroup}"
 				 var="rolegroup"
@@ -14,10 +14,16 @@
 				 rowKey="#{rolegroup.id}"
 				 paginator="true"
 				 rows="12"
-				 rowsPerPageTemplate="4,8,12">
+				 rowsPerPageTemplate="4,8,12"
+				 reflow="true"
+				 >
 	
-				<p:column headerText="#{out.jogid}">
-					<h:outputText value="#{rolegroup.id}">
+<!-- 				<p:column headerText="#{out.jogid}"> -->
+<!-- 					<h:outputText value="#{rolegroup.id}"> -->
+<!-- 					</h:outputText> -->
+<!-- 				</p:column> -->
+				<p:column headerText="#{out.rolegroupname}">
+					<h:outputText value="#{rolegroup.name}">
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{out.moddate}">
@@ -25,12 +31,8 @@
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moduser}">
+				<p:column headerText="#{out.moduser	}">
 					<h:outputText value="#{rolegroup.modUser}">
-					</h:outputText>
-				</p:column>
-				<p:column headerText="#{out.jognev}">
-					<h:outputText value="#{rolegroup.name}">
 					</h:outputText>
 				</p:column>
 				<p:column headerText="#{out.recdate}">
@@ -44,9 +46,10 @@
 				</p:column>
 <!-- 				Valahogy meg kellene oldani hogy a jogcsoporthoz tartozó jogokat is meg tudja jelenítani -->
 				<p:column headerText="#{out.jogok}">
-					<p:dataList value="#{rolegroup.roles}" var="role" >
-        				#{role.name}
-    				</p:dataList>
+				
+					<ui:repeat value="#{rolegroup.roles}" var="role">
+    						#{role.name} <br/>
+					</ui:repeat>
 				</p:column>
 				
 				
@@ -76,7 +79,7 @@
 					
 					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
 									 process="rolegrouptable"
-									 update="growl,:roleform:rolegrouptable"
+									 update=":roleform:msgs,growl,:roleform:rolegrouptable"
 									 disabled="#{roleGroupsBean.disabled}"
 									 value="#{out.managerolesofrolegroup}"
 									 onclick="PF('manageDialog').show();" >
@@ -95,6 +98,7 @@
 				<p:commandButton value="#{out.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 			
+<!-- create dialog -->
 			<p:dialog header="#{out.createrolegroup}" widgetVar="createDialog" modal="true" height="100"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="newrolegroup" styleClass="form-horizontal" >
@@ -107,7 +111,7 @@
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
+					<p:commandButton styleClass="btn" value="#{out.save}" update=":roleform:msgs,growl,:roleform:rolegrouptable"
 					action="#{roleGroupsBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
     			</h:form>
     			<script type="text/javascript">
@@ -117,6 +121,7 @@
 				</script>
 			</p:dialog>  
 			
+<!-- edit dialog -->
 			<p:dialog header="#{out.modifyrolegroup}" widgetVar="editDialog" modal="true" height="100"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="editrolegroup" styleClass="form-horizontal" >
@@ -129,7 +134,7 @@
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
+					<p:commandButton styleClass="btn" value="#{out.save}" update=":roleform:msgs,growl,:roleform:rolegrouptable"
 					action="#{roleGroupsBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
     			</h:form>
     			<script type="text/javascript">
@@ -139,6 +144,7 @@
 				</script>
 			</p:dialog>   
 			
+<!-- Manage dialog -->
 			<p:dialog header="#{out.managerolesofrolegroup}" widgetVar="manageDialog" modal="true" 
 						resizable="false" draggable="false" responsive="true" >
     				<h:form id="pickform">
@@ -147,12 +153,14 @@
 		    				var="roles"
 		    				itemValue="#{roles}"
 		    				itemLabel="#{roles.name}"
-		    				converter="RoleConverter">
+		    				converter="RoleConverter"
+		    				responsive="true"
+		    				>
 			
 	    				
 	    				</p:pickList>
     				
-	    				<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleform:rolegrouptable"
+	    				<p:commandButton styleClass="btn" value="#{out.save}" update=":roleform:msgs,growl,:roleform:rolegrouptable"
 						action="#{roleGroupsBean.saveManaged}" icon="ui-icon-check" oncomplete="closeManageDialog()"/>
     				</h:form>
     				
