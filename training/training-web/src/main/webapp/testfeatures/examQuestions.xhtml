@@ -33,20 +33,20 @@
 					<h:commandButton action="goToSingleQuestionDetailsPage"
 						value="Details" rendered="#{question.questionType.getId() eq 1}">
 						<f:setPropertyActionListener
-							target="#{singleQuestionBean.examIdAsString}"
-							value="#{questionBean.examIdAsString}" />
+							target="#{singleQuestionDetailsBean.questionIdAsString}"
+							value="#{question.id}" />
 					</h:commandButton>
 					<h:commandButton action="goToMultipleQuestionDetailsPage"
 						value="Details" rendered="#{question.questionType.getId() eq 2}">
 						<f:setPropertyActionListener
-							target="#{multipleQuestionBean.examIdAsString}"
-							value="#{questionBean.examIdAsString}" />
+							target="#{multipleQuestionDetailsBean.questionIdAsString}"
+							value="#{question.id}" />
 					</h:commandButton>
 					<h:commandButton action="goToTextbasedQuestionDetailsPage"
 						value="Details" rendered="#{question.questionType.getId() eq 3}">
 						<f:setPropertyActionListener
-							target="#{textBasedQuestionBean.examIdAsString}"
-							value="#{questionBean.examIdAsString}" />
+							target="#{textbasedQuestionDetailsBean.questionIdAsString}"
+							value="#{question.id}" />
 					</h:commandButton>
 
 				</h:form>
