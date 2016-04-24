@@ -9,49 +9,50 @@
 	<ui:define name="content">
 		<h1>#{out.users}:</h1>
 		<h:form id="createUserForm">
-			<p:dataTable id="dataTable" name="dataTable" style="width:100%;" reflow="true" row="5"
-				var="user" value="#{usersBean.users}" selectionMode="single"
-				rowKey="#{user.id}" selection="#{usersBean.selectedUser}" rows="10"
-				paginator="true"
+			<p:dataTable id="dataTable" name="dataTable" style="width:100%;"
+				reflow="true" row="5" var="user" value="#{usersBean.users}"
+				selectionMode="single" rowKey="#{user.id}"
+				selection="#{usersBean.selectedUser}" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
-				<p:column headerText="Id" filterBy="#{user.id}" filterMatchMode="contains">
-					<h:outputText value="#{user.id}" />
-				</p:column>
-				<p:column headerText="#{out.username }" filterBy="#{user.userName}" filterMatchMode="contains">
+<!-- 				<p:column headerText="Id" filterBy="#{user.id}" -->
+<!-- 					filterMatchMode="contains"> -->
+<!-- 					<h:outputText value="#{user.id}" /> -->
+<!-- 				</p:column> -->
+				<p:column headerText="#{out.username }" filterBy="#{user.userName}"
+					filterMatchMode="contains">
 					<h:outputText value="#{user.userName}" />
 				</p:column>
-				<p:column headerText="#{out.fullname}" filterBy="#{user.fullName}" filterMatchMode="contains">
+				<p:column headerText="#{out.fullname}" filterBy="#{user.fullName}"
+					filterMatchMode="contains">
 					<h:outputText value="#{user.fullName}" />
 				</p:column>
-				<p:column headerText="#{out.email}" filterBy="#{user.email}" filterMatchMode="contains">
+				<p:column headerText="#{out.email}" filterBy="#{user.email}"
+					filterMatchMode="contains">
 					<h:outputText value="#{user.email}" />
 				</p:column>
-				<p:column headerText="#{out.userGroup}" filterBy="#{user.groups}" filterMatchMode="contains">
+				<p:column headerText="#{out.userGroup}" filterBy="#{user.groups}"
+					filterMatchMode="contains">
 					<h:outputText value="#{user.groups}" />
 				</p:column>
-				<p:column headerText="#{out.roleGroup}" filterBy="#{user.roleGroups}" filterMatchMode="contains">
+				<p:column headerText="#{out.roleGroup}"
+					filterBy="#{user.roleGroups}" filterMatchMode="contains">
 					<h:outputText value="#{user.roleGroups}" />
 				</p:column>
 				<!-- 				A kiválasztásra aktiválás  -->
-				<p:ajax event="rowSelect" update="deleteButton,modifyButton,form2"
+				<p:ajax event="rowSelect" update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}" />
-				<!-- 				A felhasználó létrehozás dialog gombja -->
 				<f:facet name="footer">
+					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
 						update=":createUserForm:dataTable, dlg1" oncomplete="dlg1.hide)"></p:commandButton>
-				</f:facet>
-				<!-- 				a felhasználó módosítása dialog gomb -->
-				<f:facet name="footer">
+					<!-- 				a felhasználó módosítása dialog gomb -->
 					<p:commandButton type="button" onclick="PF('modify_user').show();"
 						id="modifyButton" value="#{out.edit}"
 						disabled="#{usersBean.selected}" update="modify_user"
 						oncomplete="modify_user.hide)" icon="ui-icon-pencil"></p:commandButton>
-				</f:facet>
-
-				<!-- 					A felhasználó törlése gomb -->
-				<f:facet name="footer">
+					<!-- 					A felhasználó törlése gomb -->
 					<p:growl id="message" showDetail="true" />
 					<p:commandButton id="deleteButton" process="dataTable"
 						update=":createUserForm:dataTable" icon="ui-icon-trash"
@@ -62,10 +63,17 @@
 					</p:commandButton>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 						<p:commandButton value="#{out.yes}" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update=":createUserForm:dataTable" />
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
+					<!-- 				a felhasználó jogainak módosítása gomb -->
+					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
+						process="dataTable" update="pickform, growl,:createUserForm:dataTable"
+						disabled="#{usersBean.selected}"
+						value="#{out.userRoleGroups}"
+						onclick="PF('manageDialog').show();">
+					</p:commandButton>
 				</f:facet>
 			</p:dataTable>
 
@@ -92,8 +100,7 @@
 							<label for="username" class="col-sm-4">#{out.username}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="username"
-									value="#{usersBean.username}" required="true"
-									label="username">
+									value="#{usersBean.username}" required="true" label="username">
 								</p:inputText>
 							</div>
 						</div>
@@ -108,8 +115,9 @@
 							</div>
 						</div>
 					</h:panelGrid>
-					<p:commandButton value="#{out.save}" update="panel2,growl,form2,:createUserForm:dataTable"
-						action="#{usersBean.create}" icon="ui-icon-check" 
+					<p:commandButton value="#{out.save}"
+						update="panel2,growl,form2,:createUserForm:dataTable"
+						action="#{usersBean.create}" icon="ui-icon-check"
 						oncomplete="dlg1.hide)" />
 				</p:panel>
 			</p:dialog>
@@ -156,5 +164,28 @@
 				</p:panel>
 			</p:dialog>
 		</h:form>
+		<!-- 				a felhasználó jogainak módosítása dialog -->
+		<p:dialog header="#{out.userRoleGroups}"
+			widgetVar="manageDialog" modal="true" resizable="false"
+			draggable="false" responsive="true">
+			<h:form id="pickform">
+				<p:pickList id="pickList"
+					value="#{usersBean.selectedRoleGroups}" var="roles"
+					itemValue="#{roles}" itemLabel="#{roles.name}"
+					converter="RoleGroupConverter" responsive="true">
+
+				</p:pickList>
+				<p:commandButton styleClass="btn" value="#{out.save}"
+					update="growl,:createUserForm:dataTable"
+					action="#{usersBean.saveManaged}" icon="ui-icon-check"
+					oncomplete="closeManageDialog()" />
+			</h:form>
+
+			<script type="text/javascript">
+				function closeManageDialog() {
+					PF('manageDialog').hide();
+				}
+			</script>
+		</p:dialog>
 	</ui:define>
 </ui:composition>

@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -14,9 +15,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "usersBean")
@@ -28,6 +32,9 @@ public class UsersBean implements Serializable {
 	@EJB
 	private UserService userService;
 
+	@EJB
+	private RoleGroupService roleGroupService;
+
 	private String username;
 	private String fullname;
 	private String email;
@@ -37,8 +44,9 @@ public class UsersBean implements Serializable {
 	private ResourceBundle bundle;
 
 	private UserVo selectedUser;
-
 	private List<UserVo> users;
+	private List<RoleGroupVo> allRoleGroups;
+	private DualListModel<RoleGroupVo> selectedRoleGroups;
 
 	@PostConstruct
 	public void init() {
@@ -46,12 +54,32 @@ public class UsersBean implements Serializable {
 		try {
 			users = userService.findAllUser();
 			selectedUser = new UserVo();
+			allRoleGroups = roleGroupService.getAllRoleGroup();
+			selectedRoleGroups = new DualListModel<RoleGroupVo>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void onSelect(SelectEvent event) throws Exception {
+
+		List<RoleGroupVo> userRoleGroups = (List<RoleGroupVo>) selectedUser.getRoleGroups();
+		List<RoleGroupVo> aTobbiJog = new ArrayList<>();
+
+		for (RoleGroupVo roleGroupVo : allRoleGroups) {
+			boolean volt = false;
+			for (RoleGroupVo roleGroupVo2 : userRoleGroups) {
+				if (roleGroupVo.getId().equals(roleGroupVo2.getId())) {
+					volt = true;
+				}
+			}
+			if (!volt) {
+				aTobbiJog.add(roleGroupVo);
+			}
+		}
+
+		selectedRoleGroups = new DualListModel<RoleGroupVo>(aTobbiJog, userRoleGroups);
+
 		setSelected(false);
 	}
 
@@ -167,6 +195,21 @@ public class UsersBean implements Serializable {
 		// selected = true;
 	}
 
+	public void saveManaged() {
+
+		try {
+			users.get(users.indexOf(selectedUser)).setRoleGroups(selectedRoleGroups.getTarget());
+			userService.updateUser(users.get(users.indexOf(selectedUser)));
+			users.set(users.indexOf(selectedUser), userService.findUserByName(selectedUser.getUserName()));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), bundle.getString("userRoleGroupsSaved"));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -221,6 +264,22 @@ public class UsersBean implements Serializable {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public List<RoleGroupVo> getAllRoleGroups() {
+		return allRoleGroups;
+	}
+
+	public void setAllRoleGroups(List<RoleGroupVo> allRoleGroups) {
+		this.allRoleGroups = allRoleGroups;
+	}
+
+	public DualListModel<RoleGroupVo> getSelectedRoleGroups() {
+		return selectedRoleGroups;
+	}
+
+	public void setSelectedRoleGroups(DualListModel<RoleGroupVo> selectedRoleGroups) {
+		this.selectedRoleGroups = selectedRoleGroups;
 	}
 
 }
