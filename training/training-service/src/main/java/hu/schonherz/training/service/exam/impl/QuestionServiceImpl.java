@@ -3,6 +3,7 @@ package hu.schonherz.training.service.exam.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -99,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public List<QuestionVo> getAllById(Long examId) throws Exception {
 		try {
 			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
-			return examVo.getQuestions();
+			return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

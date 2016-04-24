@@ -34,10 +34,18 @@ public class AnswerServiceImpl implements AnswerService {
 		return null;
 	}
 
+	
+
 	@Override
-	public List<AnswerVo> getAll(Long... id) throws Exception {
+	public List<AnswerVo> getAll() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void removeById(Long id) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
