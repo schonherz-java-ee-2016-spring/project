@@ -3,6 +3,7 @@ package hu.schonherz.training.web.exam.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -50,16 +52,13 @@ public class SingleQuestionBean implements Serializable {
 	public void saveNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		newQuestion = new QuestionVo();
-		setUpQuestionVo(newQuestion);
 		if (correctOption == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "One answer!!!!");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			correctOption.setCorrect(true);
 			try {
-				Long examId = Long.parseLong(examIdAsString);
-				newQuestion.setOptions(newOptions);
-				questionService.add(newQuestion, examId);
+				save(newQuestion);
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 				currentInstance.addMessage(null, facesMessage);
 				updateView();
@@ -74,6 +73,19 @@ public class SingleQuestionBean implements Serializable {
 		}
 	}
 
+	public void save(QuestionVo newQuestion) throws Exception {
+		Long examId = Long.parseLong(examIdAsString);
+		setUpQuestionVo(newQuestion);
+		newQuestion.setOptions(newOptions);
+		questionService.add(newQuestion, examId);
+	}
+
+	public void removeOption(ActionEvent event) {
+		String optionName = event.getComponent().getAttributes().get("optionName").toString();
+		newOptions = newOptions.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+				.collect(Collectors.toList());
+	}
+
 	public void updateView() {
 		newOptions.clear();
 		newQuestionText = "";
@@ -85,8 +97,7 @@ public class SingleQuestionBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		if (newOptions.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
-				.count() > 0) {
+		if (newOptions.stream().filter(o -> o.getOptionText().equalsIgnoreCase(optionVo.getOptionText())).count() > 0) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
@@ -185,6 +196,5 @@ public class SingleQuestionBean implements Serializable {
 
 	public void setCorrectOption(OptionVo correctOption) {
 		this.correctOption = correctOption;
-		System.out.println(correctOption.getOptionText());
 	}
 }
