@@ -31,6 +31,19 @@
 				<p:column headerText="Option Text">
 					<h:outputText value="#{option.optionText}" />
 				</p:column>
+				<p:column headerText="Delete">
+					<p:toolbar>
+						<f:facet name="left">
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+							<p:commandButton title="Delete" icon="ui-icon-trash"
+								actionListener="#{multipleQuestionBean.removeOption}" ajax="false">
+								<f:attribute name="optionName" value="#{option.optionText}" />
+							</p:commandButton>
+						</f:facet>
+					</p:toolbar>
+					</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="Save" update="message"
 						action="#{multipleQuestionBean.saveNewQuestion}" />

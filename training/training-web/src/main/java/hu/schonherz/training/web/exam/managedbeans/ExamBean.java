@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -32,6 +33,17 @@ public class ExamBean implements Serializable {
 		updateExamList();
 	}
 
+	public void removeExam(ActionEvent event) {
+		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
+		Long examId = Long.parseLong(examIdAsString);
+		try {
+			examService.remove(examId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		updateExamList();
+	}
+
 	public void updateExamList() {
 		try {
 			examList = getExamService().getAllSortedById();
@@ -42,10 +54,8 @@ public class ExamBean implements Serializable {
 
 	public void updateViewContent() {
 		RequestContext.getCurrentInstance().update("examTable");
-		RequestContext.getCurrentInstance().update("renameForm");
 	}
 
-	
 	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 

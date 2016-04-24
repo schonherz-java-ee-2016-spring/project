@@ -58,7 +58,7 @@ public class OptionServiceImpl implements OptionService {
 	}
 
 	@Override
-	public void add(OptionVo optionVo, Long questionId) {
+	public void add(OptionVo optionVo, Long questionId) throws Exception{
 		try {
 			Question question = questionRepository.findOne(questionId);
 			Collection<Option> options = question.getOptions();
@@ -71,6 +71,16 @@ public class OptionServiceImpl implements OptionService {
 			throw ex;
 		}
 
+	}
+
+	@Override
+	public void remove(Long optionId) throws Exception {
+		try {
+			optionRepository.delete(optionId);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 }

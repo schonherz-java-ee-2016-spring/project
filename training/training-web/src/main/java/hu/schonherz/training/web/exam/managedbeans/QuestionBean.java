@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ActionEvent;
 
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.QuestionService;
@@ -25,6 +26,17 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
+
+	public void removeQuestion(ActionEvent event) {
+		String questionIdAsString = event.getComponent().getAttributes().get("questionIdAsString").toString();
+		Long questionId = Long.parseLong(questionIdAsString);
+
+		try {
+			questionService.remove(questionId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public QuestionService getQuestionService() {
 		return questionService;

@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -48,14 +49,7 @@ public class MultipleQuestionDetailsBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
-				Long examId = Long.parseLong(examIdAsString);
-				Long questionId = Long.parseLong(questionIdAsString);
-
-				QuestionVo newQuestion = questionService.getById(questionId);
-				setUpQuestionVo(newQuestion);
-				questionService.remove(questionId);
-
-				questionService.add(newQuestion, examId);
+				save();
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
@@ -68,6 +62,27 @@ public class MultipleQuestionDetailsBean implements Serializable {
 				e.printStackTrace();
 			}
 
+		}
+	}
+	
+	public void save() throws Exception {
+		Long examId = Long.parseLong(examIdAsString);
+		Long questionId = Long.parseLong(questionIdAsString);
+
+		QuestionVo newQuestion = questionService.getById(questionId);
+		setUpQuestionVo(newQuestion);
+
+		questionService.remove(questionId);
+		questionService.add(newQuestion, examId);
+	}
+	
+	public void removeOption(ActionEvent event) {
+		String optionName = event.getComponent().getAttributes().get("optionName").toString();
+		try {
+			optionList = optionList.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

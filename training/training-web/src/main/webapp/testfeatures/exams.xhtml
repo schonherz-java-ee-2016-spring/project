@@ -13,7 +13,7 @@
 			value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="1,5,10,15,">
-			
+
 			<p:column headerText="Id">
 				<h:outputText value="#{exam.id}" />
 			</p:column>
@@ -31,10 +31,22 @@
 
 			<p:column headerText="Details">
 				<h:form id="form">
-					<h:commandButton action="goToExamQuestionsPage" value="Details">
-						<f:setPropertyActionListener
-							target="#{questionBean.examIdAsString}" value="#{exam.id}" />
-					</h:commandButton>
+					<p:toolbar>
+						<f:facet name="left">
+							<h:commandButton action="goToExamQuestionsPage" value="Details">
+								<f:setPropertyActionListener
+									target="#{questionBean.examIdAsString}" value="#{exam.id}" />
+							</h:commandButton>
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+							<p:commandButton title="Delete" icon="ui-icon-trash"
+								actionListener="#{examBean.removeExam}" ajax="false">
+								<f:attribute name="examIdAsString" value="#{exam.id}" />
+							</p:commandButton>
+						</f:facet>
+					</p:toolbar>
+
 				</h:form>
 			</p:column>
 		</p:dataTable>

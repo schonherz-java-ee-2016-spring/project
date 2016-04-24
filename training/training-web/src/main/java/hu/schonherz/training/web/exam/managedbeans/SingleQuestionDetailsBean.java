@@ -2,12 +2,14 @@ package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -40,6 +42,27 @@ public class SingleQuestionDetailsBean implements Serializable {
 	@EJB
 	private OptionService optionService;
 
+	public void removeOption(ActionEvent event) {
+		String optionName = event.getComponent().getAttributes().get("optionName").toString();
+		try {
+			optionList = optionList.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void save() throws Exception {
+		Long examId = Long.parseLong(examIdAsString);
+		Long questionId = Long.parseLong(questionIdAsString);
+
+		QuestionVo newQuestion = questionService.getById(questionId);
+		setUpQuestionVo(newQuestion);
+
+		questionService.remove(questionId);
+		questionService.add(newQuestion, examId);
+	}
+
 	public void saveNewQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
@@ -47,14 +70,7 @@ public class SingleQuestionDetailsBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
-				Long examId = Long.parseLong(examIdAsString);
-				Long questionId = Long.parseLong(questionIdAsString);
-
-				QuestionVo newQuestion = questionService.getById(questionId);
-				setUpQuestionVo(newQuestion);
-				questionService.remove(questionId);
-
-				questionService.add(newQuestion, examId);
+				save();
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();

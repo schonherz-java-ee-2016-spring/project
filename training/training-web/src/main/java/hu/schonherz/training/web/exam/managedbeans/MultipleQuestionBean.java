@@ -3,6 +3,7 @@ package hu.schonherz.training.web.exam.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -10,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
@@ -60,16 +62,13 @@ public class MultipleQuestionBean implements Serializable {
 
 	public void saveNewQuestion() throws Exception {
 		QuestionVo question = new QuestionVo();
-		setUpQuestionVo(question);
 		if (options.isEmpty()) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "You must have at least one option."));
 		} else {
 			getCorrectOptions().forEach(o -> o.setCorrect(true));
 			try {
-				Long examId = Long.parseLong(examIdAsString);
-				question.setOptions(options);
-				questionService.add(question, examId);
+				save(question);
 				FacesContext.getCurrentInstance().addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Question saved."));
 				clearView();
@@ -78,6 +77,23 @@ public class MultipleQuestionBean implements Serializable {
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Something went wrong."));
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void save(QuestionVo newQuestion) throws Exception {
+		Long examId = Long.parseLong(examIdAsString);
+		setUpQuestionVo(newQuestion);
+		newQuestion.setOptions(options);
+		questionService.add(newQuestion, examId);
+	}
+	
+	public void removeOption(ActionEvent event) {
+		String optionName = event.getComponent().getAttributes().get("optionName").toString();
+		try {
+			options = options.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

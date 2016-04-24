@@ -81,4 +81,14 @@ public class ExamServiceImpl implements ExamService {
 		}
 	}
 
+	@Override
+	public void remove(Long examId) throws Exception {
+		try {
+			examRepository.delete(examId);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
 }
