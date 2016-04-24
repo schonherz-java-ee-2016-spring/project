@@ -1,8 +1,7 @@
 package hu.schonherz.training.service.exam.vo;
 
 public class AnswerNoteVo extends BaseIdentityVo {
-	private static final long serialVersionUID = -1535681616975118446L;
-
+	private static final long serialVersionUID = 1L;
 	private AnswerVo answer;
 	private String note;
 
