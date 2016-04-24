@@ -80,6 +80,16 @@
 	</ejb-local-ref>
 	
 	<ejb-local-ref>
+		<ejb-ref-name>ejb.InterviewService</ejb-ref-name>
+		<local>hu.schonherz.training.service.supervisor.InterviewService</local>
+	</ejb-local-ref>
+	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb.FeedbackService</ejb-ref-name>
+		<local>hu.schonherz.training.service.supervisor.FeedbackService</local>
+	</ejb-local-ref>
+	
+	<ejb-local-ref>
 		<ejb-ref-name>ejb.ExamService</ejb-ref-name>
 		<local>hu.schonherz.training.service.exam.ExamService</local>
 	</ejb-local-ref>
