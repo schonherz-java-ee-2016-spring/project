@@ -9,7 +9,7 @@
 	<ui:define name="content">
 		<h1>#{out.users}:</h1>
 		<h:form id="createUserForm">
-			<p:dataTable id="dataTable" name="dataTable" style="width:100%;"
+			<p:dataTable id="dataTable" name="dataTable" style="width:100%;" reflow="true" row="5"
 				var="user" value="#{usersBean.users}" selectionMode="single"
 				rowKey="#{user.id}" selection="#{usersBean.selectedUser}" rows="10"
 				paginator="true"
