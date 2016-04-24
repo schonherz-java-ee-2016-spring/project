@@ -20,7 +20,12 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 public class ExamFillBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+  
+	public ExamFillBean() {
+		counter = 0;
+		textbasedOptionAnswer = "ur answer goes here";
+	}
+	
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -34,8 +39,8 @@ public class ExamFillBean implements Serializable {
 	private String examIdAsString;
 	private String firstQuestionIdAsString;
 	private String questionIdAsString;
-	private int counter = 0;
-	private String textbasedOptionAnswer = "Adja meg a kérdésre a válaszát...";
+	private int counter;
+	private String textbasedOptionAnswer;
 
 	private List<OptionVo> optionList;
 
@@ -127,12 +132,9 @@ public class ExamFillBean implements Serializable {
 	}
 
 	public List<OptionVo> getOptionList() {
-		System.out.println("Optionlist");
 		Long id = Long.parseLong(questionIdAsString);
-		System.out.println(questionIdAsString);
 		try {
 			optionList = questionService.getById(id).getOptions();
-			System.out.println(optionList.get(0));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

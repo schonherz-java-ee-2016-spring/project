@@ -20,7 +20,7 @@
 							actionListener="#{examFillBean.syso}"></p:commandButton>
 					</h:form>
 					<h:form rendered="#{question.questionType.getId() eq 1}">
-
+						<!-- 					Single -->
 						<p:dataTable id="optionTable"
 							value="#{examFillBean.getOptionList()}" var="option"
 							rowKey="#{option.optionText}">
@@ -36,14 +36,28 @@
 						<p:commandButton value="RESET"
 							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
 					</h:form>
+					<!-- 					Multi -->
 					<h:form rendered="#{question.questionType.getId() eq 2}">
+					
+						<p:dataTable id="optionTable"
+							value="#{examFillBean.getOptionList()}" var="option"
+							rowKey="#{option.optionText}">
+							<p:column selectionMode="multiple" />
+<!-- EZT MEGESZI ÉS MÜKÖDIK	 <p:column selectionMode="single" /> -->
+							<p:column headerText="Option Text">
+								<h:outputText value="#{option.optionText}" />
+							</p:column>
+						</p:dataTable>
+
 						<p:commandButton value="Next(Multivót)" update="tabView"
 							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
 						<p:commandButton value="RESET"
 							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
 					</h:form>
+
+					<!-- 					Textbased -->
 					<h:form rendered="#{question.questionType.getId() eq 3}">
-						<p:inputText value="#{examFillBean.getTextbasedOptionAnswer()}"></p:inputText>
+						<p:inputText value="#{examFillBean.textbasedOptionAnswer}"></p:inputText>
 						<p:commandButton value="Next(Textvót)" update="tabView"
 							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
 						<p:commandButton value="RESET"
