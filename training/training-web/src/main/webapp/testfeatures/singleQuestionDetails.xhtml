@@ -6,15 +6,15 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">SingleQuestion</ui:define>
+	<ui:define name="pageTitle">Single Question Details</ui:define>
 	<ui:define name="content">
 	
 
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 		
-		<h:form id="examTitleRename">
+		<h:form id="questionTitleRename">
 			<p:inplace editor="true">
-				<p:inputText value="Macska" />
+				<p:inputText value="#{singleQuestionDetailsBean.questionTitleInputText}" />
 			</p:inplace>
 		</h:form>
 		<h:form id="optionTableForm">

@@ -32,6 +32,8 @@ public class MultipleQuestionDetailsBean implements Serializable {
 	private List<OptionVo> optionList;
 	private List<OptionVo> correctOptions;
 	private String newOptionText;
+	
+	private String questionTitleInputText;
 
 	@EJB
 	private ExamService examService;
@@ -212,5 +214,28 @@ public class MultipleQuestionDetailsBean implements Serializable {
 
 	public void setCorrectOptions(List<OptionVo> correctOptions) {
 		this.correctOptions = correctOptions;
+	}
+
+	public String getQuestionTitleInputText() {
+		QuestionVo questionVo;
+		try {
+			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
+			questionTitleInputText = questionVo.getText();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return questionTitleInputText;
+	}
+
+	public void setQuestionTitleInputText(String questionTitleInputText) {
+		this.questionTitleInputText = questionTitleInputText;
+		QuestionVo questionVo;
+		try {
+			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
+			questionVo.setText(questionTitleInputText);
+			questionService.updateTitle(questionVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
