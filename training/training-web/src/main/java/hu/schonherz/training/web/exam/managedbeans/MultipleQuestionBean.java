@@ -84,7 +84,7 @@ public class MultipleQuestionBean implements Serializable {
 		Long examId = Long.parseLong(examIdAsString);
 		setUpQuestionVo(newQuestion);
 		newQuestion.setOptions(options);
-		questionService.add(newQuestion, examId);
+		questionService.save(newQuestion, examId);
 	}
 	
 	public void removeOption(ActionEvent event) {
@@ -187,7 +187,7 @@ public class MultipleQuestionBean implements Serializable {
 		try {
 			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
 			questionVo.setText(questionTextInput);
-			questionService.updateTitle(questionVo);
+			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

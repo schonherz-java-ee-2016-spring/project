@@ -31,9 +31,9 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public void add(ExamVo vo, Long... id) throws Exception {
+	public List<ExamVo> getAll() throws Exception {
 		try {
-			examRepository.saveAndFlush(ExamMapper.toDto(vo));
+			return ExamMapper.toVo(examRepository.findAll());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -51,9 +51,30 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamVo> getAll(Long... id) throws Exception {
+	public void removeById(Long id) throws Exception {
 		try {
-			return ExamMapper.toVo(examRepository.findAll());
+			examRepository.delete(id);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void save(ExamVo vo) throws Exception {
+		try {
+			examRepository.saveAndFlush(ExamMapper.toDto(vo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void updateTitle(ExamVo vo) throws Exception {
+		try {
+			Exam exam = ExamMapper.toDto(vo);
+			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -64,27 +85,6 @@ public class ExamServiceImpl implements ExamService {
 	public List<ExamVo> getAllSortedById() throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public void updateTitle(ExamVo examVo) throws Exception {
-		try {
-			Exam exam = ExamMapper.toDto(examVo);
-			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public void remove(Long examId) throws Exception {
-		try {
-			examRepository.delete(examId);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

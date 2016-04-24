@@ -4,7 +4,5 @@ import hu.schonherz.training.service.exam.vo.OptionVo;
 
 public interface OptionService extends BaseService<OptionVo> {
 	
-	public void add(OptionVo optionVo, Long questionId) throws Exception;
-	
-	public void remove(Long optionId) throws Exception;
+	public void save(OptionVo optionVo, Long questionId) throws Exception;
 }

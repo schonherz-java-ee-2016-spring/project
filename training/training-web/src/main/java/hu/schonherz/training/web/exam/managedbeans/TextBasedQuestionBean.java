@@ -52,7 +52,7 @@ public class TextBasedQuestionBean implements Serializable {
 		newQuestion.setOptions(Arrays.asList(new OptionVo()));
 
 		try {
-			questionService.add(newQuestion, examId);
+			questionService.save(newQuestion, examId);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {

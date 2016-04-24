@@ -3,7 +3,6 @@ package hu.schonherz.training.service.exam.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -41,15 +40,9 @@ public class QuestionServiceImpl implements QuestionService {
 	ExamRepository examRepository;
 
 	@Override
-	public void add(QuestionVo vo, Long... id) throws Exception {
-		Long examId = id[0];
+	public List<QuestionVo> getAll() throws Exception {
 		try {
-			Exam exam = examRepository.findOne(examId);
-			Collection<Question> questions = exam.getQuestions();
-			if (questions == null) {
-				exam.setQuestions(new ArrayList<>());
-			}
-			exam.getQuestions().add(QuestionMapper.toDto(vo));
+			return QuestionMapper.toVo(questionRepository.findAll());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -67,13 +60,9 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<QuestionVo> getAll(Long... id) throws Exception {
-		Long examId = id[0];
+	public void removeById(Long id) throws Exception {
 		try {
-			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
-			List<QuestionVo> questionVoList = examVo.getQuestions();
-
-			return questionVoList.stream().distinct().collect(Collectors.toList());
+			questionRepository.delete(id);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -81,9 +70,14 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void remove(Long questionId) throws Exception {
+	public void save(QuestionVo vo, Long examId) throws Exception {
 		try {
-			questionRepository.delete(questionId);
+			Exam exam = examRepository.findOne(examId);
+			Collection<Question> questions = exam.getQuestions();
+			if (questions == null) {
+				exam.setQuestions(new ArrayList<>());
+			}
+			exam.getQuestions().add(QuestionMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -91,15 +85,25 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateTitle(QuestionVo questionVo) throws Exception {
+	public void updateText(QuestionVo vo) throws Exception {
 		try {
-			Question question = QuestionMapper.toDto(questionVo);
+			Question question = QuestionMapper.toDto(vo);
 			questionRepository.modifyQuestionTitleById(question.getText(), question.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
+	}
 
+	@Override
+	public List<QuestionVo> getAllById(Long examId) throws Exception {
+		try {
+			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
+			return examVo.getQuestions();
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 }

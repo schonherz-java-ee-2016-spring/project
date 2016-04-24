@@ -32,7 +32,7 @@ public class QuestionBean implements Serializable {
 		Long questionId = Long.parseLong(questionIdAsString);
 
 		try {
-			questionService.remove(questionId);
+			questionService.removeById(questionId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,7 @@ public class QuestionBean implements Serializable {
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
-			questionList = questionService.getAll(examId);
+			questionList = questionService.getAllById(examId);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

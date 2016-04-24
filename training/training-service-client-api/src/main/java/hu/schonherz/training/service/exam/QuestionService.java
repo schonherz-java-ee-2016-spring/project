@@ -1,12 +1,14 @@
 package hu.schonherz.training.service.exam;
 
+import java.util.List;
+
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
-public interface QuestionService extends BaseService<QuestionVo>{
+public interface QuestionService extends BaseService<QuestionVo> {
 	
-	public void add(QuestionVo vo, Long...id) throws Exception;
+	public void save(QuestionVo vo, Long examId) throws Exception;
 	
-	public void remove(Long questionId) throws Exception;
+	public void updateText(QuestionVo vo) throws Exception;
 	
-	public void updateTitle(QuestionVo questioVo) throws Exception;
+	public List<QuestionVo> getAllById(Long examId) throws Exception; 
 }

@@ -77,7 +77,7 @@ public class SingleQuestionBean implements Serializable {
 		Long examId = Long.parseLong(examIdAsString);
 		setUpQuestionVo(newQuestion);
 		newQuestion.setOptions(newOptions);
-		questionService.add(newQuestion, examId);
+		questionService.save(newQuestion, examId);
 	}
 
 	public void removeOption(ActionEvent event) {

@@ -37,7 +37,7 @@ public class ExamBean implements Serializable {
 		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
 		Long examId = Long.parseLong(examIdAsString);
 		try {
-			examService.remove(examId);
+			examService.removeById(examId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -63,7 +63,7 @@ public class ExamBean implements Serializable {
 		exam.setTitle(newExamTitle);
 
 		try {
-			getExamService().add(exam);
+			getExamService().save(exam);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam created");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {

@@ -46,7 +46,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
 			questionVo.setText(questionTitleInputText);
-			getQuestionService().updateTitle(questionVo);
+			getQuestionService().updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -72,7 +72,7 @@ public class ExamFillBean implements Serializable {
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
-			questionList = questionService.getAll(examId);
+			questionList = questionService.getAllById(examId);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

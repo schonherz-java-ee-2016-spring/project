@@ -61,8 +61,9 @@ public class SingleQuestionDetailsBean implements Serializable {
 		QuestionVo newQuestion = questionService.getById(questionId);
 		setUpQuestionVo(newQuestion);
 
-		questionService.remove(questionId);
-		questionService.add(newQuestion, examId);
+		
+		questionService.removeById(questionId);
+		questionService.save(newQuestion, examId);
 	}
 
 	public void saveNewQuestion() throws Exception {
@@ -233,7 +234,7 @@ public class SingleQuestionDetailsBean implements Serializable {
 		try {
 			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
 			questionVo.setText(questionTitleInputText);
-			questionService.updateTitle(questionVo);
+			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
