@@ -15,32 +15,49 @@
 				selection="#{usersBean.selectedUser}" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
-<!-- 				<p:column headerText="Id" filterBy="#{user.id}" -->
-<!-- 					filterMatchMode="contains"> -->
-<!-- 					<h:outputText value="#{user.id}" /> -->
-<!-- 				</p:column> -->
-				<p:column headerText="#{out.username }" filterBy="#{user.userName}"
-					filterMatchMode="contains">
+				<!-- 				<p:column headerText="Id" filterBy="#{user.id}" -->
+				<!-- 					filterMatchMode="contains"> -->
+				<!-- 					<h:outputText value="#{user.id}" /> -->
+				<!-- 				</p:column> -->
+				<p:column headerText="#{out.username }" priority="3"
+					filterBy="#{user.userName}" filterMatchMode="contains">
 					<h:outputText value="#{user.userName}" />
 				</p:column>
-				<p:column headerText="#{out.fullname}" filterBy="#{user.fullName}"
-					filterMatchMode="contains">
+				<p:column headerText="#{out.fullname}" priority="3"
+					filterBy="#{user.fullName}" filterMatchMode="contains">
 					<h:outputText value="#{user.fullName}" />
 				</p:column>
-				<p:column headerText="#{out.email}" filterBy="#{user.email}"
-					filterMatchMode="contains">
+				<p:column headerText="#{out.email}" priority="4"
+					filterBy="#{user.email}" filterMatchMode="contains">
 					<h:outputText value="#{user.email}" />
 				</p:column>
-				<p:column headerText="#{out.userGroup}" filterBy="#{user.groups}"
-					filterMatchMode="contains">
+				<p:column headerText="#{out.userGroup}" priority="5"
+					filterBy="#{user.groups}" filterMatchMode="contains">
 					<h:outputText value="#{user.groups}" />
 				</p:column>
-				<p:column headerText="#{out.roleGroup}"
+				<p:column headerText="#{out.roleGroup}" priority="5"
 					filterBy="#{user.roleGroups}" filterMatchMode="contains">
 					<h:outputText value="#{user.roleGroups}" />
 				</p:column>
+				<p:column headerText="#{out.moduser}" priority="6"
+					filterBy="#{user.modUser}" filterMatchMode="contains">
+					<h:outputText value="#{user.modUser}" />
+				</p:column>
+				<p:column headerText="#{out.moddate}" priority="7"
+					filterBy="#{user.modDate}" filterMatchMode="contains">
+					<h:outputText value="#{user.modDate}" />
+				</p:column>
+				<p:column headerText="#{out.recuser}" priority="8"
+					filterBy="#{user.recUser}" filterMatchMode="contains">
+					<h:outputText value="#{user.recUser}" />
+				</p:column>
+				<p:column headerText="#{out.recdate}" priority="9"
+					filterBy="#{user.recDate}" filterMatchMode="contains">
+					<h:outputText value="#{user.recDate}" />
+				</p:column>
 				<!-- 				A kiválasztásra aktiválás  -->
-				<p:ajax event="rowSelect" update="pickform,manageRoles,deleteButton,modifyButton,form2"
+				<p:ajax event="rowSelect"
+					update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}" />
 				<f:facet name="footer">
 					<!-- 				A felhasználó létrehozás dialog gombja -->
@@ -63,15 +80,16 @@
 					</p:commandButton>
 					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 						<p:commandButton value="#{out.yes}" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update=":createUserForm:dataTable" />
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+							update=":createUserForm:dataTable" />
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
 					<!-- 				a felhasználó jogainak módosítása gomb -->
 					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
-						process="dataTable" update="pickform, growl,:createUserForm:dataTable"
-						disabled="#{usersBean.selected}"
-						value="#{out.userRoleGroups}"
+						process="dataTable"
+						update="pickform, growl,:createUserForm:dataTable"
+						disabled="#{usersBean.selected}" value="#{out.userRoleGroups}"
 						onclick="PF('manageDialog').show();">
 					</p:commandButton>
 				</f:facet>
@@ -165,13 +183,11 @@
 			</p:dialog>
 		</h:form>
 		<!-- 				a felhasználó jogainak módosítása dialog -->
-		<p:dialog header="#{out.userRoleGroups}"
-			widgetVar="manageDialog" modal="true" resizable="false"
-			draggable="false" responsive="true">
+		<p:dialog header="#{out.userRoleGroups}" widgetVar="manageDialog"
+			modal="true" resizable="false" draggable="false" responsive="true">
 			<h:form id="pickform">
-				<p:pickList id="pickList"
-					value="#{usersBean.selectedRoleGroups}" var="roles"
-					itemValue="#{roles}" itemLabel="#{roles.name}"
+				<p:pickList id="pickList" value="#{usersBean.selectedRoleGroups}"
+					var="roles" itemValue="#{roles}" itemLabel="#{roles.name}"
 					converter="RoleGroupConverter" responsive="true">
 
 				</p:pickList>

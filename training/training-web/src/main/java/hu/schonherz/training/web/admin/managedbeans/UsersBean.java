@@ -98,27 +98,28 @@ public class UsersBean implements Serializable {
 
 		// Username confirmation
 		if (username == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Username must filled!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (user != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Username already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameExists"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 
 		// Email confirm
 		if (email == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (useremail != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"E-mail already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailExists"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
@@ -136,13 +137,14 @@ public class UsersBean implements Serializable {
 		try {
 			userService.registrationUser(userVo);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Error in creating new user!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("failCreate"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
 
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("succesCreate"));
 		currentInstance.addMessage(null, facesMessage);
 	}
 
@@ -151,7 +153,11 @@ public class UsersBean implements Serializable {
 			userService.deleteUserById(selectedUser.getId());
 			users.remove(selectedUser);
 		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("failDelete"));
+			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 			e.printStackTrace();
+			return;
 		}
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"),
 				getBundle().getString("succesDelete"));
@@ -206,7 +212,8 @@ public class UsersBean implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), bundle.getString("userRoleGroupsSaved"));
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("userRoleGroupsSaved"));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
