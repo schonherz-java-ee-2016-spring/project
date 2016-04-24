@@ -6,22 +6,21 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">MultipleQuestion</ui:define>
+	<ui:define name="pageTitle">Multiple Question Details</ui:define>
 	<ui:define name="content">
-		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		<h:form id="questionTitleForm">
-			<h3>Question Edit</h3>
-			<p:inplace id="ajax" editor="true">
-				<p:inputText value="Idejön a Questionneve" required="true"
-					label="text" />
-			</p:inplace>
+	
 
+		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
+		
+		<h:form id="examTitleRename">
+			<p:inplace editor="true">
+				<p:inputText value="Macska" />
+			</p:inplace>
 		</h:form>
-		<p />
 		<h:form id="optionTableForm">
-			<p:dataTable id="optionTable"
-				value="#{multipleQuestionBean.newOptions}" var="option"
-				selection="#{multipleQuestionBean.correctOptions}"
+			<p:dataTable id="optionTable" lazy="true"
+				value="#{multipleQuestionDetailsBean.optionList}" var="option"
+				selection="#{multipleQuestionDetailsBean.correctOptions}"
 				rowKey="#{option.optionText}">
 				<f:facet name="header">
 				Options
@@ -32,7 +31,7 @@
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="Save" update="message"
-						action="#{multipleQuestionBean.saveNewQuestion}" />
+						action="#{multipleQuestionDetailsBean.saveNewQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
@@ -47,12 +46,12 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="newOptionText" value="Option:" />
 					<p:inputText id="newOptionText"
-						value="#{multipleQuestionBean.newOptionText}" required="true">
+						value="#{multipleQuestionDetailsBean.newOptionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
 					<f:facet name="footer">
 						<p:commandButton value="Add" update="message"
-							actionListener="#{multipleQuestionBean.addNewOption}" />
+							actionListener="#{multipleQuestionDetailsBean.addNewOption}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
@@ -60,40 +59,5 @@
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
-
-		<h:form id="renameOption">
-			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
-				title="rename">
-				<p:commandButton value="Rename Option" />
-			</h:outputLink>
-			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
-
-			<p:dialog header="Rename" widgetVar="dlg" resizable="false"
-				modal="true">
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="Optionlist" value="Option List:" />
-					<p:selectOneMenu id="Optionlist"
-						value="Idejonnekazoptionok" panelStyle="position:fixed"
-						effect="fade" style="width:160px" filter="true"
-						filterMatchMode="startsWith">
-<!-- 						<f:selectItems value="#{examBean.examList}" var="examVo" -->
-<!-- 							itemLabel="#{examVo.title}" itemValue="#{examVo.id}" /> -->
-					</p:selectOneMenu>
-
-					<h:outputLabel for="modifiedOption" value="New Optiontext:" />
-					<p:inputText id="modifiedOption" 
-						required="true">
-						<f:validateLength minimum="3" />
-					</p:inputText>
-					<f:facet name="footer">
-						<p:commandButton value="Save" update="growl"/>
-<!-- 							actionListener="Idejon a renamemetodus" /> -->
-			
-					</f:facet>
-				</h:panelGrid>
-			</p:dialog>
-		</h:form>
-
-
 	</ui:define>
 </ui:composition>

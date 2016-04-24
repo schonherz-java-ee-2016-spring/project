@@ -25,7 +25,7 @@ public class Question extends BaseEntity {
 	@Column(name = "text")
 	private String text;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
 

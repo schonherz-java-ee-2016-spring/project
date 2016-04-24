@@ -47,6 +47,12 @@
 						<f:setPropertyActionListener
 							target="#{multipleQuestionDetailsBean.questionIdAsString}"
 							value="#{question.id}" />
+							<f:setPropertyActionListener
+							target="#{multipleQuestionDetailsBean.examIdAsString}"
+							value="#{questionBean.examIdAsString}" />
+							<f:setPropertyActionListener
+							target="#{multipleQuestionDetailsBean.initLoading}"
+							value="#{true}" />
 					</h:commandButton>
 					<h:commandButton action="goToTextbasedQuestionDetailsPage"
 						value="Details" rendered="#{question.questionType.getId() eq 3}">

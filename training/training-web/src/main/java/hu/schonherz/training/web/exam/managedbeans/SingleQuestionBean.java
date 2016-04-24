@@ -185,5 +185,6 @@ public class SingleQuestionBean implements Serializable {
 
 	public void setCorrectOption(OptionVo correctOption) {
 		this.correctOption = correctOption;
+		System.out.println(correctOption.getOptionText());
 	}
 }
