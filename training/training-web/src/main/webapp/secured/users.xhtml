@@ -56,7 +56,7 @@
 					<h:outputText value="#{user.recDate}" />
 				</p:column>
 				<!-- 				A kiválasztásra aktiválás  -->
-				<p:ajax event="rowSelect"
+				<p:ajax process="dataTable" event="rowSelect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}" />
 				<f:facet name="footer">

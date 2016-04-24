@@ -136,6 +136,7 @@ public class UsersBean implements Serializable {
 
 		try {
 			userService.registrationUser(userVo);
+			users.add(userService.findUserByName(username));
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failCreate"));
@@ -146,6 +147,7 @@ public class UsersBean implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
 				bundle.getString("succesCreate"));
 		currentInstance.addMessage(null, facesMessage);
+		userVo = new UserVo();
 	}
 
 	public void deleteUser() {
@@ -162,8 +164,8 @@ public class UsersBean implements Serializable {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"),
 				getBundle().getString("succesDelete"));
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		selectedUser = null;
-		// selected = true;
+		selectedUser = new UserVo();
+		selected = true;
 	}
 
 	public void modifyUser() {
@@ -198,7 +200,8 @@ public class UsersBean implements Serializable {
 				bundle.getString("succesUpdate"));
 		currentInstance.addMessage(null, facesMessage);
 		selectedUser = null;
-		// selected = true;
+		selected = true;
+		userVo = new UserVo();
 	}
 
 	public void saveManaged() {
