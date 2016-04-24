@@ -43,11 +43,11 @@ public class ExamFillBean implements Serializable {
 	private String textbasedOptionAnswer;
 
 	private List<OptionVo> optionList;
-
+	private List<OptionVo> selectedOptionList;
 	public void toTheNextQuestion() {
 		// Activeindex ++ This way next tab inc
 		setCounter(getCounter() + 1);
-
+		
 		// Set the question to get the correct options for it
 		setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
 
@@ -172,6 +172,14 @@ public class ExamFillBean implements Serializable {
 
 	public void setTextbasedOptionAnswer(String textbasedOptionAnswer) {
 		this.textbasedOptionAnswer = textbasedOptionAnswer;
+	}
+
+	public List<OptionVo> getSelectedOptionList() {
+		return selectedOptionList;
+	}
+
+	public void setSelectedOptionList(List<OptionVo> selectedOptionList) {
+		this.selectedOptionList = selectedOptionList;
 	}
 	
 
