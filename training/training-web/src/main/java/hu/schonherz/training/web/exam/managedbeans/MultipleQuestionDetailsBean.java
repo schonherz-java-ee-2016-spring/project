@@ -81,7 +81,7 @@ public class MultipleQuestionDetailsBean implements Serializable {
 	public void removeOption(ActionEvent event) {
 		String optionName = event.getComponent().getAttributes().get("optionName").toString();
 		try {
-			optionList = optionList.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+			optionList = optionList.stream().filter(o -> !o.getText().equalsIgnoreCase(optionName))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class MultipleQuestionDetailsBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		if (optionList.stream().filter(o -> o.getOptionText().equalsIgnoreCase(optionVo.getOptionText())).count() > 0) {
+		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(optionVo.getText())).count() > 0) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
@@ -141,7 +141,7 @@ public class MultipleQuestionDetailsBean implements Serializable {
 	}
 
 	private void setUpOptionVo(OptionVo optionVo) {
-		optionVo.setOptionText(newOptionText);
+		optionVo.setText(newOptionText);
 	}
 
 	private void setUpQuestionVo(QuestionVo newQuestion) {

@@ -25,13 +25,13 @@
 			<p:dataTable id="optionTable"
 				value="#{singleQuestionBean.newOptions}" var="option"
 				selection="#{singleQuestionBean.correctOption}"
-				rowKey="#{option.optionText}">
+				rowKey="#{option.text}">
 				<f:facet name="header">
 				Options
 			</f:facet>
 				<p:column selectionMode="single" />
 				<p:column headerText="Option Text">
-					<h:outputText value="#{option.optionText}" />
+					<h:outputText value="#{option.text}" />
 				</p:column>
 				<p:column headerText="Delete">
 					<p:toolbar>
@@ -41,7 +41,7 @@
 							</span>
 							<p:commandButton title="Delete" icon="ui-icon-trash"
 								actionListener="#{singleQuestionBean.removeOption}" ajax="false">
-								<f:attribute name="optionName" value="#{option.optionText}" />
+								<f:attribute name="optionName" value="#{option.text}" />
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>

@@ -90,7 +90,7 @@ public class MultipleQuestionBean implements Serializable {
 	public void removeOption(ActionEvent event) {
 		String optionName = event.getComponent().getAttributes().get("optionName").toString();
 		try {
-			options = options.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+			options = options.stream().filter(o -> !o.getText().equalsIgnoreCase(optionName))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -100,7 +100,7 @@ public class MultipleQuestionBean implements Serializable {
 	public void addNewOption() {
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		if (options.stream().map(o -> o.getOptionText()).filter(o -> o.equalsIgnoreCase(optionVo.getOptionText()))
+		if (options.stream().map(o -> o.getText()).filter(o -> o.equalsIgnoreCase(optionVo.getText()))
 				.count() > 0) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Option already exists."));
@@ -143,7 +143,7 @@ public class MultipleQuestionBean implements Serializable {
 	}
 
 	private void setUpOptionVo(OptionVo optionVo) {
-		optionVo.setOptionText(optionTextInput);
+		optionVo.setText(optionTextInput);
 	}
 
 	public QuestionTypeService getQuestionTypeService() {

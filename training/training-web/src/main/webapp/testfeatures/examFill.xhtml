@@ -22,11 +22,11 @@
 						<!-- 					Single -->
 						<p:dataTable id="optionTable"
 							value="#{examFillBean.getOptionList()}" var="option"
-							rowKey="#{option.optionText}">
+							rowKey="#{option.text}">
 							<p:column selectionMode="single"
 								style="width:10%;text-align:center" />
 							<p:column headerText="Option Text">
-								<h:outputText value="#{option.optionText}" />
+								<h:outputText value="#{option.text}" />
 							</p:column>
 						</p:dataTable>
 						<p />
@@ -42,13 +42,13 @@
 						<p:dataTable id="optionTable"
 							value="#{examFillBean.getOptionList()}" var="option"
 							selection="#{examFillBean.selectedOptionList}"
-							rowKey="#{option.optionText}">
+							rowKey="#{option.text}">
 
 							<p:column selectionMode="multiple"
 								style="width:10%;text-align:center" />
 							<!-- EZT MEGESZI ÉS MÜKÖDIK	 <p:column selectionMode="single" /> -->
 							<p:column headerText="Option Text">
-								<h:outputText value="#{option.optionText}" />
+								<h:outputText value="#{option.text}" />
 							</p:column>
 						</p:dataTable>
 						<p />

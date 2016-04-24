@@ -22,8 +22,8 @@ public class Option extends BaseEntity {
 	@Column(name = "correct", columnDefinition = "boolean default false")
 	private Boolean correct;
 
-	@Column(name = "option_text", nullable = true)
-	private String optionText;
+	@Column(name = "text", nullable = true)
+	private String text;
 
 	public Option() {
 		super();
@@ -37,12 +37,12 @@ public class Option extends BaseEntity {
 		this.correct = correct;
 	}
 
-	public String getOptionText() {
-		return optionText;
+	public String getText() {
+		return text;
 	}
 
-	public void setOptionText(String optionText) {
-		this.optionText = optionText;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@PrePersist

@@ -82,7 +82,7 @@ public class SingleQuestionBean implements Serializable {
 
 	public void removeOption(ActionEvent event) {
 		String optionName = event.getComponent().getAttributes().get("optionName").toString();
-		newOptions = newOptions.stream().filter(o -> !o.getOptionText().equalsIgnoreCase(optionName))
+		newOptions = newOptions.stream().filter(o -> !o.getText().equalsIgnoreCase(optionName))
 				.collect(Collectors.toList());
 	}
 
@@ -97,7 +97,7 @@ public class SingleQuestionBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		OptionVo optionVo = new OptionVo();
 		setUpOptionVo(optionVo);
-		if (newOptions.stream().filter(o -> o.getOptionText().equalsIgnoreCase(optionVo.getOptionText())).count() > 0) {
+		if (newOptions.stream().filter(o -> o.getText().equalsIgnoreCase(optionVo.getText())).count() > 0) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
@@ -171,7 +171,7 @@ public class SingleQuestionBean implements Serializable {
 	}
 
 	private void setUpOptionVo(OptionVo optionVo) {
-		optionVo.setOptionText(newOptionText);
+		optionVo.setText(newOptionText);
 	}
 
 	public QuestionTypeService getQuestionTypeService() {
