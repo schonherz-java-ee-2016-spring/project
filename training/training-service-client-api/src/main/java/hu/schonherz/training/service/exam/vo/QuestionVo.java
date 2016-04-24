@@ -3,8 +3,8 @@ package hu.schonherz.training.service.exam.vo;
 import java.util.List;
 
 public class QuestionVo extends BaseIdentityVo {
-	private static final long serialVersionUID = -3071254276606991707L;
 
+	private static final long serialVersionUID = 1L;
 	private String text;
 	private QuestionTypeVo questionType;
 	private List<OptionVo> options;

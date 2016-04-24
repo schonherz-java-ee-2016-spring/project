@@ -3,8 +3,7 @@ package hu.schonherz.training.service.exam.vo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 public class AnswerVo extends BaseIdentityVo {
-	private static final long serialVersionUID = 844532347627686325L;
-
+	private static final long serialVersionUID = 1L;
 	private UserVo user;
 	private OptionVo option;
 	private Boolean good;

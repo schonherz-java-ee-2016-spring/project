@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.OptionService;
@@ -56,6 +58,15 @@ public class ExamFillBean implements Serializable {
 	}
 
 	public void saveAnswer() {
+		
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		try {
+			// idejön a save
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FATALEERROR CONTACT IVÁNYIGÁBOR!", "Couldn't presist your answer");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
 
 	}
 
