@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CreateContext.class, UserServiceTest.class, CloseContext.class })
-public class UserServiceSuite {
+@SuiteClasses({ CreateContext.class, RoleGroupServiceTest.class, CloseContext.class })
+public class RoleGroupServiceSuite {
+
 }

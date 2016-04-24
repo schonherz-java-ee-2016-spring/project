@@ -6,8 +6,11 @@
 	<security:http auto-config="true" use-expressions="true">
 		<security:csrf disabled="true" />
 		<security:headers disabled="true" />
-		<security:intercept-url pattern="/secured/*"
-			access="hasRole('GUEST')" />
+		<security:intercept-url pattern="/secured/usergroups.xhtml"
+			access="hasRole('UGS')" />
+		<security:intercept-url pattern="/secured/users.xhtml"
+			access="hasRole('USERS')" />
+				
 		<security:intercept-url pattern="/secured/observer/**"
 			access="hasRole('OBSERVER')" />
 		<security:intercept-url pattern="/secured/admin/**"

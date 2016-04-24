@@ -15,7 +15,6 @@ public class InterviewVo implements Serializable {
 	private Long id;
 	private String company;
 	private Date interviewDate;
-	private String description;
 	private UserVo interviewer;
 	private UserVo interviewed;
 
@@ -63,22 +62,7 @@ public class InterviewVo implements Serializable {
 	public void setInterviewDate(Date interviewDate) {
 		this.interviewDate = interviewDate;
 	}
-
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
+	
 	/**
 	 * @return the interviewer
 	 */
@@ -112,7 +96,14 @@ public class InterviewVo implements Serializable {
 	@Override
 	public String toString() {
 		return "InterviewVO [id = " + id + " company = " + company + " interviewDate = " + interviewDate
-				+ " description = " + description + " interviewer = " + interviewer.getId() + " interviewed = "
+				 + " interviewer = " + interviewer.getId() + " interviewed = "
 				+ interviewed.getId();
+	}
+
+	/**
+	 * 
+	 */
+	public InterviewVo() {
+		
 	}
 }

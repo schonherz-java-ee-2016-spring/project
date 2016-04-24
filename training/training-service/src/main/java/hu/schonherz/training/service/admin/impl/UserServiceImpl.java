@@ -40,11 +40,11 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 	}
 
-	private RoleGroup getGuestRoleGroup() {
-		RoleGroup roleGroup = roleGroupRepository.findByName("ROLE_GUEST");
+	private RoleGroup getGuestRoleGroup() throws Exception {
+		RoleGroup roleGroup = roleGroupRepository.findByName("Guest Role Group");
 		if (roleGroup == null) {
 			roleGroup = new RoleGroup();
-			roleGroup.setName("ROLE_GUEST");
+			roleGroup.setName("Guest Role Group");
 			roleGroup = roleGroupRepository.save(roleGroup);
 		}
 		return roleGroup;
@@ -80,7 +80,12 @@ public class UserServiceImpl implements UserService {
 		if (roles == null || roles.isEmpty()) {
 			roles = new ArrayList<>();
 		}
-		RoleGroup roleGroup = getGuestRoleGroup();
+		RoleGroup roleGroup = null;
+		try {
+			roleGroup = getGuestRoleGroup();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		roles.add(roleGroup);
 		user.setRoleGroups(roles);
 		user = userRepository.save(user);
