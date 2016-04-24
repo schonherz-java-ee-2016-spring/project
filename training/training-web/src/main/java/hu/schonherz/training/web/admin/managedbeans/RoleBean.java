@@ -2,6 +2,7 @@ package hu.schonherz.training.web.admin.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -46,7 +47,7 @@ public class RoleBean implements Serializable {
     public void init() {
         try {
         	setRoles(roleService.findAllRole());
-			setSelectedRole(new RoleVo());
+			selectedRole = new RoleVo();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,10 +56,13 @@ public class RoleBean implements Serializable {
 	
 	public void create(){
 		try {
+			//ha már van ilyen, akkor hibaüzenet
 			if (roleService.getRoleByName(roleName) != null || roleService.getRoleByRoleCode(roleCode)!= null) {
 				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR",
-						"Role already exists!");
+						"Role/Rolecode already exists!");
 				FacesContext.getCurrentInstance().addMessage(null, msgs);
+				roleName = null;
+				roleCode = null;
 			} else {
 				RoleVo newR = new RoleVo();
 				newR.setName(roleName);
@@ -86,8 +90,6 @@ public class RoleBean implements Serializable {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
 					"Role deleted!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			roleName = null;
-			roleCode = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,11 +102,12 @@ public class RoleBean implements Serializable {
 			// kitöröljük a listából
 			roles.remove(selectedRole);
 			
-			// beállítjuk az új nevet
+			// beállítjuk az új nevet és kódot
 			selectedRole.setName(roleName);
+			selectedRole.setRoleCode(roleCode);
 			
 			// updateljük a jogot
-			roleService.updateRole(selectedRole);
+			roleService.createRole(selectedRole);
 			
 			// visszarakjuk a listába
 			roles.add(roleService.getRoleByName(roleName));
@@ -112,8 +115,6 @@ public class RoleBean implements Serializable {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
 					"Role edited!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-			roleName = null;
-			roleCode = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,12 +123,7 @@ public class RoleBean implements Serializable {
 	public void onRowSelect(SelectEvent event) {
 		disabled = false;
 	}
-	
-	public void setVariableToNull(){
-		roleCode = null;
-		roleName = null;
-	}
-	
+		
 	public List<RoleVo> getAllRole() {
 		List<RoleVo> vos = null;
 		try {

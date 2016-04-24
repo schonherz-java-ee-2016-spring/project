@@ -10,6 +10,9 @@
 		<class>hu.schonherz.training.core.admin.entity.Role</class>
 		<class>hu.schonherz.training.core.admin.entity.RoleGroup</class>
 		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
+		<class>hu.schonherz.training.core.admin.entity.Theme</class>
+		<class>hu.schonherz.training.core.admin.entity.Training</class>
+		<class>hu.schonherz.training.core.admin.entity.Event</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class, hbm" />
