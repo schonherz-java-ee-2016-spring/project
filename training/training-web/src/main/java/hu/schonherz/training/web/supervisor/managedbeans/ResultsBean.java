@@ -5,18 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
-import hu.schonherz.training.service.supervisor.vo.LessonsVo;
-import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
+import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.supervisor.vo.LessonsVo;
 
 @ManagedBean(name = "resultsBean")
 @ViewScoped
 public class ResultsBean implements Serializable {
+
+	@EJB
+	private UserGroupService userGroupService;
 
 	private List<UserGroupVo> userGroups = new ArrayList<>();
 
@@ -63,11 +68,16 @@ public class ResultsBean implements Serializable {
 		}
 
 		// UserGroups
-		userGroups.add(new UserGroupVo());
-		userGroups.add(new UserGroupVo());
-		for (UserGroupVo userGroup : userGroups) {
-			userGroup.setGroupName("Schonherz Java EE Training 2016");
+		try {
+			userGroups = userGroupService.getUserGroups();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		// userGroups.add(new UserGroupVo());
+		// userGroups.add(new UserGroupVo());
+		// for (UserGroupVo userGroup : userGroups) {
+		// userGroup.setGroupName("Schonherz Java EE Training 2016");
+		// }
 
 		// Users
 		for (int i = 0; i < 10; i++) {

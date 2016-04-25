@@ -12,9 +12,9 @@
 
 		<body>
 
-			<p:accordionPanel var="userGroup" value="#{resultsBean.userGroups}">
-				<p:tab title="#{userGroup.groupName}">
-					<p:accordionPanel var="user" value="#{resultsBean.users}">
+			<p:accordionPanel var="userGroup" value="#{resultsBean.userGroups}" activeIndex="true" >
+				<p:tab title="#{userGroup.groupName}" >
+					<p:accordionPanel var="user" value="#{resultsBean.users}" activeIndex="true">
 						<p:tab title="#{user.fullName}">
 
 							<table class="table-header-rotated">
