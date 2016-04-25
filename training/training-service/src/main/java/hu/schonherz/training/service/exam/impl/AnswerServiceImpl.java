@@ -29,18 +29,21 @@ public class AnswerServiceImpl implements AnswerService {
 	@Autowired
 	AnswerRepository answerRepository;
 
+	@Deprecated
 	@Override
 	public List<AnswerVo> getAll() throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public AnswerVo getById(Long id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Deprecated
 	@Override
 	public void removeById(Long id) throws Exception {
 		// TODO Auto-generated method stub
@@ -56,5 +59,15 @@ public class AnswerServiceImpl implements AnswerService {
 			throw ex;
 		}
 	}
+
+	@Override
+	public List<AnswerVo> getAllByUserId(Long id) throws Exception {
+		try {
+			return AnswerMapper.toVo(answerRepository.findAnswersByUserId(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	} 
 
 }

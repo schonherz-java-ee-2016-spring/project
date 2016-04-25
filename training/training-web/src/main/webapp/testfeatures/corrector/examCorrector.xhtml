@@ -8,22 +8,42 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exam corrector</ui:define>
 	<ui:define name="content">
-		<h:form id="selection">
+		<h:form id="userSelectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="examSelection" value="Exam:" />
 				<p:selectOneMenu id="examSelection"
-					value="#{examCorrectorBean.selectedExam}" style="width:125px">
+					value="#{examCorrectorBean.selectedExamIdAsString}"
+					style="width:125px">
 					<f:selectItems value="#{examCorrectorBean.examList}" var="exam"
-						itemLabel="#{exam.title}" />
+						itemLabel="#{exam.title}" itemValue="#{exam.id}"/>
 				</p:selectOneMenu>
 
 				<p:outputLabel for="userSelection" value="User:" />
 				<p:selectOneMenu id="userSelection"
-					value="#{examCorrectorBean.selectedUser}" style="width:125px">
+					value="#{examCorrectorBean.selectedUserIdAsString}"
+					style="width:125px">
 					<f:selectItems value="#{examCorrectorBean.userList}" var="user"
-						itemLabel="#{user.userName}" />
+						itemLabel="#{user.userName}" itemValue="#{user.id}"/>
 				</p:selectOneMenu>
+				<f:facet name="footer">
+					<p:commandButton value="Load Content"
+						actionListener="#{examCorrectorBean.loadContent}"
+						icon="ui-icon-check" />
+				</f:facet>
 			</h:panelGrid>
 		</h:form>
+
+		<p:dataTable id="answerTable" value="#{examCorrectorBean.answerList}"
+			var="answer">
+			<p:column headerText="Username">
+    			#{answer.user.userName}
+    		</p:column>
+			<p:column headerText="Option text">
+    			#{answer.option.text}
+    		</p:column>
+			<p:column headerText="God">
+    		    #{answer.good}
+    		</p:column>
+		</p:dataTable>
 	</ui:define>
 </ui:composition>

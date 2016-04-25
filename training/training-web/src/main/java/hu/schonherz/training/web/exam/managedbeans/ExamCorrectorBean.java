@@ -1,16 +1,22 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
+
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.ExamService;
+import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 
 @ManagedBean(name = "examCorrectorBean")
@@ -22,20 +28,40 @@ public class ExamCorrectorBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private UserService userService;
-	
+	@EJB
+	private AnswerService answerService;
+
 	private List<ExamVo> examList;
-	private ExamVo selectedExam;
+	private String selectedExamIdAsString;
 	private List<UserVo> userList;
-	private UserVo selectedUser;
-	
+	private String selectedUserIdAsString;
+
+	private List<AnswerVo> answerList;
+
 	@PostConstruct
 	public void initBean() {
 		try {
 			examList = getExamService().getAllSortedById();
 			userList = getUserService().findAllUser();
+			setAnswerList(new ArrayList<>());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void loadContent() throws Exception {
+		try {
+			ExamVo selectedExam = examService.getById(Long.parseLong(selectedExamIdAsString));
+			answerList = getAnswerService().getAllByUserId(Long.parseLong(selectedUserIdAsString));
+
+			answerList = answerList.stream()
+					.filter(a -> selectedExam.getQuestions().stream().flatMap(q -> q.getOptions().stream())
+							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RequestContext.getCurrentInstance().update("answerTable");
 	}
 
 	/**
@@ -46,7 +72,8 @@ public class ExamCorrectorBean implements Serializable {
 	}
 
 	/**
-	 * @param examService the examService to set
+	 * @param examService
+	 *            the examService to set
 	 */
 	public void setExamService(ExamService examService) {
 		this.examService = examService;
@@ -60,7 +87,8 @@ public class ExamCorrectorBean implements Serializable {
 	}
 
 	/**
-	 * @param examList the examList to set
+	 * @param examList
+	 *            the examList to set
 	 */
 	public void setExamList(List<ExamVo> examList) {
 		this.examList = examList;
@@ -82,20 +110,36 @@ public class ExamCorrectorBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public ExamVo getSelectedExam() {
-		return selectedExam;
+	public AnswerService getAnswerService() {
+		return answerService;
 	}
 
-	public void setSelectedExam(ExamVo selectedExam) {
-		this.selectedExam = selectedExam;
+	public void setAnswerService(AnswerService answerService) {
+		this.answerService = answerService;
 	}
 
-	public UserVo getSelectedUser() {
-		return selectedUser;
+	public List<AnswerVo> getAnswerList() {
+		return answerList;
 	}
 
-	public void setSelectedUser(UserVo selectedUser) {
-		this.selectedUser = selectedUser;
+	public void setAnswerList(List<AnswerVo> answerList) {
+		this.answerList = answerList;
+	}
+
+	public String getSelectedExamIdAsString() {
+		return selectedExamIdAsString;
+	}
+
+	public void setSelectedExamIdAsString(String selectedExamIdAsString) {
+		this.selectedExamIdAsString = selectedExamIdAsString;
+	}
+
+	public String getSelectedUserIdAsString() {
+		return selectedUserIdAsString;
+	}
+
+	public void setSelectedUserIdAsString(String selectedUserIdAsString) {
+		this.selectedUserIdAsString = selectedUserIdAsString;
 	}
 
 }
