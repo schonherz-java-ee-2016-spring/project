@@ -15,7 +15,9 @@ import org.primefaces.event.TreeDragDropEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import hu.schonherz.training.service.admin.ThemeService;
 import hu.schonherz.training.service.admin.TrainingService;
+import hu.schonherz.training.service.admin.vo.ThemeVo;
 import hu.schonherz.training.service.admin.vo.TrainingVo;
 
 @ManagedBean(name = "trainingBean")
@@ -25,6 +27,9 @@ public class TrainingBean implements Serializable {
 
 	@EJB
 	private TrainingService trainingService;
+
+	@EJB
+	private ThemeService themeService;
 
 	private List<TrainingVo> trainings;
 	private TrainingVo selected;
@@ -62,12 +67,14 @@ public class TrainingBean implements Serializable {
 		}
 
 		root2 = new DefaultTreeNode("Root2", null);
-		for (int i = 4; i < 10; ++i) {
-			TreeNode t = new DefaultTreeNode("Tematika " + i, root2);
-			for (int j = 1; j < 6; ++j) {
+		List<ThemeVo> tvos = themeService.findAllTheme();
+		for (ThemeVo themeVo : tvos) {
+			TreeNode t = new DefaultTreeNode(themeVo.getName(), root2);
+			for (int j = 1; j < 3; ++j) {
 				new DefaultTreeNode("Tétel " + j, t);
 			}
 		}
+
 	}
 
 	public void onDragDrop(TreeDragDropEvent event) {
