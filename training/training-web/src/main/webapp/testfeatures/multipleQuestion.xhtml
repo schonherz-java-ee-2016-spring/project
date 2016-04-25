@@ -13,7 +13,7 @@
 			<h3>Question Title</h3>
 			<p:inputTextarea rows="4" cols="100" counter="display"
 				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{multipleQuestionBean.questionTextInput}" required="true">
+				autoResize="false" value="#{multipleQuestionBean.questionText}" required="true">
 				<f:validateLength minimum="5" />
 				<p:ajax event="keyup" />
 			</p:inputTextarea>
@@ -21,7 +21,7 @@
 		</h:form>
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable"
-				value="#{multipleQuestionBean.options}" var="option"
+				value="#{multipleQuestionBean.optionList}" var="option"
 				selection="#{multipleQuestionBean.correctOptions}"
 				rowKey="#{option.text}">
 				<f:facet name="header">
@@ -46,7 +46,7 @@
 					</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="Save" update="message"
-						action="#{multipleQuestionBean.saveNewQuestion}" />
+						action="#{multipleQuestionBean.tryToSaveQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
@@ -59,14 +59,14 @@
 			<p:dialog header="New Option" widgetVar="dlg" resizable="false"
 				modal="true">
 				<h:panelGrid columns="2" cellpadding="5">
-					<h:outputLabel for="optionTextInput" value="Option:" />
-					<p:inputText id="optionTextInput"
-						value="#{multipleQuestionBean.optionTextInput}" required="true">
+					<h:outputLabel for="optionText" value="Option:" />
+					<p:inputText id="optionText"
+						value="#{multipleQuestionBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
 					<f:facet name="footer">
 						<p:commandButton value="Add" update="message"
-							actionListener="#{multipleQuestionBean.addNewOption}" />
+							actionListener="#{multipleQuestionBean.addOption}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>

@@ -14,7 +14,7 @@
 		
 		<h:form id="questionTitleRename">
 			<p:inplace editor="true">
-				<p:inputText value="#{multipleQuestionDetailsBean.questionTitleInputText}" />
+				<p:inputText value="#{multipleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
 		<h:form id="optionTableForm">
@@ -44,7 +44,7 @@
 					</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="Save" update="message"
-						action="#{multipleQuestionDetailsBean.saveNewQuestion}" />
+						action="#{multipleQuestionDetailsBean.tryToSaveQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
@@ -59,12 +59,12 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<h:outputLabel for="newOptionText" value="Option:" />
 					<p:inputText id="newOptionText"
-						value="#{multipleQuestionDetailsBean.newOptionText}" required="true">
+						value="#{multipleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
 					<f:facet name="footer">
 						<p:commandButton value="Add" update="message"
-							actionListener="#{multipleQuestionDetailsBean.addNewOption}" />
+							actionListener="#{multipleQuestionDetailsBean.addOption}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>

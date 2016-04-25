@@ -1,10 +1,8 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,67 +11,89 @@ import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
-import hu.schonherz.training.service.exam.ExamService;
-import hu.schonherz.training.service.exam.OptionService;
-import hu.schonherz.training.service.exam.QuestionService;
-import hu.schonherz.training.service.exam.QuestionTypeService;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @ManagedBean(name = "singleQuestionDetailsBean")
 @SessionScoped
-public class SingleQuestionDetailsBean implements Serializable {
+public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	private static final long serialVersionUID = 1L;
 
-	private String examIdAsString;
 	private String questionIdAsString;
+	private OptionVo correctOption;
 	private Boolean initLoading = true;
 
-	private List<OptionVo> optionList;
-	private OptionVo correctOption;
-	private String newOptionText;
-	
-	private String questionTitleInputText;
-
-	@EJB
-	private ExamService examService;
-	@EJB
-	private QuestionService questionService;
-	@EJB
-	private QuestionTypeService questionTypeService;
-	@EJB
-	private OptionService optionService;
-
-	public void removeOption(ActionEvent event) {
-		String optionName = event.getComponent().getAttributes().get("optionName").toString();
-		try {
-			optionList = optionList.stream().filter(o -> !o.getText().equalsIgnoreCase(optionName))
-					.collect(Collectors.toList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@Override
+	protected void updatePageContent() {
+		optionList.clear();
+		questionText = "";
+		RequestContext.getCurrentInstance().update("optionTableForm");
+		RequestContext.getCurrentInstance().update("questionTitleForm");
 	}
 
-	public void save() throws Exception {
+	@Override
+	protected void setUpOption() {
+		option = new OptionVo();
+		option.setText(optionText);
+	}
+
+	@Override
+	protected void setUpQuestion() throws Exception {
+		question.setId(null);
+		optionList.stream().forEach(o -> {
+			if (o.getText().equalsIgnoreCase(correctOption.getText())) {
+				o.setCorrect(true);
+			} else {
+				o.setCorrect(false);
+			}
+			o.setId(null);
+		});
+		question.setOptions(optionList);
+	}
+
+	@Override
+	public void addOption() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		setUpOption();
+		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(option.getText())).count() > 0) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
+			currentInstance.addMessage(null, facesMessage);
+		} else {
+			optionList.add(option);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+			currentInstance.addMessage(null, facesMessage);
+		}
+		RequestContext.getCurrentInstance().update("optionTableForm");
+	}
+
+	@Override
+	public void removeOption(ActionEvent event) {
+		String optionName = event.getComponent().getAttributes().get("optionName").toString();
+		optionList = optionList.stream().filter(o -> !o.getText().equalsIgnoreCase(optionName))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public void saveQuestion() throws Exception {
 		Long examId = Long.parseLong(examIdAsString);
 		Long questionId = Long.parseLong(questionIdAsString);
 
-		QuestionVo newQuestion = questionService.getById(questionId);
-		setUpQuestionVo(newQuestion);
+		question = questionService.getById(questionId);
+		setUpQuestion();
 
-		
 		questionService.removeById(questionId);
-		questionService.save(newQuestion, examId);
+		questionService.save(question, examId);
 	}
 
-	public void saveNewQuestion() throws Exception {
+	@Override
+	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "One answer!!!!");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
-				save();
+				saveQuestion();
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
@@ -85,102 +105,59 @@ public class SingleQuestionDetailsBean implements Serializable {
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
-
 		}
 	}
 
-	public void updatePageContent() {
-		RequestContext.getCurrentInstance().update("optionTableForm");
-		RequestContext.getCurrentInstance().update("questionTitleForm");
-	}
-
-	public void addNewOption() {
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		OptionVo optionVo = new OptionVo();
-		setUpOptionVo(optionVo);
-		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(optionVo.getText())).count() > 0) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
-			currentInstance.addMessage(null, facesMessage);
-		} else {
-			optionList.add(optionVo);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
-			currentInstance.addMessage(null, facesMessage);
+	@Override
+	public List<OptionVo> getOptionList() {
+		if (initLoading == true) {
+			updateOptionList();
 		}
-		RequestContext.getCurrentInstance().update("optionTableForm");
+		return optionList;
 	}
 
-	public QuestionService getQuestionService() {
-		return questionService;
+	@Override
+	public String getQuestionText() {
+		updateQuestionText();
+		return questionText;
 	}
 
-	public void setQuestionService(QuestionService questionService) {
-		this.questionService = questionService;
+	@Override
+	public void setQuestionText(String questionText) {
+		updateSetQuestionText(questionText);
+		this.questionText = questionText;
 	}
 
-	public OptionService getOptionService() {
-		return optionService;
+	public void updateSetQuestionText(String questionText) {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo questionVo = questionService.getById(questionId);
+			questionVo.setText(questionText);
+			questionService.updateText(questionVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void setOptionService(OptionService optionService) {
-		this.optionService = optionService;
+	public void updateQuestionText() {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo question = questionService.getById(questionId);
+			questionText = question.getText();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public String getExamIdAsString() {
-		return examIdAsString;
-	}
-
-	public void setExamIdAsString(String examIdAsString) {
-		this.examIdAsString = examIdAsString;
-	}
-
-	public String getNewOptionText() {
-		return newOptionText;
-	}
-
-	public void setNewOptionText(String newOptionText) {
-		this.newOptionText = newOptionText;
-	}
-
-	private void setUpOptionVo(OptionVo optionVo) {
-		optionVo.setText(newOptionText);
-	}
-
-	private void setUpQuestionVo(QuestionVo newQuestion) {
-		optionList.stream().forEach(o -> {
-			if (o.getText().equalsIgnoreCase(correctOption.getText())) {
-				o.setCorrect(true);
-			} else {
-				o.setCorrect(false);
-			}
-			o.setId(null);
-		});
-
-		newQuestion.setId(null);
-		newQuestion.setOptions(optionList);
-	}
-
-	public QuestionTypeService getQuestionTypeService() {
-		return questionTypeService;
-	}
-
-	public void setQuestionTypeService(QuestionTypeService questionTypeService) {
-		this.questionTypeService = questionTypeService;
-	}
-
-	public ExamService getExamService() {
-		return examService;
-	}
-
-	public void setExamService(ExamService examService) {
-		this.examService = examService;
-	}
-
-	public OptionVo getCorrectOption() {
-		return correctOption;
-	}
-
-	public void setCorrectOption(OptionVo correctOption) {
-		this.correctOption = correctOption;
+	public void updateOptionList() {
+		Long id = Long.parseLong(questionIdAsString);
+		try {
+			optionList = questionService.getById(id).getOptions();
+			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().get();
+			initLoading = false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public String getQuestionIdAsString() {
@@ -191,22 +168,12 @@ public class SingleQuestionDetailsBean implements Serializable {
 		this.questionIdAsString = questionIdAsString;
 	}
 
-	public List<OptionVo> getOptionList() {
-		if (initLoading == true) {
-			Long id = Long.parseLong(questionIdAsString);
-			try {
-				optionList = questionService.getById(id).getOptions();
-				correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().get();
-				initLoading = false;
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return optionList;
+	public OptionVo getCorrectOption() {
+		return correctOption;
 	}
 
-	public void setOptionList(List<OptionVo> optionList) {
-		this.optionList = optionList;
+	public void setCorrectOption(OptionVo correctOption) {
+		this.correctOption = correctOption;
 	}
 
 	public Boolean getInitLoading() {
@@ -215,28 +182,5 @@ public class SingleQuestionDetailsBean implements Serializable {
 
 	public void setInitLoading(Boolean initLoading) {
 		this.initLoading = initLoading;
-	}
-	
-	public String getQuestionTitleInputText() {
-		QuestionVo questionVo;
-		try {
-			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
-			questionTitleInputText = questionVo.getText();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return questionTitleInputText;
-	}
-
-	public void setQuestionTitleInputText(String questionTitleInputText) {
-		this.questionTitleInputText = questionTitleInputText;
-		QuestionVo questionVo;
-		try {
-			questionVo = questionService.getById(Long.parseLong(questionIdAsString));
-			questionVo.setText(questionTitleInputText);
-			questionService.updateText(questionVo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
