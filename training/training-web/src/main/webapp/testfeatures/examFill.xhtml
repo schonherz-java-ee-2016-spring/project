@@ -10,74 +10,64 @@
 	<ui:define name="content">
 
 
+		<p:panel id="panelId"
+			header="#{examFillBean.questionList.get(examFillBean.counter).text}">
 
-		<p:tabView id="tabView" value="#{examFillBean.questionList}"
-			var="question" activeIndex="#{examFillBean.counter}">
-			<p:tab id="QuestionTabs" title="#{question.id}" disabled="true">
-				<p:panel header="#{question.text}">
-					<h:form>
+			<!-- 					Single question's form -->
+			<h:form 
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 1}">
+				<p:message for="optionTable" id="newQuestionTextMsg" />
+				<p:dataTable id="optionTable" lazy="true"
+					value="#{examFillBean.getOptionList()}" var="option"
+					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
+					<p:column selectionMode="single"
+						style="width:10%;text-align:center" />
+					<p:column headerText="Options">
+						<h:outputText value="#{option.text}" />
+					</p:column>
+				</p:dataTable>
+				<p />
+				<p:commandButton update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionSingle()}"
+					value="Next"></p:commandButton>
 
-					</h:form>
-					<h:form rendered="#{question.questionType.getId() eq 1}">
-						<!-- 					Single -->
-						<p:dataTable id="optionTable"
-							value="#{examFillBean.getOptionList()}" var="option"
-							rowKey="#{option.text}">
-							<p:column selectionMode="single"
-								style="width:10%;text-align:center" />
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-						<p />
-						<p:commandButton update="tabView"
-							actionListener="#{examFillBean.toTheNextQuestion()}" value="Next"></p:commandButton>
+				<p:growl id="message" sticky="true" showDetail="true" life="3000" />
+			</h:form>
 
-						<p:commandButton value="RESET"
-							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
-					</h:form>
-					<!-- 					Multi -->
-					<h:form rendered="#{question.questionType.getId() eq 2}">
+			<!-- 					Multi question's form -->
+			<h:form
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 2}">
 
-						<p:dataTable id="optionTable"
-							value="#{examFillBean.getOptionList()}" var="option"
-							selection="#{examFillBean.selectedOptionList}"
-							rowKey="#{option.text}">
+				<p:dataTable id="optionTable"
+					value="#{examFillBean.getOptionList()}" var="option"
+					selection="#{examFillBean.selectedOptionList}"
+					rowKey="#{option.text}" lazy="true">
 
-							<p:column selectionMode="multiple"
-								style="width:10%;text-align:center" />
-							<!-- EZT MEGESZI ÉS MÜKÖDIK	 <p:column selectionMode="single" /> -->
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-						<p />
-						<p:commandButton value="Next" update="tabView"
-							actionListener="#{examFillBean.toTheNextQuestion()}">
-							<f:attribute name="correctness" value="#{option.correct}" />
-							</p:commandButton>
-						<p:commandButton value="RESET"
-							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
-					</h:form>
+					<p:column selectionMode="multiple"
+						style="width:10%;text-align:center" />
+					<p:column headerText="Options">
+						<h:outputText value="#{option.text}" />
+					</p:column>
+				</p:dataTable>
+				<p />
+				<p:commandButton value="Next" update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionMulti()}">
+				</p:commandButton>
+			</h:form>
 
-					<!-- 					Textbased -->
-					<h:form rendered="#{question.questionType.getId() eq 3}">
-						<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
-						<p />
-						<p:commandButton value="Next" update="tabView"
-							actionListener="#{examFillBean.toTheNextQuestion()}">
-							
-							</p:commandButton>
-						<p:commandButton value="RESET"
-							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
-					</h:form>
+			<!-- 					Textbased question's form -->
+			<h:form
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 3}" lazy="true">
+				<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p />
+				<p:commandButton value="Next" update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionText()}">
+				</p:commandButton>
 
 
-				</p:panel>
-			</p:tab>
-		</p:tabView>
+			</h:form>
+		</p:panel>
 
-(RESET) FOR TESTING PURPOSE ONLY
 
 	</ui:define>
 </ui:composition>

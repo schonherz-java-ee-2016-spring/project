@@ -14,7 +14,7 @@
 			rowsPerPageTemplate="5,10,15,">
 
 			<p:column headerText="Exams">
-				<h:outputText value="#{exam.title}" />
+				<h:outputText  value="#{exam.title}"  />
 			</p:column>
 			<p:column headerText="">
 				<h:form id="form">
@@ -25,7 +25,6 @@
 							target="#{examFillBean.questionIdAsString}" value="#{examFillBean.questionList.get(0).getId()}" />
 							<f:setPropertyActionListener
 							target="#{examFillBean.counter}" value="#{0}" />
-<!-- 							SZAG , Refactor inc -->
 					</h:commandButton>
 				</h:form>
 			</p:column>
