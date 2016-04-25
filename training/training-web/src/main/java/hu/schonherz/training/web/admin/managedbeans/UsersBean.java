@@ -189,7 +189,7 @@ public class UsersBean implements Serializable {
 			userVo.setUserName(username);
 			userVo.setFullName(fullname);
 			userVo.setEmail(email);
-			userService.modifyUser(selectedUser);
+			userService.updateUser(selectedUser);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("updateFail"));
@@ -202,6 +202,12 @@ public class UsersBean implements Serializable {
 		selectedUser = null;
 		selected = true;
 		userVo = new UserVo();
+		try {
+			users = userService.findAllUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void saveManaged() {
@@ -218,6 +224,12 @@ public class UsersBean implements Serializable {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
 				bundle.getString("userRoleGroupsSaved"));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		try {
+			users = userService.findAllUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String getUsername() {
