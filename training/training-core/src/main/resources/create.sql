@@ -86,28 +86,11 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'L
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2014, false, 'Lorem ipsum dolor sit amet nec. Elit sollicitudin vel. Fringilla laoreet in cras perspiciatis sociosqu sed et sed a nulla laoreet. Pede maecenas sed. Vestibulum ac proin sem augue eget.', 2006);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2015, false, 'Elit ut imperdiet, facilisis praesent, rutrum urna et egestas est sodales ante. Nunc quis curabitur aliquam faucibus', 2006);
 
+-- Answers
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, false);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;

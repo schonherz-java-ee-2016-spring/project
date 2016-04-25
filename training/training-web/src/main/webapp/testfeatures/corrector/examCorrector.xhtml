@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Exam corrector</ui:define>
+	<ui:define name="content">
+		<h:form id="selection">
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="examSelection" value="Exam:" />
+				<p:selectOneMenu id="examSelection"
+					value="#{examCorrectorBean.selectedExam}" style="width:125px">
+					<f:selectItems value="#{examCorrectorBean.examList}" var="exam"
+						itemLabel="#{exam.title}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="userSelection" value="User:" />
+				<p:selectOneMenu id="userSelection"
+					value="#{examCorrectorBean.selectedUser}" style="width:125px">
+					<f:selectItems value="#{examCorrectorBean.userList}" var="user"
+						itemLabel="#{user.userName}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
