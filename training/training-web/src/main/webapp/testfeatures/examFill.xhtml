@@ -9,14 +9,15 @@
 	<ui:define name="pageTitle">Exam fill</ui:define>
 	<ui:define name="content">
 
-		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
+		
 
 		<p:panel id="panelId"
 			header="#{examFillBean.questionList.get(examFillBean.counter).text}">
-
+			
 			<!-- 					Single question's form -->
 			<h:form
 				rendered="#{examFillBean.questionList.get(examFillBean.counter).questionType.id eq 1}">
+		<p:message for="optionTable" id="newQuestionTextMsg" />
 				<p:dataTable id="optionTable"
 					value="#{examFillBean.getOptionList()}" var="option"
 					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
@@ -30,7 +31,8 @@
 				<p:commandButton update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionSingle()}"
 					value="Next"></p:commandButton>
-
+			
+						<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 			</h:form>
 
 			<!-- 					Multi question's form -->
@@ -62,6 +64,9 @@
 				<p:commandButton value="Next" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">
 				</p:commandButton>
+				
+
+		
 			</h:form>
 		</p:panel>
 
