@@ -19,7 +19,7 @@ public class FeedbackVo implements Serializable {
 	private Integer score;
 	private String detailedFeedback;
 	private boolean isPublic;
-	private Date feedbackDate;
+	private Date recDate;
 
 	/**
 	 * @return the id
@@ -129,23 +129,30 @@ public class FeedbackVo implements Serializable {
 	/**
 	 * @return the feedbackDate
 	 */
-	public Date getFeedbackDate() {
-		return feedbackDate;
+	public Date getRecDate() {
+		return recDate;
 	}
 
 	/**
 	 * @param feedbackDate
 	 *            the feedbackDate to set
 	 */
-	public void setFeedbackDate(Date feedbackDate) {
-		this.feedbackDate = feedbackDate;
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
 	}
 
 	@Override
 	public String toString() {
 		return "FeedbacVO [id = " + id + " sender = " + sender.getId() + " rated = " + rated.getId() + " interview = "
 				+ interview.getId() + " score = " + score + " detailedFeedback = " + detailedFeedback + " isPublic = "
-				+ isPublic + " feedbackDate = " + feedbackDate + "]";
+				+ isPublic + " recDate = " + recDate + "]";
+
+	}
+
+	/**
+	 * 
+	 */
+	public FeedbackVo() {
 
 	}
 

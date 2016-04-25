@@ -54,7 +54,6 @@ public class BaseEntity implements Serializable {
 			}
 
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
 			userName = "unknown";
 		}
 		return userName;
