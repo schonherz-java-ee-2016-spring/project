@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,6 +22,8 @@ import hu.schonherz.training.core.admin.entity.User;
  */
 @Entity
 @Table(name = "answer")
+@NamedQueries(value = {
+		@NamedQuery(name = "findAnswersByUserId", query = "SELECT a FROM Answer a WHERE a.user.id = :id") })
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
@@ -29,8 +33,7 @@ public class Answer extends BaseEntity {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.ALL)
 	private AnswerText answerText;
 
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE )
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_id")
 	private User user;
 
