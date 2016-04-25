@@ -50,6 +50,8 @@ public class ExamFillBean implements Serializable {
 	private String questionIdAsString;
 	private int counter;
 	private String textbasedOptionAnswer;
+	
+	private List<QuestionVo> localQuestionList;
 
 	private List<OptionVo> optionList;
 	private List<OptionVo> selectedOptionList;
@@ -60,7 +62,7 @@ public class ExamFillBean implements Serializable {
 
 		if ((questionList.size() - 1) > getCounter()) {
 			setCounter(getCounter() + 1);
-			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			setQuestionIdAsString(String.valueOf(getLocalQuestionList().get(getCounter()).getId()));
 			toTheNextQuestionMultiSave();
 		} else {
 			toTheNextQuestionMultiSave();
@@ -73,7 +75,7 @@ public class ExamFillBean implements Serializable {
 
 		if ((questionList.size() - 1) > getCounter()) {
 			setCounter(getCounter() + 1);
-			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			setQuestionIdAsString(String.valueOf(getLocalQuestionList().get(getCounter()).getId()));
 			toTheNextQuestionSingleSave(currentInstance);
 		} else {
 			toTheNextQuestionSingleSave(currentInstance);
@@ -86,7 +88,7 @@ public class ExamFillBean implements Serializable {
 
 		if ((questionList.size() - 1) > getCounter()) {
 			setCounter(getCounter() + 1);
-			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			setQuestionIdAsString(String.valueOf(getLocalQuestionList().get(getCounter()).getId()));
 			toTheNextQuestionTextSave();
 		} else {
 			toTheNextQuestionTextSave();
@@ -126,14 +128,12 @@ public class ExamFillBean implements Serializable {
 				answerVo.setUser(userVo);
 				answerService.save(answerVo);
 			} catch (Exception e) {
-				System.out.println("belso error");
 				e.printStackTrace();
 			}
 		}
 	}
 
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
-		System.out.println(selectedOption == null);
 		if (selectedOption == null) {
 			System.out.println("something went wrong");
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Choose one answer!");
@@ -164,19 +164,11 @@ public class ExamFillBean implements Serializable {
 				.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml");
 	}
 
-	public void syso() { // Always use debugger option instead of syso!!
-		System.out.println("Questionlist elsokerdes: " + getQuestionList().get(0).getText());
-		System.out.println("Qtype: " + getQuestionList().get(0).getQuestionType().getId());
-		System.out.println("Examid: " + examIdAsString);
-		System.out.println("optionList.get(0).getOptionText() :" + getOptionList());
-		System.out.println("optionList.size() :" + getOptionList().size());
-		System.out.println("Counter: " + getCounter());
-	}
-
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
 			questionList = questionService.getAllById(examId);
+			localQuestionList = questionList;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -302,5 +294,14 @@ public class ExamFillBean implements Serializable {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+
+	public List<QuestionVo> getLocalQuestionList() {
+		return localQuestionList;
+	}
+
+	public void setLocalQuestionList(List<QuestionVo> localQuestionList) {
+		this.localQuestionList = localQuestionList;
+	}
+	
 
 }
