@@ -8,14 +8,14 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exam corrector</ui:define>
 	<ui:define name="content">
-		<h:form id="userSelectionForm">
+		<h:form id="selectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="examSelection" value="Exam:" />
 				<p:selectOneMenu id="examSelection"
 					value="#{examCorrectorBean.selectedExamIdAsString}"
 					style="width:125px">
 					<f:selectItems value="#{examCorrectorBean.examList}" var="exam"
-						itemLabel="#{exam.title}" itemValue="#{exam.id}"/>
+						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel for="userSelection" value="User:" />
@@ -23,7 +23,7 @@
 					value="#{examCorrectorBean.selectedUserIdAsString}"
 					style="width:125px">
 					<f:selectItems value="#{examCorrectorBean.userList}" var="user"
-						itemLabel="#{user.userName}" itemValue="#{user.id}"/>
+						itemLabel="#{user.userName}" itemValue="#{user.id}" />
 				</p:selectOneMenu>
 				<f:facet name="footer">
 					<p:commandButton value="Load Content"
@@ -32,18 +32,45 @@
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
+		<p:tabView id="tabView" value="#{examCorrectorBean.questionList}"
+			var="question" activeIndex="#{examCorrectorBean.counter}">
+			<p:ajax event="tabChange" listener="#{examCorrectorBean.changeTab()}" />
+			<p:tab id="questionTabs" title="#{question.id}">
+				<p:panel header="#{question.text}">
 
-		<p:dataTable id="answerTable" value="#{examCorrectorBean.answerList}"
-			var="answer">
-			<p:column headerText="Username">
-    			#{answer.user.userName}
-    		</p:column>
-			<p:column headerText="Option text">
-    			#{answer.option.text}
-    		</p:column>
-			<p:column headerText="God">
-    		    #{answer.good}
-    		</p:column>
-		</p:dataTable>
+					<!-- Single -->
+					<h:form rendered="#{question.questionType.getId() eq 1}">
+						<p:dataTable id="optionTable" disabledSelection="true"
+							value="#{question.options}" var="option" rowKey="#{option.text}"
+							selection="#{examCorrectorBean.selected}">
+							<p:column selectionMode="single"
+								style="width:10%;text-align:center" />
+							<p:column headerText="Option Text">
+								<h:outputText value="#{option.text}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<!-- Multi -->
+					<h:form rendered="#{question.questionType.getId() eq 2}">
+						<p:dataTable id="optionTable" disabledSelection="true"
+							value="#{question.options}" var="option"
+							selection="#{examCorrectorBean.selecteds}"
+							rowKey="#{option.text}">
+							<p:column selectionMode="multiple"
+								style="width:10%;text-align:center" />
+							<p:column headerText="Option Text">
+								<h:outputText value="#{option.text}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+
+					<!-- Textbased -->
+					<h:form rendered="#{question.questionType.getId() eq 3}">
+						<p:inputTextarea value="" />
+					</h:form>
+				</p:panel>
+			</p:tab>
+		</p:tabView>
 	</ui:define>
 </ui:composition>
