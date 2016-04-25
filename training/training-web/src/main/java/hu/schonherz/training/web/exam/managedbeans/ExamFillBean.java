@@ -10,11 +10,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.QuestionTypeService;
+import hu.schonherz.training.service.exam.vo.AnswerTextVo;
+import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
@@ -26,8 +29,7 @@ public class ExamFillBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public ExamFillBean() {
-		counter = 0;
-		textbasedOptionAnswer = "ur answer goes here";
+		textbasedOptionAnswer = "Give your answer here..";
 	}
 
 	@EJB
@@ -45,54 +47,124 @@ public class ExamFillBean implements Serializable {
 
 	private List<QuestionVo> questionList;
 	private String examIdAsString;
-	private String firstQuestionIdAsString;
 	private String questionIdAsString;
 	private int counter;
 	private String textbasedOptionAnswer;
 
 	private List<OptionVo> optionList;
 	private List<OptionVo> selectedOptionList;
+	private OptionVo selectedOption;
 
-	public void toTheNextQuestion() {
+	public void toTheNextQuestionMulti() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		if (selectedOptionList.isEmpty()) {
 
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Optionlist is empty");
-			currentInstance.addMessage(null, facesMessage);
+		if ((questionList.size() - 1) > getCounter()) {
+			setCounter(getCounter() + 1);
+			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			toTheNextQuestionMultiSave();
+		} else {
+			toTheNextQuestionMultiSave();
+			finishedExam(currentInstance);
 		}
-		System.out.println(selectedOptionList);
-		System.out.println(selectedOptionList.get(0).getText());
-//		try { // Activeindex ++ This way next tab inc
-//			setCounter(getCounter() + 1);
-//			// Set the question to get the correct options for it
-//			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
-//
-//			System.out.println(selectedOptionList);
-//			selectedOptionList.stream().forEach(o -> {
-//
-//				AnswerVo answerVo = new AnswerVo();
-//				answerVo.setGood(o.getCorrect());
-//
-//				UserVo userVo;
-//				try {
-//					userVo = userService
-//							.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
-//
-//					answerVo.setUser(userVo);
-//					answerService.save(answerVo);
-//				} catch (Exception e) {
-//					System.out.println("belso error");
-//					e.printStackTrace();
-//				}
-//			});
-//		} catch (Exception e) {
-//			System.out.println(selectedOptionList);
-//			e.printStackTrace();
-//		}
+	}
+
+	public void toTheNextQuestionSingle() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+
+		if ((questionList.size() - 1) > getCounter()) {
+			setCounter(getCounter() + 1);
+			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			toTheNextQuestionSingleSave(currentInstance);
+		} else {
+			toTheNextQuestionSingleSave(currentInstance);
+			finishedExam(currentInstance);
+		}
+	}
+
+	public void toTheNextQuestionText() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+
+		if ((questionList.size() - 1) > getCounter()) {
+			setCounter(getCounter() + 1);
+			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+			toTheNextQuestionTextSave();
+		} else {
+			toTheNextQuestionTextSave();
+			finishedExam(currentInstance);
+		}
+	}
+
+	private void toTheNextQuestionTextSave() {
+
+		AnswerVo answerVo = new AnswerVo();
+		answerVo.setOption(optionList.get(0));
+		AnswerTextVo answerTextVo = new AnswerTextVo();
+		answerTextVo.setAnswer(answerVo);
+		answerTextVo.setText(textbasedOptionAnswer);
+		answerVo.setAnswerText(answerTextVo);
+		UserVo userVo;
+		try {
+			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+			answerVo.setUser(userVo);
+			answerService.save(answerVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void toTheNextQuestionMultiSave() {
+
+		for (int i = 0; i < selectedOptionList.size(); i++) {
+
+			AnswerVo answerVo = new AnswerVo();
+			answerVo.setGood(selectedOptionList.get(i).getCorrect());
+			answerVo.setOption(optionList.get(i));
+			UserVo userVo;
+			try {
+				userVo = userService
+						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+				answerVo.setUser(userVo);
+				answerService.save(answerVo);
+			} catch (Exception e) {
+				System.out.println("belso error");
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
+		System.out.println(selectedOption == null);
+		if (selectedOption == null) {
+			System.out.println("something went wrong");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Choose one answer!");
+			currentInstance.addMessage(null, facesMessage);
+			counter--;
+			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
+		} else {
+
+			AnswerVo answerVo = new AnswerVo();
+			answerVo.setGood(selectedOption.getCorrect());
+			answerVo.setOption(selectedOption);
+			UserVo userVo;
+			try {
+				userVo = userService
+						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+				answerVo.setUser(userVo);
+				answerService.save(answerVo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void finishedExam(FacesContext currentInstance) {
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "You finished your exam!");
+		currentInstance.addMessage(null, facesMessage);
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml");
 	}
 
 	public void syso() { // Always use debugger option instead of syso!!
-		System.out.println(" firstQuestionIdAsString: " + firstQuestionIdAsString);
 		System.out.println("Questionlist elsokerdes: " + getQuestionList().get(0).getText());
 		System.out.println("Qtype: " + getQuestionList().get(0).getQuestionType().getId());
 		System.out.println("Examid: " + examIdAsString);
@@ -111,6 +183,17 @@ public class ExamFillBean implements Serializable {
 		return questionList;
 	}
 
+	public List<OptionVo> getOptionList() {
+		Long id = Long.parseLong(questionIdAsString);
+		try {
+			optionList = questionService.getById(id).getOptions();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return optionList;
+	}
+
 	public void setQuestionList(List<QuestionVo> questionList) {
 		this.questionList = questionList;
 	}
@@ -121,14 +204,6 @@ public class ExamFillBean implements Serializable {
 
 	public void setExamIdAsString(String examIdAsString) {
 		this.examIdAsString = examIdAsString;
-	}
-
-	public String getFirstQuestionIdAsString() {
-		return firstQuestionIdAsString;
-	}
-
-	public void setFirstQuestionIdAsString(String firstQuestionIdAsString) {
-		this.firstQuestionIdAsString = firstQuestionIdAsString;
 	}
 
 	public ExamService getExamService() {
@@ -161,17 +236,6 @@ public class ExamFillBean implements Serializable {
 
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
-	}
-
-	public List<OptionVo> getOptionList() {
-		Long id = Long.parseLong(questionIdAsString);
-		try {
-			optionList = questionService.getById(id).getOptions();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		return optionList;
 	}
 
 	public String getQuestionIdAsString() {
@@ -212,6 +276,7 @@ public class ExamFillBean implements Serializable {
 
 	public void setSelectedOptionList(List<OptionVo> selectedOptionList) {
 		this.selectedOptionList = selectedOptionList;
+
 	}
 
 	public AnswerService getAnswerService() {
@@ -220,6 +285,22 @@ public class ExamFillBean implements Serializable {
 
 	public void setAnswerService(AnswerService answerService) {
 		this.answerService = answerService;
+	}
+
+	public OptionVo getSelectedOption() {
+		return selectedOption;
+	}
+
+	public void setSelectedOption(OptionVo selectedOption) {
+		this.selectedOption = selectedOption;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }
