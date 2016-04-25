@@ -1,5 +1,6 @@
 package hu.schonherz.training.core.exam.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,13 +23,14 @@ import hu.schonherz.training.core.admin.entity.User;
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(fetch = FetchType.LAZY ,mappedBy = "answer")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.ALL)
 	private AnswerNote answerNote;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer")
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.ALL)
 	private AnswerText answerText;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE )
 	@JoinColumn(name = "user_id")
 	private User user;
 

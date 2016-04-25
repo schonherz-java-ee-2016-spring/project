@@ -1,5 +1,6 @@
 package hu.schonherz.training.core.exam.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
@@ -20,7 +21,7 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	private Answer answer;
 

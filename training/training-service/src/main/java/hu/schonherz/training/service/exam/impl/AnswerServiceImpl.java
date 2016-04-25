@@ -15,19 +15,26 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.core.exam.repository.AnswerRepository;
 import hu.schonherz.training.service.exam.AnswerService;
+import hu.schonherz.training.service.exam.mapper.AnswerMapper;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 
 @Stateless(mappedName = "AnswerService", name = "AnswerService")
 @Transactional(value = TxType.REQUIRED)
 @Local(AnswerService.class)
-@Interceptors({SpringBeanAutowiringInterceptor.class })
+@Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class AnswerServiceImpl implements AnswerService {
 
 	static final Logger logger = LogManager.getLogger(AnswerServiceImpl.class.getName());
-	
+
 	@Autowired
 	AnswerRepository answerRepository;
-	
+
+	@Override
+	public List<AnswerVo> getAll() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public AnswerVo getById(Long id) throws Exception {
 		// TODO Auto-generated method stub
@@ -35,11 +42,19 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public List<AnswerVo> getAll(Long... id) throws Exception {
+	public void removeById(Long id) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+
 	}
-	
-	
+
+	@Override
+	public void save(AnswerVo vo) throws Exception {
+		try {
+			answerRepository.saveAndFlush(AnswerMapper.toDto(vo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
 
 }

@@ -53,7 +53,9 @@
 						</p:dataTable>
 						<p />
 						<p:commandButton value="Next" update="tabView"
-							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
+							actionListener="#{examFillBean.toTheNextQuestion()}">
+							<f:attribute name="correctness" value="#{option.correct}" />
+							</p:commandButton>
 						<p:commandButton value="RESET"
 							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
 					</h:form>
@@ -63,7 +65,9 @@
 						<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 						<p />
 						<p:commandButton value="Next" update="tabView"
-							actionListener="#{examFillBean.toTheNextQuestion()}"></p:commandButton>
+							actionListener="#{examFillBean.toTheNextQuestion()}">
+							
+							</p:commandButton>
 						<p:commandButton value="RESET"
 							actionListener="#{examFillBean.resetCounter()}"></p:commandButton>
 					</h:form>
