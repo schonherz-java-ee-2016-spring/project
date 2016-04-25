@@ -10,44 +10,58 @@
 		<h1>#{out.roles}:</h1>
 
 		<h:form id="roleForm">
-			<p:messages id="msgs" showDetail="true" />
-			<p:dataTable id="roleTable" style="width:100%;" var="role"
+			<p:dataTable id="roleTable" style="width:100%;" var="role" reflow="true" row="5"
 				value="#{RoleBean.roles}" rows="10" paginator="true"
 				selectionMode="single" selection="#{RoleBean.selectedRole}"
 				rowKey="#{role.id}"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="1,5,10,15,">
-				<p:column headerText="Id">
-					<h:outputText value="#{role.id}" />
-				</p:column>
-
-				<p:column headerText="#{out.name}">
+				<p:column headerText="#{out.name}" priority="1"> 
 					<h:outputText value="#{role.name}" />
 				</p:column>
-
-				<p:column headerText="#{out.roleCode}">
+				<p:column headerText="#{out.moddate}" priority="3">
+					<h:outputText value="#{role.modDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moduser}" priority="4">
+					<h:outputText value="#{role.modUser}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recdate}" priority="3">
+					<h:outputText value="#{role.recDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recuser}" priority="4">
+					<h:outputText value="#{role.recUser}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.roleCode}" priority="2">
 					<h:outputText value="#{role.roleCode}" />
 				</p:column>
 				<f:facet name="footer">
 
 					<!-- 				Create -->
 					<p:commandButton type="createButton"
-						onclick="PF('createRole').show();" value="#{out.create_role}"
-						update=":roleForm:roleTable" />
+						onclick="PF('createDialog').show();" value="#{out.createRole}"
+						update=":roleForm:roleTable,growl" />
+						
+											<!-- Edit -->
+					<p:commandButton id="editButton" icon="ui-icon-pencil"
+						process="roleTable" disabled="#{RoleBean.disabled}"
+						value="#{out.editRole}" onclick="PF('editDialog').show();" 
+						update="growl,:roleForm:roleTable" />
 
 					<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 						process="roleTable" update="growl,:roleForm:roleTable"
-						disabled="#{RoleBean.disabled}" value="Delete selected role"
+						disabled="#{RoleBean.disabled}" value="#{out.deleteRole}"
 						action="#{RoleBean.delete}">
-						<p:confirm icon="ui-icon-alert" header="Delete Role"
+						<p:confirm icon="ui-icon-alert" header="#{out.deleteRole}"
 							message="Biztosan törli?" />
 					</p:commandButton>
 
-					<!-- Edit -->
-					<p:commandButton id="editButton" icon="ui-icon-pencil"
-						process="roleTable" disabled="#{RoleBean.disabled}"
-						value="Edit selected role" onclick="PF('editDialog').show();" />
+
 				</f:facet>
 				<p:ajax event="rowSelect" listener="#{RoleBean.onRowSelect}"
 					update="growl,deleteButton,editButton" />
@@ -61,87 +75,65 @@
 			<p:commandButton value="No" type="button"
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
-
 		<br />
+			<h:form id="dialogForm">
+			<p:dialog header="#{out.createRole}" widgetVar="createDialog" modal="true"
+						resizable="false" draggable="false" responsive="true" >
+    			<h:form id="newrole" styleClass="form-horizontal" >
+    				<div class="form-group">
+						<label for="rolename" class="col-sm-3">#{out.roleName}</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="rolename"
+								value="#{RoleBean.roleName}" required="true"
+								label="rolename">
+							</p:inputText>
+						</div>
+						<label for="rolecode" class="col-sm-3">#{out.roleCode}</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="rolecode"
+								value="#{RoleBean.roleCode}" required="true"
+								label="rolecode">
+							</p:inputText>
+						</div>
+					</div>
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
+					action="#{RoleBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
+    			</h:form>
+    			<script type="text/javascript">
+    				function closeCreateDialog() {
+            			PF('createDialog').hide();
+    				}
+				</script>
+			</p:dialog>  
 
-		<footer>
-			<h:form styleClass="form-horizontal" id="form">
-
-				<p:dialog header="#{out.create_role}" widgetVar="createRole"
-					dynamic="true" resizable="false">
-
-<!-- 					<p:panel id="panel"> -->
-
-<!-- 						<h:panelGrid columns="2" cellpadding="5"> -->
-							<div class="form-group">
-								<label for="roleName" class="col-sm-4">#{out.name}</label>
-								<div class="col-sm-8">
-									<p:inputText styleClass="form-control" id="name"
-										value="#{RoleBean.roleName}" required="true"
-										requiredMessage="#{out.roleName_required}" label="roleName">
-									</p:inputText>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<label for="roleCode" class="col-sm-4">#{out.roleCode}</label>
-								<div class="col-sm-8">
-									<p:inputText styleClass="form-control" id="roleCode"
-										value="#{RoleBean.roleCode}" required="true" label="roleCode">
-									</p:inputText>
-								</div>
-
-							</div>
-
-<!-- 						</h:panelGrid> -->
-
-						<p:commandButton value="#{out.save}"
-							update="growl,:roleForm:roleTable" action="#{RoleBean.create}"
-							icon="ui-icon-check" />
-						<p:commandButton value="#{out.cancel}" onclick="dlg1.hide();" />
-<!-- 					</p:panel> -->
-				</p:dialog>
-
-				<p:dialog header="Edit Role" widgetVar="editDialog" modal="true"
-					 resizable="false" draggable="false" responsive="true" dynamic="true">
-					<h:form id="editrole" styleClass="form-horizontal">
-						<p:panel id="panel">
-							<h:panelGrid columns="2" cellpadding="5">
-								<div class="form-group">
-									<label for="roleName" class="col-sm-4">#{out.name}</label>
-									<div class="col-sm-8">
-										<p:inputText styleClass="form-control" id="name"
-											value="#{RoleBean.roleName}" required="true"
-											requiredMessage="#{out.roleName_required}" label="roleName">
-										</p:inputText>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="roleCode" class="col-sm-4">#{out.roleCode}</label>
-									<div class="col-sm-8">
-										<p:inputText styleClass="form-control" id="roleCode"
-											value="#{RoleBean.roleCode}" required="true" label="roleCode">
-										</p:inputText>
-									</div>
-
-								</div>
-							</h:panelGrid>
-							<p:commandButton value="#{out.save}"
-								update="growl,:roleForm:roleTable,panel" action="#{RoleBean.edit}"
-								icon="ui-icon-check" oncomplete="closeEditDialog()" />
-						</p:panel>
-					</h:form>
-					<script type="text/javascript">
-						function closeEditDialog() {
-							PF('editDialog').hide();
-						}
-					</script>
-				</p:dialog>
-
-			</h:form>
-
-		</footer>
-
+			<p:dialog header="#{out.editRole}" widgetVar="editDialog" modal="true"
+						resizable="false" draggable="false" responsive="true" >
+    			<h:form id="editrole" styleClass="form-horizontal" >
+    				<div class="form-group">
+						<label for="rolename" class="col-sm-3">#{out.roleName}</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="rolename"
+								value="#{RoleBean.roleName}" required="true"
+								label="rolename">
+							</p:inputText>
+						</div>
+						<label for="rolecode" class="col-sm-3">#{out.roleCode}</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="rolecode"
+								value="#{RoleBean.roleCode}" required="true"
+								label="rolecode">
+							</p:inputText>
+						</div>
+					</div>
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
+					action="#{RoleBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+    			</h:form>
+    			<script type="text/javascript">
+    				function closeEditDialog() {
+            			PF('editDialog').hide();
+    				}
+				</script>
+			</p:dialog>   
+		</h:form>
 	</ui:define>
 </ui:composition>
