@@ -1,11 +1,9 @@
 package hu.schonherz.training.core.exam.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -19,9 +17,9 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 @Table(name = "answer_note")
 public class AnswerNote extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-
-	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	
+	@OneToOne
+	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
 	@Column(nullable = true)
@@ -29,14 +27,6 @@ public class AnswerNote extends BaseEntity {
 
 	public AnswerNote() {
 		super();
-	}
-
-	public Answer getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
 	}
 
 	public String getNote() {

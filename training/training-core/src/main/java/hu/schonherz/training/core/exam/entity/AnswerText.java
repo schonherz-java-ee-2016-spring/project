@@ -1,11 +1,8 @@
 package hu.schonherz.training.core.exam.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -20,24 +17,16 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 @Table(name = "answer_text")
 public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-
-	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	
+	
+	@OneToOne
+	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
-	@Lob
 	private String text;
 
 	public AnswerText() {
 		super();
-	}
-
-	public Answer getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
 	}
 
 	public String getText() {
