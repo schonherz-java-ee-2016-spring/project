@@ -9,8 +9,8 @@
 	<ui:define name="feedback-list">
 		<ui:component>
 			
-				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}">
-					<p:tab title="#{feedback.eventType}">
+				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
+					<p:tab title="#{feedback.eventType}" >
 						<div class="well">
 							<div class="media">
 								<a class="pull-left" href="#"> <img class="media-object"
