@@ -13,9 +13,9 @@ import javax.faces.bean.ViewScoped;
 import hu.schonherz.training.service.supervisor.HomeworkService;
 import hu.schonherz.training.service.supervisor.vo.HomeworkVo;
 
-@ManagedBean(name = "homeworksForCalendarBean")
+@ManagedBean(name = "calendarBean")
 @ViewScoped
-public class HomeworksForCalendarBean implements Serializable {
+public class CalendarBean implements Serializable {
 
 	private static final long serialVersionUID = 203865612177768480L;
 
@@ -24,23 +24,18 @@ public class HomeworksForCalendarBean implements Serializable {
 
 	private List<HomeworkVo> homeworks;
 
-	
-	public HomeworksForCalendarBean() {
-
-		init();
-	}
 	@PostConstruct
 	public void init() {
 		try {
-			// homeworks = homeworkService.getAllHomeworks();
-			homeworks = new ArrayList<>();
-			HomeworkVo homework = new HomeworkVo();
-			homework.setDeadline(new GregorianCalendar().getTime());
-			homework.setId((long) 0);
-			homework.setDescription("asdf asd");
-			homework.setTitle("yolo");
-
-			homeworks.add(homework);
+			homeworks = homeworkService.getAllHomeworks();
+			// homeworks = new ArrayList<>();
+			// HomeworkVo homework = new HomeworkVo();
+			// homework.setDeadline(new GregorianCalendar().getTime());
+			// homework.setId((long) 0);
+			// homework.setDescription("asdf asd");
+			// homework.setTitle("yolo");
+			//
+			// homeworks.add(homework);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

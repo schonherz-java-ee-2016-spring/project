@@ -1,5 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/templates/masterLayout.xhtml">
 
@@ -7,16 +8,20 @@
 		<h:outputStylesheet library="default" name="css/calendar.css"
 			rel="stylesheet" />
 		<h2 class="text-muted">Calendar</h2>
-
-
+		
+		<ui:param name="calendarBean" value="homeworksForCalendarBean" />
+		
+		<h:selectOneMenu onselect="">
+			<f:selectItem itemValue="Homework" itemLabel="Homework"/>
+		</h:selectOneMenu>
 		<div class="container">
 			<ul class="timeline">
-				<ui:repeat var="#{homeworksForCalendarBean.homeworks}" value="homework" varStatus="status">
+				<ui:repeat var="homework"
+					value="#{homeworksForCalendarBean.homeworks}" varStatus="status">
 					<li>
 						<div class="timeline-panel">
 							<div class="timeline-heading">
 								<h4 class="timeline-title">
-									<h:outputText value="#{status}" />
 									<h:outputText value="#{homework.title}" />
 								</h4>
 								<p>
@@ -37,4 +42,7 @@
 		</div>
 	</ui:define>
 
+	<ui:define name="homework">
+	
+	</ui:define>
 </ui:composition>
