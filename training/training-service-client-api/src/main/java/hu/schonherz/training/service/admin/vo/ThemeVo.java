@@ -1,6 +1,7 @@
 package hu.schonherz.training.service.admin.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class ThemeVo implements Serializable {
 
@@ -9,8 +10,12 @@ public class ThemeVo implements Serializable {
 	private String name;
 	private String type;
 	private String themeCode;
+	private Date recDate;
+	private Date modDate;
+	private String recUser;
+	private String modUser;
 	private String description;
-	private int hours;
+	private Integer hours;
 	
 	public ThemeVo(){
 	}
@@ -78,7 +83,7 @@ public class ThemeVo implements Serializable {
 	/**
 	 * @return the hours
 	 */
-	public int getHours() {
+	public Integer getHours() {
 		return hours;
 	}
 
@@ -86,7 +91,7 @@ public class ThemeVo implements Serializable {
 	 * @param hours
 	 *            the hours to set
 	 */
-	public void setHours(int hours) {
+	public void setHours(Integer hours) {
 		this.hours = hours;
 	}
 
@@ -97,5 +102,37 @@ public class ThemeVo implements Serializable {
 	public String toString() {
 		return "ThemeVo [name=" + name + ", type=" + type + ", themeCode=" + themeCode + ", description=" + description
 				+ ", hours=" + hours + "]";
+	}
+
+	public Date getRecDate() {
+		return recDate;
+	}
+
+	public void setRecDate(Date recDate) {
+		this.recDate = recDate;
+	}
+
+	public Date getModDate() {
+		return modDate;
+	}
+
+	public void setModDate(Date modDate) {
+		this.modDate = modDate;
+	}
+
+	public String getRecUser() {
+		return recUser;
+	}
+
+	public void setRecUser(String recUser) {
+		this.recUser = recUser;
+	}
+
+	public String getModUser() {
+		return modUser;
+	}
+
+	public void setModUser(String modUser) {
+		this.modUser = modUser;
 	}
 }

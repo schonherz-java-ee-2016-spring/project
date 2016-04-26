@@ -20,6 +20,7 @@ public class Training extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
+	private String description;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginning;
 	@Temporal(TemporalType.TIMESTAMP)
@@ -61,5 +62,13 @@ public class Training extends BaseEntity{
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
