@@ -34,6 +34,11 @@ INSERT INTO public.feedback(id, detailed_feedback, is_public, score, recdate) VA
 INSERT INTO public.interview_to_feedback(feedback_id, interview_id) VALUES (3001, 5000);
 INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
 INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
+INSERT INTO public.training(id, beginning, description,enddate, "name")VALUES (1,'2015-02-01', 'valami', '2015-02-02', 'JavaEE 2016 Tavasz');
+INSERT INTO public.theme(id, description, hours, name,themecode, "type")VALUES (1, 'Leírás', 4, 'Témakör 1', '123', 'Valami');
+
+
+
 
 -- Exam-module
 
@@ -52,6 +57,5 @@ INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Second question for
 INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
 INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
 INSERT INTO public.question_type(id, name) VALUES(3, 'Text');
-
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
