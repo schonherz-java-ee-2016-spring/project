@@ -60,7 +60,7 @@ INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2008, 'Single Q w
 INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2009, 'Multi Q with 2 options', 2 , 2005);
 INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2010, 'Multi Q with 3 options', 2 , 2005);
 INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2011, 'Text based Q', 3 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2011, 'Another text based Q', 3 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2012, 'Another text based Q', 3 , 2005);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
@@ -75,6 +75,10 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, '
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, false, 'Option10', 2010);
+
+INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
+INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
+
 
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, 'Keremijabeideaszoveget', 2011);

@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
+import hu.schonherz.training.service.exam.AnswerTextService;
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.QuestionService;
@@ -44,6 +45,8 @@ public class ExamFillBean implements Serializable {
 	private AnswerService answerService;
 	@EJB
 	private UserService userService;
+	@EJB
+	private AnswerTextService answerTextService;
 
 	private List<QuestionVo> questionList;
 	private String examIdAsString;
@@ -99,20 +102,21 @@ public class ExamFillBean implements Serializable {
 	private void toTheNextQuestionTextSave() {
 
 		AnswerVo answerVo = new AnswerVo();
+		System.out.println(optionList.get(0).getText());
 		answerVo.setOption(optionList.get(0));
 		AnswerTextVo answerTextVo = new AnswerTextVo();
-		answerTextVo.setAnswer(answerVo);
+
 		answerTextVo.setText(textbasedOptionAnswer);
-		// -------------------------------------
-		// ITT VALAMI ERRORT DOB TODO PLS!!!!
-		// answerVo.setAnswerText(answerTextVo);
-		// ITT VALAMI ERRORT DOB TODO PLS!!!!
-		// -------------------------------------
 		UserVo userVo;
 		try {
 			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 			answerVo.setUser(userVo);
 			answerService.save(answerVo);
+
+			answerTextVo.setAnswer(answerService.getAll().get(answerService.getAll().size()));
+
+			answerTextService.save(answerTextVo);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

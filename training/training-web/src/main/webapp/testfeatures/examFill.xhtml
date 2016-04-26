@@ -9,13 +9,17 @@
 	<ui:define name="pageTitle">Exam fill</ui:define>
 	<ui:define name="content">
 
+		<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
 
 		<p:panel id="panelId"
 			header="#{examFillBean.questionList.get(examFillBean.counter).text}">
 
 			<!-- 					Single question's form -->
-			<h:form 
+
+			<h:form
 				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 1}">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+
 				<p:message for="optionTable" id="newQuestionTextMsg" />
 				<p:dataTable id="optionTable" lazy="true"
 					value="#{examFillBean.getOptionList()}" var="option"
@@ -37,6 +41,8 @@
 			<!-- 					Multi question's form -->
 			<h:form
 				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 2}">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+
 
 				<p:dataTable id="optionTable"
 					value="#{examFillBean.getOptionList()}" var="option"
@@ -57,7 +63,11 @@
 
 			<!-- 					Textbased question's form -->
 			<h:form
-				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 3}" lazy="true">
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 3 and examFillBean.optionList !=null}"
+				lazy="true">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
+
 				<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
 				<p:commandButton value="Next" update="panelId"

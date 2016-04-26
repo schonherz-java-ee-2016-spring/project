@@ -1,5 +1,6 @@
 package hu.schonherz.training.core.exam.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -23,7 +24,7 @@ public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
