@@ -1,5 +1,6 @@
 INSERT INTO public.role( id, name, roleCode)  VALUES (2001, 'User Group Role','ROLE_UGS');
 INSERT INTO public.role( id, name, roleCode)  VALUES (2002, 'Users Role','ROLE_USERS');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2003, 'Students Role','ROLE_STUDENT');
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2003,'Student Role Group');
@@ -8,6 +9,7 @@ INSERT INTO public.rolegroup( id, name)  VALUES (2005,'Guest Role Group');
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2003);
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2002, 'email2@localhost.com', 'Instructor', 1, '$2a$10$bRsjrjA9RLw5KLga6NZlouR4K/jK4xrLO6ahPl1SgOMv3dfYof.Ve','instructor');
@@ -19,21 +21,26 @@ INSERT INTO public.usergroup(id, groupname,description,recuser,recdate)  VALUES 
 
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2001, 2001);
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2002, 2002);
+INSERT INTO public.group_to_user(user_id, group_id) VALUES (2003, 2002);
 
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2002);
+INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2003);
 
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2002, 2002);
+INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2003, 2003);
 
-INSERT INTO public.interview(id, company, interviewdate) VALUES (3001, 'Fiction Software', to_date('05 Dec 2045', 'DD Mon YYYY'));
-INSERT INTO public.interviewed_to_interview(interviewed_id, interview_id) VALUES (2003, 3001);
-INSERT INTO public.interviewer_to_interview(interviewer_id, interview_id) VALUES (2004, 3001);
+-- Supervisor
 
-INSERT INTO public.feedback(id, detailed_feedback, is_public, score, recdate) VALUES (5000, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie nibh eget tellus interdum, id vestibulum erat sollicitudin. Nam ut sapien ut neque feugiat pellentesque. Mauris quis pellentesque erat, sit amet elementum dui. Nulla ornare nulla ac dolor tempor, in elementum justo mattis. In ultrices massa eget est finibus scelerisque. Suspendisse laoreet purus ac mauris consequat rutrum. Proin lacinia porttitor felis, consequat congue sapien tristique eu.', TRUE, 5, to_date('06 Dec 2045', 'DD Mon YYYY'));
-INSERT INTO public.interview_to_feedback(feedback_id, interview_id) VALUES (3001, 5000);
-INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
-INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
+INSERT INTO public.feedback(id, recdate, feedback_message, is_public, event_type) VALUES (5000, to_timestamp('31 Dec 2015', 'DD Mon YYYY'), 'Lorem ipsum dolor sit amet, est alia tantas cu, his eu tantas aliquip, dicta detracto dissentiunt an usu. Te indoctum quaerendum necessitatibus cum, pro quas scriptorem te. Voluptua constituam delicatissimi ea quo, graece deserunt has eu, ea veri docendi pri. Mei te altera constituam, ne vis quidam mediocritatem, pri sonet legendos theophrastus cu.', TRUE, 'Homework');
+INSERT INTO public.feedback(id, recdate, feedback_message, is_public, event_type) VALUES (5001, to_timestamp('12 Jan 2016', 'DD Mon YYYY'), 'An solum graece urbanitas vix, vis primis commodo at. His an dolore appetere ponderum, eu consul ubique mentitum eam. In nisl numquam vix, est tractatos consulatu at. Ut mel dicat equidem constituto, pri at ferri quodsi, ne stet quando his.', TRUE, 'Interview');
+
+INSERT INTO public.rated_to_feedback(rated_id, feedback_id) VALUES (2001, 5000);
+INSERT INTO public.rated_to_feedback(rated_id, feedback_id) VALUES (2003, 5001);
+
+INSERT INTO public.sender_to_feedback(sender_id, feedback_id) VALUES (2002, 5000);
+INSERT INTO public.sender_to_feedback(sender_id, feedback_id) VALUES (2004, 5001);
 
 -- Exam-module
 
