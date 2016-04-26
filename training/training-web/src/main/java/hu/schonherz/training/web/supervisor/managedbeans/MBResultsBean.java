@@ -16,9 +16,9 @@ import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
 import hu.schonherz.training.service.supervisor.vo.LessonsVo;
 
-@ManagedBean(name = "resultsBean")
+@ManagedBean(name = "resultsBean", eager = true)
 @ViewScoped
-public class ResultsBean implements Serializable {
+public class MBResultsBean implements Serializable {
 
 	@EJB
 	private UserGroupService userGroupService;
@@ -37,9 +37,8 @@ public class ResultsBean implements Serializable {
 			"Fejlesztési módszertanok", "Összesen" };
 
 	private List<HomeworkResultVo> homeworkResults = new ArrayList<>();
-	private static Integer[] homeworkResultPoints = { 8, 10, 9, 7, 5, 4, 7, 10, 9, 10, 6, 4, 8, 9, 10, 8, 9, 10, 132 };
+
 	private List<ExamResultVo> examResults = new ArrayList<>();
-	private static Integer[] examResultPoints = { 9, 8, 7, 9, 8, 9, 8, 9, 8, 9, 8, 10, 9, 8, 9, 10, 7, 4, 143 };
 
 	@PostConstruct
 	public void init() {
@@ -53,17 +52,6 @@ public class ResultsBean implements Serializable {
 		int k = 0;
 		for (LessonsVo lesson : lessons) {
 			lesson.setLessonName(lessonNames[k]);
-			k++;
-		}
-		k = 0;
-		for (HomeworkResultVo homeworkResult : homeworkResults) {
-			homeworkResult.setScore(homeworkResultPoints[k]);
-			k++;
-		}
-		k = 0;
-		for (ExamResultVo examResult : examResults) {
-			examResult.setScore(examResultPoints[k]);
-			examResult.setMaxScore(10);
 			k++;
 		}
 
@@ -96,7 +84,7 @@ public class ResultsBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ResultsBean() {
+	public MBResultsBean() {
 		// TODO Auto-generated constructor stub
 	}
 
