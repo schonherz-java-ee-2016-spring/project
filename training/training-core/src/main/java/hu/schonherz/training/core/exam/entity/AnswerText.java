@@ -3,9 +3,11 @@ package hu.schonherz.training.core.exam.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -18,11 +20,13 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
  */
 @Entity
 @Table(name = "answer_text")
+@NamedQueries(value = {
+		@NamedQuery(name = "findTextByAnswerId", query = "SELECT a FROM AnswerText a WHERE a.answer.id = :id") })
 public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
 	@Lob

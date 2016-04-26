@@ -4,8 +4,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -17,11 +19,13 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
  */
 @Entity
 @Table(name = "answer_note")
+@NamedQueries(value = {
+		@NamedQuery(name = "findNoteByAnswerId", query = "SELECT a FROM AnswerNote a WHERE a.answer.id = :id") })
 public class AnswerNote extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
 	@Column(nullable = true)

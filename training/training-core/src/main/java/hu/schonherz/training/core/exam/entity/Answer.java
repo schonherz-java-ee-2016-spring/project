@@ -27,10 +27,10 @@ import hu.schonherz.training.core.admin.entity.User;
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "answer")
 	private AnswerNote answerNote;
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "answer", cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "answer")
 	private AnswerText answerText;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

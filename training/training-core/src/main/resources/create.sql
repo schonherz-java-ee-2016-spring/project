@@ -90,4 +90,8 @@ INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, f
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2009, true);
 INSERT INTO public.answer(id, user_id, option_id) VALUES (4, 2001, 2011);
 
+-- Answer texts
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
+
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;

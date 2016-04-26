@@ -37,34 +37,6 @@
 			<p:ajax event="tabChange" listener="#{examCorrectorBean.changeTab()}" />
 			<p:tab id="questionTabs" title="#{question.id}">
 				<p:panel header="#{question.text}">
-
-					<!-- Single -->
-					<h:form rendered="#{question.questionType.getId() eq 1}">
-						<p:dataTable id="optionTable" disabledSelection="true"
-							value="#{question.options}" var="option" rowKey="#{option.text}"
-							selection="#{examCorrectorBean.selected}">
-							<p:column selectionMode="single"
-								style="width:10%;text-align:center" />
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-					</h:form>
-
-					<!-- Multi -->
-					<h:form rendered="#{question.questionType.getId() eq 2}">
-						<p:dataTable id="optionTable" disabledSelection="true"
-							value="#{question.options}" var="option"
-							selection="#{examCorrectorBean.selecteds}"
-							rowKey="#{option.text}">
-							<p:column selectionMode="multiple"
-								style="width:10%;text-align:center" />
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-					</h:form>
-
 					<!-- Textbased -->
 					<h:form rendered="#{question.questionType.getId() eq 3}">
 						<p:inputTextarea value="" />

@@ -11,7 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.TabChangeEvent;
 
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
@@ -20,7 +19,6 @@ import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
-import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @ManagedBean(name = "examCorrectorBean")
@@ -45,9 +43,6 @@ public class ExamCorrectorBean implements Serializable {
 	private List<QuestionVo> questionList;
 	private List<AnswerVo> answerList;
 
-	private OptionVo selected;
-	private List<OptionVo> selecteds;
-
 	private int counter = 0;
 
 	@PostConstruct
@@ -56,26 +51,18 @@ public class ExamCorrectorBean implements Serializable {
 			questionList = new ArrayList<>();
 			examList = getExamService().getAllSortedById();
 			userList = getUserService().findAllUser();
-			setAnswerList(new ArrayList<>());
+			answerList = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void changeTab() {
-		if (questionList.size() > 0) {
-			selected = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o)).findFirst()
-					.get();
-			selecteds = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o))
-					.collect(Collectors.toList());
-		}
-	}
-
 	public void loadContent() throws Exception {
 		try {
-			setQuestionList(questionService.getAllById(Long.parseLong(selectedExamIdAsString)));
-			answerList = getAnswerService().getAllByUserId(Long.parseLong(selectedUserIdAsString));
-
+			questionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString));
+			questionList.stream().filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
+			
+			answerList = answerService.getAllByUserId(Long.parseLong(selectedUserIdAsString));
 			answerList = answerList.stream()
 					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
@@ -187,21 +174,4 @@ public class ExamCorrectorBean implements Serializable {
 	public void setCounter(int counter) {
 		this.counter = counter;
 	}
-
-	public OptionVo getSelected() {
-		return selected;
-	}
-
-	public void setSelected(OptionVo selected) {
-		this.selected = selected;
-	}
-
-	public List<OptionVo> getSelecteds() {
-		return selecteds;
-	}
-
-	public void setSelecteds(List<OptionVo> selecteds) {
-		this.selecteds = selecteds;
-	}
-
 }
