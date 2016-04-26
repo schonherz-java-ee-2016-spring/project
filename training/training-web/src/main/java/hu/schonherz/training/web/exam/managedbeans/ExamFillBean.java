@@ -102,7 +102,6 @@ public class ExamFillBean implements Serializable {
 	private void toTheNextQuestionTextSave() {
 
 		AnswerVo answerVo = new AnswerVo();
-		System.out.println(optionList.get(0).getText());
 		answerVo.setOption(optionList.get(0));
 		AnswerTextVo answerTextVo = new AnswerTextVo();
 
@@ -111,10 +110,7 @@ public class ExamFillBean implements Serializable {
 		try {
 			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 			answerVo.setUser(userVo);
-			answerService.save(answerVo);
-
-			answerTextVo.setAnswer(answerService.getAll().get(answerService.getAll().size()));
-
+			answerTextVo.setAnswer(answerVo);
 			answerTextService.save(answerTextVo);
 
 		} catch (Exception e) {

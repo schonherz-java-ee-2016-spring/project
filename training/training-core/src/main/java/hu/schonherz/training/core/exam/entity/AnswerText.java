@@ -24,7 +24,7 @@ public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
@@ -41,5 +41,15 @@ public class AnswerText extends BaseEntity {
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+	
+	
 
 }
