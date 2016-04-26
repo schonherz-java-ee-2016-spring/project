@@ -2,6 +2,7 @@ package hu.schonherz.training.service.admin.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class TrainingVo implements Serializable {
 
@@ -17,7 +18,7 @@ public class TrainingVo implements Serializable {
 	private String recUser;
 	private String modUser;
 	
-	// private List<ThemeVo> themes;
+	private List<ThemeVo> themes;
 	
 	public String getName() {
 		return name;
@@ -32,14 +33,13 @@ public class TrainingVo implements Serializable {
 		this.beginning = beginning;
 	}
 
-	//
-	// public Collection<Theme> getThemes() {
-	// return themes;
-	// }
-	//
-	// public void setThemes(Collection<Theme> themes) {
-	// this.themes = themes;
-	// }
+	public List<ThemeVo> getThemes() {
+		return themes;
+	}
+
+	public void setThemes(List<ThemeVo> themes) {
+		this.themes = themes;
+	}
 
 	public Date getEndDate() {
 		return endDate;

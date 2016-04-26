@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -53,24 +54,32 @@ public class TrainingBean implements Serializable {
 	}
 
 	public void saveTraining() {
-
+		List<TreeNode> nodes = root1.getChildren();
+		List<ThemeVo> vos = new ArrayList<>();
+		for (TreeNode treeNode : nodes) {
+			ThemeVo tvo = themeService.getThemeByName(treeNode.getRowKey());
+			vos.add(tvo);
+		}
+		selected.setThemes(vos);
+		trainingService.saveTraining(selected);
 	}
 
 	public void treeAction(){
 		root1 = new DefaultTreeNode("Root", null);
 
-		for (int i = 1; i < 4; ++i) {
-			TreeNode t = new DefaultTreeNode("Tematika " + i, root1);
+		List<ThemeVo> tvos = trainingService.getTrainingById(selected.getId()).getThemes();
+		for (ThemeVo themeVo : tvos) {
+			TreeNode t = new DefaultTreeNode(themeVo.getName(), root1);
 			for (int j = 1; j < 4; ++j) {
 				new DefaultTreeNode("Tétel " + j, t);
 			}
 		}
 
 		root2 = new DefaultTreeNode("Root2", null);
-		List<ThemeVo> tvos = themeService.findAllTheme();
+		tvos = themeService.findAllTheme();
 		for (ThemeVo themeVo : tvos) {
 			TreeNode t = new DefaultTreeNode(themeVo.getName(), root2);
-			for (int j = 1; j < 3; ++j) {
+			for (int j = 1; j < 4; ++j) {
 				new DefaultTreeNode("Tétel " + j, t);
 			}
 		}
