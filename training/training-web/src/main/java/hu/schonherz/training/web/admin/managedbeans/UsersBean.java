@@ -189,7 +189,7 @@ public class UsersBean implements Serializable {
 			userVo.setUserName(username);
 			userVo.setFullName(fullname);
 			userVo.setEmail(email);
-			userService.updateUser(selectedUser);
+			userService.modifyUser(selectedUser);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("updateFail"));
@@ -230,6 +230,7 @@ public class UsersBean implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setSelected(true);
 	}
 
 	public String getUsername() {
