@@ -25,6 +25,9 @@ public class Option extends BaseEntity {
 	@Column(name = "text", nullable = true)
 	private String text;
 
+	@Column(name = "note", nullable = true)
+	private String note;
+
 	public Option() {
 		super();
 	}
@@ -43,6 +46,14 @@ public class Option extends BaseEntity {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@PrePersist

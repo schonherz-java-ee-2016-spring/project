@@ -17,7 +17,6 @@
 		<class>hu.schonherz.training.core.admin.entity.User</class>
 		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
 		<class>hu.schonherz.training.core.exam.entity.Answer</class>
-		<class>hu.schonherz.training.core.exam.entity.AnswerNote</class>
 		<class>hu.schonherz.training.core.exam.entity.AnswerText</class>
 		<class>hu.schonherz.training.core.exam.entity.Exam</class>
 		<class>hu.schonherz.training.core.exam.entity.ExamResult</class>
