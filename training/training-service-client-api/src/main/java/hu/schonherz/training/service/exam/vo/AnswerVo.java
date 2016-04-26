@@ -7,8 +7,6 @@ public class AnswerVo extends BaseIdentityVo {
 	private UserVo user;
 	private OptionVo option;
 	private Boolean good;
-	private AnswerNoteVo answerNote;
-	private AnswerTextVo answerText;
 
 	public AnswerVo() {
 		super();
@@ -38,20 +36,5 @@ public class AnswerVo extends BaseIdentityVo {
 		this.good = good;
 	}
 
-	public AnswerNoteVo getAnswerNote() {
-		return answerNote;
-	}
-
-	public void setAnswerNote(AnswerNoteVo answerNote) {
-		this.answerNote = answerNote;
-	}
-
-	public AnswerTextVo getAnswerText() {
-		return answerText;
-	}
-
-	public void setAnswerText(AnswerTextVo answerText) {
-		this.answerText = answerText;
-	}
 
 }

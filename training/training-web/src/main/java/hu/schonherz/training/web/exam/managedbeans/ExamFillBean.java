@@ -50,7 +50,7 @@ public class ExamFillBean implements Serializable {
 	private String questionIdAsString;
 	private int counter;
 	private String textbasedOptionAnswer;
-	
+
 	private List<QuestionVo> localQuestionList;
 
 	private List<OptionVo> optionList;
@@ -103,7 +103,11 @@ public class ExamFillBean implements Serializable {
 		AnswerTextVo answerTextVo = new AnswerTextVo();
 		answerTextVo.setAnswer(answerVo);
 		answerTextVo.setText(textbasedOptionAnswer);
-		answerVo.setAnswerText(answerTextVo);
+		// -------------------------------------
+		// ITT VALAMI ERRORT DOB TODO PLS!!!!
+		// answerVo.setAnswerText(answerTextVo);
+		// ITT VALAMI ERRORT DOB TODO PLS!!!!
+		// -------------------------------------
 		UserVo userVo;
 		try {
 			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
@@ -302,6 +306,5 @@ public class ExamFillBean implements Serializable {
 	public void setLocalQuestionList(List<QuestionVo> localQuestionList) {
 		this.localQuestionList = localQuestionList;
 	}
-	
 
 }

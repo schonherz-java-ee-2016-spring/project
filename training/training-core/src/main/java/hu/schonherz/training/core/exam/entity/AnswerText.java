@@ -1,10 +1,7 @@
 package hu.schonherz.training.core.exam.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -24,24 +21,16 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 		@NamedQuery(name = "findTextByAnswerId", query = "SELECT a FROM AnswerText a WHERE a.answer.id = :id") })
 public class AnswerText extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-
-	@OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+	
+	
+	@OneToOne
 	@JoinColumn(name = "answer_id")
 	private Answer answer;
 
-	@Lob
 	private String text;
 
 	public AnswerText() {
 		super();
-	}
-
-	public Answer getAnswer() {
-		return answer;
-	}
-
-	public void setAnswer(Answer answer) {
-		this.answer = answer;
 	}
 
 	public String getText() {

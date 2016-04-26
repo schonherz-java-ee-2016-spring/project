@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -27,12 +26,6 @@ import hu.schonherz.training.core.admin.entity.User;
 public class Answer extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "answer")
-	private AnswerNote answerNote;
-
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "answer")
-	private AnswerText answerText;
-
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -46,22 +39,6 @@ public class Answer extends BaseEntity {
 
 	public Answer() {
 		super();
-	}
-
-	public AnswerNote getAnswerNote() {
-		return answerNote;
-	}
-
-	public void setAnswerNote(AnswerNote answerNote) {
-		this.answerNote = answerNote;
-	}
-
-	public AnswerText getAnswerText() {
-		return answerText;
-	}
-
-	public void setAnswerText(AnswerText answerText) {
-		this.answerText = answerText;
 	}
 
 	public User getUser() {
