@@ -89,13 +89,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 
 	@Override
 	public List<FeedbackVo> getAll() throws Exception {
-		try {
-			List<FeedbackVo> result = FeedbackMapper.toVo(feedbackRepository.findAll());
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
+		List<FeedbackVo> result;
+		if (feedbackRepository.findAll() == null) {
+			result = new ArrayList<>();
+		} else {
+			result = FeedbackMapper.toVo(feedbackRepository.findAll());
 		}
+		return result;
 	}
 
 	/**
