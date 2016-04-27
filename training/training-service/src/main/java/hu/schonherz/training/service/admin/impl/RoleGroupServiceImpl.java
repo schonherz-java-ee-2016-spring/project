@@ -8,6 +8,7 @@ import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
@@ -22,6 +23,8 @@ import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 @Local(RoleGroupService.class)
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class RoleGroupServiceImpl implements RoleGroupService {
+	
+	private static Logger logger = Logger.getLogger(RoleGroupServiceImpl.class);
 	
 	@Autowired
 	RoleGroupRepository roleGroupRepository;
@@ -45,9 +48,10 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 
 	@Override
 	public RoleGroupVo getRoleGroupByName( String roleGroupName ) throws Exception {
+		logger.info("In RoleGroupServiceImpl: Trying to fetch rolegroup with name: " + roleGroupName );
 		RoleGroup findByName = roleGroupRepository.findByName(roleGroupName);
 		if( findByName == null )
-			throw new Exception("No Result");
+			logger.warn("In RoleGroupServiceImpl: No result with this name: " + roleGroupName );
 		return RoleGroupMapper.toVo(findByName);
 	}
 

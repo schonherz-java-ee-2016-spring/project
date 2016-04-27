@@ -1,7 +1,6 @@
 package hu.schonherz.training.core.admin.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -14,9 +13,8 @@ public class Theme extends BaseEntity{
 	private String type;
 	//Ez "köti" majd össze a fő témát és az altémákat a hierarchia miatt.
 	private String themeCode;
-	@Lob
 	private String description;
-	private int hours;
+	private Integer hours;
 	
 	public String getName() {
 		return name;
@@ -36,10 +34,12 @@ public class Theme extends BaseEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getHours() {
+
+	public Integer getHours() {
 		return hours;
 	}
-	public void setHours(int hours) {
+
+	public void setHours(Integer hours) {
 		this.hours = hours;
 	}
 	@Override

@@ -164,7 +164,6 @@ public class UserServiceTest {
 			user2 = serviceLocal.findUserById(user.getId());
 		Assert.assertEquals(true, (user2 == null ? false : true));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //		Assert.assertEquals("IWantToLogin", user.getUserName());

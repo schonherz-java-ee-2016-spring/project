@@ -11,8 +11,6 @@ public interface RoleService {
 	public void createRole(RoleVo role); 
 	
 	void deleteRole( Long roleId );
-
-	void updateRole( RoleVo role);
 	
 	RoleVo getRoleByName( String roleName );
 	
