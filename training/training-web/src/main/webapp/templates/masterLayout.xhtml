@@ -123,14 +123,20 @@
 										Groups</a></li>
 							</ul></li>
 
+						<li class="dropdown"><a href="#" data-toggle="dropdown">Training Management<span
+								class="caret"></span><span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-laptop"></span></a>
+							<ul class="dropdown-menu forAnimate" role="menu">
+								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
+							</ul></li>
 						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-trophy"></span></a></li>
-
-
 						<li><a href="#{request.contextPath}/testfeatures/exams.xhtml">Exams<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-magic"></span></a></li>
+
+
 
 						<sec:authorize access="hasRole('USERS')">
 							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
