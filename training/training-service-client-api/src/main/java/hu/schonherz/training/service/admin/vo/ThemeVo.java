@@ -7,6 +7,7 @@ public class ThemeVo implements Serializable {
 
 	private static final long serialVersionUID = -8205543465661230351L;
 
+	private Long id;
 	private String name;
 	private String type;
 	private String themeCode;
@@ -135,4 +136,13 @@ public class ThemeVo implements Serializable {
 	public void setModUser(String modUser) {
 		this.modUser = modUser;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

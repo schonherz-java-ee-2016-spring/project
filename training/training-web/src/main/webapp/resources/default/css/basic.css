@@ -412,3 +412,23 @@ section {
 		padding-right: 10px;
 	}
 }
+
+.ui-tree-container{
+	min-height: 100px;
+}
+
+.ui-tree-droppoint{
+	min-height: 8px;
+}
+.ui-tree-container .ui-state-hover{
+	background-color: #008BE8;
+}
+.ui-tree-container .ui-state-hover:hover{
+	background-color: #008BE8;
+}
+
+.ui-draggable-dragging{
+	z-index:9999 !important;
+	background-color:#008BE8;
+	border:1px solid #008BE8;
+}
