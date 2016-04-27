@@ -30,8 +30,8 @@ public class EventsBean implements Serializable {
 	
 //	private static Logger logger = LoggerFacto
 	
-//	@EJB
-//	EventService eventService;
+	@EJB
+	EventService eventService;
 	
 	@EJB
 	UserService userService;
@@ -67,7 +67,7 @@ public class EventsBean implements Serializable {
 	private Date newEventDate;
 	
 	// ki van-e választva valamelyik sor?
-	private boolean disabled;
+	private boolean disabled = true;
 	
 	// 
 	private DualListModel<UserVo> userPickList;
@@ -80,7 +80,7 @@ public class EventsBean implements Serializable {
 		
 		// betöltjük az eddigi összes eseményt
 		try {
-//			allEvent = eventService.findAllEvent();
+			allEvent = eventService.findAllEvent();
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -92,8 +92,8 @@ public class EventsBean implements Serializable {
 		
 		// lekérdezünk mindent is
 		try {
-//			setAllUser(userService.findAllUser());
-//			setAllUserGroup(userGroupService.getUserGroups());
+			allUser = userService.findAllUser();
+			allUserGroup = userGroupService.getUserGroups();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,11 +115,14 @@ public class EventsBean implements Serializable {
 		newEvent.setGroups(null);
 		newEvent.setUsers(null);
 		
-//		eventService.createEvent(newEvent);
-		// hozzáadjuk az új eseményt a táblázathoz
+		// létrehozzuk az eseményt
+		eventService.createEvent(newEvent);
+		
+//		 hozzáadjuk az új eseményt a táblázathoz
 		try {
-//			allEvent.add(eventService.findEventByName(newEventName));
+			allEvent.add(eventService.findEventByName(newEventName));
 		} catch (Exception e) {
+			System.out.println("Nem találom");
 			e.printStackTrace();
 		}
 		
@@ -133,11 +136,11 @@ public class EventsBean implements Serializable {
 		
 		// TODO ha kiválasztok egy sort, akkor a field-ekbe töltődjenek be a kiválasztott
 		// esemény adatai és edit-nél azok jelenjenek meg
-		newEventName = selectedEvent.getName();
-		newEventType = selectedEvent.getType();
-		newEventDescription = selectedEvent.getDescription();
-		newEventPlace = selectedEvent.getPlace();
-		newEventDate = selectedEvent.getDate();
+//		newEventName = selectedEvent.getName();
+//		newEventType = selectedEvent.getType();
+//		newEventDescription = selectedEvent.getDescription();
+//		newEventPlace = selectedEvent.getPlace();
+//		newEventDate = selectedEvent.getDate();
 
 		// lekérjük a kiválasztott eseményhez tartozó felhasználókat
 		List<UserVo> esemenyFelhasznaloi = (List<UserVo>)selectedEvent.getUsers();
@@ -217,11 +220,11 @@ public class EventsBean implements Serializable {
 		allEvent.get(allEvent.indexOf(selectedEvent)).setDate(newEventDate);
 		
 		// updateljük
-//		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
+		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
 		
 		// lefrissítjük a táblázatot
 		try {
-//			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(newEventName));
+			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(newEventName));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -234,7 +237,7 @@ public class EventsBean implements Serializable {
 	
 	public void delete(){
 		try {
-//			eventService.deleteEventById(selectedEvent.getId());
+			eventService.deleteEventById(selectedEvent.getId());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,6 +247,8 @@ public class EventsBean implements Serializable {
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
 				"Event deleted!");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+		
+		disabled = true;
 	}
 	
 	public void saveManagedUsers(){
@@ -252,11 +257,11 @@ public class EventsBean implements Serializable {
 		allEvent.get(allEvent.indexOf(selectedEvent)).setUsers(userPickList.getTarget());
 		
 		// updateljük az eseményt
-//		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
+		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
 		
 		// lefrissítjük a táblázatot
 		try {
-//			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(selectedEvent.getName()));
+			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(selectedEvent.getName()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -272,11 +277,11 @@ public class EventsBean implements Serializable {
 		allEvent.get(allEvent.indexOf(selectedEvent)).setGroups(userGroupPickList.getTarget());
 			
 		// updateljük az eseményt
-//		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
+		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
 				
 		// lefrissítjük a táblázatot
 		try {
-//			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(selectedEvent.getName()));
+			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(selectedEvent.getName()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

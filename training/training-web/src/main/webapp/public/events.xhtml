@@ -130,7 +130,7 @@
 			</p:confirmDialog>
 			
 <!-- create dialog -->
-			<p:dialog header="Új esemény létrehozása" widgetVar="createDialog" modal="true" height="100"
+			<p:dialog header="Új esemény létrehozása" widgetVar="createDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="newEventForm" styleClass="form-horizontal" >
     				<div class="form-group">
@@ -189,7 +189,7 @@
 			</p:dialog>  
 			
 <!-- edit dialog -->
-			<p:dialog header="Esemény módosítása" widgetVar="editDialog" modal="true" height="100"
+			<p:dialog header="Esemény módosítása" widgetVar="editDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="editEventForm" styleClass="form-horizontal" >
     				<div class="form-group">
@@ -283,8 +283,8 @@
 		    				value="#{eventsBean.userGroupPickList}" 
 		    				var="userGroup"
 		    				itemValue="#{userGroup}"
-		    				itemLabel="#{userGroup.name}"
-		    				converter="RoleGroupConverter"
+		    				itemLabel="#{userGroup.groupName}"
+		    				converter="UserGroupConverter"
 		    				responsive="true"
 		    				>
 			

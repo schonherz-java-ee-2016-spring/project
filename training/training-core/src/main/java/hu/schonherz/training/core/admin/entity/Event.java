@@ -19,7 +19,6 @@ public class Event extends BaseEntity {
 	
 	private String name;
 	private String type;
-	@Lob
 	private String description;
 	private String place;
 	private Date date;
