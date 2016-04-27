@@ -33,14 +33,15 @@ INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2003, 2003);
 
 -- Supervisor
 
-INSERT INTO public.feedback(id, recdate, feedback_message, is_public, event_type) VALUES (5000, to_timestamp('31 Dec 2015', 'DD Mon YYYY'), 'Lorem ipsum dolor sit amet, est alia tantas cu, his eu tantas aliquip, dicta detracto dissentiunt an usu. Te indoctum quaerendum necessitatibus cum, pro quas scriptorem te. Voluptua constituam delicatissimi ea quo, graece deserunt has eu, ea veri docendi pri. Mei te altera constituam, ne vis quidam mediocritatem, pri sonet legendos theophrastus cu.', TRUE, 'Homework');
-INSERT INTO public.feedback(id, recdate, feedback_message, is_public, event_type) VALUES (5001, to_timestamp('12 Jan 2016', 'DD Mon YYYY'), 'An solum graece urbanitas vix, vis primis commodo at. His an dolore appetere ponderum, eu consul ubique mentitum eam. In nisl numquam vix, est tractatos consulatu at. Ut mel dicat equidem constituto, pri at ferri quodsi, ne stet quando his.', TRUE, 'Interview');
+INSERT INTO event(id, recdate, recuser, date, description, name, place, type) VALUES (4001, current_timestamp, 'SQL_script', to_date('12 08 2016', 'DD MM YYYY'), 'Lorem ipsum dolor sit amet.', 'Spring Security', 'Java EE Training', 'Homework');
+INSERT INTO group_to_event(event_id, group_id) VALUES (4001, 2002);
+INSERT INTO user_to_event(event_id, group_id) VALUES (4001, 2003);
 
-INSERT INTO public.rated_to_feedback(rated_id, feedback_id) VALUES (2001, 5000);
-INSERT INTO public.rated_to_feedback(rated_id, feedback_id) VALUES (2003, 5001);
+INSERT INTO feedback(id, recdate, recuser, feedback_message, is_public) VALUES (5001, current_timestamp, 'SQL_script', 'An solum graece urbanitas vix, vis primis commodo at. His an dolore appetere ponderum, eu consul ubique mentitum eam. In nisl numquam vix, est tractatos consulatu at. Ut mel dicat equidem constituto, pri at ferri quodsi, ne stet quando his.', true);
+INSERT INTO rated_to_feedback(rated_id, feedback_id) VALUES (2003, 5001);
+INSERT INTO sender_to_feedback(sender_id, feedback_id) VALUES (2004, 5001);
 
-INSERT INTO public.sender_to_feedback(sender_id, feedback_id) VALUES (2002, 5000);
-INSERT INTO public.sender_to_feedback(sender_id, feedback_id) VALUES (2004, 5001);
+INSERT INTO event_to_feedback(event_id, feedback_id) VALUES (4001, 5001);
 
 -- Exam-module
 
