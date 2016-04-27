@@ -9,17 +9,21 @@
 	<ui:define name="pageTitle">MultipleQuestion</ui:define>
 	<ui:define name="content">
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
+		
 		<h:form id="questionTitleForm">
 			<h3>Question Title</h3>
-			<p:inputTextarea rows="4" cols="100" counter="display"
+			<p:inputTextarea id="questionInputTextarea" rows="4" cols="100" counter="display"
 				maxlength="200" counterTemplate="{0} characters remaining."
 				autoResize="false" value="#{multipleQuestionBean.questionText}"
 				required="true">
 				<f:validateLength minimum="5" />
-				<p:ajax event="keyup" />
+				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>
 			<h:outputText id="display" />
+			<p:message for="questionInputTextarea" id="newQuestionTextMsg" />
 		</h:form>
+
+
 
 		<h:form id="questionNoteForm">
 			<h3>Question note</h3>

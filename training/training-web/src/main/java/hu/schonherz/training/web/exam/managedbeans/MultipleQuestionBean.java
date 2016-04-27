@@ -91,6 +91,12 @@ public class MultipleQuestionBean extends SelectorQuestionBean {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"You have to at least one option.");
 			currentInstance.addMessage(null, facesMessage);
+		} else if (questionText == null) {
+			System.out.println(questionText == null);
+			System.out.println(questionText == "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Question title can't be empty.");
+			currentInstance.addMessage(null, facesMessage);
 		} else {
 			getCorrectOptions().forEach(o -> o.setCorrect(true));
 			try {
