@@ -63,7 +63,7 @@
 					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
-						update=":createUserForm:dataTable, dlg1" oncomplete="dlg1.hide)"></p:commandButton>
+						update=":createUserForm:dataTable, form" oncomplete="dlg1.hide)"></p:commandButton>
 					<!-- 				a felhasználó módosítása dialog gomb -->
 					<p:commandButton type="button" onclick="PF('modify_user').show();"
 						id="modifyButton" value="#{out.edit}"
@@ -134,7 +134,7 @@
 						</div>
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
-						update="panel2,growl,form2,:createUserForm:dataTable"
+						update="panel2,growl,form,:createUserForm:dataTable"
 						action="#{usersBean.create}" icon="ui-icon-check"
 						oncomplete="dlg1.hide)" />
 				</p:panel>

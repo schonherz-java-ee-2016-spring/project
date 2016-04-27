@@ -9,23 +9,17 @@
 	<ui:define name="feedback-list">
 		<ui:component>
 			
-				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}">
-					<p:tab title="#{feedback.interview.getCompany()}">
+				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
+					<p:tab title="#{feedback.eventType}" >
 						<div class="well">
 							<div class="media">
 								<a class="pull-left" href="#"> <img class="media-object"
 									src="http://placekitten.com/g/200/300" height="150" width="100" /></a>
 								<div class="media-body">
 									<p class="text-right">By #{feedback.sender.getFullName()}</p>
-									<p>#{feedback.detailedFeedback}</p>
-									<ul class="list-inline list-unstyled">
-										<li><span><i class="glyphicon glyphicon-calendar"></i>
-												#{feedback.recDate} </span></li>
-										<li>|</li>
-										<li><span>Score: 5/#{feedback.score}</span></li>
-										<li>|</li>
-										<li><span>Interview date:
-												#{feedback.interview.getInterviewDate()}</span></li>
+									<p>#{feedback.feedbackMessage}</p>
+									<ul>
+										<li>#{feedback.recDate}</li>
 									</ul>
 								</div>
 							</div>

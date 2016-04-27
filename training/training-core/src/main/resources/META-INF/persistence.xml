@@ -26,7 +26,6 @@
 		<class>hu.schonherz.training.core.supervisor.entity.Feedback</class>
 		<class>hu.schonherz.training.core.supervisor.entity.Homework</class>
 		<class>hu.schonherz.training.core.supervisor.entity.HomeworkResult</class>
-		<class>hu.schonherz.training.core.supervisor.entity.Interview</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
