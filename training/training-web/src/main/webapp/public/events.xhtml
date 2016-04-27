@@ -18,36 +18,36 @@
 				 reflow="true"
 				 >
 
-				<p:column headerText="Esemény neve">
+				<p:column headerText="#{out.esemenyNeve}">
 					<h:outputText value="#{event.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Esemény típusa">
+				<p:column headerText="#{out.esemenyTipusa}">
 					<h:outputText value="#{event.type}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Esemény Leírása">
+				<p:column headerText="#{out.esemenyLeirasa}">
 					<h:outputText value="#{event.description}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Esemény Helye">
+				<p:column headerText="#{out.esemenyHelye}">
 					<h:outputText value="#{event.place}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Esemény Ideje">
+				<p:column headerText="#{out.esemenyIdeje}">
 					<h:outputText value="#{event.date}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
 <!-- Eseményhez rendelt felhasználók -->
-				<p:column headerText="Érintett felhasználók">
+				<p:column headerText="#{out.erintettFelhasznalok}">
 					<ui:repeat value="#{event.users}" var="user">
     						#{user.fullName} <br/>
 					</ui:repeat>
 				</p:column>
 
 <!-- Eseményhez rendelt felhasználó csoportok -->
-				<p:column headerText="Érintett felhasználók">
+				<p:column headerText="#{out.erintettFelhasznaloCsoportok}">
 					<ui:repeat value="#{event.groups}" var="group">
     						#{group.groupName} <br/>
 					</ui:repeat>
@@ -75,20 +75,20 @@
 				<f:facet name="footer">
 				<!-- Create -->
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
-									value="Új esemény"
+									value="#{out.ujesemeny}"
 									onclick="PF('createDialog').show();" />
 				<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 									process="eventstable" 
 									disabled="#{eventsBean.disabled}"
-									value="Esemény módosítása" 
+									value="#{out.esemenyModositasa}" 
 									onclick="PF('editDialog').show();" />
 				<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 									process="eventstable"
 									update="growl,:eventsform:eventstable"
 									disabled="#{eventsBean.disabled}"
-									value="Esemény törlése"
+									value="#{out.esemenyTorlese}"
 									action="#{eventsBean.delete()}" >
 						
 						<p:confirm icon="ui-icon-alert"
@@ -102,7 +102,7 @@
 									 process="eventstable"
 									 update=":eventsform:msgs,growl,:eventsform:eventstable"
 									 disabled="#{eventsBean.disabled}"
-									 value="Felhasználók módosítása"
+									 value="#{out.felhasznalokModositasa}"
 									 onclick="PF('manageUsersDialog').show();" >
 					</p:commandButton>
 
@@ -112,7 +112,7 @@
 									 process="eventstable"
 									 update=":eventsform:msgs,growl,:eventsform:eventstable"
 									 disabled="#{eventsBean.disabled}"
-									 value="Felhasználó csoportok módosítása"
+									 value="#{out.felhasznaloCsoportokModositasa}"
 									 onclick="PF('manageUserGroupsDialog').show();" >
 					</p:commandButton>
 					
@@ -130,12 +130,12 @@
 			</p:confirmDialog>
 			
 <!-- create dialog -->
-			<p:dialog header="Új esemény létrehozása" widgetVar="createDialog" modal="true"
+			<p:dialog header="#{out.ujesemenyLetrehozasa}" widgetVar="createDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="newEventForm" styleClass="form-horizontal" >
     				<div class="form-group">
 <!-- Esemény neve -->
-						<label for="eventName" class="col-sm-3">Esemény neve:</label>
+						<label for="eventName" class="col-sm-3">#{out.esemenyNeve}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="eventName"
 								value="#{eventsBean.newEventName}" required="true"
@@ -143,7 +143,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény típusa -->
-						<label for="eventType" class="col-sm-3">Esemény típusa:</label>
+						<label for="eventType" class="col-sm-3">#{out.esemenyTipusa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="eventType"
 								value="#{eventsBean.newEventType}" required="true"
@@ -151,7 +151,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény leírása -->
-						<label for="eventDescription" class="col-sm-3">Esemény leírása:</label>
+						<label for="eventDescription" class="col-sm-3">#{out.esemenyLeirasa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="eventDescription"
 								value="#{eventsBean.newEventDescription}" required="true"
@@ -159,7 +159,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény helye -->
-						<label for="eventPlace" class="col-sm-3">Esemény helye:</label>
+						<label for="eventPlace" class="col-sm-3">#{out.esemenyHelye}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="eventPlace"
 								value="#{eventsBean.newEventPlace}" required="true"
@@ -167,7 +167,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény ideje -->
-						<label for="eventDate" class="col-sm-3">Esemény ideje:</label>
+						<label for="eventDate" class="col-sm-3">#{out.esemenyIdeje}:</label>
 						<div class="col-sm-9">
 						<p:calendar id="buttonCalendar" 
 						value="#{eventsBean.newEventDate}" 
@@ -189,12 +189,12 @@
 			</p:dialog>  
 			
 <!-- edit dialog -->
-			<p:dialog header="Esemény módosítása" widgetVar="editDialog" modal="true"
+			<p:dialog header="#{out.esemenyModositasa}" widgetVar="editDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="editEventForm" styleClass="form-horizontal" >
     				<div class="form-group">
 <!-- Esemény neve -->
-						<label for="editEventName" class="col-sm-3">Esemény neve:</label>
+						<label for="editEventName" class="col-sm-3">#{out.esemenyNeve}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventName"
 								value="#{eventsBean.newEventName}" required="true"
@@ -202,7 +202,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény típusa -->
-						<label for="editEventType" class="col-sm-3">Esemény típusa:</label>
+						<label for="editEventType" class="col-sm-3">#{out.esemenyTipusa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventType"
 								value="#{eventsBean.newEventType}" required="true"
@@ -210,7 +210,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény leírása -->
-						<label for="editEventDescription" class="col-sm-3">Esemény leírása:</label>
+						<label for="editEventDescription" class="col-sm-3">#{out.esemenyLeirasa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventDescription"
 								value="#{eventsBean.newEventDescription}" required="true"
@@ -218,7 +218,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény helye -->
-						<label for="editEventPlace" class="col-sm-3">Esemény helye:</label>
+						<label for="editEventPlace" class="col-sm-3">#{out.esemenyHelye}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventPlace"
 								value="#{eventsBean.newEventPlace}" required="true"
@@ -226,7 +226,7 @@
 							</p:inputText>
 						</div>
 <!-- Esemény ideje -->
-						<label for="editEventDate" class="col-sm-3">Esemény ideje:</label>
+						<label for="editEventDate" class="col-sm-3">#{out.esemenyIdeje}:</label>
 						<div class="col-sm-9">
 						<p:calendar id="buttonCalendar" 
 						value="#{eventsBean.newEventDate}" 
@@ -248,7 +248,7 @@
 			</p:dialog>   
 			
 <!-- Manage Users dialog -->
-			<p:dialog header="Érintett felhasználók módosítása" widgetVar="manageUsersDialog" modal="true" 
+			<p:dialog header="#{out.erintettFelhasznalokModositasa}" widgetVar="manageUsersDialog" modal="true" 
 						resizable="false" draggable="false" responsive="true" >
     				<h:form id="pickUserForm">
 	    				<p:pickList id="pickUserList" 
@@ -276,7 +276,7 @@
 			
 <!-- Manage User Groups dialog -->
 
-			<p:dialog header="Érintett felhasználó csoportok módosítása" widgetVar="manageUserGroupsDialog" modal="true" 
+			<p:dialog header="#{out.erintettFelhasznaloCsoportokModositasa}" widgetVar="manageUserGroupsDialog" modal="true" 
 						resizable="false" draggable="false" responsive="true" >
     				<h:form id="pickUserGroupForm">
 	    				<p:pickList id="pickUserGroupList" 
