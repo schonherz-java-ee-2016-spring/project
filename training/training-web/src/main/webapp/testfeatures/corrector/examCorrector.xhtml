@@ -8,6 +8,8 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exam corrector</ui:define>
 	<ui:define name="content">
+
+		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="examSelection" value="Exam:" />
@@ -32,17 +34,20 @@
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
-		<p:tabView id="tabView" value="#{examCorrectorBean.questionList}"
-			var="question" activeIndex="#{examCorrectorBean.counter}">
-			<p:ajax event="tabChange" listener="#{examCorrectorBean.changeTab()}" />
-			<p:tab id="questionTabs" title="#{question.id}">
-				<p:panel header="#{question.text}">
-					<!-- Textbased -->
-					<h:form rendered="#{question.questionType.getId() eq 3}">
-						<p:inputTextarea value="" />
-					</h:form>
-				</p:panel>
-			</p:tab>
-		</p:tabView>
+
+		<!-- The datatable of the textbased answers -->
+		<h:form id="correctorForm">
+			<p:dataTable id="answerTable" value="#{examCorrectorBean.answerTextList}"
+				var="answerText">
+				<p:column>
+				#{answerText.text}
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Apply correction"
+						actionListener="#{examCorrectorBean.applyCorrection}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>
