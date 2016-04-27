@@ -15,6 +15,14 @@
 			<p:accordionPanel id="userGroupAccordion" var="course"
 				value="#{resultsBean.courses}" activeIndex="true">
 				<p:tab title="#{course.userGroup.groupName}">
+
+					<p:accordionPanel id="userAccordion" var="userResult"
+						value="#{course.userResults}" activeIndex="true">
+						<p:tab title="#{userResults.user.fullName}">
+						
+						
+						</p:tab>
+					</p:accordionPanel>
 				</p:tab>
 			</p:accordionPanel>
 
