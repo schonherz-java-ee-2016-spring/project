@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
-import hu.schonherz.training.service.supervisor.vo.LessonsVo;
+import hu.schonherz.training.service.supervisor.vo.LessonVo;
 
 public class Course implements Serializable {
 
@@ -17,7 +17,7 @@ public class Course implements Serializable {
 
 	private List<UserResults> userResults;
 
-	private List<LessonsVo> lessons;
+	private List<LessonVo> lessons;
 
 	public Course() {
 		super();
@@ -39,11 +39,11 @@ public class Course implements Serializable {
 		this.userResults = userResults;
 	}
 
-	public List<LessonsVo> getLessons() {
+	public List<LessonVo> getLessons() {
 		return lessons;
 	}
 
-	public void setLessons(List<LessonsVo> lessons) {
+	public void setLessons(List<LessonVo> lessons) {
 		this.lessons = lessons;
 	}
 
