@@ -89,15 +89,6 @@ INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
 
 
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, 'Keremijabeideaszoveget', 2011);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2012, 'justtryout', 2011);
-
-
-
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'Lorem ipsum dolor sit amet, a sollicitudin, commodo sit. Vitae eu lectus nulla, dictum in mauris, ornare donec vel quisque aenean erat, nullam neque cubilia cubilia vehicula, etiam est ultrices et repudiandae', 2006);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2014, false, 'Lorem ipsum dolor sit amet nec. Elit sollicitudin vel. Fringilla laoreet in cras perspiciatis sociosqu sed et sed a nulla laoreet. Pede maecenas sed. Vestibulum ac proin sem augue eget.', 2006);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2015, false, 'Elit ut imperdiet, facilisis praesent, rutrum urna et egestas est sodales ante. Nunc quis curabitur aliquam faucibus', 2006);
-
 -- Answers
 
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
