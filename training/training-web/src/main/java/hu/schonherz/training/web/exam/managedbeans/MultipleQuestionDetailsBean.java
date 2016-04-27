@@ -115,6 +115,31 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		}
 		return optionList;
 	}
+	
+	@Override
+	public void setQuestionNoteText(String questionNoteText) {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo questionVo = questionService.getById(questionId);
+			questionVo.setNote(questionNoteText);
+			questionService.updateNote(questionVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public String getQuestionNoteText() {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo question = questionService.getById(questionId);
+			questionText = question.getNote();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return questionText;
+
+	}
 
 	@Override
 	public String getQuestionText() {

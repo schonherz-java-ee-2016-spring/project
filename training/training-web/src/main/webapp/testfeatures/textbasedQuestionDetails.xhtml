@@ -22,6 +22,14 @@
 					value="#{textbasedQuestionDetailsBean.questionTitleInputText}" />
 			</p:inplace>
 		</h:form>
+		
+		<h:form id="questionNoteRename">
+			<p:inplace editor="true">
+				<p:inputText
+					value="#{textbasedQuestionDetailsBean.questionNoteText}" />
+			</p:inplace>
+		</h:form>
+		
 		<p />
 		<h:form>
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />

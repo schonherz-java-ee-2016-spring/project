@@ -13,13 +13,15 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 @SessionScoped
 public class TextBasedQuestionDetailsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
-	private QuestionService questionService; 
+	private QuestionService questionService;
 
 	private String questionIdAsString;
 
 	private String questionTitleInputText;
+
+	private String questionNoteText;
 
 	public String getQuestionIdAsString() {
 		return questionIdAsString;
@@ -50,6 +52,30 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String getQuestionNoteText() {
+		QuestionVo questionVo;
+		try {
+			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
+			questionNoteText = questionVo.getNote();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return questionNoteText;
+	}
+
+	public void setQuestionNoteText(String questionNoteText) {
+		this.questionNoteText = questionNoteText;
+		QuestionVo questionVo;
+		try {
+			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
+			questionVo.setNote(questionNoteText);
+			getQuestionService().updateNote(questionVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public QuestionService getQuestionService() {

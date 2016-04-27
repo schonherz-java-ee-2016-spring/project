@@ -13,10 +13,19 @@
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 		
 		<h:form id="questionTitleRename">
+		<h3>Question's title</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{singleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
+		
+		<h:form id="questionNoteRename">
+		<h3>Question's note</h3>
+			<p:inplace editor="true">
+				<p:inputText value="#{singleQuestionDetailsBean.questionNoteText}" />
+			</p:inplace>
+		</h:form>
+		
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable" lazy="true"
 				value="#{singleQuestionDetailsBean.optionList}" var="option"
