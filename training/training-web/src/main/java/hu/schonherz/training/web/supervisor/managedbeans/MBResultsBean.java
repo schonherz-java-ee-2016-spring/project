@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,6 +16,8 @@ import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
+import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
 import hu.schonherz.training.service.supervisor.vo.LessonVo;
 import hu.schonherz.training.web.supervisor.accessories.Course;
 import hu.schonherz.training.web.supervisor.accessories.UserResults;
@@ -98,6 +101,48 @@ public class MBResultsBean implements Serializable {
 			course.setUserResults(userResults);
 		}
 
+		/// --------Works
+		// Filling the Results
+
+		Random rand = new Random();
+		List<Integer> examResultList = new ArrayList<>();
+		List<Integer> homeworkResultList = new ArrayList<>();
+		List<ExamResultVo> examResults = new ArrayList<>();
+		List<HomeworkResultVo> homeworkResults = new ArrayList<>();
+		for (Course course : courses) {
+			for (UserResults userResult : course.getUserResults()) {
+				for (int i = 0; i < lessons.size(); i++) {
+					if (i != lessons.size() - 1) {
+						examResultList.add(rand.nextInt(10));
+						homeworkResultList.add(rand.nextInt(10));
+					} else {
+						examResultList.add(rand.nextInt(100) + 100);
+						homeworkResultList.add(rand.nextInt(100) + 100);
+					}
+					examResults.add(new ExamResultVo());
+					homeworkResults.add(new HomeworkResultVo());
+
+				}
+				Iterator<Integer> examResultIterator = examResultList.iterator();
+				Iterator<Integer> homeworkResultIterator = homeworkResultList.iterator();
+				for (ExamResultVo examResult : examResults) {
+					if (examResultIterator.hasNext()) {
+						examResult.setScore(examResultIterator.next());
+					}
+				}
+				for (HomeworkResultVo homeworkResult : homeworkResults) {
+					if (homeworkResultIterator.hasNext()) {
+						homeworkResult.setScore(homeworkResultIterator.next());
+					}
+				}
+				userResult.setExamResults(examResults);
+				userResult.setHomeworkResults(homeworkResults);
+				examResults.clear();
+				homeworkResults.clear();
+				examResultList.clear();
+				homeworkResultList.clear();
+			}
+		}
 	}
 
 	/**
