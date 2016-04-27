@@ -6,10 +6,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
+import hu.schonherz.training.core.admin.entity.Event;
 import hu.schonherz.training.core.admin.entity.User;
 
 @Entity
@@ -25,19 +25,16 @@ public class Feedback extends BaseEntity {
 	@JoinTable(name = "sender_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
 	private User sender;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
 	private User rated;
 
-	@OneToOne
-	@JoinTable(name = "interview_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "interview_id", referencedColumnName = "id"))
-	private Interview interviewId;
-
-	@Column(name = "score", nullable = false, length = 1)
-	private Integer score;
-
-	@Column(name = "detailed_feedback", nullable = false, columnDefinition = "text")
-	private String detailedFeedback;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinTable(name = "event_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
+	private Event event;
+	
+	@Column(name = "feedback_message", nullable = false, columnDefinition = "text")
+	private String feedbackMessage;
 
 	@Column(name = "is_public", nullable = false)
 	private boolean isPublic;
@@ -73,33 +70,33 @@ public class Feedback extends BaseEntity {
 	}
 
 	/**
-	 * @return the score
+	 * @return the event
 	 */
-	public Integer getScore() {
-		return score;
+	public Event getEvent() {
+		return event;
 	}
 
 	/**
-	 * @param score
-	 *            the score to set
+	 * @param event
+	 *            the event to set
 	 */
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	/**
-	 * @return the detailedFeedback
+	 * @return the feedbackMessage
 	 */
-	public String getDetailedFeedback() {
-		return detailedFeedback;
+	public String getFeedbackMessage() {
+		return feedbackMessage;
 	}
 
 	/**
-	 * @param detailedFeedback
-	 *            the detailedFeedback to set
+	 * @param feedbackMessage
+	 *            the feedbackMessage to set
 	 */
-	public void setDetailedFeedback(String detailedFeedback) {
-		this.detailedFeedback = detailedFeedback;
+	public void setFeedbackMessage(String feedbackMessage) {
+		this.feedbackMessage = feedbackMessage;
 	}
 
 	/**
@@ -117,4 +114,9 @@ public class Feedback extends BaseEntity {
 		this.isPublic = isPublic;
 	}
 
+	@Override
+	public String toString() {
+		return "Feedback [sender=" + sender.getId() + ", rated=" + rated.getId() + ", feedbackMessage="
+				+ feedbackMessage + ", isPublic=" + isPublic + ", event=" + event.getId() + "].";
+	}
 }

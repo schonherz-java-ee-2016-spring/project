@@ -10,6 +10,10 @@
 			access="hasRole('UGS')" />
 		<security:intercept-url pattern="/secured/users.xhtml"
 			access="hasRole('USERS')" />
+		<security:intercept-url pattern="/secured/feedbacks.xhtml"
+			access="hasRole('STUDENT')" />
+		<security:intercept-url pattern="/secured/feedbacks.xhtml"
+			access="hasRole('USERS')" />
 				
 		<security:intercept-url pattern="/secured/observer/**"
 			access="hasRole('OBSERVER')" />

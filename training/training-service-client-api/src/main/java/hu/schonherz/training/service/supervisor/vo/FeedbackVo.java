@@ -3,6 +3,7 @@ package hu.schonherz.training.service.supervisor.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 public class FeedbackVo implements Serializable {
@@ -12,28 +13,19 @@ public class FeedbackVo implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
 	private UserVo sender;
 	private UserVo rated;
-	private InterviewVo interview;
-	private Integer score;
-	private String detailedFeedback;
-	private boolean isPublic;
+	private String feedbackMessage;
 	private Date recDate;
-
+	private boolean isPublic;
+	private EventVo event;
+	
+	
 	/**
-	 * @return the id
+	 * 
 	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
+	public FeedbackVo() {
+		
 	}
 
 	/**
@@ -44,8 +36,7 @@ public class FeedbackVo implements Serializable {
 	}
 
 	/**
-	 * @param sender
-	 *            the sender to set
+	 * @param sender the sender to set
 	 */
 	public void setSender(UserVo sender) {
 		this.sender = sender;
@@ -59,56 +50,24 @@ public class FeedbackVo implements Serializable {
 	}
 
 	/**
-	 * @param rated
-	 *            the rated to set
+	 * @param rated the rated to set
 	 */
 	public void setRated(UserVo rated) {
 		this.rated = rated;
 	}
 
 	/**
-	 * @return the interview
+	 * @return the feedbackMessage
 	 */
-	public InterviewVo getInterview() {
-		return interview;
+	public String getFeedbackMessage() {
+		return feedbackMessage;
 	}
 
 	/**
-	 * @param interview
-	 *            the interview to set
+	 * @param feedbackMessage the feedbackMessage to set
 	 */
-	public void setInterview(InterviewVo interview) {
-		this.interview = interview;
-	}
-
-	/**
-	 * @return the score
-	 */
-	public Integer getScore() {
-		return score;
-	}
-
-	/**
-	 * @param score
-	 *            the score to set
-	 */
-	public void setScore(Integer score) {
-		this.score = score;
-	}
-
-	/**
-	 * @return the detailedFeedback
-	 */
-	public String getDetailedFeedback() {
-		return detailedFeedback;
-	}
-
-	/**
-	 * @param detailedFeedback
-	 *            the detailedFeedback to set
-	 */
-	public void setDetailedFeedback(String detailedFeedback) {
-		this.detailedFeedback = detailedFeedback;
+	public void setFeedbackMessage(String feedbackMessage) {
+		this.feedbackMessage = feedbackMessage;
 	}
 
 	/**
@@ -119,41 +78,44 @@ public class FeedbackVo implements Serializable {
 	}
 
 	/**
-	 * @param isPublic
-	 *            the isPublic to set
+	 * @param isPublic the isPublic to set
 	 */
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
-
+	
 	/**
-	 * @return the feedbackDate
+	 * @return the recDate
 	 */
 	public Date getRecDate() {
 		return recDate;
 	}
 
 	/**
-	 * @param feedbackDate
-	 *            the feedbackDate to set
+	 * @param recDate the recDate to set
 	 */
 	public void setRecDate(Date recDate) {
 		this.recDate = recDate;
 	}
 
-	@Override
-	public String toString() {
-		return "FeedbacVO [id = " + id + " sender = " + sender.getId() + " rated = " + rated.getId() + " interview = "
-				+ interview.getId() + " score = " + score + " detailedFeedback = " + detailedFeedback + " isPublic = "
-				+ isPublic + " recDate = " + recDate + "]";
-
+	
+	/**
+	 * @return the event
+	 */
+	public EventVo getEvent() {
+		return event;
 	}
 
 	/**
-	 * 
+	 * @param event the event to set
 	 */
-	public FeedbackVo() {
+	public void setEvent(EventVo event) {
+		this.event = event;
+	}
 
+	public String toString() {
+		return "Feedback [sender=" + sender.getId() + ", rated=" + rated.getId() + ", feedbackMessage="
+				+ feedbackMessage + ", isPublic=" + isPublic + ", event=" + event.getId() + "].";
 	}
 
 }

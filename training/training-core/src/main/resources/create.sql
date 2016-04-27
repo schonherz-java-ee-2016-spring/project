@@ -1,5 +1,6 @@
 INSERT INTO public.role( id, name, roleCode)  VALUES (2001, 'User Group Role','ROLE_UGS');
 INSERT INTO public.role( id, name, roleCode)  VALUES (2002, 'Users Role','ROLE_USERS');
+INSERT INTO public.role( id, name, roleCode)  VALUES (2003, 'Students Role','ROLE_STUDENT');
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2003,'Student Role Group');
@@ -8,6 +9,7 @@ INSERT INTO public.rolegroup( id, name)  VALUES (2005,'Guest Role Group');
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2003);
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2002, 'email2@localhost.com', 'Instructor', 1, '$2a$10$bRsjrjA9RLw5KLga6NZlouR4K/jK4xrLO6ahPl1SgOMv3dfYof.Ve','instructor');
@@ -19,21 +21,27 @@ INSERT INTO public.usergroup(id, groupname,description,recuser,recdate)  VALUES 
 
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2001, 2001);
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2002, 2002);
+INSERT INTO public.group_to_user(user_id, group_id) VALUES (2003, 2002);
 
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2002);
+INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2003);
 
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2002, 2002);
+INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2003, 2003);
 
-INSERT INTO public.interview(id, company, interviewdate) VALUES (3001, 'Fiction Software', to_date('05 Dec 2045', 'DD Mon YYYY'));
-INSERT INTO public.interviewed_to_interview(interviewed_id, interview_id) VALUES (2003, 3001);
-INSERT INTO public.interviewer_to_interview(interviewer_id, interview_id) VALUES (2004, 3001);
+-- Supervisor
 
-INSERT INTO public.feedback(id, detailed_feedback, is_public, score, recdate) VALUES (5000, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur molestie nibh eget tellus interdum, id vestibulum erat sollicitudin. Nam ut sapien ut neque feugiat pellentesque. Mauris quis pellentesque erat, sit amet elementum dui. Nulla ornare nulla ac dolor tempor, in elementum justo mattis. In ultrices massa eget est finibus scelerisque. Suspendisse laoreet purus ac mauris consequat rutrum. Proin lacinia porttitor felis, consequat congue sapien tristique eu.', TRUE, 5, to_date('06 Dec 2045', 'DD Mon YYYY'));
-INSERT INTO public.interview_to_feedback(feedback_id, interview_id) VALUES (3001, 5000);
-INSERT INTO public.rated_to_feedback(feedback_id, rated_id) VALUES (5000, 2003);
-INSERT INTO public.sender_to_feedback(feedback_id, sender_id) VALUES (5000, 2004);
+INSERT INTO event(id, recdate, recuser, date, description, name, place, type) VALUES (4001, current_timestamp, 'SQL_script', to_date('12 08 2016', 'DD MM YYYY'), 'Lorem ipsum dolor sit amet.', 'Spring Security', 'Java EE Training', 'Homework');
+INSERT INTO group_to_event(event_id, group_id) VALUES (4001, 2002);
+INSERT INTO user_to_event(event_id, group_id) VALUES (4001, 2003);
+
+INSERT INTO feedback(id, recdate, recuser, feedback_message, is_public) VALUES (5001, current_timestamp, 'SQL_script', 'An solum graece urbanitas vix, vis primis commodo at. His an dolore appetere ponderum, eu consul ubique mentitum eam. In nisl numquam vix, est tractatos consulatu at. Ut mel dicat equidem constituto, pri at ferri quodsi, ne stet quando his.', true);
+INSERT INTO rated_to_feedback(rated_id, feedback_id) VALUES (2003, 5001);
+INSERT INTO sender_to_feedback(sender_id, feedback_id) VALUES (2004, 5001);
+
+INSERT INTO event_to_feedback(event_id, feedback_id) VALUES (4001, 5001);
 
 -- Exam-module
 INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
