@@ -118,8 +118,8 @@
 					
 				</f:facet>
 				<p:ajax event="rowSelect" 
-				listener="#{roleGroupsBean.onRowSelect}" 
-				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList" />
+				listener="#{eventsBean.onRowSelect}" 
+				update="growl,editButton,deleteButton,manageUsers,manageUserGroups,:pickUserForm:pickUserList,:pickUserGroupForm:pickUserGroupList" />
 				
 			</p:dataTable>
 			</h:form>
@@ -167,9 +167,11 @@
 							</p:inputText>
 						</div>
 <!-- Esemény ideje -->
-<!-- bootstrap datetimepicker will go here... or p:calendar?-->
 						<label for="eventDate" class="col-sm-3">Esemény ideje:</label>
 						<div class="col-sm-9">
+						<p:calendar id="buttonCalendar" 
+						value="#{eventsBean.newEventDate}" 
+						showOn="button" />
 <!-- 							<p:inputText styleClass="form-control" id=eventDate -->
 <!-- 								value="#{eventsBean.newEventDate}" required="true" -->
 <!-- 								label="eventDate"> -->
@@ -224,9 +226,11 @@
 							</p:inputText>
 						</div>
 <!-- Esemény ideje -->
-<!-- bootstrap datetimepicker will go here... or p:calendar?-->
 						<label for="editEventDate" class="col-sm-3">Esemény ideje:</label>
 						<div class="col-sm-9">
+						<p:calendar id="buttonCalendar" 
+						value="#{eventsBean.newEventDate}" 
+						showOn="button" />
 <!-- 							<p:inputText styleClass="form-control" id="editEventDate" -->
 <!-- 								value="#{eventsBean.newEventDate}" required="true" -->
 <!-- 								label="editEventDate"> -->
