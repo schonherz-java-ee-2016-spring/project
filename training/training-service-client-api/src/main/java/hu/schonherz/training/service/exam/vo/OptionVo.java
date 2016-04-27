@@ -5,7 +5,6 @@ public class OptionVo extends BaseIdentityVo {
 	private static final long serialVersionUID = 1L;
 	private Boolean correct;
 	private String text;
-	private String note;
 
 	public OptionVo() {
 		super();
@@ -25,14 +24,6 @@ public class OptionVo extends BaseIdentityVo {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
 	}
 
 }

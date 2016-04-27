@@ -25,6 +25,9 @@ public class Question extends BaseEntity {
 	@Column(name = "text")
 	private String text;
 
+	@Column(name = "note", nullable = true)
+	private String note;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
@@ -44,6 +47,14 @@ public class Question extends BaseEntity {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public QuestionType getQuestionType() {

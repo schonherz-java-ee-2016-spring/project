@@ -55,12 +55,12 @@ INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'Lorem ipsum dolor s
 INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Lorem ipsum dolor sit amet pulvinar. Aenean fusce non. Ante orci dolor aliquet eu aliquam?', 2004);
 INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2006, 'Question with long options', 1 , 2001);
 
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2007, 'Single Q with 2 options', 1 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2008, 'Single Q with 3 options', 1 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2009, 'Multi Q with 2 options', 2 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2010, 'Multi Q with 3 options', 2 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2011, 'Text based Q', 3 , 2005);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2012, 'Another text based Q', 3 , 2005);
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);

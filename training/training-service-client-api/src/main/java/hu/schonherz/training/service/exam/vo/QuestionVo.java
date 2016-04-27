@@ -3,9 +3,10 @@ package hu.schonherz.training.service.exam.vo;
 import java.util.List;
 
 public class QuestionVo extends BaseIdentityVo {
-
 	private static final long serialVersionUID = 1L;
+
 	private String text;
+	private String note;
 	private QuestionTypeVo questionType;
 	private List<OptionVo> options;
 
@@ -19,6 +20,14 @@ public class QuestionVo extends BaseIdentityVo {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public QuestionTypeVo getQuestionType() {
