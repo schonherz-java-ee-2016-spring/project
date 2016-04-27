@@ -24,6 +24,7 @@ public class TextBasedQuestionBean implements Serializable {
 
 	private String newQuestionText;
 	private String examIdAsString;
+	private String questionNoteText;
 
 	@EJB
 	private QuestionService questionService;
@@ -40,6 +41,8 @@ public class TextBasedQuestionBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		newQuestionText = "";
+		questionNoteText = "";
+		
 	}
 
 	public void createTextBasedQuestion() throws Exception {
@@ -49,6 +52,7 @@ public class TextBasedQuestionBean implements Serializable {
 		Long examId = Long.parseLong(examIdAsString);
 		newQuestion.setText(newQuestionText);
 		newQuestion.setQuestionType(questionTypeService.getById(3L));
+		newQuestion.setNote(questionNoteText);
 		newQuestion.setOptions(Arrays.asList(new OptionVo()));
 
 		try {
@@ -103,4 +107,24 @@ public class TextBasedQuestionBean implements Serializable {
 		this.examService = examService;
 	}
 
+	
+	public QuestionTypeService getQuestionTypeService() {
+		return questionTypeService;
+	}
+
+	public void setQuestionTypeService(QuestionTypeService questionTypeService) {
+		this.questionTypeService = questionTypeService;
+	}
+
+	public String getQuestionNoteText() {
+		return questionNoteText;
+	}
+
+	public void setQuestionNoteText(String questionNoteText) {
+		this.questionNoteText = questionNoteText;
+	}
+	
+	
+
+	
 }

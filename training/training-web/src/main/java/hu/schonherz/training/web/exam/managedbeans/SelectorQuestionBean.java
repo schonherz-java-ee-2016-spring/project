@@ -22,7 +22,8 @@ public abstract class SelectorQuestionBean implements Serializable {
 	protected QuestionVo question;
 	protected OptionVo option;
 	protected List<OptionVo> optionList;
-
+	protected String questionNoteText;
+	
 	@EJB
 	protected ExamService examService;
 	@EJB
@@ -125,4 +126,13 @@ public abstract class SelectorQuestionBean implements Serializable {
 	public void setOptionService(OptionService optionService) {
 		this.optionService = optionService;
 	}
+
+	public String getQuestionNoteText() {
+		return questionNoteText;
+	}
+
+	public void setQuestionNoteText(String questionNoteText) {
+		this.questionNoteText = questionNoteText;
+	}
+	
 }

@@ -23,6 +23,15 @@
 				<f:validateLength minimum="5" />
 				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>
+
+
+			<h3>Question note</h3>
+			<p:inputTextarea value="#{textBasedQuestionBean.questionNoteText}"
+				rows="4" cols="100">
+				<p:ajax event="keyup" />
+			</p:inputTextarea>
+
+
 			<p:message for="newQuestionTextarea" id="newQuestionTextMsg" />
 
 			<p />

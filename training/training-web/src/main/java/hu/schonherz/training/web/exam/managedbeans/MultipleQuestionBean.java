@@ -32,8 +32,11 @@ public class MultipleQuestionBean extends SelectorQuestionBean {
 	protected void updatePageContent() {
 		optionList.clear();
 		questionText = "";
+		questionNoteText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
+
 	}
 
 	@Override
@@ -47,7 +50,9 @@ public class MultipleQuestionBean extends SelectorQuestionBean {
 		question = new QuestionVo();
 		question.setOptions(optionList);
 		question.setQuestionType(questionTypeService.getById(2L));
+		question.setNote(questionNoteText);
 		question.setText(questionText);
+
 	}
 
 	@Override

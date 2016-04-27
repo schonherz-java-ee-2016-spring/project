@@ -19,7 +19,6 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 @SessionScoped
 public class SingleQuestionBean extends SelectorQuestionBean {
 	private static final long serialVersionUID = 1L;
-
 	private OptionVo correctOption;
 
 	@PostConstruct
@@ -31,8 +30,10 @@ public class SingleQuestionBean extends SelectorQuestionBean {
 	protected void updatePageContent() {
 		optionList.clear();
 		questionText = "";
+		questionNoteText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
 	}
 
 	@Override
@@ -46,6 +47,7 @@ public class SingleQuestionBean extends SelectorQuestionBean {
 		question = new QuestionVo();
 		question.setOptions(optionList);
 		question.setQuestionType(questionTypeService.getById(1L));
+		question.setNote(questionNoteText);
 		question.setText(questionText);
 	}
 
@@ -108,4 +110,13 @@ public class SingleQuestionBean extends SelectorQuestionBean {
 		this.correctOption = correctOption;
 	}
 
+	public String getQuestionNoteText() {
+		return questionNoteText;
+	}
+
+	public void setQuestionNoteText(String questionNoteText) {
+		this.questionNoteText = questionNoteText;
+	}
+
+	
 }
