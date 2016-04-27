@@ -57,33 +57,31 @@ public class TrainingBean implements Serializable {
 		List<TreeNode> nodes = root1.getChildren();
 		List<ThemeVo> vos = new ArrayList<>();
 		for (TreeNode treeNode : nodes) {
-			ThemeVo tvo = themeService.getThemeByName(treeNode.getRowKey());
-			vos.add(tvo);
+			vos.add(themeService.getThemeByName(treeNode.getData().toString()));
 		}
 		selected.setThemes(vos);
-		trainingService.saveTraining(selected);
+		 trainingService.saveTraining(selected);
 	}
 
 	public void treeAction(){
 		root1 = new DefaultTreeNode("Root", null);
-
-		List<ThemeVo> tvos = trainingService.getTrainingById(selected.getId()).getThemes();
-		for (ThemeVo themeVo : tvos) {
-			TreeNode t = new DefaultTreeNode(themeVo.getName(), root1);
-			for (int j = 1; j < 4; ++j) {
-				new DefaultTreeNode("Tétel " + j, t);
-			}
-		}
-
 		root2 = new DefaultTreeNode("Root2", null);
-		tvos = themeService.findAllTheme();
+		List<ThemeVo> tvos = themeService.findAllTheme();
+		List<ThemeVo> selectedThemes = trainingService.getTrainingById(selected.getId()).getThemes();
+
 		for (ThemeVo themeVo : tvos) {
-			TreeNode t = new DefaultTreeNode(themeVo.getName(), root2);
-			for (int j = 1; j < 4; ++j) {
-				new DefaultTreeNode("Tétel " + j, t);
+			int o = 0;
+			for (ThemeVo themeVo2 : selectedThemes) {
+				if (themeVo.getId().equals(themeVo2.getId())) {
+					new DefaultTreeNode(themeVo.getName(), root1);
+					o = 1;
+					break;
+				}
+			}
+			if (o == 0) {
+				new DefaultTreeNode(themeVo.getName(), root2);
 			}
 		}
-
 	}
 
 	public void onDragDrop(TreeDragDropEvent event) {

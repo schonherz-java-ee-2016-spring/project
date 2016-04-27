@@ -1,0 +1,303 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	
+	<ui:define name="content">
+	<h:form id="eventsform">
+	<p:messages id="msgs" showDetail="true" severity="error,fatal,warn" />
+	<p:dataTable id="eventstable"
+				 value="#{eventsBean.allEvent}"
+				 var="event"
+				 selectionMode="single"
+				 selection="#{eventsBean.selectedEvent}"
+				 rowKey="#{event.id}"
+				 paginator="true"
+				 rows="12"
+				 rowsPerPageTemplate="4,8,12"
+				 reflow="true"
+				 >
+
+				<p:column headerText="Esemény neve">
+					<h:outputText value="#{event.name}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Esemény típusa">
+					<h:outputText value="#{event.type}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Esemény Leírása">
+					<h:outputText value="#{event.description}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Esemény Helye">
+					<h:outputText value="#{event.place}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Esemény Ideje">
+					<h:outputText value="#{event.date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+<!-- Eseményhez rendelt felhasználók -->
+				<p:column headerText="Érintett felhasználók">
+					<ui:repeat value="#{event.users}" var="user">
+    						#{user.fullName} <br/>
+					</ui:repeat>
+				</p:column>
+
+<!-- Eseményhez rendelt felhasználó csoportok -->
+				<p:column headerText="Érintett felhasználók">
+					<ui:repeat value="#{event.groups}" var="group">
+    						#{group.groupName} <br/>
+					</ui:repeat>
+				</p:column>
+<!-- Módosítás és létrehozás adatok -->
+				<p:column headerText="#{out.moddate}">
+					<h:outputText value="#{event.modDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.moduser}">
+					<h:outputText value="#{event.modUser}">
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recdate}">
+					<h:outputText value="#{event.recDate}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{out.recuser}">
+					<h:outputText value="#{event.recUser}">
+					</h:outputText>
+				</p:column>				
+				
+				<f:facet name="footer">
+				<!-- Create -->
+					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
+									value="Új esemény"
+									onclick="PF('createDialog').show();" />
+				<!-- Edit -->
+					<p:commandButton id="editButton" icon="ui-icon-pencil"
+									process="eventstable" 
+									disabled="#{eventsBean.disabled}"
+									value="Esemény módosítása" 
+									onclick="PF('editDialog').show();" />
+				<!-- Delete -->
+					<p:commandButton id="deleteButton" icon="ui-icon-trash"
+									process="eventstable"
+									update="growl,:eventsform:eventstable"
+									disabled="#{eventsBean.disabled}"
+									value="Esemény törlése"
+									action="#{eventsBean.delete()}" >
+						
+						<p:confirm icon="ui-icon-alert"
+								  header="#{out.deletergconfirmh}" 
+								  message="#{out.deletergconfirm}" /> 
+					</p:commandButton>
+					
+<!-- Az eseményhez rendelt felhasználók módosítása -->
+
+					<p:commandButton id="manageUsers" icon="ui-icon-pencil"
+									 process="eventstable"
+									 update=":eventsform:msgs,growl,:eventsform:eventstable"
+									 disabled="#{eventsBean.disabled}"
+									 value="Felhasználók módosítása"
+									 onclick="PF('manageUsersDialog').show();" >
+					</p:commandButton>
+
+<!-- Az eseményhez rendelt felhasználói csoportok módosítása-->
+
+					<p:commandButton id="manageUserGroups" icon="ui-icon-pencil"
+									 process="eventstable"
+									 update=":eventsform:msgs,growl,:eventsform:eventstable"
+									 disabled="#{eventsBean.disabled}"
+									 value="Felhasználó csoportok módosítása"
+									 onclick="PF('manageUserGroupsDialog').show();" >
+					</p:commandButton>
+					
+				</f:facet>
+				<p:ajax event="rowSelect" 
+				listener="#{roleGroupsBean.onRowSelect}" 
+				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList" />
+				
+			</p:dataTable>
+			</h:form>
+			
+			<p:confirmDialog global="true" responsive="true" showEffect="clip">
+				<p:commandButton value="#{out.yes}" type="button" update="growl,:roleform:rolegrouptable" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="#{out.no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
+<!-- create dialog -->
+			<p:dialog header="Új esemény létrehozása" widgetVar="createDialog" modal="true" height="100"
+						resizable="false" draggable="false" responsive="true" >
+    			<h:form id="newEventForm" styleClass="form-horizontal" >
+    				<div class="form-group">
+<!-- Esemény neve -->
+						<label for="eventName" class="col-sm-3">Esemény neve:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="eventName"
+								value="#{eventsBean.newEventName}" required="true"
+								label="eventName">
+							</p:inputText>
+						</div>
+<!-- Esemény típusa -->
+						<label for="eventType" class="col-sm-3">Esemény típusa:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="eventType"
+								value="#{eventsBean.newEventType}" required="true"
+								label="eventType">
+							</p:inputText>
+						</div>
+<!-- Esemény leírása -->
+						<label for="eventDescription" class="col-sm-3">Esemény leírása:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="eventDescription"
+								value="#{eventsBean.newEventDescription}" required="true"
+								label="eventDescription">
+							</p:inputText>
+						</div>
+<!-- Esemény helye -->
+						<label for="eventPlace" class="col-sm-3">Esemény helye:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="eventPlace"
+								value="#{eventsBean.newEventPlace}" required="true"
+								label="eventPlace">
+							</p:inputText>
+						</div>
+<!-- Esemény ideje -->
+<!-- bootstrap datetimepicker will go here... or p:calendar?-->
+						<label for="eventDate" class="col-sm-3">Esemény ideje:</label>
+						<div class="col-sm-9">
+<!-- 							<p:inputText styleClass="form-control" id=eventDate -->
+<!-- 								value="#{eventsBean.newEventDate}" required="true" -->
+<!-- 								label="eventDate"> -->
+<!-- 							</p:inputText> -->
+						</div>
+					</div>
+					<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
+					action="#{eventsBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
+    			</h:form>
+    			<script type="text/javascript">
+    				function closeCreateDialog() {
+            			PF('createDialog').hide();
+    				}
+				</script>
+			</p:dialog>  
+			
+<!-- edit dialog -->
+			<p:dialog header="Esemény módosítása" widgetVar="editDialog" modal="true" height="100"
+						resizable="false" draggable="false" responsive="true" >
+    			<h:form id="editEventForm" styleClass="form-horizontal" >
+    				<div class="form-group">
+<!-- Esemény neve -->
+						<label for="editEventName" class="col-sm-3">Esemény neve:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="editEventName"
+								value="#{eventsBean.newEventName}" required="true"
+								label="editEventName">
+							</p:inputText>
+						</div>
+<!-- Esemény típusa -->
+						<label for="editEventType" class="col-sm-3">Esemény típusa:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="editEventType"
+								value="#{eventsBean.newEventType}" required="true"
+								label="editEventType">
+							</p:inputText>
+						</div>
+<!-- Esemény leírása -->
+						<label for="editEventDescription" class="col-sm-3">Esemény leírása:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="editEventDescription"
+								value="#{eventsBean.newEventDescription}" required="true"
+								label="editEventDescription">
+							</p:inputText>
+						</div>
+<!-- Esemény helye -->
+						<label for="editEventPlace" class="col-sm-3">Esemény helye:</label>
+						<div class="col-sm-9">
+							<p:inputText styleClass="form-control" id="editEventPlace"
+								value="#{eventsBean.newEventPlace}" required="true"
+								label="editEventPlace">
+							</p:inputText>
+						</div>
+<!-- Esemény ideje -->
+<!-- bootstrap datetimepicker will go here... or p:calendar?-->
+						<label for="editEventDate" class="col-sm-3">Esemény ideje:</label>
+						<div class="col-sm-9">
+<!-- 							<p:inputText styleClass="form-control" id="editEventDate" -->
+<!-- 								value="#{eventsBean.newEventDate}" required="true" -->
+<!-- 								label="editEventDate"> -->
+<!-- 							</p:inputText> -->
+						</div>
+					</div>
+					<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
+					action="#{editBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+    			</h:form>
+    			<script type="text/javascript">
+    				function closeEditDialog() {
+            			PF('editDialog').hide();
+    				}
+				</script>
+			</p:dialog>   
+			
+<!-- Manage Users dialog -->
+			<p:dialog header="Érintett felhasználók módosítása" widgetVar="manageUsersDialog" modal="true" 
+						resizable="false" draggable="false" responsive="true" >
+    				<h:form id="pickUserForm">
+	    				<p:pickList id="pickUserList" 
+		    				value="#{eventsBean.userPickList}" 
+		    				var="user"
+		    				itemValue="#{user}"
+		    				itemLabel="#{user.fullName}"
+		    				converter="UserConverter"
+		    				responsive="true"
+		    				>
+			
+	    				
+	    				</p:pickList>
+    				
+	    				<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
+						action="#{eventsBean.saveManagedUsers}" icon="ui-icon-check" oncomplete="closeManageUsersDialog()"/>
+    				</h:form>
+    				
+    				<script type="text/javascript">
+    				function closeManageUsersDialog() {
+            			PF('manageUsersDialog').hide();
+    				}
+				</script>
+			</p:dialog>  
+			
+<!-- Manage User Groups dialog -->
+
+			<p:dialog header="Érintett felhasználó csoportok módosítása" widgetVar="manageUserGroupsDialog" modal="true" 
+						resizable="false" draggable="false" responsive="true" >
+    				<h:form id="pickUserGroupForm">
+	    				<p:pickList id="pickUserGroupList" 
+		    				value="#{eventsBean.userGroupPickList}" 
+		    				var="userGroup"
+		    				itemValue="#{userGroup}"
+		    				itemLabel="#{userGroup.name}"
+		    				converter="RoleGroupConverter"
+		    				responsive="true"
+		    				>
+			
+	    				
+	    				</p:pickList>
+    				
+	    				<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
+						action="#{eventsBean.saveManagedUserGroups}" icon="ui-icon-check" oncomplete="closeManageUserGroupsDialog()"/>
+    				</h:form>
+    				
+    				<script type="text/javascript">
+    				function closeManageUserGroupsDialog() {
+            			PF('manageUserGroupsDialog').hide();
+    				}
+				</script>
+			</p:dialog>
+	
+	</ui:define>
+	
+</ui:composition>

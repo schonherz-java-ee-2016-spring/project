@@ -94,5 +94,10 @@
 		<local>hu.schonherz.training.service.exam.QuestionService</local>
 	</ejb-local-ref>
 	
+	<ejb-local-ref>
+		<ejb-ref-name>ejb.EventService</ejb-ref-name>
+		<local>hu.schonherz.training.service.admin.EventService</local>
+	</ejb-local-ref>
+	
 	
 </web-app>
