@@ -19,8 +19,22 @@
 					<p:accordionPanel id="userAccordion" var="userResult"
 						value="#{course.userResults}" activeIndex="true">
 						<p:tab title="#{userResults.user.fullName}">
-						
-						
+
+							<table id="resultTable" class="table-header-rotated">
+								<thead>
+									<tr>
+										<th></th>
+										<ui:repeat var="lesson" value="#{course.lessons}">
+											<th class="rotate"><div>
+													<span>#{lesson.lessonName}</span>
+												</div></th>
+										</ui:repeat>
+
+
+									</tr>
+								</thead>
+							</table>
+
 						</p:tab>
 					</p:accordionPanel>
 				</p:tab>
