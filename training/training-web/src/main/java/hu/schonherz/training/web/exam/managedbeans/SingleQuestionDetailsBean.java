@@ -61,6 +61,8 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
+			optionText = "";
+			RequestContext.getCurrentInstance().update("optionPanelGrid");
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		}
@@ -90,7 +92,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "One answer!!!!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Mark the correct option");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
@@ -133,7 +135,10 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setText(questionText);
+			if (questionText.length() < 1)
+				questionVo.setText("You can't leave the question's text unfilled");
+			else
+				questionVo.setText(questionText);
 			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -155,7 +160,12 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setNote(questionNoteText);
+
+			if (questionNoteText.length() < 1)
+				questionVo.setNote("You can't leave the question's note unfilled");
+			else
+				questionVo.setNote(questionNoteText);
+
 			questionService.updateNote(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();

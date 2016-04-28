@@ -32,7 +32,7 @@
 				<f:facet name="header">
 				Options
 			</f:facet>
-				<p:column selectionMode="single" />
+				<p:column headerText="Is Correct?" selectionMode="single" />
 				<p:column headerText="Option Text">
 					<h:outputText value="#{option.text}" />
 				</p:column>
@@ -65,20 +65,23 @@
 
 			<p:dialog header="New Option" widgetVar="dlg" resizable="false"
 				modal="true">
-				<h:panelGrid columns="2" cellpadding="5">
+				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
 					<h:outputLabel for="newOptionText" value="Option:" />
-					<p:inputText id="newOptionText"
+					<p:inputTextarea cols="100" rows="3" id="newOptionText"
 						value="#{singleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
-					</p:inputText>
+					</p:inputTextarea>
 					<f:facet name="footer">
 						<p:commandButton value="Add" update="message"
-							actionListener="#{singleQuestionDetailsBean.addOption}" />
+							actionListener="#{singleQuestionDetailsBean.addOption}">
+							<p:ajax update="message"
+								listener="#{multipleQuestionDetailsBean.addOption}"></p:ajax>
+						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
-		
+
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>
