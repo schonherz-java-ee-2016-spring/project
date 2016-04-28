@@ -16,7 +16,8 @@
 		<div class="container">
 			<ul class="timeline">
 				<ui:repeat var="event" value="#{timelineBean.events}">
-					<li><h:panelGroup layout="block" styleClass="timeline-badge"
+					<li id="timeline_#{event.id}"><h:panelGroup layout="block"
+							styleClass="timeline-badge"
 							rendered="#{event.type == 'Homework'}">
 							<i class="glyphicon glyphicon-home"></i>
 						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
@@ -34,7 +35,11 @@
 								<p>
 									<small class="text-muted"><i
 										class="glyphicon glyphicon-time"></i> <time>
-											<h:outputText value="#{event.date}" />
+											<h:outputText value="#{event.date}">
+
+												<f:convertDateTime type="date" pattern="yyyy.MM.dd. HH:mm"
+													timeZone="CET" />
+											</h:outputText>
 										</time> @ <h:outputText value="#{event.place}" /> </small>
 								</p>
 							</div>
@@ -46,11 +51,17 @@
 						</div></li>
 				</ui:repeat>
 			</ul>
+			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
 		</div>
 		<h:outputScript>
 			$('.timeline-panel').click(function() {
 			    $('.timeline-body', this).toggle();
 			});
+			$('html,body').animate({
+        			scrollTop: $("#"+$('#next').val()).offset().top},
+        		'slow');
+        		
+        	$("#"+$('#next').val()).prevAll().addClass('past');
 		</h:outputScript>
 	</ui:define>
 </ui:composition>
