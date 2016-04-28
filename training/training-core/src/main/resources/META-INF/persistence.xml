@@ -24,7 +24,6 @@
 		<class>hu.schonherz.training.core.exam.entity.Question</class>
 		<class>hu.schonherz.training.core.exam.entity.QuestionType</class>
 		<class>hu.schonherz.training.core.supervisor.entity.Feedback</class>
-		<class>hu.schonherz.training.core.supervisor.entity.Homework</class>
 		<class>hu.schonherz.training.core.supervisor.entity.HomeworkResult</class>
 		<class>hu.schonherz.training.core.exam.relationtable.ExamUserRelation</class>
 

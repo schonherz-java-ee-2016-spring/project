@@ -5,7 +5,6 @@ import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
-import hu.schonherz.training.service.supervisor.vo.HomeworkVo;
 
 /**
  * Service for managing the results of homeworks
@@ -40,16 +39,6 @@ public interface HomeworkResultService {
 	 * @return the list of homeworks
 	 */
 	public List<HomeworkResultVo> getHomeworkResultsByUser(UserVo userVo);
-
-	/**
-	 * Returns the results of a homework.
-	 * 
-	 * @param homeworkVo
-	 *            the homework
-	 * @return the list of homework results
-	 */
-
-	public List<HomeworkResultVo> getHomeworkResultsByHomework(HomeworkVo homeworkVo);
 
 	/**
 	 * Returns list of all homework results

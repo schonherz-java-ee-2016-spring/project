@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/templates/masterLayout.xhtml">
+
+	<ui:define name="head-extra">
+	</ui:define>
+
+	<ui:define name="content">
+		<h:outputStylesheet library="default" name="css/timeline.css"
+			rel="stylesheet" />
+		<h2 class="text-muted">Timeline</h2>
+
+		<div class="container">
+			<ul class="timeline">
+				<ui:repeat var="event" value="#{timelineBean.events}">
+					<li id="timeline_#{event.id}"><h:panelGroup layout="block"
+							styleClass="timeline-badge"
+							rendered="#{event.type == 'Homework'}">
+							<i class="glyphicon glyphicon-home"></i>
+						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
+							rendered="#{event.type == 'Interview'}">
+							<i class="glyphicon glyphicon-user"></i>
+						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
+							rendered="#{event.type == 'Test'}">
+							<i class="glyphicon glyphicon-tasks"></i>
+						</h:panelGroup>
+						<div class="timeline-panel">
+							<div class="timeline-heading">
+								<h4 class="timeline-title">
+									<h:outputText value="#{event.name}" />
+								</h4>
+								<p>
+									<small class="text-muted"><i
+										class="glyphicon glyphicon-time"></i> <time>
+											<h:outputText value="#{event.date}">
+
+												<f:convertDateTime type="date" pattern="yyyy.MM.dd. HH:mm"
+													timeZone="CET" />
+											</h:outputText>
+										</time> @ <h:outputText value="#{event.place}" /> </small>
+								</p>
+							</div>
+							<div class="timeline-body">
+								<p>
+									<h:outputText value="#{event.description}" />
+								</p>
+							</div>
+						</div></li>
+				</ui:repeat>
+			</ul>
+			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
+		</div>
+		<h:outputScript>
+			$('.timeline-panel').click(function() {
+			    $('.timeline-body', this).toggle();
+			});
+			$('html,body').animate({
+        			scrollTop: $("#"+$('#next').val()).offset().top},
+        		'slow');
+        		
+        	$("#"+$('#next').val()).prevAll().addClass('past');
+		</h:outputScript>
+	</ui:define>
+</ui:composition>
