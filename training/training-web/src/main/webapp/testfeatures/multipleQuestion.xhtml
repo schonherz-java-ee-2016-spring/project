@@ -8,14 +8,14 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">MultipleQuestion</ui:define>
 	<ui:define name="content">
-		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		
+		<p:growl id="message" />
+
 		<h:form id="questionTitleForm">
 			<h3>Question Title</h3>
-			<p:inputTextarea id="questionInputTextarea" rows="4" cols="100" counter="display"
-				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{multipleQuestionBean.questionText}"
-				required="true">
+			<p:inputTextarea id="questionInputTextarea" rows="4" cols="100"
+				counter="display" maxlength="200"
+				counterTemplate="{0} characters remaining." autoResize="false"
+				value="#{multipleQuestionBean.questionText}" required="true">
 				<f:validateLength minimum="5" />
 				<p:ajax update="newQuestionTextMsg" event="keyup" />
 			</p:inputTextarea>

@@ -8,9 +8,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import org.primefaces.context.RequestContext;
+
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.exam.vo.QuestionTypeVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @ManagedBean(name = "questionBean")
@@ -26,6 +29,48 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
+
+	public void addSingleQuestion() {
+		try {
+			QuestionTypeVo questionType = new QuestionTypeVo();
+			questionType.setId(1L);
+			QuestionVo question = new QuestionVo();
+			question.setText("New single answer question");
+			question.setQuestionType(questionType);
+			questionService.save(question, Long.parseLong(examIdAsString));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RequestContext.getCurrentInstance().update("questionTable");
+	}
+
+	public void addMultiQuestion() {
+		try {
+			QuestionTypeVo questionType = new QuestionTypeVo();
+			questionType.setId(2L);
+			QuestionVo question = new QuestionVo();
+			question.setText("New multiple answer question");
+			question.setQuestionType(questionType);
+			questionService.save(question, Long.parseLong(examIdAsString));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RequestContext.getCurrentInstance().update("questionTable");
+	}
+
+	public void addTextBasedQuestion() {
+		try {
+			QuestionTypeVo questionType = new QuestionTypeVo();
+			questionType.setId(3L);
+			QuestionVo question = new QuestionVo();
+			question.setText("New textbased question");
+			question.setQuestionType(questionType);
+			questionService.save(question, Long.parseLong(examIdAsString));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		RequestContext.getCurrentInstance().update("questionTable");
+	}
 
 	public void removeQuestion(ActionEvent event) {
 		String questionIdAsString = event.getComponent().getAttributes().get("questionIdAsString").toString();
