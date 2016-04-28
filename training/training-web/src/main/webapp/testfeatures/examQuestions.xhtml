@@ -81,24 +81,12 @@
 		</p:dataTable>
 
 		<h:form id="newQuestionForm">
-			<p:commandButton value="Add a new single question"
-				action="goToSingleQuestionPage">
-				<f:setPropertyActionListener
-					target="#{singleQuestionBean.examIdAsString}"
-					value="#{questionBean.examIdAsString}" />
-			</p:commandButton>
-			<p:commandButton value="Add a new multiple question"
-				action="goToMultipleQuestionPage">
-				<f:setPropertyActionListener
-					target="#{multipleQuestionBean.examIdAsString}"
-					value="#{questionBean.examIdAsString}" />
-			</p:commandButton>
-			<p:commandButton value="Add a new textbased question"
-				action="goToTextbasedQuestionPage">
-				<f:setPropertyActionListener
-					target="#{textBasedQuestionBean.examIdAsString}"
-					value="#{questionBean.examIdAsString}" />
-			</p:commandButton>
+			<p:commandButton value="Add a new single answer question"
+				action="#{questionBean.addSingleQuestion}"/>
+			<p:commandButton value="Add a new multiple answer question"
+				action="#{questionBean.addMultiQuestion}"/>
+			<p:commandButton value="Add a new textbased answer question"
+				action="#{questionBean.addTextBasedQuestion}"/>
 		</h:form>
 	</ui:define>
 </ui:composition>
