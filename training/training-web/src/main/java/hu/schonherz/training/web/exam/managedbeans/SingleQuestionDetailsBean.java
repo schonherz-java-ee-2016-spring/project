@@ -61,12 +61,13 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
-			optionText = "";
-			RequestContext.getCurrentInstance().update("optionPanelGrid");
+//			optionText = ""; need bugfix
+			RequestContext.getCurrentInstance().update("optionTableForm");
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
+		RequestContext.getCurrentInstance().update("optionPanelGrid");
 	}
 
 	@Override
@@ -92,7 +93,8 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Mark the correct option");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Mark the correct option");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {

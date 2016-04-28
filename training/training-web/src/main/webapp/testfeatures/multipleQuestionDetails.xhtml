@@ -63,8 +63,8 @@
 				<p:commandButton value="New Option" />
 			</h:outputLink>
 
-			<p:dialog closeOnEscape="true" header="New Option" widgetVar="dlg" resizable="false"
-				modal="true">
+			<p:dialog closeOnEscape="true" header="New Option" widgetVar="dlg"
+				resizable="false" modal="true">
 				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
 					<h:outputLabel for="newOptionText" value="Option:" />
 					<p:inputTextarea cols="100" rows="3" id="newOptionText"
@@ -72,10 +72,12 @@
 						<f:validateLength minimum="1" />
 					</p:inputTextarea>
 					<f:facet name="footer">
-						<p:commandButton value="Add" update="optionPanelGrid"
+						<p:commandButton value="Add" update="message"
 							actionListener="#{multipleQuestionDetailsBean.addOption}">
-							<p:ajax update="message" listener="#{multipleQuestionDetailsBean.addOption}"></p:ajax>
-							<p:hotkey  update="message" bind="return" action="#{multipleQuestionDetailsBean.addOption}"></p:hotkey>
+							<p:ajax update="message"
+								listener="#{multipleQuestionDetailsBean.addOption}"></p:ajax>
+							<p:hotkey update="message" bind="return"
+								action="#{multipleQuestionDetailsBean.addOption}"></p:hotkey>
 						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>

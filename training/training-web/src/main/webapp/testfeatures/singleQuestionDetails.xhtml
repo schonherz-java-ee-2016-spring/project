@@ -75,9 +75,9 @@
 						<p:commandButton value="Add" update="message"
 							actionListener="#{singleQuestionDetailsBean.addOption}">
 							<p:ajax update="message"
-								listener="#{multipleQuestionDetailsBean.addOption}"></p:ajax>
+								listener="#{singleQuestionDetailsBean.addOption}"></p:ajax>
 							<p:hotkey update="message" bind="return"
-								action="#{multipleQuestionDetailsBean.addOption}"></p:hotkey>
+								action="#{singleQuestionDetailsBean.addOption}"></p:hotkey>
 						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>
