@@ -17,6 +17,7 @@ import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.ExamService;
+import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
@@ -36,6 +37,8 @@ public class ExamReviewBean implements Serializable {
 	private UserService userService;
 	@EJB
 	private AnswerService answerService;
+	@EJB
+	private ExamUserRelationService examUserRelationService;
 
 	private List<ExamVo> examList;
 	private String selectedExamIdAsString;
@@ -47,6 +50,15 @@ public class ExamReviewBean implements Serializable {
 
 	private OptionVo selected;
 	private List<OptionVo> selecteds;
+	private List<OptionVo> optionList;
+
+	public List<OptionVo> getOptionList() {
+		return optionList;
+	}
+
+	public void setOptionList(List<OptionVo> optionList) {
+		this.optionList = optionList;
+	}
 
 	private int counter = 0;
 
@@ -54,36 +66,34 @@ public class ExamReviewBean implements Serializable {
 	public void initBean() {
 		try {
 			questionList = new ArrayList<>();
-			examList = getExamService().getAllSortedById();
+		
 			setUser(userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
+			examList = examUserRelationService.getAllExamByUserId(user.getId());
 			setAnswerList(new ArrayList<>());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void changeTab() {
-		if (questionList.size() > 0) {
-			selected = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o)).findFirst()
-					.get();
-			selecteds = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o))
-					.collect(Collectors.toList());
-		}
-	}
-
 	public void loadContent() throws Exception {
 		try {
 			setQuestionList(questionService.getAllById(Long.parseLong(selectedExamIdAsString)));
+			
+			
 			answerList = getAnswerService().getAllByUserId(user.getId());
 
 			answerList = answerList.stream()
 					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
 					.collect(Collectors.toList());
+			
+			for (AnswerVo answerVo : answerList) {
+				System.out.println(answerVo.getOption().getText());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestContext.getCurrentInstance().update("tabView");
+		RequestContext.getCurrentInstance().update("optionTableForm");
 	}
 
 	/**
@@ -115,6 +125,7 @@ public class ExamReviewBean implements Serializable {
 	public void setExamList(List<ExamVo> examList) {
 		this.examList = examList;
 	}
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -201,6 +212,14 @@ public class ExamReviewBean implements Serializable {
 
 	public void setUser(UserVo user) {
 		this.user = user;
+	}
+
+	public ExamUserRelationService getExamUserRelationService() {
+		return examUserRelationService;
+	}
+
+	public void setExamUserRelationService(ExamUserRelationService examUserRelationService) {
+		this.examUserRelationService = examUserRelationService;
 	}
 
 }

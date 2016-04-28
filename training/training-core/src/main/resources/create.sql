@@ -100,4 +100,10 @@ INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, f
 
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
 
+
+-- Exam - User - Relation
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(101, 2006, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
+
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
