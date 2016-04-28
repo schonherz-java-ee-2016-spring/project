@@ -29,6 +29,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		questionText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
 	}
 
 	@Override
@@ -148,7 +149,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void setQuestionNoteText(String questionNoteText) {
 		Long questionId = Long.parseLong(questionIdAsString);
@@ -160,7 +161,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public String getQuestionNoteText() {
 		Long questionId = Long.parseLong(questionIdAsString);
@@ -174,14 +175,11 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 
 	}
 
-	
-	
-
 	public void updateOptionList() {
 		Long id = Long.parseLong(questionIdAsString);
 		try {
 			optionList = questionService.getById(id).getOptions();
-			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().get();
+			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().orElse(null);
 			initLoading = false;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -212,5 +210,4 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		this.initLoading = initLoading;
 	}
 
-	
 }

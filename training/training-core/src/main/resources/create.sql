@@ -98,8 +98,10 @@ INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, f
 
 -- Answer texts
 
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
-
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI1')
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 5, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI2')
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 6, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI3')
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 7, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI4')
 
 -- Exam - User - Relation
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)

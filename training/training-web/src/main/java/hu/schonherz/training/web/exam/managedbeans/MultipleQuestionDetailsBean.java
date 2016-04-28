@@ -29,6 +29,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		questionText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
 	}
 
 	@Override
