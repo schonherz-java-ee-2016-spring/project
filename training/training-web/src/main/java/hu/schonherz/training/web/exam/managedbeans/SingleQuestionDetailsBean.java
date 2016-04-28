@@ -29,6 +29,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		questionText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
 	}
 
 	@Override
@@ -188,7 +189,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		Long id = Long.parseLong(questionIdAsString);
 		try {
 			optionList = questionService.getById(id).getOptions();
-			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().get();
+			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().orElse(null);
 			initLoading = false;
 		} catch (Exception ex) {
 			ex.printStackTrace();

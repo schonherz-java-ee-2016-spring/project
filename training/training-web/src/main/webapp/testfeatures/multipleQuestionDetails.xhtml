@@ -10,14 +10,14 @@
 	<ui:define name="content">
 		<p:growl id="message" />
 
-		<h:form id="questionTitleRename">
+		<h:form id="questionTitleForm">
 			<h3>Question's text</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{multipleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
 
-		<h:form id="questionNoteRename">
+		<h:form id="questionNoteForm">
 			<h3>Question's note</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{multipleQuestionDetailsBean.questionNoteText}" />
