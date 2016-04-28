@@ -69,14 +69,9 @@ public class UserServiceTest {
 	@Test
 	public void test1FindAllUser() {
 		List<UserVo> users = null;
-		UserVo vo = null;
 		try {
 			users = serviceLocal.findAllUser();
 			Assert.assertEquals(true, (users == null ? false : true));
-			vo = serviceLocal.findUserByName("IWantToLogin");
-			serviceLocal.deleteUserById(vo.getId());
-			users = serviceLocal.findAllUser();
-			Assert.assertEquals(false, (users.isEmpty() ? false : true));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
