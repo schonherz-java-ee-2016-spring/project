@@ -120,7 +120,6 @@
 						<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
 							selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
 							dragdropScope="demo">
-							<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="growl" />
 							<p:treeNode>
 								<h:outputText value="#{node}" />
 							</p:treeNode>
@@ -133,7 +132,6 @@
 						<p:tree id="tree2" value="#{trainingBean.root2}" var="node" selectionMode="single"
 							selection="#{trainingBean.selectedNode2}" draggable="true" droppable="true"
 							dragdropScope="demo">
-							<p:ajax event="dragdrop" listener="#{trainingBean.onDragDrop}" update="growl" />
 							<p:treeNode>
 								<h:outputText value="#{node}" />
 							</p:treeNode>
