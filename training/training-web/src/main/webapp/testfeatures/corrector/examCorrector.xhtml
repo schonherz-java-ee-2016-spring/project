@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Exam corrector</ui:define>
+	<ui:define name="content">
+		<h:form id="selectionForm">
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="examSelection" value="Exam:" />
+				<p:selectOneMenu id="examSelection"
+					value="#{examCorrectorBean.selectedExamIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examCorrectorBean.examList}" var="exam"
+						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="userSelection" value="User:" />
+				<p:selectOneMenu id="userSelection"
+					value="#{examCorrectorBean.selectedUserIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examCorrectorBean.userList}" var="user"
+						itemLabel="#{user.userName}" itemValue="#{user.id}" />
+				</p:selectOneMenu>
+				<f:facet name="footer">
+					<p:commandButton value="Load Content"
+						actionListener="#{examCorrectorBean.loadContent}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+		<p:tabView id="tabView" value="#{examCorrectorBean.questionList}"
+			var="question" activeIndex="#{examCorrectorBean.counter}">
+			<p:ajax event="tabChange" listener="#{examCorrectorBean.changeTab()}" />
+			<p:tab id="questionTabs" title="#{question.id}">
+				<p:panel header="#{question.text}">
+					<!-- Textbased -->
+					<h:form rendered="#{question.questionType.getId() eq 3}">
+						<p:inputTextarea value="" />
+					</h:form>
+				</p:panel>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+</ui:composition>

@@ -4,18 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.context.RequestContext;
+import javax.faces.event.ActionEvent;
 
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.QuestionService;
-import hu.schonherz.training.service.exam.QuestionTypeService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
-import hu.schonherz.training.service.exam.vo.QuestionTypeVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 @ManagedBean(name = "questionBean")
@@ -23,57 +18,24 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 public class QuestionBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EJB
-	private QuestionService questionService;
+	private String examIdAsString;
+	private List<QuestionVo> questionList;
+	private String examTitleInputText;
+
 	@EJB
 	private ExamService examService;
 	@EJB
-	private QuestionTypeService questionTypeService;
+	private QuestionService questionService;
 
-	private String newQuestionText;
-	private String questionTypeIdAsString;
-	private String examIdAsString;
-
-	public List<QuestionVo> getQuestionList() {
-		Long examId = Long.parseLong(examIdAsString);
-		List<QuestionVo> questionVoList = null;
-		try {
-			questionVoList = examService.findById(examId).getQuestionList();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return questionVoList;
-	}
-
-	public List<QuestionTypeVo> getQuestionTypeList() {
-		List<QuestionTypeVo> questionTypeVoList = null;
-		try {
-			questionTypeVoList = questionTypeService.findAll();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return questionTypeVoList;
-	}
-
-	
-
-	public void registerNewQuestion() throws Exception {
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		QuestionVo questionVo = new QuestionVo();
-		setUpQuestionVo(questionVo);
+	public void removeQuestion(ActionEvent event) {
+		String questionIdAsString = event.getComponent().getAttributes().get("questionIdAsString").toString();
+		Long questionId = Long.parseLong(questionIdAsString);
 
 		try {
-			questionService.create(questionVo);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newQuestionText + "\" question created!");
-			currentInstance.addMessage(null, facesMessage);
+			questionService.removeById(questionId);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create question: \"" + newQuestionText + "\"");
-			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-		RequestContext.getCurrentInstance().update("questionTable");
 	}
 
 	public QuestionService getQuestionService() {
@@ -82,14 +44,6 @@ public class QuestionBean implements Serializable {
 
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
-	}
-
-	public String getNewQuestionText() {
-		return newQuestionText;
-	}
-
-	public void setNewQuestionText(String newQuestionText) {
-		this.newQuestionText = newQuestionText;
 	}
 
 	public String getExamIdAsString() {
@@ -108,33 +62,40 @@ public class QuestionBean implements Serializable {
 		this.examService = examService;
 	}
 
-	public QuestionTypeService getQuestionTypeService() {
-		return questionTypeService;
+	public List<QuestionVo> getQuestionList() {
+		try {
+			Long examId = Long.parseLong(examIdAsString);
+			questionList = questionService.getAllById(examId);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return questionList;
 	}
 
-	public void setQuestionTypeService(QuestionTypeService questionTypeService) {
-		this.questionTypeService = questionTypeService;
+	public void setQuestionList(List<QuestionVo> questionList) {
+		this.questionList = questionList;
 	}
 
-	public String getQuestionTypeIdAsString() {
-		return questionTypeIdAsString;
+	public String getExamTitleInputText() {
+		ExamVo examVo;
+		try {
+			examVo = examService.getById(Long.parseLong(examIdAsString));
+			examTitleInputText = examVo.getTitle();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return examTitleInputText;
 	}
 
-	public void setQuestionTypeIdAsString(String questionTypeAsString) {
-		this.questionTypeIdAsString = questionTypeAsString;
+	public void setExamTitleInputText(String examTitleInputText) {
+		this.examTitleInputText = examTitleInputText;
+		ExamVo examVo;
+		try {
+			examVo = examService.getById(Long.parseLong(examIdAsString));
+			examVo.setTitle(examTitleInputText);
+			examService.updateTitle(examVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	private void setUpQuestionVo(QuestionVo questionVo) throws Exception {
-		Long questionTyId = Long.parseLong(questionTypeIdAsString);
-		Long examId = Long.parseLong(examIdAsString);
-
-		QuestionTypeVo questionTypeVo = questionTypeService.findById(questionTyId);
-		ExamVo examVo = examService.findById(examId);
-
-		questionVo.setExam(examVo);
-		questionVo.setOptionList(null);
-		questionVo.setQuestionType(questionTypeVo);
-		questionVo.setText(newQuestionText);
-	}
-
 }

@@ -44,22 +44,60 @@ INSERT INTO sender_to_feedback(sender_id, feedback_id) VALUES (2004, 5001);
 INSERT INTO event_to_feedback(event_id, feedback_id) VALUES (4001, 5001);
 
 -- Exam-module
+INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
+INSERT INTO public.exam(id, title) VALUES(2002, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2003, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2004, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2005, 'Kacsa');
+INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
 
-INSERT INTO public.exam(id, title) VALUES(2001, 'JPA');
-INSERT INTO public.exam(id, title) VALUES(2002, 'EJB');
-INSERT INTO public.exam(id, title) VALUES(2003, 'JSF');
-INSERT INTO public.exam(id, title) VALUES(2004, 'Macska');
-
-
-INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'First question for JPA', 2001);
-INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'First question for EJB', 2002);
-INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'First question for JSF', 2003);
-INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'First question for Macska', 2004);
-INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Second question for Macska', 2004);
 
 INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
 INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
 INSERT INTO public.question_type(id, name) VALUES(3, 'Text');
 
+INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'Lorem ipsum dolor. Sit amet dolor vestibulum condimentum lacinia quis?', 2001);
+INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'Lorem ipsum dolor sit amet ad. Nulla felis id taciti?', 2002);
+INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'Lorem ipsum dolor sit amet metus. Eu ut adipiscing elit tristique facilisis. Dolor malesuada nullam?', 2003);
+INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'Lorem ipsum dolor sit amet euismod. Risus amet dui. Amet donec suspendisse proin mollis dolor?', 2004);
+INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Lorem ipsum dolor sit amet pulvinar. Aenean fusce non. Ante orci dolor aliquet eu aliquam?', 2004);
+INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2006, 'Question with long options', 1 , 2001);
+
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, true, 'Option3', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, 'Option4', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'Option7', 2009);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, false, 'Option10', 2010);
+
+INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
+INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
+
+
+
+-- Answers
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, false);
+
+-- Answer texts
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;

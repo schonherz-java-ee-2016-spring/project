@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
 
 public class UserResults implements Serializable {
@@ -17,7 +18,7 @@ public class UserResults implements Serializable {
 
 	private List<HomeworkResultVo> homeworkResults;
 
-	private List<ExamResultsVo> examResults;
+	private List<ExamResultVo> examResults;
 
 	public UserResults() {
 		// TODO Auto-generated constructor stub
@@ -39,11 +40,11 @@ public class UserResults implements Serializable {
 		this.homeworkResults = homeworkResults;
 	}
 
-	public List<ExamResultsVo> getExamResults() {
+	public List<ExamResultVo> getExamResults() {
 		return examResults;
 	}
 
-	public void setExamResults(List<ExamResultsVo> examResults) {
+	public void setExamResults(List<ExamResultVo> examResults) {
 		this.examResults = examResults;
 	}
 
