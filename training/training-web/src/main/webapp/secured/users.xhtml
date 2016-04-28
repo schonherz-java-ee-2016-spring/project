@@ -59,11 +59,6 @@
 				<p:ajax process="dataTable" event="rowSelect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}" />
-<!-- 					Db click opens edit dialog
-
-<!-- 				<p:ajax process="dataTable" event="dbclick" -->
-<!-- 					update="pickform,manageRoles,deleteButton,modifyButton,form2" -->
-<!-- 					listener="#{usersBean.onSelect}" /> -->
 				<f:facet name="footer">
 					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
