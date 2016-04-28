@@ -18,6 +18,12 @@
   margin-bottom: 20px;
   position: relative;
 }
+.past {
+  background-color: #dddddd;
+}
+.timeline > li:HOVER{
+  background-color: #8888ee;
+}
 .timeline > li:before,
 .timeline > li:after {
   content: " ";
