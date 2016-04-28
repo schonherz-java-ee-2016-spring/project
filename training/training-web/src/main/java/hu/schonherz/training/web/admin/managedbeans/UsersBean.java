@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -16,9 +17,12 @@ import javax.faces.context.FacesContext;
 import javax.mail.Session;
 
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DualListModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "usersBean")
@@ -30,6 +34,9 @@ public class UsersBean implements Serializable {
 	@EJB
 	private UserService userService;
 	
+	@EJB
+	private RoleGroupService roleGroupService;
+
 	private String username;
 	private String fullname;
 	private String email;
@@ -47,8 +54,9 @@ public class UsersBean implements Serializable {
 	
 	
 	private UserVo selectedUser;
-
 	private List<UserVo> users;
+	private List<RoleGroupVo> allRoleGroups;
+	private DualListModel<RoleGroupVo> selectedRoleGroups;
 
 	@PostConstruct
 	public void init() {
@@ -56,12 +64,32 @@ public class UsersBean implements Serializable {
 		try {
 			users = userService.findAllUser();
 			selectedUser = new UserVo();
+			allRoleGroups = roleGroupService.getAllRoleGroup();
+			selectedRoleGroups = new DualListModel<RoleGroupVo>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void onSelect(SelectEvent event) throws Exception {
+
+		List<RoleGroupVo> userRoleGroups = (List<RoleGroupVo>) selectedUser.getRoleGroups();
+		List<RoleGroupVo> aTobbiJog = new ArrayList<>();
+
+		for (RoleGroupVo roleGroupVo : allRoleGroups) {
+			boolean volt = false;
+			for (RoleGroupVo roleGroupVo2 : userRoleGroups) {
+				if (roleGroupVo.getId().equals(roleGroupVo2.getId())) {
+					volt = true;
+				}
+			}
+			if (!volt) {
+				aTobbiJog.add(roleGroupVo);
+			}
+		}
+
+		selectedRoleGroups = new DualListModel<RoleGroupVo>(aTobbiJog, userRoleGroups);
+
 		setSelected(false);
 	}
 
@@ -80,27 +108,28 @@ public class UsersBean implements Serializable {
 
 		// Username confirmation
 		if (username == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Username must filled!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (user != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Username already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("usernameExists"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 
 		// Email confirm
 		if (email == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (useremail != null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"E-mail already exists!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("emailExists"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
@@ -119,14 +148,16 @@ public class UsersBean implements Serializable {
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", uuid);
 			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Error in creating new user!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("failCreate"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
 
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("succesCreate"));
 		currentInstance.addMessage(null, facesMessage);
+		userVo = new UserVo();
 	}
 
 	public void deleteUser() {
@@ -134,13 +165,17 @@ public class UsersBean implements Serializable {
 			userService.deleteUserById(selectedUser.getId());
 			users.remove(selectedUser);
 		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("failDelete"));
+			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 			e.printStackTrace();
+			return;
 		}
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"),
 				getBundle().getString("succesDelete"));
 		FacesContext.getCurrentInstance().addMessage(null, message);
-		selectedUser = null;
-		// selected = true;
+		selectedUser = new UserVo();
+		selected = true;
 	}
 
 	public void modifyUser() {
@@ -175,12 +210,39 @@ public class UsersBean implements Serializable {
 				bundle.getString("succesUpdate"));
 		currentInstance.addMessage(null, facesMessage);
 		selectedUser = null;
-		// selected = true;
+		selected = true;
+		userVo = new UserVo();
+		try {
+			users = userService.findAllUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	public void saveManaged() {
 
+		try {
+			users.get(users.indexOf(selectedUser)).setRoleGroups(selectedRoleGroups.getTarget());
+			userService.updateUser(users.get(users.indexOf(selectedUser)));
+			users.set(users.indexOf(selectedUser), userService.findUserByName(selectedUser.getUserName()));
 
-	
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("userRoleGroupsSaved"));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		try {
+			users = userService.findAllUser();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setSelected(true);
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -237,13 +299,20 @@ public class UsersBean implements Serializable {
 		this.selected = selected;
 	}
 
-	public MailSenderBean getMailSenderBean() {
-		return mailSenderBean;
+	public List<RoleGroupVo> getAllRoleGroups() {
+		return allRoleGroups;
 	}
 
-	public void setMailSenderBean(MailSenderBean mailSenderBean) {
-		this.mailSenderBean = mailSenderBean;
+	public void setAllRoleGroups(List<RoleGroupVo> allRoleGroups) {
+		this.allRoleGroups = allRoleGroups;
 	}
 
+	public DualListModel<RoleGroupVo> getSelectedRoleGroups() {
+		return selectedRoleGroups;
+	}
+
+	public void setSelectedRoleGroups(DualListModel<RoleGroupVo> selectedRoleGroups) {
+		this.selectedRoleGroups = selectedRoleGroups;
+	}
 
 }

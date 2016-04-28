@@ -19,10 +19,9 @@ public class Event extends BaseEntity {
 	
 	private String name;
 	private String type;
-	@Lob
 	private String description;
 	private String place;
-	private Date time;
+	private Date date;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "group_to_event", joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
@@ -57,14 +56,32 @@ public class Event extends BaseEntity {
 		this.place = place;
 	}
 	public Date getTime() {
-		return time;
+		return date;
 	}
 	public void setTime(Date time) {
-		this.time = time;
+		this.date = time;
 	}
 	@Override
 	public String toString() {
 		return "Event [name=" + name + ", type=" + type + ", description=" + description + ", place=" + place
-				+ ", time=" + time + "]";
+				+ ", time=" + date + "]";
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public Collection<UserGroup> getGroups() {
+		return groups;
+	}
+	public void setGroups(Collection<UserGroup> groups) {
+		this.groups = groups;
+	}
+	public Collection<User> getUsers() {
+		return users;
+	}
+	public void setUsers(Collection<User> users) {
+		this.users = users;
 	}
 }
