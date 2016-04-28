@@ -2,7 +2,7 @@ package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
 
-public class LessonsVo implements Serializable {
+public class LessonVo implements Serializable {
 
 	private Long id;
 	private Long userGroupId;
@@ -13,7 +13,7 @@ public class LessonsVo implements Serializable {
 	 */
 	private static final long serialVersionUID = -5305570925310516393L;
 
-	public LessonsVo() {
+	public LessonVo() {
 		// TODO Auto-generated constructor stub
 	}
 

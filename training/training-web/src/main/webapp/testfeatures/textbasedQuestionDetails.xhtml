@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Textbased Question Details</ui:define>
+
+
+
+	<ui:define name="content">
+
+		<f:event type="preRenderView" listener="#{textBasedQuestionBean.init}" />
+
+		
+
+		<h:form id="questionTitleRename">
+			<p:inplace editor="true">
+				<p:inputText
+					value="#{textbasedQuestionDetailsBean.questionTitleInputText}" />
+			</p:inplace>
+		</h:form>
+		<p />
+		<h:form>
+			<p:commandButton value="Back" action="goToExamQuestionsPage" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

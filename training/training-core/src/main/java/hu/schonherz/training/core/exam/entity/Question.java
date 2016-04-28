@@ -1,6 +1,6 @@
 package hu.schonherz.training.core.exam.entity;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -21,30 +22,23 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "exam_id")
-	private Exam exam;
-
 	@Column(name = "text")
 	private String text;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@Column(name = "note", nullable = true)
+	private String note;
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "type_id")
 	private QuestionType questionType;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question" , cascade = CascadeType.ALL)
-	private List<Option> optionList;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "question_id")
+	@OrderBy("id asc")
+	private Collection<Option> options;
 
 	public Question() {
 		super();
-	}
-
-	public Exam getExam() {
-		return exam;
-	}
-
-	public void setExam(Exam exam) {
-		this.exam = exam;
 	}
 
 	public String getText() {
@@ -55,6 +49,14 @@ public class Question extends BaseEntity {
 		this.text = text;
 	}
 
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	public QuestionType getQuestionType() {
 		return questionType;
 	}
@@ -63,12 +65,12 @@ public class Question extends BaseEntity {
 		this.questionType = questionType;
 	}
 
-	public List<Option> getOptionList() {
-		return optionList;
+	public Collection<Option> getOptions() {
+		return options;
 	}
 
-	public void setOptionList(List<Option> optionList) {
-		this.optionList = optionList;
+	public void setOptions(Collection<Option> options) {
+		this.options = options;
 	}
 
 }
