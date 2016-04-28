@@ -77,6 +77,7 @@ public class RoleGroupServiceTest {
 	 * getAllRoleGroup kész
 	 * getRoleGroupByName kész 
 	 * updateRoleGroup kész
+	 * getRoleGroupById kész
 	 * */
 
 	@Test
@@ -148,6 +149,18 @@ public class RoleGroupServiceTest {
 			RoleGroupVo bck = serviceLocal.getRoleGroupByName("Another Rolegroup Name");
 			
 			Assert.assertEquals("Another Rolegroup Name", bck.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void test7getRoleGroupById(){
+		RoleGroupVo vo = null;
+		try {
+			vo = serviceLocal.getRoleGroupByName("Teszt Jogcsoport");
+			serviceLocal.getRoleGroupById(vo.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
