@@ -150,14 +150,12 @@
 								<li><a
 									href="#{request.contextPath}/testfeatures/corrector/examCorrector.xhtml">Evaluate
 										tests</a></li>
-
-								<sec:authorize access="hasRole('USERS')">
-									<li><a
-										href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
-											style="font-size: 16px;"
-											class="pull-right showopacity fa fa-comments-o"></span></a></li>
-								</sec:authorize>
 							</ul></li>
+						<sec:authorize access="hasRole('USERS')">
+							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
+									style="font-size: 16px;"
+									class="pull-right showopacity fa fa-comments-o"></span></a></li>
+						</sec:authorize>
 					</ul>
 				</div>
 			</div>
