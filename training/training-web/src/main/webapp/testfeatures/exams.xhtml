@@ -26,7 +26,7 @@
 				<h:outputText value="#{exam.title}" />
 			</p:column>
 			<p:column headerText="Number of questions">
-				<h:outputText value="Num" />
+				<h:outputText value="#{exam.getQuestions().size()}" />
 			</p:column>
 
 			<p:column headerText="Details">
