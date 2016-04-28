@@ -7,4 +7,6 @@ public interface AnswerTextService extends BaseService<AnswerTextVo> {
 	public void save(AnswerTextVo vo) throws Exception;
 
 	public AnswerTextVo getByAnswerId(Long id) throws Exception;
+	
+	
 }

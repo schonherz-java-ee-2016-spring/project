@@ -16,9 +16,11 @@ import org.primefaces.context.RequestContext;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
+import hu.schonherz.training.service.exam.AnswerTextService;
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.QuestionService;
+import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
@@ -39,34 +41,22 @@ public class ExamReviewBean implements Serializable {
 	private AnswerService answerService;
 	@EJB
 	private ExamUserRelationService examUserRelationService;
+	@EJB
+	private AnswerTextService answerTextService;
 
 	private List<ExamVo> examList;
 	private String selectedExamIdAsString;
-	private String selectedUserIdAsString;
+
 	private UserVo user;
 
 	private List<QuestionVo> questionList;
 	private List<AnswerVo> answerList;
 
-	private OptionVo selected;
-	private List<OptionVo> selecteds;
-	private List<OptionVo> optionList;
-
-	public List<OptionVo> getOptionList() {
-		return optionList;
-	}
-
-	public void setOptionList(List<OptionVo> optionList) {
-		this.optionList = optionList;
-	}
-
-	private int counter = 0;
-
 	@PostConstruct
 	public void initBean() {
 		try {
 			questionList = new ArrayList<>();
-		
+
 			setUser(userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
 			examList = examUserRelationService.getAllExamByUserId(user.getId());
 			setAnswerList(new ArrayList<>());
@@ -77,51 +67,49 @@ public class ExamReviewBean implements Serializable {
 
 	public void loadContent() throws Exception {
 		try {
-			setQuestionList(questionService.getAllById(Long.parseLong(selectedExamIdAsString)));
-			
-			
+			questionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString));
 			answerList = getAnswerService().getAllByUserId(user.getId());
-
 			answerList = answerList.stream()
 					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
 					.collect(Collectors.toList());
-			
-			for (AnswerVo answerVo : answerList) {
-				System.out.println(answerVo.getOption().getText());
-			}
+			updateQuestionList();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
 	}
 
-	/**
-	 * @return the examService
-	 */
+	private void updateQuestionList() throws Exception {
+		for (QuestionVo question : questionList) {
+			if (question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
+				for (OptionVo option : question.getOptions()) {
+					AnswerTextVo answerText = answerTextService.getByAnswerId(answerList.stream().filter(a -> {
+						if (a.getOption().getId().equals(option.getId())) {
+							option.setCorrect(a.getGood());
+							return true;
+						}
+						return false;
+					}).findFirst().get().getId());
+					option.setText(answerText.getText());
+				}
+			}
+		}
+	}
+
 	public ExamService getExamService() {
 		return examService;
 	}
 
-	/**
-	 * @param examService
-	 *            the examService to set
-	 */
 	public void setExamService(ExamService examService) {
 		this.examService = examService;
 	}
 
-	/**
-	 * @return the examList
-	 */
 	public List<ExamVo> getExamList() {
 		return examList;
 	}
 
-	/**
-	 * @param examList
-	 *            the examList to set
-	 */
 	public void setExamList(List<ExamVo> examList) {
 		this.examList = examList;
 	}
@@ -158,14 +146,6 @@ public class ExamReviewBean implements Serializable {
 		this.selectedExamIdAsString = selectedExamIdAsString;
 	}
 
-	public String getSelectedUserIdAsString() {
-		return selectedUserIdAsString;
-	}
-
-	public void setSelectedUserIdAsString(String selectedUserIdAsString) {
-		this.selectedUserIdAsString = selectedUserIdAsString;
-	}
-
 	public QuestionService getQuestionService() {
 		return questionService;
 	}
@@ -182,30 +162,6 @@ public class ExamReviewBean implements Serializable {
 		this.questionList = questionList;
 	}
 
-	public int getCounter() {
-		return counter;
-	}
-
-	public void setCounter(int counter) {
-		this.counter = counter;
-	}
-
-	public OptionVo getSelected() {
-		return selected;
-	}
-
-	public void setSelected(OptionVo selected) {
-		this.selected = selected;
-	}
-
-	public List<OptionVo> getSelecteds() {
-		return selecteds;
-	}
-
-	public void setSelecteds(List<OptionVo> selecteds) {
-		this.selecteds = selecteds;
-	}
-
 	public UserVo getUser() {
 		return user;
 	}
@@ -220,6 +176,14 @@ public class ExamReviewBean implements Serializable {
 
 	public void setExamUserRelationService(ExamUserRelationService examUserRelationService) {
 		this.examUserRelationService = examUserRelationService;
+	}
+
+	public AnswerTextService getAnswerTextService() {
+		return answerTextService;
+	}
+
+	public void setAnswerTextService(AnswerTextService answerTextService) {
+		this.answerTextService = answerTextService;
 	}
 
 }

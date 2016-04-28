@@ -78,7 +78,7 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, '
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'Option7', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, true, 'Option7', 2009);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
@@ -93,15 +93,21 @@ INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
 
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2009, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2006, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2007, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (5, 2001, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (6, 2001, 2011, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (7, 2001, 2012, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (8, 2001, 2013, true);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (200, 7, 'Atkaaaaaaaaaaaaaaaaaa');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (201, 8, 'Filitáááááááááán');
+
 
 -- Answer texts
 
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI1')
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 5, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI2')
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 6, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI3')
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 7, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI4')
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
+
 
 -- Exam - User - Relation
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)
