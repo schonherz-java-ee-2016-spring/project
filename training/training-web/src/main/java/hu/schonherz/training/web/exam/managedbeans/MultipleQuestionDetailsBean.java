@@ -107,7 +107,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 			}
 		}
 	}
-	
+
 	@Override
 	public List<OptionVo> getOptionList() {
 		if (initLoading == true) {
@@ -115,19 +115,22 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		}
 		return optionList;
 	}
-	
+
 	@Override
 	public void setQuestionNoteText(String questionNoteText) {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setNote(questionNoteText);
+			if (questionNoteText.length() < 1)
+				questionVo.setNote("You can't leave the note unfilled");
+			else
+				questionVo.setNote(questionNoteText);
 			questionService.updateNote(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public String getQuestionNoteText() {
 		Long questionId = Long.parseLong(questionIdAsString);
@@ -157,7 +160,10 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setText(questionText);
+			if (questionText.length() < 1)
+				questionVo.setText("You can't leave the question's text unfilled");
+			else
+				questionVo.setText(questionText);
 			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();

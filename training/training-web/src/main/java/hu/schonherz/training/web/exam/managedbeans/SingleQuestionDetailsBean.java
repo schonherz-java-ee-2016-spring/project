@@ -132,7 +132,10 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setText(questionText);
+			if (questionText.length() < 1)
+				questionVo.setText("You can't leave the question's text unfilled");
+			else
+				questionVo.setText(questionText);
 			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -148,19 +151,24 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void setQuestionNoteText(String questionNoteText) {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setNote(questionNoteText);
+
+			if (questionNoteText.length() < 1)
+				questionVo.setNote("You can't leave the question's note unfilled");
+			else
+				questionVo.setNote(questionNoteText);
+
 			questionService.updateNote(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public String getQuestionNoteText() {
 		Long questionId = Long.parseLong(questionIdAsString);
@@ -173,9 +181,6 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		return questionText;
 
 	}
-
-	
-	
 
 	public void updateOptionList() {
 		Long id = Long.parseLong(questionIdAsString);
@@ -212,5 +217,4 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		this.initLoading = initLoading;
 	}
 
-	
 }

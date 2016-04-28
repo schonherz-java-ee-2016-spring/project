@@ -47,7 +47,11 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		QuestionVo questionVo;
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
-			questionVo.setText(questionTitleInputText);
+
+			if (questionTitleInputText.length() < 1)
+				questionVo.setText("You can't leave the question's text unfilled");
+			else
+				questionVo.setText(questionTitleInputText);
 			getQuestionService().updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +74,10 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		QuestionVo questionVo;
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
-			questionVo.setNote(questionNoteText);
+			if (questionNoteText.length() < 1)
+				questionVo.setNote("You can't leave the question's note unfilled");
+			else
+				questionVo.setNote(questionNoteText);
 			getQuestionService().updateNote(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
