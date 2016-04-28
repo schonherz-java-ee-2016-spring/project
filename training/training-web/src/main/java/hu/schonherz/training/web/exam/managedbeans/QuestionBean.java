@@ -36,6 +36,7 @@ public class QuestionBean implements Serializable {
 			questionType.setId(1L);
 			QuestionVo question = new QuestionVo();
 			question.setText("New single answer question");
+			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
 			questionService.save(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
@@ -50,6 +51,7 @@ public class QuestionBean implements Serializable {
 			questionType.setId(2L);
 			QuestionVo question = new QuestionVo();
 			question.setText("New multiple answer question");
+			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
 			questionService.save(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
@@ -64,6 +66,7 @@ public class QuestionBean implements Serializable {
 			questionType.setId(3L);
 			QuestionVo question = new QuestionVo();
 			question.setText("New textbased question");
+			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
 			questionService.save(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {

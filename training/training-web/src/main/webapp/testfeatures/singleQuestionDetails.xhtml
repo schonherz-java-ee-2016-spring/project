@@ -8,24 +8,22 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Single Question Details</ui:define>
 	<ui:define name="content">
-	
+		<p:growl id="message" />
 
-		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		
 		<h:form id="questionTitleRename">
-		<h3>Question's title</h3>
+			<h3>Question's text</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{singleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
-		
+
 		<h:form id="questionNoteRename">
-		<h3>Question's note</h3>
+			<h3>Question's note</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{singleQuestionDetailsBean.questionNoteText}" />
 			</p:inplace>
 		</h:form>
-		
+
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable" lazy="true"
 				value="#{singleQuestionDetailsBean.optionList}" var="option"
@@ -45,20 +43,20 @@
 								class="ui-icon ui-icon-grip-dotted-vertical" />
 							</span>
 							<p:commandButton title="Delete" icon="ui-icon-trash"
-								actionListener="#{singleQuestionDetailsBean.removeOption}" ajax="false">
+								actionListener="#{singleQuestionDetailsBean.removeOption}"
+								ajax="false">
 								<f:attribute name="optionName" value="#{option.text}" />
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>
-
-			</p:column>
+				</p:column>
 				<f:facet name="footer">
-					<p:commandButton value="Save" update="message"
+					<p:commandButton value="Save correct option" update="message"
 						action="#{singleQuestionDetailsBean.tryToSaveQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
-		
+
 		<h:form id="newOptionForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
 				title="newOption">
@@ -80,6 +78,7 @@
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
+		
 		<h:form id="backForm">
 			<p:commandButton value="Back" action="goToExamQuestionsPage" />
 		</h:form>

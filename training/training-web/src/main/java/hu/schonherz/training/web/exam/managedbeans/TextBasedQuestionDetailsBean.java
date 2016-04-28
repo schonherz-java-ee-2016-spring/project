@@ -19,7 +19,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 
 	private String questionIdAsString;
 
-	private String questionTitleInputText;
+	private String questionText;
 
 	private String questionNoteText;
 
@@ -31,19 +31,19 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		this.questionIdAsString = questionIdAsString;
 	}
 
-	public String getQuestionTitleInputText() {
+	public String getQuestionText() {
 		QuestionVo questionVo;
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
-			questionTitleInputText = questionVo.getText();
+			questionText = questionVo.getText();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return questionTitleInputText;
+		return questionText;
 	}
 
-	public void setQuestionTitleInputText(String questionTitleInputText) {
-		this.questionTitleInputText = questionTitleInputText;
+	public void setQuestionText(String questionTitleInputText) {
+		this.questionText = questionTitleInputText;
 		QuestionVo questionVo;
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
