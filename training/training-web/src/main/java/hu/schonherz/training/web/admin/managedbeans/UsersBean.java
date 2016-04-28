@@ -6,12 +6,14 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Session;
 
 import org.primefaces.event.SelectEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,7 +29,7 @@ public class UsersBean implements Serializable {
 
 	@EJB
 	private UserService userService;
-
+	
 	private String username;
 	private String fullname;
 	private String email;
@@ -35,7 +37,15 @@ public class UsersBean implements Serializable {
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-
+	
+    @ManagedProperty(value="#{mailSenderBean}")
+    private MailSenderBean mailSenderBean;
+	
+	@Resource(mappedName="java:jboss/mail/Default")
+	private Session mailSessionSeznam;
+	
+	
+	
 	private UserVo selectedUser;
 
 	private List<UserVo> users;
@@ -97,16 +107,17 @@ public class UsersBean implements Serializable {
 
 		// Random password generation
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		String uuid = UUID.randomUUID().toString();
-
+		String uuid = (UUID.randomUUID().toString());
+		uuid = uuid.substring(0, 8);
 		UserVo userVo = new UserVo();
 		userVo.setFullName(fullname);
 		userVo.setUserName(username);
 		userVo.setEmail(email);
 		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
-
 		try {
 			userService.registrationUser(userVo);
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", uuid);
+			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Error in creating new user!");
@@ -167,6 +178,9 @@ public class UsersBean implements Serializable {
 		// selected = true;
 	}
 
+
+
+	
 	public String getUsername() {
 		return username;
 	}
@@ -222,5 +236,14 @@ public class UsersBean implements Serializable {
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+
+	public MailSenderBean getMailSenderBean() {
+		return mailSenderBean;
+	}
+
+	public void setMailSenderBean(MailSenderBean mailSenderBean) {
+		this.mailSenderBean = mailSenderBean;
+	}
+
 
 }
