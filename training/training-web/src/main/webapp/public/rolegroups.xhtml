@@ -15,7 +15,6 @@
 				 paginator="true"
 				 rows="12"
 				 rowsPerPageTemplate="4,8,12"
-				 reflow="true"
 				 >
 	
 <!-- 				<p:column headerText="#{out.jogid}"> -->
@@ -26,21 +25,21 @@
 					<h:outputText value="#{rolegroup.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moddate}">
+				<p:column headerText="#{out.moddate}" priority="2">
 					<h:outputText value="#{rolegroup.modDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moduser	}">
+				<p:column headerText="#{out.moduser}" priority="2">
 					<h:outputText value="#{rolegroup.modUser}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recdate}">
+				<p:column headerText="#{out.recdate}" priority="3">
 					<h:outputText value="#{rolegroup.recDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recuser}">
+				<p:column headerText="#{out.recuser}" priority="3">
 					<h:outputText value="#{rolegroup.recUser}">
 					</h:outputText>
 				</p:column>
