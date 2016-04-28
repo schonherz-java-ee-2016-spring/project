@@ -10,16 +10,17 @@
 		<ui:component>
 			
 				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
-					<p:tab title="#{feedback.eventType}" >
+					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} by #{feedback.sender.getFullName()}"> 	
 						<div class="well">
 							<div class="media">
 								<a class="pull-left" href="#"> <img class="media-object"
 									src="http://placekitten.com/g/200/300" height="150" width="100" /></a>
 								<div class="media-body">
-									<p class="text-right">By #{feedback.sender.getFullName()}</p>
 									<p>#{feedback.feedbackMessage}</p>
 									<ul>
-										<li>#{feedback.recDate}</li>
+										<h:outputText value="#{feedback.recDate}">
+											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>
+										</h:outputText>
 									</ul>
 								</div>
 							</div>

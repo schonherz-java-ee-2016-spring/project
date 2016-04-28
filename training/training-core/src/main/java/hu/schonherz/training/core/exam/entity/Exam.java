@@ -1,12 +1,14 @@
 package hu.schonherz.training.core.exam.entity;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
@@ -18,12 +20,14 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 @Table(name = "exam")
 public class Exam extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Column(unique = true, nullable = false)
 	private String title;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "exam")
-	private List<Question> questionList;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "exam_id")
+	@OrderBy("text asc")
+	private Collection<Question> questions;
 
 	public Exam() {
 		super();
@@ -37,12 +41,12 @@ public class Exam extends BaseEntity {
 		this.title = title;
 	}
 
-	public List<Question> getQuestionList() {
-		return questionList;
+	public Collection<Question> getQuestions() {
+		return questions;
 	}
 
-	public void setQuestionList(List<Question> questionList) {
-		this.questionList = questionList;
+	public void setQuestions(Collection<Question> questions) {
+		this.questions = questions;
 	}
 
 }

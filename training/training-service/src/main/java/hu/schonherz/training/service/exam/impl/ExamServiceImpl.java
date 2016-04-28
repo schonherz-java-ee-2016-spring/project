@@ -31,27 +31,7 @@ public class ExamServiceImpl implements ExamService {
 	ExamRepository examRepository;
 
 	@Override
-	public void create(ExamVo vo) throws Exception {
-		try {
-			examRepository.saveAndFlush(ExamMapper.toDto(vo));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public ExamVo findById(Long id) throws Exception {
-		try {
-			return ExamMapper.toVo(examRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	}
-
-	@Override
-	public List<ExamVo> findAll() throws Exception {
+	public List<ExamVo> getAll() throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findAll());
 		} catch (Exception ex) {
@@ -61,9 +41,9 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public List<ExamVo> findAllSortedById() throws Exception {
+	public ExamVo getById(Long id) throws Exception {
 		try {
-			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
+			return ExamMapper.toVo(examRepository.findOne(id));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -71,10 +51,40 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void modifyTitle(ExamVo examVo) throws Exception {
+	public void removeById(Long id) throws Exception {
 		try {
-			Exam exam = ExamMapper.toDto(examVo);
+			examRepository.delete(id);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void save(ExamVo vo) throws Exception {
+		try {
+			examRepository.saveAndFlush(ExamMapper.toDto(vo));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void updateTitle(ExamVo vo) throws Exception {
+		try {
+			Exam exam = ExamMapper.toDto(vo);
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public List<ExamVo> getAllSortedById() throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

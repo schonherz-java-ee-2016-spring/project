@@ -8,32 +8,62 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">SingleQuestion</ui:define>
 	<ui:define name="content">
+
 		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		
+
 		<h:form id="questionTitleForm">
 			<h3>Question Title</h3>
 			<p:inputTextarea rows="4" cols="100" counter="display"
 				maxlength="200" counterTemplate="{0} characters remaining."
-				autoResize="false" value="#{singleQuestionBean.newQuestionText}">
+				autoResize="false" value="#{singleQuestionBean.questionText}"
+				required="true">
+				<f:validateLength minimum="5" />
 				<p:ajax event="keyup" />
 			</p:inputTextarea>
 			<h:outputText id="display" />
+
+
+		</h:form>
+
+		<h:form id="questionNoteForm">
+		<h3>Question note</h3>
+		<p:inputTextarea value="#{singleQuestionBean.questionNoteText}"
+			rows="4" cols="100">
+			<p:ajax event="keyup" />
+		</p:inputTextarea>
 		</h:form>
 		<h:form id="optionTableForm">
+
+
+
 			<p:dataTable id="optionTable"
-				value="#{singleQuestionBean.newOptions}" var="option"
+				value="#{singleQuestionBean.optionList}" var="option"
 				selection="#{singleQuestionBean.correctOption}"
-				rowKey="#{option.optionText}">
+				rowKey="#{option.text}">
 				<f:facet name="header">
 				Options
 			</f:facet>
 				<p:column selectionMode="single" />
 				<p:column headerText="Option Text">
-					<h:outputText value="#{option.optionText}" />
+					<h:outputText value="#{option.text}" />
+				</p:column>
+				<p:column headerText="Delete">
+					<p:toolbar>
+						<f:facet name="left">
+							<span class="ui-separator"> <span
+								class="ui-icon ui-icon-grip-dotted-vertical" />
+							</span>
+							<p:commandButton title="Delete" icon="ui-icon-trash"
+								actionListener="#{singleQuestionBean.removeOption}" ajax="false">
+								<f:attribute name="optionName" value="#{option.text}" />
+							</p:commandButton>
+						</f:facet>
+					</p:toolbar>
 				</p:column>
 				<f:facet name="footer">
+
 					<p:commandButton value="Save" update="message"
-						action="#{singleQuestionBean.saveNewQuestion}" />
+						action="#{singleQuestionBean.tryToSaveQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
@@ -46,14 +76,14 @@
 			<p:dialog header="New Option" widgetVar="dlg" resizable="false"
 				modal="true">
 				<h:panelGrid columns="2" cellpadding="5">
-					<h:outputLabel for="newOptionText" value="Option:" />
-					<p:inputText id="newOptionText"
-						value="#{singleQuestionBean.newOptionText}" required="true">
+					<h:outputLabel for="optionText" value="Option:" />
+					<p:inputText id="optionText"
+						value="#{singleQuestionBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputText>
 					<f:facet name="footer">
 						<p:commandButton value="Add" update="message"
-							actionListener="#{singleQuestionBean.addNewOption}" />
+							actionListener="#{singleQuestionBean.addOption}" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>

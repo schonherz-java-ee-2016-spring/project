@@ -3,6 +3,7 @@ package hu.schonherz.training.core.admin.entity;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -19,7 +20,6 @@ public class Event extends BaseEntity {
 	
 	private String name;
 	private String type;
-	@Lob
 	private String description;
 	private String place;
 	private Date date;

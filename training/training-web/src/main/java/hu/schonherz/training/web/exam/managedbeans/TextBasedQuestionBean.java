@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,15 +20,11 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 @ManagedBean(name = "textBasedQuestionBean")
 @SessionScoped
 public class TextBasedQuestionBean implements Serializable {
-
 	private static final long serialVersionUID = 1L;
-	private String newQuestionText = "";
-	private String examIdAsString;
 
-	@PostConstruct
-	public void init() {
-		newQuestionText = "";
-	}
+	private String newQuestionText;
+	private String examIdAsString;
+	private String questionNoteText;
 
 	@EJB
 	private QuestionService questionService;
@@ -41,41 +38,33 @@ public class TextBasedQuestionBean implements Serializable {
 	@EJB
 	private QuestionTypeService questionTypeService;
 
+	@PostConstruct
+	public void init() {
+		newQuestionText = "";
+		questionNoteText = "";
+		
+	}
+
 	public void createTextBasedQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 
 		QuestionVo newQuestion = new QuestionVo();
-
 		Long examId = Long.parseLong(examIdAsString);
-		newQuestion.setExam(examService.findById(examId));
 		newQuestion.setText(newQuestionText);
-
-		newQuestion.setQuestionType(questionTypeService.findById(3L));
-
-		OptionVo newOption = new OptionVo();
-		newOption.setQuestion(newQuestion);
+		newQuestion.setQuestionType(questionTypeService.getById(3L));
+		newQuestion.setNote(questionNoteText);
+		newQuestion.setOptions(Arrays.asList(new OptionVo()));
 
 		try {
-			if(newQuestionText.isEmpty()) throw new IllegalStateException();
-			
-			getOptionService().create(newOption);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"\"" + newQuestionText + "\" Text based question created!");
+			questionService.save(newQuestion, examId);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
-		}catch (IllegalStateException ex){
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Question text can't be empty");
-			currentInstance.addMessage(null, facesMessage);
-			ex.printStackTrace();
-		} 
-		
-		catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't create textbased question: \"" + newQuestionText + "\"");
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public String getNewQuestionText() {
@@ -118,4 +107,24 @@ public class TextBasedQuestionBean implements Serializable {
 		this.examService = examService;
 	}
 
+	
+	public QuestionTypeService getQuestionTypeService() {
+		return questionTypeService;
+	}
+
+	public void setQuestionTypeService(QuestionTypeService questionTypeService) {
+		this.questionTypeService = questionTypeService;
+	}
+
+	public String getQuestionNoteText() {
+		return questionNoteText;
+	}
+
+	public void setQuestionNoteText(String questionNoteText) {
+		this.questionNoteText = questionNoteText;
+	}
+	
+	
+
+	
 }
