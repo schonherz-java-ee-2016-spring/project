@@ -95,9 +95,10 @@
 						<li><a href="#{request.contextPath}/index.xhtml">Home<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/public/myprofile.xhtml">My Profile<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-user"></span></a></li>
+						<li><a href="#{request.contextPath}/public/myprofile.xhtml">My
+								Profile<span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-user"></span>
+						</a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">User
 									Management<span class="caret"></span><span
@@ -137,7 +138,7 @@
 						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-trophy"></span></a></li>
-								
+
 						<li><a href="#{request.contextPath}/public/events.xhtml">Events<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-calendar-o"></span></a></li>
@@ -156,6 +157,9 @@
 										a test</a></li>
 								<li><a
 									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">Evaluate
+										tests</a></li>
+								<li><a
+									href="#{request.contextPath}/testfeatures/examReview.xhtml">Review
 										tests</a></li>
 							</ul></li>
 						<sec:authorize access="hasRole('FEEDBACKS')">
