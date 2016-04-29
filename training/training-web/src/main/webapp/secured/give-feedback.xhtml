@@ -30,32 +30,28 @@
 		<h:outputScript library="default" name="js/editor.js"></h:outputScript>
 
 		<div class="container">
-			<form class="form-horizontal">
-				<fieldset>
-
+			<h:form class="form-horizontal">
+				<p:panel id="panel">
 					<!-- Form Name -->
 					<legend>
 						Give feedback
-						<div class="text-right">
+						<div class="text-right" style="font-size: medium; float: right;">
 							<a href="feedbacks.xhtml">Back to feedbacks</a>
 						</div>
 					</legend>
 
-					<div class="text-right">
-						<p:commandButton value="Send feedback"></p:commandButton>
-					</div>
+					<p:messages id="msgs" showDetail="true" />
+
+
 					<!-- Select Basic -->
 					<div class="control-group">
 						<label class="control-label" for="studentemail">Choose an
 							event</label>
 						<div class="controls">
-							<select id="studentemail" name="studentemail"
-								class="input-medium">
-								<option>Java EE Developer Job interview (2016.08.19.)</option>
-								<option>Spring MVC Homework (2016.08.10.)</option>
-								<option>Create Maven project Homework (2016.08.05.)</option>
-								<option>Java Basics Homework (2016. 07.29.)</option>
-							</select>
+							<h:selectOneMenu id="event" value="">
+								<f:selectItems value="#{eventsBean.allEvent}" var="event"
+									itemLabel="#{event.name} (#{event.date})" itemValue="#{event}" />	
+							</h:selectOneMenu>
 						</div>
 					</div>
 
@@ -64,11 +60,10 @@
 						<label class="control-label" for="studentname">Choose
 							student to rate</label>
 						<div class="controls">
-							<select id="studentname" name="studentname" class="input-medium">
-								<option>Bohán Márk</option>
-								<option>Preznyák László</option>
-								<option>Naményi János</option>
-							</select>
+							<h:selectOneMenu id="rated" value="">
+								<f:selectItems value="#{usersBean.users}" var="user"
+									itemLabel="#{user.fullName}" itemValue="#{user}" />	
+							</h:selectOneMenu>
 						</div>
 					</div>
 
@@ -77,16 +72,19 @@
 						<label class="control-label" for="dayslate">Is this
 							feedback public?</label>
 						<div class="controls">
-							<select id="dayslate" name="dayslate" class="input-medium">
-								<option>No</option>
-								<option>Yes</option>
-							</select>
+							<h:selectOneMenu id="isPublic" value="">
+								<f:selectItem itemLabel="No" itemValue="#{isPublic}"></f:selectItem>
+								<f:selectItem itemLabel="Yes" itemValue="#{isPublic}"></f:selectItem>
+							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="dayslate">Write your
-							feedback here</label>
+							feedback here </label>
+						<div class="text-right" style="float: right;">
+							<p:commandButton value="Send feedback"></p:commandButton>
+						</div>
 						<div id="txtEditor"></div>
 						<script type="text/javascript">
 							$(document).ready(function() {
@@ -94,8 +92,8 @@
 							});
 						</script>
 					</div>
-				</fieldset>
-			</form>
+				</p:panel>
+			</h:form>
 		</div>
 
 	</ui:define>
