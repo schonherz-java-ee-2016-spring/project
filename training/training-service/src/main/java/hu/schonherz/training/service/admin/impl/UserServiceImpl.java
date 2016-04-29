@@ -119,4 +119,10 @@ public class UserServiceImpl implements UserService {
 	public void updateUser(UserVo userVo) {
 		userRepository.save(UserMapper.toDto(userVo));
 	}
+
+	@Override
+	public UserVo findUserByHashCode(String hashCode) {
+		UserVo vo = UserMapper.toVo(userRepository.findUserByHashCode(hashCode));
+		return vo;
+	}
 }

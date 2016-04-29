@@ -27,7 +27,11 @@ public class ForgotPasswordBean {
 	private String forgotPasswordEmail;
 	private String forgotPasswordFName;
 	private String forgotPasswordUName;
-
+	private String message;
+	private String code;
+	private String newPassword;
+	private String newPasswordConfirm;
+	
 	
     @ManagedProperty(value="#{mailSenderBean}")
     private MailSenderBean mailSenderBean;
@@ -40,7 +44,8 @@ public class ForgotPasswordBean {
 	
 	
 	public void forgotPasswordSendMail() {
-		UserVo testUser = null;
+		
+		UserVo testUser = new UserVo();
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		// Confirm email
 		if (forgotPasswordEmail == null) {
@@ -55,18 +60,65 @@ public class ForgotPasswordBean {
 			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			String uuid = (UUID.randomUUID().toString());
 			uuid = uuid.substring(0, 8);
-			testUser.setPassword(bCryptPasswordEncoder.encode(uuid));
-			testUser.setFullName(forgotPasswordFName);
-			testUser.setUserName(forgotPasswordUName);
-			testUser.setEmail(forgotPasswordEmail);
+			//testUser.setPassword(bCryptPasswordEncoder.encode(uuid));
+			testUser.setHashCode(bCryptPasswordEncoder.encode(uuid));
+			//testUser.setFullName(forgotPasswordFName);
+			//testUser.setUserName(forgotPasswordUName);
+			//testUser.setEmail(forgotPasswordEmail);
 			userService.registrationUser(testUser);
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", uuid);
+			message = "http://localhost:8080/training-web/public/setupPassword.xhtml?code=" + testUser.getHashCode();
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", message);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("Error"),
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("Error"),
 					bundle.getString("Email doesn't exists"));
-			currentInstance.addMessage(null, facesMessage);
+			currentInstance.addMessage(null, msgs);
 			e.printStackTrace();
 		}
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes mail!");
+		currentInstance.addMessage(null, msgs);
+	}
+	
+	public void resetPassword() {
+		UserVo vo = null;
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		vo = userService.findUserByHashCode(code);
+		if (vo.getHashCode().equals(code)) {
+			System.out.println(vo.getFullName());
+			if (newPassword == null || newPasswordConfirm == null) {
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+						"Passwords must filled!");
+				currentInstance.addMessage(null, facesMessage);
+				return;
+			} else if (!newPassword.equals(newPasswordConfirm)) {
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+						"Passwords not match!");
+				currentInstance.addMessage(null, facesMessage);
+				return;
+			}
+			try {
+				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+				vo.setPassword(bCryptPasswordEncoder.encode(newPassword));
+				userService.updateUser(vo);
+			} catch (Exception e) {
+				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("Error"),
+						bundle.getString("Update password error!"));
+				currentInstance.addMessage(null, msgs);
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("NULL VO");
+			System.out.println(vo.getHashCode());
+			System.out.println(code);
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!",
+					"User with that token doesn't exists!");
+			currentInstance.addMessage(null, msgs);
+		}
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", vo.getFullName());
+		currentInstance.addMessage(null, msgs);
+
+	}
+	public void updatePassword(){
+		
 	}
 
 	public String getForgotPasswordEmail() {
@@ -109,5 +161,38 @@ public class ForgotPasswordBean {
 	public void setForgotPasswordUName(String forgotPasswordUName) {
 		this.forgotPasswordUName = forgotPasswordUName;
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getNewPasswordConfirm() {
+		return newPasswordConfirm;
+	}
+
+	public void setNewPasswordConfirm(String newPasswordConfirm) {
+		this.newPasswordConfirm = newPasswordConfirm;
+	}
+
 	
 }

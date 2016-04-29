@@ -64,6 +64,8 @@ public class CreateUserBean implements Serializable {
 		userVo.setFullName(fullname);
 
 		userVo.setEmail(email);
+		
+		userVo.setHashCode("ASD");
 
 		if (email == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
