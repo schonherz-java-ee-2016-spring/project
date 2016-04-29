@@ -95,9 +95,9 @@
 						<li><a href="#{request.contextPath}/index.xhtml">Home<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/public/myprofile.xhtml">My Profile<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-user"></span></a></li>
+						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">My profile<span
+									style="font-size: 16px;"
+									class="pull-right showopacity fa fa-user"></span></a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">User
 									Management<span class="caret"></span><span

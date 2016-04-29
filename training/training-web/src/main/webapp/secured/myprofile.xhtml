@@ -60,7 +60,11 @@
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="tab1">
 						<h3>Personal Data</h3>
-						
+
+
+						<h4>Feedbacks</h4>
+						<ui:include src="feedback-list.xhtml"></ui:include>
+
 					</div>
 					<div class="tab-pane fade in" id="tab2">
 						<table id="resultTable" class="table-header-rotated">
@@ -123,7 +127,16 @@
 						<h3>This is tab 3</h3>
 					</div>
 					<div class="tab-pane fade in" id="tab4">
-						<h3>This is tab 4</h3>
+						<h3>Upload your files</h3>
+						<h:form enctype="multipart/form-data">
+							<p:growl id="messages" showDetail="true" />
+
+							<p:fileUpload value="#{fileUploadView.file}" mode="simple"
+								skinSimple="true" />
+
+							<p:commandButton value="Submit" ajax="false"
+								actionListener="#{fileUploadView.upload}" />
+						</h:form>
 					</div>
 				</div>
 			</div>
