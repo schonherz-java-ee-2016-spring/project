@@ -24,7 +24,7 @@
 				<p:dataTable id="optionTable" lazy="true"
 					value="#{examFillBean.getOptionList()}" var="option"
 					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
-					<p:column selectionMode="single"
+					<p:column headerText="Is Correct?" selectionMode="single"
 						style="width:10%;text-align:center" />
 					<p:column headerText="Options">
 						<h:outputText value="#{option.text}" />
@@ -68,7 +68,7 @@
 				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
 
-				<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p:inputTextarea autoResize="true" cols="100" rows="3" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
 				<p:commandButton value="Next" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">

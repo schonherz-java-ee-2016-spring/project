@@ -135,61 +135,50 @@ INSERT INTO event_to_feedback(event_id, feedback_id) VALUES (3202, 4110);
 INSERT INTO rated_to_feedback(rated_id, feedback_id) VALUES (2102, 4110);
 INSERT INTO sender_to_feedback(sender_id, feedback_id) VALUES (2202, 4110);
 
--- Exam-module
-INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
-INSERT INTO public.exam(id, title) VALUES(2002, 'JPA');
-INSERT INTO public.exam(id, title) VALUES(2003, 'EJB');
-INSERT INTO public.exam(id, title) VALUES(2004, 'JSF');
-INSERT INTO public.exam(id, title) VALUES(2005, 'Kacsa');
-INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
+-- ///////////
+-- Exam module
+-- ///////////
 
+-- Exam QuestionType Enumerations (DO NOT MODIFY)
 
 INSERT INTO public.question_type(id, name) VALUES(1, 'Single');
 INSERT INTO public.question_type(id, name) VALUES(2, 'Multiple');
 INSERT INTO public.question_type(id, name) VALUES(3, 'Text');
 
-INSERT INTO public.question(id, text, exam_id) VALUES(2001, 'Lorem ipsum dolor. Sit amet dolor vestibulum condimentum lacinia quis?', 2001);
-INSERT INTO public.question(id, text, exam_id) VALUES(2002, 'Lorem ipsum dolor sit amet ad. Nulla felis id taciti?', 2002);
-INSERT INTO public.question(id, text, exam_id) VALUES(2003, 'Lorem ipsum dolor sit amet metus. Eu ut adipiscing elit tristique facilisis. Dolor malesuada nullam?', 2003);
-INSERT INTO public.question(id, text, exam_id) VALUES(2004, 'Lorem ipsum dolor sit amet euismod. Risus amet dui. Amet donec suspendisse proin mollis dolor?', 2004);
-INSERT INTO public.question(id, text, exam_id) VALUES(2005, 'Lorem ipsum dolor sit amet pulvinar. Aenean fusce non. Ante orci dolor aliquet eu aliquam?', 2004);
-INSERT INTO public.question(id, text, type_id, exam_id) VALUES(2006, 'Question with long options', 1 , 2001);
+-- Test Exams
 
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
+INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
+-- Test Questions
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, true, 'Option3', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, 'Option4', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3001, 'Melyik nem tartozik a Maven tulajdonságai közé?', 1, 2001, 'Első kérdés');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3002, 'Melyik nem igaz a Repository-kra?', 1, 2001, 'Második kérdés');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3003, 'Melyik érvényes függőség hatáskör (Dependency Scope) megállapítás az alábbiak közül?', 1, 2001, 'Harmadik kérdés');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3004, 'Melyik igaz a Maven verziókezelésére?', 1, 2001, 'Negyedik kérdés');
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'Option7', 2009);
+-- Test Options
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, false, 'Option10', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4001, true, 'Szoftver projektek menedzselése', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4002, false, 'Build folyamatok automatizálása', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4003, false, 'Csak meglévő projektekhez kapcsolható', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4004, false, 'Plugin alapú architektúra', 3001);
 
-INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
-INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4005, false, 'Kész termékek tárolása', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4006, true, 'SNAPSHOT végződésű függőségek csak a verziószám változásával töltődnek le', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4007, false, 'A helyi és távoli repository-k felépítése azonos', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4008, false, 'SNAPSHOT végződésű függőségek letöltődhetnek a verziószám változása nélkül úgy, hogy a változat újabb', 3002);
 
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4009, false, 'Provided Scope az alapértelmezett hatáskör, ha nem adunk meg', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4010, false, 'Runtime Scope esetén a függőségre szükség van a fordítás és futtatás során is', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4011, true, 'Test Scope esetén a függőség csak a tesztek számára kell', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4012, false, 'System Scope esetén a függőség helyét explicit nem kell megadni', 3003);
 
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4013, false, 'Csak konkrét verziószámot lehet megadni', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4014, false, 'Csak verziószámok egy tartományát lehet megadni', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4015, false, 'A verziószámokat nem lehet megadni, a maven implicit kezeli', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'Konkrét verziószámot és verziószámok tartományát is meg lehet adni', 3004);
 
--- Answers
-
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2009, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2011, false);
-
--- Answer texts
-
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (10, 4, 'EZ EGY VALASZ PLS OLVASODJ BE LEGYSZI LEGYSZI')
+--Test Option for Text-based Question
+-- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;

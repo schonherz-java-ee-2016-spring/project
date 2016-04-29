@@ -6,8 +6,11 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Exam corrector</ui:define>
+	<ui:define name="pageTitle">Exam Review</ui:define>
 	<ui:define name="content">
+
+
+		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="examSelection" value="Exam:" />
@@ -18,7 +21,6 @@
 						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
 				</p:selectOneMenu>
 
-				
 				<f:facet name="footer">
 					<p:commandButton value="Load Content"
 						actionListener="#{examReviewBean.loadContent}"
@@ -26,45 +28,38 @@
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
-		<p:tabView id="tabView" value="#{examReviewBean.questionList}"
-			var="question" activeIndex="#{examReviewBean.counter}">
-			<p:ajax event="tabChange" listener="#{examReviewBean.changeTab()}" />
-			<p:tab id="questionTabs" title="#{question.id}">
-				<p:panel header="#{question.text}">
 
-					<!-- Single -->
-					<h:form rendered="#{question.questionType.getId() eq 1}">
-						<p:dataTable id="optionTable" disabledSelection="true"
-							value="#{question.options}" var="option" rowKey="#{option.text}"
-							selection="#{examReviewBean.selected}">
-							<p:column selectionMode="single"
-								style="width:10%;text-align:center" />
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-					</h:form>
+		<style>
+.good {
+	background-color: rgb(0, 255, 0)
+}
 
-					<!-- Multi -->
-					<h:form rendered="#{question.questionType.getId() eq 2}">
-						<p:dataTable id="optionTable" disabledSelection="true"
-							value="#{question.options}" var="option"
-							selection="#{examReviewBean.selecteds}"
-							rowKey="#{option.text}">
-							<p:column selectionMode="multiple"
-								style="width:10%;text-align:center" />
-							<p:column headerText="Option Text">
-								<h:outputText value="#{option.text}" />
-							</p:column>
-						</p:dataTable>
-					</h:form>
+.bad {
+	background-color: rgb(255, 0, 0)
+}
+</style>
+		<h:form id="optionTableForm">
+			<ui:repeat var="question" value="#{examReviewBean.questionList}">
+				<p:dataTable var="option" value="#{question.options}"
+					rowStyleClass="#{option.correct ? 'good' : null}">
+					<f:facet name="header">
+            			#{question.text}
+        			</f:facet>
+					<p:column headerText="Id">
+						<h:outputText value="#{option.id}" />
+					</p:column>
 
-					<!-- Textbased -->
-					<h:form rendered="#{question.questionType.getId() eq 3}">
-						<p:inputTextarea value="" />
-					</h:form>
-				</p:panel>
-			</p:tab>
-		</p:tabView>
+					<p:column headerText="Content">
+						<h:outputText value="#{option.text}" />
+					</p:column>
+				</p:dataTable>
+				<h:outputText value="Note:" />
+				<p />
+				<h:outputText value="#{question.note}" style="font-weight:bold" />
+				<p:separator style="width:1000px;height:15px" />
+			</ui:repeat>
+		</h:form>
+
+
 	</ui:define>
 </ui:composition>

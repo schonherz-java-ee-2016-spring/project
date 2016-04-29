@@ -29,11 +29,14 @@ public class AnswerServiceImpl implements AnswerService {
 	@Autowired
 	AnswerRepository answerRepository;
 
-	@Deprecated
 	@Override
 	public List<AnswerVo> getAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return AnswerMapper.toVo(answerRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 	@Deprecated

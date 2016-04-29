@@ -29,6 +29,7 @@ public class ExamUserRelationMapper {
 
 	public static List<ExamUserRelationVo> toVo(List<ExamUserRelation> examUserRelationDtos) {
 		List<ExamUserRelationVo> examUserRelationVos = new ArrayList<>();
+		System.out.println("Cimek");
 		for (ExamUserRelation examUserRelationDto : examUserRelationDtos) {
 			examUserRelationVos.add(toVo(examUserRelationDto));
 		}

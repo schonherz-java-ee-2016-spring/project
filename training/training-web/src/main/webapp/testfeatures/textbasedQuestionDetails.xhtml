@@ -7,26 +7,26 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Textbased Question Details</ui:define>
-
-
-
 	<ui:define name="content">
-
-		<f:event type="preRenderView" listener="#{textBasedQuestionBean.init}" />
-
-		
+		<p:growl id="message" />
 
 		<h:form id="questionTitleRename">
+			<h3>Question's text</h3>
 			<p:inplace editor="true">
-				<p:inputText
-					value="#{textbasedQuestionDetailsBean.questionTitleInputText}" />
+				<p:inputText value="#{textbasedQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
-		<p />
-		<h:form>
-			<p:commandButton value="Back" action="goToExamQuestionsPage" />
+
+		<h:form id="questionNoteRename">
+			<h3>Question's note</h3>
+			<p:inplace editor="true">
+				<p:inputText
+					value="#{textbasedQuestionDetailsBean.questionNoteText}" />
+			</p:inplace>
 		</h:form>
 
+		<h:form id="backForm">
+			<p:commandButton value="Back" action="goToExamQuestionsPage" />
+		</h:form>
 	</ui:define>
-
 </ui:composition>
