@@ -151,32 +151,32 @@ INSERT INTO public.exam(id, title) VALUES(2001, 'Maven');
 
 -- Test Questions
 
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3001, 'Melyik nem tartozik a Maven tulajdonságai közé?', 1, 2001, 'Első kérdés');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3002, 'Melyik nem igaz a Repository-kra?', 1, 2001, 'Második kérdés');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3003, 'Melyik érvényes függőség hatáskör (Dependency Scope) megállapítás az alábbiak közül?', 1, 2001, 'Harmadik kérdés');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3004, 'Melyik igaz a Maven verziókezelésére?', 1, 2001, 'Negyedik kérdés');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3001, 'Melyik nem tartozik a Maven tulajdonsagai koze?', 1, 2001, 'Elso kerdes');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3002, 'Melyik nem igaz a Repository-kra?', 1, 2001, 'Masodik kerdes');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3003, 'Melyik ervenyes fuggoseg hataskor (Dependency Scope) megallapitas az alabbiak kozul?', 1, 2001, 'Harmadik kerdes');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(3004, 'Melyik igaz a Maven verziokezelesere?', 1, 2001, 'Negyedik kerdes');
 
 -- Test Options
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4001, true, 'Szoftver projektek menedzselése', 3001);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4002, false, 'Build folyamatok automatizálása', 3001);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4003, false, 'Csak meglévő projektekhez kapcsolható', 3001);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4004, false, 'Plugin alapú architektúra', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4001, true, 'Szoftver projektek menedzselese', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4002, false, 'Build folyamatok automatizalasa', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4003, false, 'Csak meglevo projektekhez kapcsolhato', 3001);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4004, false, 'Plugin alapu architektura', 3001);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4005, false, 'Kész termékek tárolása', 3002);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4006, true, 'SNAPSHOT végződésű függőségek csak a verziószám változásával töltődnek le', 3002);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4007, false, 'A helyi és távoli repository-k felépítése azonos', 3002);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4008, false, 'SNAPSHOT végződésű függőségek letöltődhetnek a verziószám változása nélkül úgy, hogy a változat újabb', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4005, false, 'Kesz termekek tarolasa', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4006, true, 'SNAPSHOT vegzodesu fuggosegek csak a verzioszam valtozasaval toltodnek le', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4007, false, 'A helyi es tavoli repository-k felepitese azonos', 3002);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4008, false, 'SNAPSHOT vegzodesu fuggosegek letoltodhetnek a verzioszam valtozasa nelkul ugy, hogy a valtozat ujabb', 3002);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4009, false, 'Provided Scope az alapértelmezett hatáskör, ha nem adunk meg', 3003);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4010, false, 'Runtime Scope esetén a függőségre szükség van a fordítás és futtatás során is', 3003);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4011, true, 'Test Scope esetén a függőség csak a tesztek számára kell', 3003);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4012, false, 'System Scope esetén a függőség helyét explicit nem kell megadni', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4009, false, 'Provided Scope az alapertelmezett hataskor, ha nem adunk meg', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4010, false, 'Runtime Scope eseten a fuggosegre szukseg van a forditas es futtatas soran is', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4011, true, 'Test Scope eseten a fuggoseg csak a tesztek szamara kell', 3003);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4012, false, 'System Scope eseten a fuggoseg helyet explicit nem kell megadni', 3003);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4013, false, 'Csak konkrét verziószámot lehet megadni', 3004);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4014, false, 'Csak verziószámok egy tartományát lehet megadni', 3004);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4015, false, 'A verziószámokat nem lehet megadni, a maven implicit kezeli', 3004);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'Konkrét verziószámot és verziószámok tartományát is meg lehet adni', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4013, false, 'Csak konkret verzioszamot lehet megadni', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4014, false, 'Csak verzioszamok egy tartomanyat lehet megadni', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4015, false, 'A verzioszamokat nem lehet megadni, a maven implicit kezeli', 3004);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'Konkret verzioszamot es verzioszamok tartomanyat is meg lehet adni', 3004);
 
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
