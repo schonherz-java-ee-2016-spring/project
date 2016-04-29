@@ -56,8 +56,8 @@ INSERT INTO event(id, recdate, recuser, date, description, name,  place, type) V
 -- interview BM
 INSERT INTO event(id, recdate, recuser, date, description, name,  place, type) VALUES (3101, current_timestamp, 'CREATE SQL', to_date('2016 06 22', 'yyyy MM dd'), 'Állásinterjú', 'Java EE Junior Developer',  'Survey Sampling International', 'Job Interview');
 
-INSERT INTO user_to_event(event_id, group_id) VALUES (3100, 2101);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3101, 2102);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3100, 2101);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3101, 2102);
 
 INSERT INTO event(id, recdate, recuser, date, description, name,  place, type) VALUES (3200, current_timestamp, 'CREATE SQL', to_date('2016 05 19', 'yyyy MM dd'), 'Házifeladat', 'Object Oriented Design (OOD)',  'GitHUB "homework" repository', 'Homework');
 INSERT INTO event(id, recdate, recuser, date, description, name,  place, type) VALUES (3201, current_timestamp, 'CREATE SQL', to_date('2016 05 26', 'yyyy MM dd'), 'Házifeladat', 'Spring Security',  'GitHUB "homework" repository', 'Homework');
@@ -67,17 +67,17 @@ INSERT INTO group_to_event(event_id, group_id) VALUES (3200, 2001);
 INSERT INTO group_to_event(event_id, group_id) VALUES (3201, 2001);
 INSERT INTO group_to_event(event_id, group_id) VALUES (3202, 2001);
 
-INSERT INTO user_to_event(event_id, group_id) VALUES (3200, 2100);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3200, 2101);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3200, 2102);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3200, 2100);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3200, 2101);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3200, 2102);
 
-INSERT INTO user_to_event(event_id, group_id) VALUES (3201, 2100);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3201, 2101);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3201, 2102);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3201, 2100);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3201, 2101);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3201, 2102);
 
-INSERT INTO user_to_event(event_id, group_id) VALUES (3202, 2100);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3202, 2101);
-INSERT INTO user_to_event(event_id, group_id) VALUES (3202, 2102);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2100);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2101);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2102);
 
 -- job interview PL
 INSERT INTO feedback(id, recdate, recuser, feedback_message, is_public) VALUES (4100, current_timestamp, 'CREATE SQL', 'Kedves Preznyák László! Köszönöm, hogy a 2016.06.19-ei interjún  (Java EE Junior Developer pozíció) megjelentél. Az alábbiakban néhány észrevételt írok le, hogy visszajelzést kaphass az interjún való szerepléseddel kapcsolatban. Szakmai tudásod elbeszélgetésünk alapján megfelelőnek bizonyult a legtöbb témakörben. Kérdéseimre a beszélgetés során érintett témákban kielégítő válaszokat adtál a legtöbb esetben, és helytelen válasz esetén sem hibáztal nagyot. A rövid angol nyelvű elbeszélgetés alapján szóbeli angol nyelvtudásodat középszintűnek ítéltem meg, írásbeli nyelvtudásod a bemeneti teszt alapján felső-középszintű. Életrajzod és az interjún nyújtott teljesítményed alapján megfelesz a pozíció betöltésére, jelentkezésedet továbbítottuk a Neuron Software felé. A Neuron Software-től előreláthatólag egy héten belül kapsz értesítést. Üdvözlettel, Schönherz Iskolaszövetkezet csapata!', TRUE);
