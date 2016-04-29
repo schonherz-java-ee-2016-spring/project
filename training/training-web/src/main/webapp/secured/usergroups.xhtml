@@ -55,7 +55,7 @@
 				</f:facet>
 				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,roleManageButton"
 					listener="#{userGroupsBean.selectGroupListener}" />
-				<p:ajax event="rowDblselect" update="deleteButton,editButton,manageButton,roleManageButton,form"
+				<p:ajax event="rowDblselect" update="deleteButton,editButton,manageButton,roleManageButton,form,pickform,pickform2"
 					listener="#{userGroupsBean.selectGroupListener}" oncomplete="PF('dialog').show();"/>
 			</p:dataTable>
 		</h:form>
