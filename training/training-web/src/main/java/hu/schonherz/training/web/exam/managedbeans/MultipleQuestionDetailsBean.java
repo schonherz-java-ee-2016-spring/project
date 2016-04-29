@@ -36,6 +36,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	protected void setUpOption() {
 		option = new OptionVo();
 		option.setText(optionText);
+
 	}
 
 	@Override
@@ -62,16 +63,16 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
-			System.out.println("idejön");
-//			optionText = "";  neeed bugfix
-			RequestContext.getCurrentInstance().update("optionTableForm");
-			System.out.println("ideis");
+			clearOptionText();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
-		RequestContext.getCurrentInstance().update("optionPanelGrid");
 
+	}
+
+	private void clearOptionText() {
+		optionText = "";
 	}
 
 	@Override

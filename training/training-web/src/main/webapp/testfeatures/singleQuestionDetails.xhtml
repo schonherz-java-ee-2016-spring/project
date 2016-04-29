@@ -72,12 +72,11 @@
 						<f:validateLength minimum="1" />
 					</p:inputTextarea>
 					<f:facet name="footer">
-						<p:commandButton value="Add" update="message"
+						<p:commandButton value="Add" update="message,optionPanelGrid"
 							actionListener="#{singleQuestionDetailsBean.addOption}">
-							<p:ajax update="message"
-								listener="#{singleQuestionDetailsBean.addOption}"></p:ajax>
-							<p:hotkey update="message" bind="return"
-								action="#{singleQuestionDetailsBean.addOption}"></p:hotkey>
+							<p:hotkey bind="return"
+								actionListener="#{singleQuestionDetailsBean.addOption}"
+								update="message,optionPanelGrid"></p:hotkey>
 						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>
