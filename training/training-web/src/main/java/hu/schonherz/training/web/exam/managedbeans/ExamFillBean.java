@@ -140,7 +140,7 @@ public class ExamFillBean implements Serializable {
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
 		if (selectedOption == null) {
 			System.out.println("something went wrong");
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Choose one answer!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Mark the correct answer!");
 			currentInstance.addMessage(null, facesMessage);
 			counter--;
 			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
@@ -162,10 +162,8 @@ public class ExamFillBean implements Serializable {
 	}
 
 	private void finishedExam(FacesContext currentInstance) {
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "You finished your exam!");
-		currentInstance.addMessage(null, facesMessage);
 		FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-				.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml");
+		.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml?faces-redirect=true");
 	}
 
 	public List<QuestionVo> getQuestionList() {
