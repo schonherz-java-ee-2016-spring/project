@@ -48,8 +48,8 @@
 						<label class="control-label" for="studentemail">Choose an
 							event</label>
 						<div class="controls">
-							<h:selectOneMenu id="event" value="">
-								<f:selectItems value="#{eventsBean.allEvent}" var="event"
+							<h:selectOneMenu id="event">
+								<f:selectItems value="#{writeFeedbackBean.eventsToShow}" var="event"
 									itemLabel="#{event.name} (#{event.date})" itemValue="#{event}" />	
 							</h:selectOneMenu>
 						</div>
@@ -60,7 +60,7 @@
 						<label class="control-label" for="studentname">Choose
 							student to rate</label>
 						<div class="controls">
-							<h:selectOneMenu id="rated" value="">
+							<h:selectOneMenu id="rated">
 								<f:selectItems value="#{usersBean.users}" var="user"
 									itemLabel="#{user.fullName}" itemValue="#{user}" />	
 							</h:selectOneMenu>
