@@ -55,6 +55,8 @@
 				</f:facet>
 				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,roleManageButton"
 					listener="#{userGroupsBean.selectGroupListener}" />
+				<p:ajax event="rowDblselect" update="deleteButton,editButton,manageButton,roleManageButton,form"
+					listener="#{userGroupsBean.selectGroupListener}" oncomplete="PF('dialog').show();"/>
 			</p:dataTable>
 		</h:form>
 
@@ -87,7 +89,7 @@
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}" update="form,msgs,growl,:groupform:gtable"
-					action="#{userGroupsBean.save()}" icon="ui-icon-check" />
+					action="#{userGroupsBean.save()}" icon="ui-icon-check" oncomplete="PF('dialog').hide();"/>
 			</h:form>
 		</p:dialog>
 
@@ -100,7 +102,7 @@
 					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
 				</p:pickList>
 				<p:commandButton id="userSubmit" action="#{userGroupsBean.saveUsers()}" value="#{out.save}"
-					update=":groupform:gtable,growl" />
+					update=":groupform:gtable,growl" oncomplete="PF('pickdialog').hide();"/>
 			</h:form>
 		</p:dialog>
 		
@@ -113,7 +115,7 @@
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
 				</p:pickList>
 				<p:commandButton id="roleSubmit" action="#{userGroupsBean.saveRoleGroups()}" value="#{out.save}"
-					update=":groupform:gtable,growl" />
+					update=":groupform:gtable,growl"  oncomplete="PF('pickdialog2').hide();"/>
 			</h:form>
 		</p:dialog>
 	</ui:define>
