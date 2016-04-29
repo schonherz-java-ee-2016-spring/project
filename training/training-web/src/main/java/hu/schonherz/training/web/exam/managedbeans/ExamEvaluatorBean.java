@@ -23,9 +23,9 @@ import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
-@ManagedBean(name = "examCorrectorBean")
+@ManagedBean(name = "examEvaluatorBean")
 @ViewScoped
-public class ExamCorrectorBean implements Serializable {
+public class ExamEvaluatorBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
@@ -70,7 +70,7 @@ public class ExamCorrectorBean implements Serializable {
 			answerList = answerService.getAllByUserId(Long.parseLong(selectedUserIdAsString));
 			answerList.stream().filter(a -> textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
 					.filter(o -> o.getId() == a.getOption().getId()).count() > 0).collect(Collectors.toList());
-			
+
 			answerTextList.clear();
 			for (AnswerVo answerVo : answerList) {
 				AnswerTextVo answerText = answerTextService.getByAnswerId(answerVo.getId());
@@ -79,11 +79,11 @@ public class ExamCorrectorBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestContext.getCurrentInstance().update("correctorForm");
+		RequestContext.getCurrentInstance().update("evaluatorForm");
 	}
 
-	public void applyCorrection() {
-
+	public void applyEvaluation() {
+		// TODO
 	}
 
 	/**
