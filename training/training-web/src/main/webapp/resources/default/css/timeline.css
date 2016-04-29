@@ -21,8 +21,10 @@
 .past {
   background-color: #dddddd;
 }
-.timeline > li:HOVER{
-  background-color: #8888ee;
+
+.timeline > li .timeline-panel:hover, .timeline > li .timeline-panel:hover .text-muted {
+    background-color: #8888ee;
+    color: #000;
 }
 .timeline > li:before,
 .timeline > li:after {
@@ -134,4 +136,5 @@
 
 .timeline-body {
     display: none;
+    border-top: 1px solid #CCC
 }
