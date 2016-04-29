@@ -41,7 +41,7 @@
 		<h:form id="optionTableForm">
 			<ui:repeat var="question" value="#{examReviewBean.questionList}">
 				<p:dataTable var="option" value="#{question.options}"
-					rowStyleClass="#{option.correct ? 'good' : null}">
+					rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
 					<f:facet name="header">
             			#{question.text}
         			</f:facet>

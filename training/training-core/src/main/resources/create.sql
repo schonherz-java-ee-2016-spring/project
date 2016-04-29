@@ -178,6 +178,67 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (4014, false, '
 INSERT INTO public.option(id, correct, text, question_id) VALUES (4015, false, 'A verzioszamokat nem lehet megadni, a maven implicit kezeli', 3004);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'Konkret verzioszamot es verzioszamok tartomanyat is meg lehet adni', 3004);
 
+
+
+
+-- Exam-module
+
+INSERT INTO public.exam(id, title) VALUES(2002, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2003, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2004, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2005, 'Kacsa');
+INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
+
+
+
+
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, true, 'Option3', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, 'Option4', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, true, 'Option7', 2009);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'Option10', 2010);
+
+INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
+INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
+
+
+
+-- Answers
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2006, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2007, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (5, 2001, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (7, 2001, 2012, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (8, 2001, 2013, true);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (200, 7, 'Atkaaaaaaaaaaaaaaaaaa');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (201, 8, 'Filitáááááááááán');
+
+
+
+-- Exam - User - Relation
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(101, 2006, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
+
+
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 

@@ -74,6 +74,7 @@ public class ExamReviewBean implements Serializable {
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
 					.collect(Collectors.toList());
 			updateQuestionList();
+			updateQuestionListByAnswers();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,6 +94,30 @@ public class ExamReviewBean implements Serializable {
 						return false;
 					}).findFirst().get().getId());
 					option.setText(answerText.getText());
+				}
+			}
+		}
+	}
+
+	private void updateQuestionListByAnswers() throws Exception {
+		for (QuestionVo question : questionList) {
+			if (!question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
+				for (OptionVo option : question.getOptions()) {
+
+					List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId())).collect(Collectors.toList());
+					
+					if (list.isEmpty()) {
+						option.setCorrect(null);
+						continue;
+					}
+					AnswerVo answer = list.get(0);
+
+					if (answer.getGood() == true) {
+						option.setCorrect(true);
+					} else if (answer.getGood() == false) {
+						option.setCorrect(false);
+					}
+					
 				}
 			}
 		}
