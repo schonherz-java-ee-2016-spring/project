@@ -105,42 +105,21 @@ public class MBResultsBean implements Serializable {
 		// Filling the Results
 
 		Random rand = new Random();
-		List<Integer> examResultList = new ArrayList<>();
-		List<Integer> homeworkResultList = new ArrayList<>();
-		List<ExamResultVo> examResults = new ArrayList<>();
-		List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 		for (Course course : courses) {
 			for (UserResults userResult : course.getUserResults()) {
+				List<ExamResultVo> examResults = new ArrayList<>();
+				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				for (int i = 0; i < lessons.size(); i++) {
-					if (i != lessons.size() - 1) {
-						examResultList.add(rand.nextInt(10));
-						homeworkResultList.add(rand.nextInt(10));
-					} else {
-						examResultList.add(rand.nextInt(100) + 100);
-						homeworkResultList.add(rand.nextInt(100) + 100);
-					}
-					examResults.add(new ExamResultVo());
-					homeworkResults.add(new HomeworkResultVo());
+					ExamResultVo examResult = new ExamResultVo();
+					examResult.setScore(rand.nextInt(10));
+					examResults.add(examResult);
+					HomeworkResultVo homeworkResult = new HomeworkResultVo();
+					homeworkResult.setScore(rand.nextInt(10));
+					homeworkResults.add(homeworkResult);
+				}
 
-				}
-				Iterator<Integer> examResultIterator = examResultList.iterator();
-				Iterator<Integer> homeworkResultIterator = homeworkResultList.iterator();
-				for (ExamResultVo examResult : examResults) {
-					if (examResultIterator.hasNext()) {
-						examResult.setScore(examResultIterator.next());
-					}
-				}
-				for (HomeworkResultVo homeworkResult : homeworkResults) {
-					if (homeworkResultIterator.hasNext()) {
-						homeworkResult.setScore(homeworkResultIterator.next());
-					}
-				}
 				userResult.setExamResults(examResults);
 				userResult.setHomeworkResults(homeworkResults);
-				examResults.clear();
-				homeworkResults.clear();
-				examResultList.clear();
-				homeworkResultList.clear();
 			}
 		}
 	}

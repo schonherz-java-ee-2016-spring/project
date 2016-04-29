@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
+import hu.schonherz.training.core.admin.entity.Event;
 import hu.schonherz.training.core.admin.entity.User;
 
 /**
@@ -29,7 +30,7 @@ public class HomeworkResult extends BaseEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "homework_id", referencedColumnName = "id")
-	private Homework homework;
+	private Event homework;
 
 	private Integer score;
 
@@ -65,7 +66,7 @@ public class HomeworkResult extends BaseEntity implements Serializable {
 	 * 
 	 * @return the homework
 	 */
-	public Homework getHomework() {
+	public Event getHomework() {
 		return homework;
 	}
 
@@ -75,7 +76,7 @@ public class HomeworkResult extends BaseEntity implements Serializable {
 	 * @param homework
 	 *            the homework.
 	 */
-	public void setHomework(Homework homework) {
+	public void setHomework(Event homework) {
 		this.homework = homework;
 	}
 

@@ -18,6 +18,10 @@
     	<converter-id>RoleGroupConverter</converter-id>
     	<converter-class>hu.schonherz.training.web.RoleGroupConverter</converter-class>
 	</converter>
+	<converter>
+    	<converter-id>UserGroupConverter</converter-id>
+    	<converter-class>hu.schonherz.training.web.UserGroupConverter</converter-class>
+	</converter>
 
 	<application>
 	
