@@ -1,11 +1,7 @@
 package hu.schonherz.training.core.exam.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
@@ -23,26 +19,14 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 public class Option extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "question_id")
-	private Question question;
-
 	@Column(name = "correct", columnDefinition = "boolean default false")
 	private Boolean correct;
 
-	@Column(name = "option_text", nullable = true)
-	private String optionText;
+	@Column(name = "text", nullable = true)
+	private String text;
 
 	public Option() {
 		super();
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
 	}
 
 	public Boolean getCorrect() {
@@ -53,12 +37,12 @@ public class Option extends BaseEntity {
 		this.correct = correct;
 	}
 
-	public String getOptionText() {
-		return optionText;
+	public String getText() {
+		return text;
 	}
 
-	public void setOptionText(String optionText) {
-		this.optionText = optionText;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@PrePersist

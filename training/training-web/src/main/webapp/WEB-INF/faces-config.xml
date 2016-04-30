@@ -48,17 +48,6 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/testfeatures/textbasedQuestion.xhtml</from-view-id>
-		<navigation-case>
-			<from-outcome>goToExamQuestionsPage</from-outcome>
-			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
-			<redirect/>
-		</navigation-case>
-	</navigation-rule>
-	
-	
 	<navigation-rule>
 		<from-view-id>/testfeatures/examQuestions.xhtml</from-view-id>
 		<navigation-case>
@@ -76,17 +65,22 @@
 			<to-view-id>/testfeatures/textbasedQuestion.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<from-view-id>/testfeatures/multipleQuestion.xhtml</from-view-id>
 		<navigation-case>
-			<from-outcome>goToExamQuestionsPage</from-outcome>
-			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<from-outcome>goToSingleQuestionDetailsPage</from-outcome>
+			<to-view-id>/testfeatures/singleQuestionDetails.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToMultipleQuestionDetailsPage</from-outcome>
+			<to-view-id>/testfeatures/multipleQuestionDetails.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>goToTextbasedQuestionDetailsPage</from-outcome>
+			<to-view-id>/testfeatures/textbasedQuestionDetails.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
-	
 	<navigation-rule>
 		<from-view-id>/testfeatures/singleQuestion.xhtml</from-view-id>
 		<navigation-case>
@@ -95,5 +89,56 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/testfeatures/multipleQuestion.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/testfeatures/textbasedQuestion.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/testfeatures/singleQuestionDetails.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/multipleQuestionDetails.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/testfeatures/textbasedQuestionDetails.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamQuestionsPage</from-outcome>
+			<to-view-id>/testfeatures/examQuestions.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/examChoose.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamFill</from-outcome>
+			<to-view-id>/testfeatures/examFill.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+
 
 </faces-config>

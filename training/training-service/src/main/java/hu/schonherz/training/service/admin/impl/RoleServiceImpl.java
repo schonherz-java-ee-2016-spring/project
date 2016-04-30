@@ -1,6 +1,5 @@
 package hu.schonherz.training.service.admin.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -30,11 +29,11 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public List<RoleVo> findAllRole() throws Exception {
 		List<RoleVo> vos;		
-		if (roleRepository.findAll() == null) {
-			vos = new ArrayList<>();
-		} else {
+//		if (roleRepository.findAll() == null) {
+//			vos = new ArrayList<>();
+//		} else {
 			vos = RoleMapper.toVo(roleRepository.findAll());
-		}
+//		}
 		return vos;
 	}
 	

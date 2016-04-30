@@ -12,17 +12,19 @@
 
 		<body>
 
-			<p:accordionPanel id="userGroupAccordion" var="userGroup" value="#{resultsBean.userGroups}" activeIndex="true" >
-				<p:tab title="#{userGroup.groupName}" >
-					<p:accordionPanel id="userAccordion" var="user" value="#{resultsBean.users}" activeIndex="true">
-						<p:ajax event="tabChange" listener="#{userChangeBean.onUserTabChange}" update="userTab"></p:ajax>
-						<p:tab id="userTab" title="#{user.fullName}">
+			<p:accordionPanel id="userGroupAccordion" var="course"
+				value="#{resultsBean.courses}" activeIndex="true">
+				<p:tab title="#{course.userGroup.groupName}">
+
+					<p:accordionPanel id="userAccordion" var="userResult"
+						value="#{course.userResults}" activeIndex="true">
+						<p:tab title="#{userResult.user.fullName}">
 
 							<table id="resultTable" class="table-header-rotated">
 								<thead>
 									<tr>
 										<th></th>
-										<ui:repeat var="lesson" value="#{resultsBean.lessons}">
+										<ui:repeat var="lesson" value="#{course.lessons}">
 											<th class="rotate"><div>
 													<span>#{lesson.lessonName}</span>
 												</div></th>
@@ -32,22 +34,19 @@
 								<tbody>
 									<tr>
 										<td class="row-header">Tesztek</td>
-										<ui:repeat var="examResult" value="#{resultsBean.examResults}">
-											<td>#{examResult.score}</td>
-										</ui:repeat>
+										<ui:repeat var="examResult" value="#{userResult.examResults}">
+ 											<td>#{examResult.score}</td>
+ 										</ui:repeat>
 									</tr>
-
-
 									<tr>
 										<td class="row-header">Házik</td>
-										<ui:repeat var="homeworkResult"
-											value="#{resultsBean.homeworkResults}">
-											<td>#{homeworkResult.score}</td>
-										</ui:repeat>
+										<ui:repeat var="homeworkResult" value="#{userResult.homeworkResults}">
+ 											<td>#{homeworkResult.score}</td>
+ 										</ui:repeat>
 									</tr>
-
 								</tbody>
 							</table>
+
 						</p:tab>
 					</p:accordionPanel>
 				</p:tab>

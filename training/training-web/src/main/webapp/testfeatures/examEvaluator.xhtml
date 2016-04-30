@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<ui:define name="pageTitle">Exam evaluator</ui:define>
+	<ui:define name="content">
+
+		<!-- The dropdown menu to select the exam -->
+		<h:form id="selectionForm">
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="examSelection" value="Exam:" />
+				<p:selectOneMenu id="examSelection"
+					value="#{examEvaluatorBean.selectedExamIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examEvaluatorBean.examList}" var="exam"
+						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="userSelection" value="User:" />
+				<p:selectOneMenu id="userSelection"
+					value="#{examEvaluatorBean.selectedUserIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examEvaluatorBean.userList}" var="user"
+						itemLabel="#{user.userName}" itemValue="#{user.id}" />
+				</p:selectOneMenu>
+				<f:facet name="footer">
+					<p:commandButton value="Load Content"
+						actionListener="#{examEvaluatorBean.loadContent}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+
+		<!-- The datatable of the textbased answers -->
+		<h:form id="evaluatorForm">
+			<p:dataTable id="answerTable" value="#{examEvaluatorBean.answerTextList}"
+				var="answerText">
+				<p:column headerText="Student name">
+				#{answerText.answer.user.userName}
+				</p:column>
+				<p:column headerText="Answer text">
+				#{answerText.text}
+				</p:column>
+				<p:column headerText="Acceptable">
+				TODO Two checkboxs
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="Apply"
+						actionListener="#{examEvaluatorBean.applyEvaluation}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

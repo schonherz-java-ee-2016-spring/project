@@ -10,6 +10,8 @@ import javax.interceptor.Interceptors;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
@@ -28,6 +30,8 @@ import hu.schonherz.training.service.admin.vo.UserVo;
 @Interceptors({ SpringBeanAutowiringInterceptor.class })
 public class UserServiceImpl implements UserService {
 
+	static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -42,11 +46,11 @@ public class UserServiceImpl implements UserService {
 
 	private RoleGroup getGuestRoleGroup() throws Exception {
 		RoleGroup roleGroup = roleGroupRepository.findByName("Guest Role Group");
-		if (roleGroup == null) {
-			roleGroup = new RoleGroup();
-			roleGroup.setName("Guest Role Group");
-			roleGroup = roleGroupRepository.save(roleGroup);
-		}
+//		if (roleGroup == null) {
+//			roleGroup = new RoleGroup();
+//			roleGroup.setName("Guest Role Group");
+//			roleGroup = roleGroupRepository.save(roleGroup);
+//		}
 		return roleGroup;
 	}
 
@@ -76,14 +80,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registrationUser(UserVo userVo) {
 		User user = UserMapper.toDto(userVo);
-		Collection<RoleGroup> roles = user.getRoleGroups();
-		if (roles == null || roles.isEmpty()) {
-			roles = new ArrayList<>();
-		}
+		Collection<RoleGroup> roles = new ArrayList<>();
+//		if (roles == null) {
+//			roles = new ArrayList<>();
+//		}
 		RoleGroup roleGroup = null;
 		try {
 			roleGroup = getGuestRoleGroup();
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
 		roles.add(roleGroup);
@@ -109,7 +114,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			user = userRepository.findUserById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			logger.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
 		return UserMapper.toVo(user);

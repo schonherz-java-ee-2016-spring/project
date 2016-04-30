@@ -3,10 +3,10 @@ package hu.schonherz.training.service.exam.vo;
 import java.util.List;
 
 public class ExamVo extends BaseIdentityVo {
-	private static final long serialVersionUID = -3311497706032167761L;
 
+	private static final long serialVersionUID = 1L;
 	private String title;
-	private List<QuestionVo> questionList;
+	private List<QuestionVo> questions;
 
 	public ExamVo() {
 		super();
@@ -20,12 +20,12 @@ public class ExamVo extends BaseIdentityVo {
 		this.title = title;
 	}
 
-	public List<QuestionVo> getQuestionList() {
-		return questionList;
+	public List<QuestionVo> getQuestions() {
+		return questions;
 	}
 
-	public void setQuestionList(List<QuestionVo> questionList) {
-		this.questionList = questionList;
+	public void setQuestions(List<QuestionVo> questions) {
+		this.questions = questions;
 	}
 
 }

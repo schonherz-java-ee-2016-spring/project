@@ -57,15 +57,29 @@ public class TrainingBean implements Serializable {
 		List<TreeNode> nodes = root1.getChildren();
 		List<ThemeVo> vos = new ArrayList<>();
 		for (TreeNode treeNode : nodes) {
-			vos.add(themeService.getThemeByName(treeNode.getData().toString()));
+			if (treeNode.getData() != null) {
+				vos.add(themeService.getThemeByName(treeNode.getData().toString()));
+			}
 		}
 		selected.setThemes(vos);
-		 trainingService.saveTraining(selected);
+		trainingService.saveTraining(selected);
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Training saved!");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void treeAction(){
+	public void treeAction() {
 		root1 = new DefaultTreeNode("Root", null);
 		root2 = new DefaultTreeNode("Root2", null);
+
+		List<TreeNode> child = new ArrayList<TreeNode>();
+		List<TreeNode> child2 = new ArrayList<TreeNode>();
+		TreeNode t1 = new DefaultTreeNode();
+		TreeNode t2 = new DefaultTreeNode();
+		t1.setSelectable(false);
+		t2.setSelectable(false);
+		child.add(t1);
+		child2.add(t2);
+
 		List<ThemeVo> tvos = themeService.findAllTheme();
 		List<ThemeVo> selectedThemes = trainingService.getTrainingById(selected.getId()).getThemes();
 
@@ -73,25 +87,19 @@ public class TrainingBean implements Serializable {
 			int o = 0;
 			for (ThemeVo themeVo2 : selectedThemes) {
 				if (themeVo.getId().equals(themeVo2.getId())) {
-					new DefaultTreeNode(themeVo.getName(), root1);
+					child.remove(t1);
+					child.add(new DefaultTreeNode(themeVo.getName()));
 					o = 1;
 					break;
 				}
 			}
 			if (o == 0) {
-				new DefaultTreeNode(themeVo.getName(), root2);
+				child2.remove(t2);
+				child2.add(new DefaultTreeNode(themeVo.getName()));
 			}
 		}
-	}
-
-	public void onDragDrop(TreeDragDropEvent event) {
-		TreeNode dragNode = event.getDragNode();
-		TreeNode dropNode = event.getDropNode();
-		int dropIndex = event.getDropIndex();
-
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dragged " + dragNode.getData(),
-				"Dropped on " + dropNode.getData() + " at " + dropIndex);
-		FacesContext.getCurrentInstance().addMessage(null, message);
+		((DefaultTreeNode) root1).setChildren(child);
+		((DefaultTreeNode) root2).setChildren(child2);
 	}
 
 	public void selectTrainingListener(SelectEvent event) {
