@@ -155,12 +155,23 @@
 								<li><a
 									href="#{request.contextPath}/testfeatures/examChoose.xhtml">Take
 										a test</a></li>
+
 								<li><a
 									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">Evaluate
 										tests</a></li>
-								<li><a
-									href="#{request.contextPath}/testfeatures/examReview.xhtml">Review
-										tests</a></li>
+
+								<sec:authorize access="hasRole('STUDENT')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">Review
+									</a></li>
+								</sec:authorize>
+								
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">Review
+									</a></li>
+								</sec:authorize>
+
 							</ul></li>
 						<sec:authorize access="hasRole('FEEDBACKS')">
 							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
