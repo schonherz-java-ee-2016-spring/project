@@ -7,6 +7,7 @@ import javax.ejb.EJB;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -37,6 +38,15 @@ public class ExamServiceTest {
 		serviceLocal.save(examVo);
 	}
 
+	@After
+	public void tearDown() {
+		try {
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
+			serviceLocal.removeById(examVo.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void getAllExamTest() {

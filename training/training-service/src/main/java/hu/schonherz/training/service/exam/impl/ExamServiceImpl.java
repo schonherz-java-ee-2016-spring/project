@@ -41,6 +41,17 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
+	public ExamVo getByTitle(String title) throws Exception {
+		try {
+			return ExamMapper.toVo(examRepository.findByTitleIgnoreCase(title));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+
+	}
+
+	@Override
 	public ExamVo getById(Long id) throws Exception {
 		try {
 			return ExamMapper.toVo(examRepository.findOne(id));
