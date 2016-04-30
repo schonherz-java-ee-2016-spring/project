@@ -5,18 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
-import hu.schonherz.training.service.supervisor.vo.LessonsVo;
-import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
+import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
+import hu.schonherz.training.service.supervisor.vo.LessonsVo;
 
-@ManagedBean(name = "resultsBean")
+@ManagedBean(name = "resultsBean", eager = true)
 @ViewScoped
-public class ResultsBean implements Serializable {
+public class MBResultsBean implements Serializable {
+
+	@EJB
+	private UserGroupService userGroupService;
 
 	private List<UserGroupVo> userGroups = new ArrayList<>();
 
@@ -32,9 +37,8 @@ public class ResultsBean implements Serializable {
 			"Fejlesztési módszertanok", "Összesen" };
 
 	private List<HomeworkResultVo> homeworkResults = new ArrayList<>();
-	private static Integer[] homeworkResultPoints = { 8, 10, 9, 7, 5, 4, 7, 10, 9, 10, 6, 4, 8, 9, 10, 8, 9, 10, 132 };
+
 	private List<ExamResultVo> examResults = new ArrayList<>();
-	private static Integer[] examResultPoints = { 9, 8, 7, 9, 8, 9, 8, 9, 8, 9, 8, 10, 9, 8, 9, 10, 7, 4, 143 };
 
 	@PostConstruct
 	public void init() {
@@ -50,24 +54,18 @@ public class ResultsBean implements Serializable {
 			lesson.setLessonName(lessonNames[k]);
 			k++;
 		}
-		k = 0;
-		for (HomeworkResultVo homeworkResult : homeworkResults) {
-			homeworkResult.setScore(homeworkResultPoints[k]);
-			k++;
-		}
-		k = 0;
-		for (ExamResultVo examResult : examResults) {
-			examResult.setScore(examResultPoints[k]);
-			examResult.setMaxScore(10);
-			k++;
-		}
 
 		// UserGroups
-		userGroups.add(new UserGroupVo());
-		userGroups.add(new UserGroupVo());
-		for (UserGroupVo userGroup : userGroups) {
-			userGroup.setGroupName("Schonherz Java EE Training 2016");
+		try {
+			userGroups = userGroupService.getUserGroups();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		// userGroups.add(new UserGroupVo());
+		// userGroups.add(new UserGroupVo());
+		// for (UserGroupVo userGroup : userGroups) {
+		// userGroup.setGroupName("Schonherz Java EE Training 2016");
+		// }
 
 		// Users
 		for (int i = 0; i < 10; i++) {
@@ -86,7 +84,7 @@ public class ResultsBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ResultsBean() {
+	public MBResultsBean() {
 		// TODO Auto-generated constructor stub
 	}
 

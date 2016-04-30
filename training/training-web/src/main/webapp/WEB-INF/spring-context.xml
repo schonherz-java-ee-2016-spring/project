@@ -17,12 +17,7 @@
 	<jee:local-slsb id="UserService"
 		jndi-name="java:global/ear/training-service/UserService!hu.schonherz.training.service.admin.UserService"
 		business-interface="hu.schonherz.training.service.admin.UserService" />
-		
-	<jee:local-slsb id="InterviewService"
-
-		jndi-name="java:global/ear/training-service/InterviewService!hu.schonherz.training.service.supervisor.InterviewService"
-		business-interface="hu.schonherz.training.service.supervisor.InterviewService" />
-		
+			
 	<jee:local-slsb id="FeedbackService"
 		jndi-name="java:global/ear/training-service/FeedbackService!hu.schonherz.training.service.supervisor.FeedbackService"
 		business-interface="hu.schonherz.training.service.supervisor.FeedbackService" />	

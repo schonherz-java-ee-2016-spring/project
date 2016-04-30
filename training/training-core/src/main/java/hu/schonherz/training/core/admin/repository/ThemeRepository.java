@@ -1,5 +1,7 @@
 package hu.schonherz.training.core.admin.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,4 +13,9 @@ import hu.schonherz.training.core.admin.entity.Theme;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface ThemeRepository extends JpaRepository<Theme, Long> {
 
+	Theme findByName( String themeName );
+	
+	List<Theme> findByType( String type );
+	
+	Theme findByThemeCode( String themeCode );
 }

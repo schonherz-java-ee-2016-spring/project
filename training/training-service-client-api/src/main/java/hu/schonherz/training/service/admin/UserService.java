@@ -17,7 +17,7 @@ public interface UserService {
 	public void deleteUserById(Long id) throws Exception;
 	
 	public void updateUser(UserVo userVo);
-
+	
 	public void modifyUser(UserVo selectedUser) throws Exception;
 
 	public UserVo findUserById(Long id);

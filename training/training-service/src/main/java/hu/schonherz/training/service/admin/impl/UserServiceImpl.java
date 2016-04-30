@@ -98,9 +98,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void modifyUser(UserVo selectedUser) throws Exception {
-		userRepository.updateUser(selectedUser.getUserName(), selectedUser.getFullName(), selectedUser.getEmail(),
-				selectedUser.getId());
-//		userRepository.save(UserMapper.toDto(selectedUser));
+//		userRepository.updateUser(selectedUser.getUserName(), selectedUser.getFullName(), selectedUser.getEmail(),
+//				selectedUser.getId());
+		userRepository.save(UserMapper.toDto(selectedUser));
 	}
 
 	@Override
@@ -117,6 +117,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUser(UserVo userVo) {
+		String email = userVo.getEmail();
+		userVo.setEmail(email + "asd");
+		userRepository.save(UserMapper.toDto(userVo));
+		userVo.setEmail(email);
 		userRepository.save(UserMapper.toDto(userVo));
 	}
 
