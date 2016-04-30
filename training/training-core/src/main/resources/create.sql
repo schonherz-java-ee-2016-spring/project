@@ -213,8 +213,8 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'O
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'Option10', 2010);
 
-INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
-INSERT INTO public.option(id, correct, question_id) VALUES (2013, false, 2012);
+INSERT INTO public.option(id, question_id) VALUES (2012, 2011);
+INSERT INTO public.option(id, question_id) VALUES (2013, 2012);
 
 
 
@@ -225,8 +225,8 @@ INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, f
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2006, true);
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2007, true);
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (5, 2001, 2009, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (7, 2001, 2012, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (8, 2001, 2013, true);
+INSERT INTO public.answer(id, user_id, option_id) VALUES (7, 2001, 2012);
+INSERT INTO public.answer(id, user_id, option_id) VALUES (8, 2001, 2013);
 
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (200, 7, 'Atkaaaaaaaaaaaaaaaaaa');
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (201, 8, 'Filitáááááááááán');
