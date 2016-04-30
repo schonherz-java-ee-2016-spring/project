@@ -6,24 +6,25 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Exam Review</ui:define>
+	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
 
 
 		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-				<p:outputLabel for="examSelection" value="Exam:" />
+				<p:outputLabel for="examSelection" value="#{out.exam}:" />
 				<p:selectOneMenu id="examSelection"
-					value="#{examReviewBean.selectedExamIdAsString}"
+					value="#{examReviewForStudentBean.selectedExamIdAsString}"
 					style="width:125px">
-					<f:selectItems value="#{examReviewBean.examList}" var="exam"
+					<f:selectItems value="#{examReviewForStudentBean.examList}" var="exam"
 						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
 				</p:selectOneMenu>
 
+
 				<f:facet name="footer">
-					<p:commandButton value="Load Content"
-						actionListener="#{examReviewBean.loadContent}"
+					<p:commandButton value="#{out.loadcontent}"
+						actionListener="#{examReviewForStudentBean.loadContent}"
 						icon="ui-icon-check" />
 				</f:facet>
 			</h:panelGrid>
@@ -39,7 +40,7 @@
 }
 </style>
 		<h:form id="optionTableForm">
-			<ui:repeat var="question" value="#{examReviewBean.questionList}">
+			<ui:repeat var="question" value="#{examReviewForStudentBean.questionList}">
 				<p:dataTable var="option" value="#{question.options}"
 					rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
 					<f:facet name="header">
@@ -49,19 +50,19 @@
 						<h:outputText value="#{option.id}" />
 					</p:column>
 
-					<p:column headerText="Content">
+					<p:column headerText="#{out.content}">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 
-					<p:column headerText="Selected">
+					<p:column headerText="#{out.selected}">
 						<h:outputText
-							rendered="#{examReviewBean.selectedOptionIdList.contains(option.id)}"
+							rendered="#{examReviewForStudentBean.selectedOptionIdList.contains(option.id)}"
 							value="Hát ezt bizony bejelölted:D"></h:outputText>
 					</p:column>
 
 
 				</p:dataTable>
-				<h:outputText value="Note:" />
+				<h:outputText value="#{out.questionnote}:" />
 				<p />
 				<h:outputText value="#{question.note}" style="font-weight:bold" />
 				<p:separator style="width:1000px;height:15px" />
