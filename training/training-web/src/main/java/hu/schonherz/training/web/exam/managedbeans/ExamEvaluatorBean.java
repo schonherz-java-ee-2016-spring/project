@@ -100,7 +100,10 @@ public class ExamEvaluatorBean implements Serializable {
 		RequestContext.getCurrentInstance().update("answerTextEvaluatorForm");
 	}
 
-	public void applyEvaluation() {
+	public void applyEvaluation() throws Exception {
+		for (EvalRecord evalRecord : evalRecordList) {
+			answerService.modifyGoodById(evalRecord.getAnswer(), evalRecord.getAnswer().getGood());
+		}
 	}
 
 	/**
