@@ -50,35 +50,6 @@
 				</div>
 			</div>
 
-<!-- 			<p:message for="password" id="msgpassword" showDetail="true" /> -->
-
-			<div class="form-group">
-				<label for="password" class="col-sm-3">#{out.password}</label>
-				<div class="col-sm-9">
-					<p:password styleClass="form-control" id="password"
-						value="#{registrationBean.password}" label="password"
-						required="true" match="passwordConfirm">
-						<!-- 						<f:validateLength minimum="2" /> -->
-
-					</p:password>
-				</div>
-			</div>
-
-<!-- 			<p:message for="passwordConfirm" id="msgpasswordConfirm" -->
-<!-- 				showDetail="true" /> -->
-
-			<div class="form-group">
-				<label for="passwordConfirm" class="col-sm-3">#{out.passwordconfirm}</label>
-				<div class="col-sm-9">
-					<p:password styleClass="form-control" id="passwordConfirm"
-						value="#{registrationBean.passwordConfirm}"
-						label="passwordConfirm" required="true">
-						<!-- 						<f:validateLength minimum="2" /> -->
-
-					</p:password>
-				</div>
-			</div>
-
 			<p:commandButton styleClass="btn btn-primary" value="Save" update="form,growl"
 				action="#{registrationBean.registration}" icon="ui-icon-check" />
 		</h:form>

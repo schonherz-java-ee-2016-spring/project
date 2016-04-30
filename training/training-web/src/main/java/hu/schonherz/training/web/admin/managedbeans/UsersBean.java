@@ -41,6 +41,7 @@ public class UsersBean implements Serializable {
 	private String fullname;
 	private String email;
 	private boolean selected;
+	private String message;
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
@@ -143,9 +144,12 @@ public class UsersBean implements Serializable {
 		userVo.setUserName(username);
 		userVo.setEmail(email);
 		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
+		userVo.setHashCode(bCryptPasswordEncoder.encode(uuid));
 		try {
 			userService.registrationUser(userVo);
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", uuid);
+			message = ("http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath()
+					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode());
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
 			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
@@ -321,6 +325,22 @@ public class UsersBean implements Serializable {
 
 	public void setMailSenderBean(MailSenderBean mailSenderBean) {
 		this.mailSenderBean = mailSenderBean;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Session getMailSessionSeznam() {
+		return mailSessionSeznam;
+	}
+
+	public void setMailSessionSeznam(Session mailSessionSeznam) {
+		this.mailSessionSeznam = mailSessionSeznam;
 	}
 
 }

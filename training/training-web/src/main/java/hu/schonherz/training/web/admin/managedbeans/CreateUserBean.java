@@ -63,9 +63,7 @@ public class CreateUserBean implements Serializable {
 
 		userVo.setFullName(fullname);
 
-		userVo.setEmail(email);
-		
-		userVo.setHashCode("ASD");
+		userVo.setEmail(email);		
 
 		if (email == null) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "E-mail must filled!");
@@ -80,9 +78,7 @@ public class CreateUserBean implements Serializable {
 		}
 
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-
 		String uuid = UUID.randomUUID().toString();
-
 		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
 
 		try {
