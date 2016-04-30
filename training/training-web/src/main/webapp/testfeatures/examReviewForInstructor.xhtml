@@ -6,7 +6,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Exam Review</ui:define>
+	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
 
 	<style>
@@ -22,7 +22,7 @@
 		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionUserForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-				<p:outputLabel for="userSelection" value="User:" />
+				<p:outputLabel for="userSelection" value="#{out.user}:" />
 				<p:selectOneMenu id="userSelection"
 					value="#{examReviewForInstructorBean.userIdAsString}"
 					style="width:125px">
@@ -32,7 +32,7 @@
 
 
 				<f:facet name="footer">
-					<p:commandButton value="Load Exams"
+					<p:commandButton value="#{out.loadexams}"
 						actionListener="#{examReviewForInstructorBean.loadExamList}" update="panelId"
 						icon="ui-icon-check" />
 				</f:facet>
@@ -42,7 +42,7 @@
 		
 		<h:form id="selectionExamForm" rendered="#{not empty examReviewForInstructorBean.examList}">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-				<p:outputLabel for="examSelection" value="Exam:" />
+				<p:outputLabel for="examSelection" value="#{out.exam}:" />
 				<p:selectOneMenu id="examSelection"
 					value="#{examReviewForInstructorBean.selectedExamIdAsString}"
 					style="width:125px">
@@ -52,7 +52,7 @@
 
 
 				<f:facet name="footer">
-					<p:commandButton value="Load Content"
+					<p:commandButton value="#{out.loadcontent}"
 						actionListener="#{examReviewForInstructorBean.loadContent}" update="panelId"
 						icon="ui-icon-check" />
 				</f:facet>
@@ -70,11 +70,11 @@
 						<h:outputText value="#{option.id}" />
 					</p:column>
 
-					<p:column headerText="Content">
+					<p:column headerText="#{out.content}">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 
-					<p:column headerText="Selected">
+					<p:column headerText="#{out.selected}">
 						<h:outputText
 							rendered="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id)}"
 							value="Hát ezt bizony bejelölted:D"></h:outputText>
@@ -82,7 +82,7 @@
 
 
 				</p:dataTable>
-				<h:outputText value="Note:" />
+				<h:outputText value="#{out.questionnote}:" />
 				<p />
 				<h:outputText value="#{question.note}" style="font-weight:bold" />
 				<p:separator style="width:1000px;height:15px" />

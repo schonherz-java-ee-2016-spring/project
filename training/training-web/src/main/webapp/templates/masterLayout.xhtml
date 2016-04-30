@@ -159,13 +159,13 @@
 
 								<sec:authorize access="hasRole('STUDENT')">
 									<li><a
-										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">Review
+										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
 									</a></li>
 								</sec:authorize>
 								
 								<sec:authorize access="hasRole('INSTRUCTOR')">
 									<li><a
-										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">Review
+										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}
 									</a></li>
 								</sec:authorize>
 
