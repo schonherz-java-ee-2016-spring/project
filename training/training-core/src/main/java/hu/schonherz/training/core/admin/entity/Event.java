@@ -27,7 +27,7 @@ public class Event extends BaseEntity {
 	private Collection<UserGroup> groups;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "user_to_event", joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+	@JoinTable(name = "user_to_event", joinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
 	private Collection<User> users;
 	
 	public String getName() {
