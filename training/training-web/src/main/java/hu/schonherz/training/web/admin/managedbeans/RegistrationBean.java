@@ -62,7 +62,9 @@ public class RegistrationBean implements Serializable {
 			// itt kell majd az userService regisztrációs szolgáltatását
 			// meghívni, majd ha lesz.
 			userService.registrationUser(userVo);
-			message = "http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath()
+			message = "http://" + currentInstance.getExternalContext().getRequestServerName()
+					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
+					+ currentInstance.getExternalContext().getRequestContextPath()
 					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
 		} catch (Exception e) {

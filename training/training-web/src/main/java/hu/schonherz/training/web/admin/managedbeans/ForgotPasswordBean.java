@@ -64,7 +64,9 @@ public class ForgotPasswordBean {
 			uuid = uuid.substring(0, 8);
 			testUser.setHashCode(bCryptPasswordEncoder.encode(uuid));
 			userService.registrationUser(testUser);
-			message = "http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath()
+			message = "http://" + currentInstance.getExternalContext().getRequestServerName()
+					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
+					+ currentInstance.getExternalContext().getRequestContextPath()
 					+ "/public/setupPassword.xhtml?code=" + testUser.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", message);
 		} catch (Exception e) {

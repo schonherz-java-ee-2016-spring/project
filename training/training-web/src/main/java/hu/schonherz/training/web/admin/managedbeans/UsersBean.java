@@ -147,8 +147,10 @@ public class UsersBean implements Serializable {
 		userVo.setHashCode(bCryptPasswordEncoder.encode(uuid));
 		try {
 			userService.registrationUser(userVo);
-			message = ("http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath()
-					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode());
+			message = "http://" + currentInstance.getExternalContext().getRequestServerName()
+					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
+					+ currentInstance.getExternalContext().getRequestContextPath()
+					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
 			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 		} catch (Exception e) {
