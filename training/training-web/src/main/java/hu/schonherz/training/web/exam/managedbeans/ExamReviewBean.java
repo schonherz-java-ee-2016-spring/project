@@ -51,12 +51,11 @@ public class ExamReviewBean implements Serializable {
 
 	private List<QuestionVo> questionList;
 	private List<AnswerVo> answerList;
+	private List<Long> selectedOptionIdList;
 
 	@PostConstruct
 	public void initBean() {
 		try {
-			questionList = new ArrayList<>();
-
 			setUser(userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
 			examList = examUserRelationService.getAllExamByUserId(user.getId());
 			setAnswerList(new ArrayList<>());
@@ -65,7 +64,7 @@ public class ExamReviewBean implements Serializable {
 		}
 	}
 
-	public void loadContent() throws Exception {
+	public void loadContent() {
 		try {
 			questionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString));
 			answerList = getAnswerService().getAllByUserId(user.getId());
@@ -73,9 +72,10 @@ public class ExamReviewBean implements Serializable {
 					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
 					.collect(Collectors.toList());
+			setUpselectedOptionIdList();
 			updateQuestionList();
-			updateQuestionListByAnswers();
-
+	
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,41 +86,47 @@ public class ExamReviewBean implements Serializable {
 		for (QuestionVo question : questionList) {
 			if (question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
 				for (OptionVo option : question.getOptions()) {
-					AnswerTextVo answerText = answerTextService.getByAnswerId(answerList.stream().filter(a -> {
-						if (a.getOption().getId().equals(option.getId())) {
-							option.setCorrect(a.getGood());
-							return true;
-						}
-						return false;
-					}).findFirst().get().getId());
-					option.setText(answerText.getText());
+					setUpOptionByTextBased(option);
+				}
+			} else {
+				for (OptionVo option : question.getOptions()) {
+					setUpOptionByNonTextBased(option);
 				}
 			}
 		}
 	}
 
-	private void updateQuestionListByAnswers() throws Exception {
-		for (QuestionVo question : questionList) {
-			if (!question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
-				for (OptionVo option : question.getOptions()) {
-
-					List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId())).collect(Collectors.toList());
-					
-					if (list.isEmpty()) {
-						option.setCorrect(null);
-						continue;
-					}
-					AnswerVo answer = list.get(0);
-
-					if (answer.getGood() == true) {
-						option.setCorrect(true);
-					} else if (answer.getGood() == false) {
-						option.setCorrect(false);
-					}
-					
-				}
+	private void setUpOptionByTextBased(OptionVo option) throws Exception {
+		AnswerTextVo answerText = answerTextService.getByAnswerId(answerList.stream().filter(a -> {
+			if (a.getOption().getId().equals(option.getId())) {
+				option.setCorrect(a.getGood());
+				return true;
 			}
+			return false;
+		}).findFirst().get().getId());
+		option.setText(answerText.getText());
+	}
+
+	private void setUpOptionByNonTextBased(OptionVo option) throws Exception {
+		List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId()))
+				.collect(Collectors.toList());
+
+		if (list.isEmpty()) {
+			option.setCorrect(null);
+			return;
 		}
+
+		AnswerVo answer = list.get(0);
+		if (answer.getGood() == true) {
+			option.setCorrect(true);
+		} else if (answer.getGood() == false) {
+			option.setCorrect(false);
+		}
+	}
+	
+	private void setUpselectedOptionIdList() {
+		selectedOptionIdList = new ArrayList<Long>();
+		answerList.forEach(a -> selectedOptionIdList.add(a.getOption().getId()));
 	}
 
 	public ExamService getExamService() {
@@ -209,6 +215,14 @@ public class ExamReviewBean implements Serializable {
 
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
+	}
+
+	public List<Long> getSelectedOptionIdList() {
+		return selectedOptionIdList;
+	}
+
+	public void setSelectedOptionIdList(List<Long> selectedOptionIdList) {
+		this.selectedOptionIdList = selectedOptionIdList;
 	}
 
 }

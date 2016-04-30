@@ -52,6 +52,14 @@
 					<p:column headerText="Content">
 						<h:outputText value="#{option.text}" />
 					</p:column>
+
+					<p:column headerText="Selected">
+						<h:outputText
+							rendered="#{examReviewBean.selectedOptionIdList.contains(option.id)}"
+							value="Hát ezt bizony bejelölted:D"></h:outputText>
+					</p:column>
+
+
 				</p:dataTable>
 				<h:outputText value="Note:" />
 				<p />
