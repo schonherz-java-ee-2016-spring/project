@@ -2,25 +2,33 @@ package hu.schonherz.training.service.exam.vo.eval;
 
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.vo.AnswerTextVo;
+import hu.schonherz.training.service.exam.vo.AnswerVo;
+import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
 public class EvalRecord {
 	private UserVo user;
 	private QuestionVo question;
+	private OptionVo option;
+	private AnswerVo answer;
 	private AnswerTextVo answerText;
-	private boolean correct;
 	
 	public EvalRecord() {
 		super();
 	}
+	
+	
 
-	public EvalRecord(UserVo user, QuestionVo question, AnswerTextVo answerText, boolean correct) {
+	public EvalRecord(UserVo user, QuestionVo question, OptionVo option, AnswerVo answer, AnswerTextVo answerText) {
 		super();
 		this.user = user;
 		this.question = question;
+		this.option = option;
+		this.answer = answer;
 		this.answerText = answerText;
-		this.correct = correct;
 	}
+
+
 
 	public UserVo getUser() {
 		return user;
@@ -46,11 +54,23 @@ public class EvalRecord {
 		this.answerText = answerText;
 	}
 
-	public boolean isCorrect() {
-		return correct;
+	public AnswerVo getAnswer() {
+		return answer;
 	}
 
-	public void setCorrect(boolean correct) {
-		this.correct = correct;
+	public void setAnswer(AnswerVo answer) {
+		this.answer = answer;
+	}
+
+
+
+	public OptionVo getOption() {
+		return option;
+	}
+
+
+
+	public void setOption(OptionVo option) {
+		this.option = option;
 	}
 }

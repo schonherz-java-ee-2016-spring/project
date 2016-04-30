@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,7 @@ public class ExamEvaluatorBean implements Serializable {
 		try {
 			examList = examService.getAllSortedById();
 			userList = userService.findAllUser();
+			evalRecordList = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,21 +62,13 @@ public class ExamEvaluatorBean implements Serializable {
 
 	public void loadContent() {
 		try {
+			evalRecordList.clear();
+
 			List<QuestionVo> textBasedQuestionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
 					.stream().filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
 
-			System.out.println("textBasedQuestionList");
-			for (QuestionVo question : textBasedQuestionList) {
-				System.out.println(question.getId() + " -- " + question.getText());
-			}
-
 			List<OptionVo> optionList = textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
 					.collect(Collectors.toList());
-
-			System.out.println("optionList");
-			for (OptionVo option : optionList) {
-				System.out.println(option.getId() + " -- " + option.getText());
-			}
 
 			List<AnswerVo> answerList = answerService.getAllByUserId(Long.parseLong(selectedUserIdAsString)).stream()
 					.filter(a -> optionList.stream()
@@ -82,7 +76,22 @@ public class ExamEvaluatorBean implements Serializable {
 					.collect(Collectors.toList());
 
 			for (AnswerVo answer : answerList) {
+
+				EvalRecord record = new EvalRecord();
+				record.setUser(userService.findUserById(Long.parseLong(selectedUserIdAsString)));
+
+				record.setAnswer(answer);
 				AnswerTextVo answerText = answerTextService.getByAnswerId(answer.getId());
+				record.setAnswerText(answerText);
+
+				QuestionVo question = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
+						.stream().filter(q -> q.getQuestionType().getId() == 3).filter(q -> q.getOptions().get(0)
+								.getId().longValue() == answer.getOption().getId().longValue()).findFirst().orElse(null);
+
+				record.setQuestion(question);
+				record.setOption(question.getOptions().get(0));
+
+				evalRecordList.add(record);
 			}
 
 		} catch (Exception e) {
@@ -92,7 +101,6 @@ public class ExamEvaluatorBean implements Serializable {
 	}
 
 	public void applyEvaluation() {
-		// TODO
 	}
 
 	/**
