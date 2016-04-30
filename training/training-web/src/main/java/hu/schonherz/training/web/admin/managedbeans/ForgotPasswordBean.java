@@ -125,8 +125,15 @@ public class ForgotPasswordBean {
 			e.printStackTrace();
 			return;
 		}
-		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", testVo.getFullName());
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Password updated for" + testVo.getFullName());
 		currentInstance.addMessage(null, msgs);
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+		} catch (IOException e) {
+			FacesMessage msgs2 = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!", "Redirect error!");
+			currentInstance.addMessage(null, msgs2);
+			e.printStackTrace();
+		}
 		newPassword = null;
 		newPasswordConfirm = null;
 		return;
