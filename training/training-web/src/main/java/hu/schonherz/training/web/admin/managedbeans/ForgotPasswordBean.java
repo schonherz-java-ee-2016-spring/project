@@ -1,5 +1,6 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
+import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
@@ -44,81 +45,92 @@ public class ForgotPasswordBean {
 	
 	
 	public void forgotPasswordSendMail() {
-		
 		UserVo testUser = new UserVo();
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		// Confirm email
-		if (forgotPasswordEmail == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
-					bundle.getString("emailReq"));
-			currentInstance.addMessage(null, facesMessage);
+		try {
+			testUser = userService.findUserByEmail(forgotPasswordEmail);
+			if (testUser == null) {
+				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Email doesn't exists!");
+				currentInstance.addMessage(null, msgs);
+				return;
+			}
+		} catch (Exception e1) {
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", 
+					"Email doesn't exists!");
+			currentInstance.addMessage(null, msgs);
+			e1.printStackTrace();
 			return;
 		}
 		try {
-			testUser = userService.findUserByEmail(forgotPasswordEmail);
 			// Random password generation
 			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			String uuid = (UUID.randomUUID().toString());
 			uuid = uuid.substring(0, 8);
-			//testUser.setPassword(bCryptPasswordEncoder.encode(uuid));
 			testUser.setHashCode(bCryptPasswordEncoder.encode(uuid));
-			//testUser.setFullName(forgotPasswordFName);
-			//testUser.setUserName(forgotPasswordUName);
-			//testUser.setEmail(forgotPasswordEmail);
 			userService.registrationUser(testUser);
-			message = "http://localhost:8080/training-web/public/setupPassword.xhtml?code=" + testUser.getHashCode();
+			message = "http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath() + 
+			"/public/setupPassword.xhtml?code=" + testUser.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", message);
 		} catch (Exception e) {
-			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("Error"),
-					bundle.getString("Email doesn't exists"));
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Setting up hashCode!");
 			currentInstance.addMessage(null, msgs);
 			e.printStackTrace();
+			return;
 		}
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes mail!");
 		currentInstance.addMessage(null, msgs);
+		return;
 	}
 	
-	public void resetPassword() {
+	public void hashConfirm() {
 		UserVo vo = null;
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		vo = userService.findUserByHashCode(code);
-		if (vo.getHashCode().equals(code)) {
-			System.out.println(vo.getFullName());
-			if (newPassword == null || newPasswordConfirm == null) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-						"Passwords must filled!");
-				currentInstance.addMessage(null, facesMessage);
-				return;
-			} else if (!newPassword.equals(newPasswordConfirm)) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-						"Passwords not match!");
-				currentInstance.addMessage(null, facesMessage);
-				return;
-			}
+		if (vo == null) {
 			try {
-				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-				vo.setPassword(bCryptPasswordEncoder.encode(newPassword));
-				userService.updateUser(vo);
-			} catch (Exception e) {
-				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("Error"),
-						bundle.getString("Update password error!"));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("hashError.xhtml");
+			} catch (IOException e) {
+				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!",
+						"User with that token doesn't exists!");
 				currentInstance.addMessage(null, msgs);
 				e.printStackTrace();
+				return;
 			}
-		} else {
-			System.out.println("NULL VO");
-			System.out.println(vo.getHashCode());
-			System.out.println(code);
-			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error!",
-					"User with that token doesn't exists!");
-			currentInstance.addMessage(null, msgs);
-		}
-		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", vo.getFullName());
-		currentInstance.addMessage(null, msgs);
+		} 
+
 
 	}
 	public void updatePassword(){
-		
+		UserVo vo = null;
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		vo = userService.findUserByHashCode(code);
+		System.out.println(vo.getFullName());
+		if (newPassword == null || newPasswordConfirm == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Passwords must filled!");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		} else if (!newPassword.equals(newPasswordConfirm)) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Passwords not match!");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		try {
+			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+			vo.setPassword(bCryptPasswordEncoder.encode(newPassword));
+			userService.updateUser(vo);
+		} catch (Exception e) {
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"Update password error!");
+			currentInstance.addMessage(null, msgs);
+			e.printStackTrace();
+			return;
+		}
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", vo.getFullName());
+		currentInstance.addMessage(null, msgs);
+		return;
 	}
 
 	public String getForgotPasswordEmail() {
