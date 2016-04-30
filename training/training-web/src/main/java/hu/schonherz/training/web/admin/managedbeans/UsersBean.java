@@ -315,4 +315,12 @@ public class UsersBean implements Serializable {
 		this.selectedRoleGroups = selectedRoleGroups;
 	}
 
+	public MailSenderBean getMailSenderBean() {
+		return mailSenderBean;
+	}
+
+	public void setMailSenderBean(MailSenderBean mailSenderBean) {
+		this.mailSenderBean = mailSenderBean;
+	}
+
 }
