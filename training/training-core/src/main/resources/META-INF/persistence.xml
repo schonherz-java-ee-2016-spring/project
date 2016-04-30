@@ -17,15 +17,15 @@
 		<class>hu.schonherz.training.core.admin.entity.User</class>
 		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
 		<class>hu.schonherz.training.core.exam.entity.Answer</class>
-		<class>hu.schonherz.training.core.exam.entity.AnswerNote</class>
 		<class>hu.schonherz.training.core.exam.entity.AnswerText</class>
 		<class>hu.schonherz.training.core.exam.entity.Exam</class>
+		<class>hu.schonherz.training.core.exam.entity.ExamResult</class>
 		<class>hu.schonherz.training.core.exam.entity.Option</class>
 		<class>hu.schonherz.training.core.exam.entity.Question</class>
 		<class>hu.schonherz.training.core.exam.entity.QuestionType</class>
 		<class>hu.schonherz.training.core.supervisor.entity.Feedback</class>
-		<class>hu.schonherz.training.core.supervisor.entity.Homework</class>
 		<class>hu.schonherz.training.core.supervisor.entity.HomeworkResult</class>
+		<class>hu.schonherz.training.core.exam.relationtable.ExamUserRelation</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
@@ -33,7 +33,7 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.default_schema" value="public" />
 			<property name="hibernate.hbm2ddl.import_files" value="create.sql" />
 			<property name="hibernate.transaction.jta.platform"

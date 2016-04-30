@@ -3,6 +3,7 @@ package hu.schonherz.training.service.supervisor.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 public class FeedbackVo implements Serializable {
@@ -17,7 +18,7 @@ public class FeedbackVo implements Serializable {
 	private String feedbackMessage;
 	private Date recDate;
 	private boolean isPublic;
-	private String eventType;
+	private EventVo event;
 	
 	
 	/**
@@ -97,25 +98,24 @@ public class FeedbackVo implements Serializable {
 		this.recDate = recDate;
 	}
 
+	
 	/**
-	 * @return the eventType
+	 * @return the event
 	 */
-	public String getEventType() {
-		return eventType;
+	public EventVo getEvent() {
+		return event;
 	}
 
 	/**
-	 * @param eventType the eventType to set
+	 * @param event the event to set
 	 */
-	public void setEventType(String eventType) {
-		this.eventType = eventType;
+	public void setEvent(EventVo event) {
+		this.event = event;
 	}
-
-
 
 	public String toString() {
-		return "Feedback [sender=" + sender + ", rated=" + rated + ", feedbackMessage="
-				+ feedbackMessage + ", isPublic=" + isPublic + ", eventType=" + eventType + "].";
+		return "Feedback [sender=" + sender.getId() + ", rated=" + rated.getId() + ", feedbackMessage="
+				+ feedbackMessage + ", isPublic=" + isPublic + ", event=" + event.getId() + "].";
 	}
 
 }

@@ -2,6 +2,7 @@ package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
 
+import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 /**
@@ -15,7 +16,7 @@ public class HomeworkResultVo implements Serializable {
 
 	private Long id;
 	private UserVo user;
-	private HomeworkVo homework;
+	private EventVo homework;
 	private Integer score;
 	private String comment;
 
@@ -35,11 +36,11 @@ public class HomeworkResultVo implements Serializable {
 		this.user = user;
 	}
 
-	public HomeworkVo getHomework() {
+	public EventVo getHomework() {
 		return homework;
 	}
 
-	public void setHomework(HomeworkVo homework) {
+	public void setHomework(EventVo homework) {
 		this.homework = homework;
 	}
 

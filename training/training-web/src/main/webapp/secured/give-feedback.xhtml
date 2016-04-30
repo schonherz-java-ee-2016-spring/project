@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="content">
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+		<div class="container">
+
+
+
+			<form class="form-horizontal">
+				<fieldset>
+
+					<!-- Form Name -->
+					<legend>Give feedback <div class="text-right"><a href="feedbacks.xhtml">Back to feedbacks</a></div></legend>
+							
+					<!-- Select Basic -->
+					<div class="control-group">
+						<label class="control-label" for="studentemail">Choose an
+							event</label>
+						<div class="controls">
+							<select id="studentemail" name="studentemail"
+								class="input-medium">
+								<option>Java EE Developer Job interview (2016.08.19.)</option>
+								<option>Spring MVC Homework (2016.08.10.)</option>
+								<option>Create Maven project Homework (2016.08.05.)</option>
+								<option>Java Basics Homework (2016. 07.29.)</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Select Basic -->
+					<div class="control-group">
+						<label class="control-label" for="studentname">Choose
+							student to rate</label>
+						<div class="controls">
+							<select id="studentname" name="studentname" class="input-medium">
+								<option>Bohán Márk</option>
+								<option>Preznyák László</option>
+								<option>Naményi János</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- Select Basic -->
+					<div class="control-group">
+						<label class="control-label" for="dayslate">Is this
+							feedback public?</label>
+						<div class="controls">
+							<select id="dayslate" name="dayslate" class="input-medium">
+								<option>No</option>
+								<option>Yes</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="dayslate">Write your feedback here</label>
+							<p:editor></p:editor>
+					</div>		
+
+				</fieldset>
+			</form>
+		</div>
+		
+	</ui:define>
+</ui:composition>

@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
-
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -38,8 +37,6 @@ public class RoleServiceTest {
 		RoleVo rv = new RoleVo();
 		rv.setName("Test_Role");
 		rv.setRoleCode("4");
-		
-		
 		serviceLocal.createRole(rv);
 	}
 	
@@ -94,11 +91,11 @@ public class RoleServiceTest {
 	}
 	
 	@Test
-	public void test3GetAllRole(){
-		
+	public void test3findAllRole(){
 		List<RoleVo> allRole = null;
 		try {
 			allRole = serviceLocal.findAllRole();
+			Assert.assertEquals(true, (allRole == null ? false : true));
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -118,9 +115,35 @@ public class RoleServiceTest {
 			Assert.fail();
 		}
 	}
+	
+	@Test
+	public void test6getRoleById(){
+		RoleVo vo = null;
+		RoleVo vo2 = null;
+		try {
+			vo = serviceLocal.getRoleByName("Test_Role");
+			vo2 = serviceLocal.getRoleById(vo.getId());
+			Assert.assertEquals(true, (vo2 == null ? false : true));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void test7getRoleByRoleCode(){
+		RoleVo vo = null;
+		try {
+			vo = serviceLocal.getRoleByRoleCode("4");
+			Assert.assertEquals(true, (vo == null ? false : true));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 
 	@Test
-	public void test6UpdateRole() {
+	public void test8UpdateRole() {
 		
 		try {
 			RoleVo rv = serviceLocal.getRoleByName("Test_Role");
@@ -138,6 +161,6 @@ public class RoleServiceTest {
 		}
 	}
 
-	
+
 
 }

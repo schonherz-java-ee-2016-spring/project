@@ -1,3 +1,4 @@
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -10,17 +11,18 @@
 		<ui:component>
 			
 				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
-					<p:tab title="#{feedback.eventType}" >
+					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} by #{feedback.sender.getFullName()}"> 	
 						<div class="well">
 							<div class="media">
 								<a class="pull-left" href="#"> <img class="media-object"
-									src="http://placekitten.com/g/200/300" height="150" width="100" /></a>
+									src="http://placekitten.com/g/200/300" height="75" width="50" /></a>
 								<div class="media-body">
-									<p class="text-right">By #{feedback.sender.getFullName()}</p>
 									<p>#{feedback.feedbackMessage}</p>
-									<ul>
-										<li>#{feedback.recDate}</li>
-									</ul>
+									<p class="text-right">
+										<h:outputText value="#{feedback.recDate}">
+											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>
+										</h:outputText>
+									</p>
 								</div>
 							</div>
 						</div>

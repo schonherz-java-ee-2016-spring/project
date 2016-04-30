@@ -43,15 +43,15 @@
 					filterBy="#{user.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{user.modUser}" />
 				</p:column>
-				<p:column headerText="#{out.moddate}" priority="7"
+				<p:column headerText="#{out.moddate}" priority="6"
 					filterBy="#{user.modDate}" filterMatchMode="contains">
 					<h:outputText value="#{user.modDate}" />
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="8"
+				<p:column headerText="#{out.recuser}" priority="6"
 					filterBy="#{user.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{user.recUser}" />
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="9"
+				<p:column headerText="#{out.recdate}" priority="6"
 					filterBy="#{user.recDate}" filterMatchMode="contains">
 					<h:outputText value="#{user.recDate}" />
 				</p:column>
@@ -59,11 +59,18 @@
 				<p:ajax process="dataTable" event="rowSelect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}" />
+<!-- 					Db click opens edit dialog -->
+
+<!-- 				<p:ajax process="dataTable" event="dbclick" -->
+<!-- 					update="pickform,manageRoles,deleteButton,modifyButton,form2" -->
+<!-- 					listener="#{usersBean.onSelect}" /> -->
 				<f:facet name="footer">
 					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
 						update=":createUserForm:dataTable, form" oncomplete="dlg1.hide)"></p:commandButton>
+					<!-- 					form reset -->
+
 					<!-- 				a felhasználó módosítása dialog gomb -->
 					<p:commandButton type="button" onclick="PF('modify_user').show();"
 						id="modifyButton" value="#{out.edit}"
@@ -136,7 +143,7 @@
 					<p:commandButton value="#{out.save}"
 						update="panel2,growl,form,:createUserForm:dataTable"
 						action="#{usersBean.create}" icon="ui-icon-check"
-						oncomplete="dlg1.hide)" />
+						oncomplete="PF('dlg1').hide();" />
 				</p:panel>
 			</p:dialog>
 		</h:form>
