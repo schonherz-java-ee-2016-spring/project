@@ -9,9 +9,38 @@
 	<ui:define name="pageTitle">Exam Review</ui:define>
 	<ui:define name="content">
 
+	<style>
+.good {
+	background-color: rgb(0, 255, 0)
+}
 
+.bad {
+	background-color: rgb(255, 0, 0)
+}
+</style>
+<p:panel id="panelId">
 		<!-- The dropdown menu to select the exam -->
-		<h:form id="selectionForm">
+		<h:form id="selectionUserForm">
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="userSelection" value="User:" />
+				<p:selectOneMenu id="userSelection"
+					value="#{examReviewForInstructorBean.userIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examReviewForInstructorBean.userList}" var="user"
+						itemLabel="#{user.fullName}" itemValue="#{user.id}" />
+				</p:selectOneMenu>
+
+
+				<f:facet name="footer">
+					<p:commandButton value="Load Exams"
+						actionListener="#{examReviewForInstructorBean.loadExamList}" update="panelId"
+						icon="ui-icon-check" />
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
+		
+		
+		<h:form id="selectionExamForm" rendered="#{not empty examReviewForInstructorBean.examList}">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="examSelection" value="Exam:" />
 				<p:selectOneMenu id="examSelection"
@@ -24,22 +53,13 @@
 
 				<f:facet name="footer">
 					<p:commandButton value="Load Content"
-						actionListener="#{examReviewForInstructorBean.loadContent}"
+						actionListener="#{examReviewForInstructorBean.loadContent}" update="panelId"
 						icon="ui-icon-check" />
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
-
-		<style>
-.good {
-	background-color: rgb(0, 255, 0)
-}
-
-.bad {
-	background-color: rgb(255, 0, 0)
-}
-</style>
-		<h:form id="optionTableForm">
+		
+		<h:form id="optionTableForm" rendered="#{examReviewForInstructorBean.showTable == true}">
 			<ui:repeat var="question" value="#{examReviewForInstructorBean.questionList}">
 				<p:dataTable var="option" value="#{question.options}"
 					rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
@@ -68,6 +88,10 @@
 				<p:separator style="width:1000px;height:15px" />
 			</ui:repeat>
 		</h:form>
+		</p:panel>
+
+	
+		
 
 
 	</ui:define>
