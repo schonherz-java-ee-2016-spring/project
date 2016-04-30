@@ -21,7 +21,7 @@
 							rendered="#{event.type == 'Homework'}">
 							<i class="glyphicon glyphicon-home"></i>
 						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
-							rendered="#{event.type == 'Interview'}">
+							rendered="#{event.type == 'Job Interview'}">
 							<i class="glyphicon glyphicon-user"></i>
 						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
 							rendered="#{event.type == 'Test'}">
@@ -54,9 +54,15 @@
 			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
 		</div>
 		<h:outputScript>
-			$('.timeline-panel').click(function() {
+			$('.timeline-panel').on('click', function(e) {
+			
 			    $('.timeline-body', this).toggle();
 			});
+			$('.timeline-body').on('click', function(e) {
+			
+ 				e.stopPropagation();
+			});
+			
 			$('html,body').animate({
         			scrollTop: $("#"+$('#next').val()).offset().top},
         		'slow');
