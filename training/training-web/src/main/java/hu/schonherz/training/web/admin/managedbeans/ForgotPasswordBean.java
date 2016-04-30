@@ -24,26 +24,23 @@ public class ForgotPasswordBean {
 
 	@EJB
 	UserService userService;
-	
+
 	private String forgotPasswordEmail;
-	private String forgotPasswordFName;
 	private String forgotPasswordUName;
 	private String message;
 	private String code;
 	private String newPassword;
 	private String newPasswordConfirm;
-	
-	
-    @ManagedProperty(value="#{mailSenderBean}")
-    private MailSenderBean mailSenderBean;
-	
-	@Resource(mappedName="java:jboss/mail/Default")
+
+	@ManagedProperty(value = "#{mailSenderBean}")
+	private MailSenderBean mailSenderBean;
+
+	@Resource(mappedName = "java:jboss/mail/Default")
 	private Session mailSessionSeznam;
-	
+
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-	
-	
+
 	public void forgotPasswordSendMail() {
 		UserVo testUser = new UserVo();
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
@@ -55,8 +52,7 @@ public class ForgotPasswordBean {
 				return;
 			}
 		} catch (Exception e1) {
-			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", 
-					"Email doesn't exists!");
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Email doesn't exists!");
 			currentInstance.addMessage(null, msgs);
 			e1.printStackTrace();
 			return;
@@ -68,26 +64,27 @@ public class ForgotPasswordBean {
 			uuid = uuid.substring(0, 8);
 			testUser.setHashCode(bCryptPasswordEncoder.encode(uuid));
 			userService.registrationUser(testUser);
-			message = "http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath() + 
-			"/public/setupPassword.xhtml?code=" + testUser.getHashCode();
+			message = "http://localhost:8080" + currentInstance.getExternalContext().getRequestContextPath()
+					+ "/public/setupPassword.xhtml?code=" + testUser.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", message);
 		} catch (Exception e) {
-			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"Setting up hashCode!");
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Setting up hashCode!");
 			currentInstance.addMessage(null, msgs);
 			e.printStackTrace();
 			return;
 		}
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes mail!");
 		currentInstance.addMessage(null, msgs);
+		forgotPasswordEmail = null;
+		forgotPasswordUName = null;
 		return;
 	}
-	
+
 	public void hashConfirm() {
-		UserVo vo = null;
+		UserVo testVo = null;
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		vo = userService.findUserByHashCode(code);
-		if (vo == null) {
+		testVo = userService.findUserByHashCode(code);
+		if (testVo == null) {
 			try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("hashError.xhtml");
 			} catch (IOException e) {
@@ -97,39 +94,39 @@ public class ForgotPasswordBean {
 				e.printStackTrace();
 				return;
 			}
-		} 
-
+		}
 
 	}
-	public void updatePassword(){
-		UserVo vo = null;
+
+	public void updatePassword() {
+		UserVo testVo = null;
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		vo = userService.findUserByHashCode(code);
-		System.out.println(vo.getFullName());
+		testVo = userService.findUserByHashCode(code);
+		System.out.println(testVo.getFullName());
 		if (newPassword == null || newPasswordConfirm == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Passwords must filled!");
-			currentInstance.addMessage(null, facesMessage);
+			currentInstance.addMessage(null, msgs);
 			return;
 		} else if (!newPassword.equals(newPasswordConfirm)) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Passwords not match!");
-			currentInstance.addMessage(null, facesMessage);
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Passwords not match!");
+			currentInstance.addMessage(null, msgs);
 			return;
 		}
 		try {
 			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-			vo.setPassword(bCryptPasswordEncoder.encode(newPassword));
-			userService.updateUser(vo);
+			testVo.setPassword(bCryptPasswordEncoder.encode(newPassword));
+			userService.updateUser(testVo);
 		} catch (Exception e) {
-			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"Update password error!");
+			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Update password error!");
 			currentInstance.addMessage(null, msgs);
 			e.printStackTrace();
 			return;
 		}
-		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", vo.getFullName());
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", testVo.getFullName());
 		currentInstance.addMessage(null, msgs);
+		newPassword = null;
+		newPasswordConfirm = null;
 		return;
 	}
 
@@ -140,7 +137,6 @@ public class ForgotPasswordBean {
 	public void setForgotPasswordEmail(String forgotPasswordEmail) {
 		this.forgotPasswordEmail = forgotPasswordEmail;
 	}
-
 
 	public MailSenderBean getMailSenderBean() {
 		return mailSenderBean;
@@ -156,14 +152,6 @@ public class ForgotPasswordBean {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
-	}
-
-	public String getForgotPasswordFName() {
-		return forgotPasswordFName;
-	}
-
-	public void setForgotPasswordFName(String forgotPasswordFName) {
-		this.forgotPasswordFName = forgotPasswordFName;
 	}
 
 	public String getForgotPasswordUName() {
@@ -206,5 +194,4 @@ public class ForgotPasswordBean {
 		this.newPasswordConfirm = newPasswordConfirm;
 	}
 
-	
 }
