@@ -145,20 +145,17 @@
 
 
 
-						<li><a href="#" data-toggle="dropdown">Exam<span
+						<li><a href="#" data-toggle="dropdown">#{out.exam}<span
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-pencil-square"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
 								<li><a
-									href="#{request.contextPath}/testfeatures/exams.xhtml">Exam
-										List</a></li>
+									href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
 								<li><a
-									href="#{request.contextPath}/testfeatures/examChoose.xhtml">Take
-										a test</a></li>
+									href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
 
 								<li><a
-									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">Evaluate
-										tests</a></li>
+									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
 
 								<sec:authorize access="hasRole('STUDENT')">
 									<li><a
