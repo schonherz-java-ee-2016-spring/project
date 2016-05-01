@@ -1,16 +1,15 @@
 package hu.schonherz.training.core.exam.relationtable;
 
-import java.io.Serializable;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import hu.schonherz.training.core.admin.entity.BaseEntity;
 import hu.schonherz.training.core.admin.entity.User;
 import hu.schonherz.training.core.exam.entity.Exam;
 
@@ -22,32 +21,22 @@ import hu.schonherz.training.core.exam.entity.Exam;
 @Table(name = "exam_user_relation")
 @NamedQueries(value = {
 		@NamedQuery(name = "findAllByExamId", query = "SELECT eur FROM ExamUserRelation eur WHERE eur.exam.id = :id"),
-		@NamedQuery(name = "findAllByUserId", query = "SELECT eur FROM ExamUserRelation eur WHERE eur.user.id = :id") })
-public class ExamUserRelation implements Serializable {
-
+		@NamedQuery(name = "findAllByUserId", query = "SELECT eur FROM ExamUserRelation eur WHERE eur.user.id = :id"),
+		@NamedQuery(name = "deleteAllByExamId", query = "DELETE FROM ExamUserRelation eur WHERE eur.exam.id = :id"),
+		@NamedQuery(name = "deleteAllByUserId", query = "DELETE FROM ExamUserRelation eur WHERE eur.user.id = :id") })
+public class ExamUserRelation extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private Long id;
-
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_id")
 	private User user;
 
 	public ExamUserRelation() {
 		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Exam getExam() {
