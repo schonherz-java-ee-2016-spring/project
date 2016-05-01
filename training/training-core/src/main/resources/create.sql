@@ -198,63 +198,80 @@ INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
 
 
 
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
-INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q 1 jo és válasszal jelölés alapjan is(forditva)', 1 , 2005, 'First Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q 1 jo és válasszal jelölés alapjan is', 1 , 2005, 'Note 2');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q Ahol egyik válasz se jo és nincs bejlölve semmi', 2 , 2005, 'Atka');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q Ahol kettő helyes és 1 rossz, csak a jok vannak jelölve', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Multi Q Ahol kettő helyes és 1 rossz, csak az első van bejelölve', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Multi Q Ahol 1 helyes, bevan jelölve az + 1 rossz', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2013, 'Multi Q Ahol nincs jo válasz, de kettő van jelölve(first,third)', 2 , 2005, 'There is a cat');
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
-
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, true, 'Option3', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, 'Option4', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
-
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, true, 'Option7', 2009);
-
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'Option10', 2010);
-
-INSERT INTO public.option(id, question_id) VALUES (2012, 2011);
-INSERT INTO public.option(id, question_id) VALUES (2013, 2012);
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2020, 'TextBased ahol nincs még kiértékelve a válasz', 3 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2021, 'TextBased ahol jo a válasz', 3 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2022, 'TextBased ahol rossz a válasz', 3 , 2005, 'There is a cat');
 
 
+
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'true1', 2007);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'false1', 2007);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, false, 'false', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, true, 'true', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'false', 2008);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, false, 'false1', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'false2', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2008, false, 'false3', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, false, 'false4', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'false4', 2009);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'true1', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2012, false, 'false1', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'tru2', 2010);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2014, true, 'true1', 2011);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2015, false, 'false1', 2011);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2016, true, 'tru2', 2011);
+
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2017, true, 'true1-bejelölt', 2012);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2018, false, 'false1', 2012);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2019, false, 'bejlelölt-false', 2012);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2020, false, 'true1-bejelölt', 2013);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2021, false, 'false1', 2013);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2022, false, 'bejlelölt-false', 2013);
+
+
+
+-- TextBased
+INSERT INTO public.option(id, correct, question_id) VALUES (2025, null, 2020);
+INSERT INTO public.option(id, correct, question_id) VALUES (2026, true, 2021);
+INSERT INTO public.option(id, correct, question_id) VALUES (2027, false, 2022);
 
 -- Answers
 
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2006, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2007, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (5, 2001, 2009, true);
-INSERT INTO public.answer(id, user_id, option_id) VALUES (7, 2001, 2012);
-INSERT INTO public.answer(id, user_id, option_id) VALUES (8, 2001, 2013);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (9, 2003, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2011, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2013, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2014, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2017, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2019, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (17, 2003, 2020, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (18, 2003, 2022, false);
 
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (200, 7, 'Atkaaaaaaaaaaaaaaaaaa');
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (201, 8, 'Filitáááááááááán');
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (20, 2003, 2025, null);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (21, 2003, 2026, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (22, 2003, 2027, false);
 
 
-
-
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (10, 2003, 2001, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2006, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2007, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2009, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2012, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2013, true);
-
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 15, 'Atkaaaaaaaaaaaaaaaaaa');
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 16, 'Filitáááááááááán');
-
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 20, 'Nincs még javitva');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 21, 'Kiétkelve true');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (204, 22, 'Kiértékelve False');
 
 -- Exam - User - Relation
-INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)
-INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(101, 2006, 2001)
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(104, 2006, 2003)

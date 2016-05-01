@@ -95,15 +95,15 @@ public class ExamReviewForInstructorBean extends ExamReviewBean {
 		List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId()))
 				.collect(Collectors.toList());
 
-		if (list.isEmpty()) {
+		if (list.isEmpty() && option.getCorrect() == false) {
 			option.setCorrect(null);
 			return;
 		}
 
 		AnswerVo answer = list.get(0);
-		if (answer.getGood() == true) {
+		if (answer.getGood() == true && option.getCorrect() == true) {
 			option.setCorrect(true);
-		} else if (answer.getGood() == false) {
+		} else {
 			option.setCorrect(false);
 		}
 	}

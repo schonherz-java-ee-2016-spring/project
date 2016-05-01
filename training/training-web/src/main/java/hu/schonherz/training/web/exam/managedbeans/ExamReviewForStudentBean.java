@@ -19,7 +19,7 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 @ManagedBean(name = "examReviewForStudentBean")
 @ViewScoped
 public class ExamReviewForStudentBean extends ExamReviewBean {
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 
 	@PostConstruct
 	public void initBean() {
@@ -51,9 +51,8 @@ public class ExamReviewForStudentBean extends ExamReviewBean {
 	private void updateQuestionList() throws Exception {
 		for (QuestionVo question : questionList) {
 			if (question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
-				for (OptionVo option : question.getOptions()) {
-					setUpOptionByTextBased(option);
-				}
+				OptionVo option = question.getOptions().get(0);
+				setUpOptionByTextBased(option);
 			} else {
 				for (OptionVo option : question.getOptions()) {
 					setUpOptionByNonTextBased(option);
@@ -76,16 +75,19 @@ public class ExamReviewForStudentBean extends ExamReviewBean {
 	private void setUpOptionByNonTextBased(OptionVo option) throws Exception {
 		List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId()))
 				.collect(Collectors.toList());
+		System.out.println(option.getId() + "----> " + option.getText() + " - >>> " + option.getCorrect());
 
 		if (list.isEmpty()) {
-			option.setCorrect(null);
+			if (option.getCorrect() == false) {
+				option.setCorrect(null);
+			}
 			return;
 		}
 
 		AnswerVo answer = list.get(0);
-		if (answer.getGood() == true) {
+		if (answer.getGood() == true && option.getCorrect() == true) {
 			option.setCorrect(true);
-		} else if (answer.getGood() == false) {
+		} else {
 			option.setCorrect(false);
 		}
 	}

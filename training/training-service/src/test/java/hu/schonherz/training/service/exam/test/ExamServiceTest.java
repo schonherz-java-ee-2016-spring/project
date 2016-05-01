@@ -48,8 +48,19 @@ public class ExamServiceTest {
 		}
 	}
 
+	@Test(expected = Exception.class)
+	public void saveTestWithFail() throws Exception {
+		ExamVo examVo = new ExamVo();
+		serviceLocal.save(examVo);
+	}
+
+	@Test(expected = Exception.class)
+	public void removeByIdTestWithFail() throws Exception {
+		serviceLocal.removeById(-1L);
+	}
+
 	@Test
-	public void getAllExamTest() {
+	public void getAllTest() {
 		try {
 			List<ExamVo> examList = serviceLocal.getAll();
 			Assert.assertEquals(true, (examList == null ? false : true));
