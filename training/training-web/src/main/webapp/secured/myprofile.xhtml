@@ -14,7 +14,7 @@
 		<div class="col-lg-6 col-sm-6">
 			<div class="card hovercard">
 
-				<h1>Ölveti József</h1>
+				<h1>#{profileBean.user.fullName}</h1>
 
 			</div>
 			<div class="btn-pref btn-group btn-group-justified btn-group-lg"
@@ -46,72 +46,74 @@
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="tab1">
 						<h3>Personal Data</h3>
-
-
+						<ul style="list-style-type: disc">
+							<li>E-mail: #{profileBean.user.email}</li> 
+							
+							</ul> 
 						<h4>Feedbacks</h4>
 						<ui:include src="feedback-list.xhtml"></ui:include>
 						<h4>My results</h4>
-							<table id="resultTable" class="table-header-rotated">
-								<thead>
-									<tr>
-										<th></th>
-										<th class="rotate"><div>
-												<span>Lesson1</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson2</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson3</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson4</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson5</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson6</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson7</span>
-											</div></th>
-										<th class="rotate"><div>
-												<span>Lesson8</span>
-											</div></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="row-header">Tesztek</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-									</tr>
-									<tr>
-										<td class="row-header">Házik</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-										<td>10</td>
-									</tr>
-								</tbody>
-							</table>
-						
+						<table id="resultTable" class="table-header-rotated">
+							<thead>
+								<tr>
+									<th></th>
+									<th class="rotate"><div>
+											<span>Lesson1</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson2</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson3</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson4</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson5</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson6</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson7</span>
+										</div></th>
+									<th class="rotate"><div>
+											<span>Lesson8</span>
+										</div></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="row-header">Tesztek</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+								</tr>
+								<tr>
+									<td class="row-header">Házik</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+									<td>10</td>
+								</tr>
+							</tbody>
+						</table>
+
 
 					</div>
 					<div class="tab-pane fade in" id="tab2">
 						<h4>Change Data</h4>
-					
+
 					</div>
 					<div class="tab-pane fade in" id="tab3">
 						<h3>Upload your files</h3>
