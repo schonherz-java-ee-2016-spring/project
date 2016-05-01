@@ -1,7 +1,9 @@
-package hu.schonherz.training.web.exam.managedbeans;
+package hu.schonherz.training.web.exam.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 
@@ -12,11 +14,13 @@ import hu.schonherz.training.service.exam.AnswerTextService;
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.QuestionService;
+import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
-public abstract class ExamReviewBean implements Serializable {
+public abstract class ExamReview implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	protected String selectedExamIdAsString;
@@ -39,6 +43,56 @@ public abstract class ExamReviewBean implements Serializable {
 	protected ExamUserRelationService examUserRelationService;
 	@EJB
 	protected AnswerTextService answerTextService;
+	
+	public abstract void loadContent();
+
+	protected void updateQuestionList() throws Exception {
+		for (QuestionVo question : questionList) {
+			if (question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
+				OptionVo option = question.getOptions().get(0);
+				setUpOptionByTextBased(option);
+			} else {
+				for (OptionVo option : question.getOptions()) {
+					setUpOptionByNonTextBased(option);
+				}
+			}
+		}
+	}
+
+	protected void setUpOptionByTextBased(OptionVo option) throws Exception {
+		AnswerTextVo answerText = answerTextService.getByAnswerId(answerList.stream().filter(a -> {
+			if (a.getOption().getId().equals(option.getId())) {
+				option.setCorrect(a.getGood());
+				return true;
+			}
+			return false;
+		}).findFirst().get().getId());
+		option.setText(answerText.getText());
+	}
+
+	protected void setUpOptionByNonTextBased(OptionVo option) throws Exception {
+		List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId()))
+				.collect(Collectors.toList());
+
+		if (list.isEmpty()) {
+			if (option.getCorrect() == false) {
+				option.setCorrect(null);
+			}
+			return;
+		}
+
+		AnswerVo answer = list.get(0);
+		if (answer.getGood() == true && option.getCorrect() == true) {
+			option.setCorrect(true);
+		} else {
+			option.setCorrect(false);
+		}
+	}
+
+	protected void setUpselectedOptionIdList() {
+		selectedOptionIdList = new ArrayList<Long>();
+		answerList.forEach(a -> selectedOptionIdList.add(a.getOption().getId()));
+	}
 
 	public String getSelectedExamIdAsString() {
 		return selectedExamIdAsString;

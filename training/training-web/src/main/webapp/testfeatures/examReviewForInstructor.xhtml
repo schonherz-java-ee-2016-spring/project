@@ -24,7 +24,7 @@
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
 				<p:outputLabel for="userSelection" value="#{out.user}:" />
 				<p:selectOneMenu id="userSelection"
-					value="#{examReviewForInstructorBean.userIdAsString}"
+					value="#{examReviewForInstructorBean.selectedUserIdAsString}"
 					style="width:125px">
 					<f:selectItems value="#{examReviewForInstructorBean.userList}" var="user"
 						itemLabel="#{user.fullName}" itemValue="#{user.id}" />
@@ -77,7 +77,7 @@
 					<p:column headerText="#{out.selected}">
 						<h:outputText
 							rendered="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id)}"
-							value="Hát ezt bizony bejelölted:D"></h:outputText>
+							value="Bejelölted"></h:outputText>
 					</p:column>
 
 
