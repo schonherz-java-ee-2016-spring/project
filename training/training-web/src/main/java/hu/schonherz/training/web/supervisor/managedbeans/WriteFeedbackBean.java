@@ -9,11 +9,12 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import hu.schonherz.training.service.admin.EventService;
+import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "writeFeedbackBean")
@@ -24,7 +25,6 @@ public class WriteFeedbackBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2972060697014376693L;
-	
 
 	@EJB
 	EventService eventService;
@@ -32,55 +32,75 @@ public class WriteFeedbackBean implements Serializable {
 	@EJB
 	UserService userService;
 
+	@EJB
+	RoleGroupService roleGroupService;
+
 	private List<EventVo> eventsToShow = new ArrayList<>();
 
 	private List<UserVo> usersToShow = new ArrayList<>();
 
 	private UserVo loggedInUser = new UserVo();
-	
-	private EventVo selectedEvent = new EventVo();
-	
+
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-	
 
 	@PostConstruct
 	public void init() {
-		
+
+		List<UserVo> usersToInspect = new ArrayList<>();
+		RoleGroupVo observerRoleGroup = new RoleGroupVo();
+		boolean isOk;
+
 		try {
-			usersToShow.clear();
 			loggedInUser = userService.findUserByName(username);
+			observerRoleGroup = roleGroupService.getRoleGroupById((long) 2004);
 			eventsToShow = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
-			for (EventVo event : eventsToShow) {
-				List<UserVo> usersToInspect = new ArrayList<>();
-				usersToInspect.addAll(event.getUsers());
-				for (UserVo user : usersToInspect) {
-					boolean isOk = true;
-					if (user.getUserName().contentEquals(username)) {
-						isOk = false;
-					} else {
-						for (UserVo userToShow : usersToShow) {
-							if (user.getId() == userToShow.getId()) {
-								isOk = false;
-							}
+			if (loggedInUser.getRoleGroups().contains(roleGroupService.getRoleGroupById((long) 2004))) {
+				for (EventVo event : eventsToShow) {
+					usersToInspect.addAll(event.getUsers());
+					for (UserVo user : usersToInspect) {
+						isOk = true;
+
+						if (user.getUserName().contentEquals(username)) {
+							isOk = false;
 						}
-					}
-					if (isOk) {
-						usersToShow.add(user);
+
+						if (isOk) {
+							usersToShow.add(user);
+						}
+
 					}
 				}
-				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return;
 		}
-	}
-	
-	public void eventChanged(ValueChangeEvent e) {
-		usersToShow.clear();
-		String idString = e.getNewValue().toString();
-		Long id = Long.parseLong(idString);
-		selectedEvent = eventService.findEventById(id);
-		usersToShow.addAll(selectedEvent.getUsers());
+		
+
+		// try {
+		//
+		// for (EventVo event : eventsToShow) {
+		// usersToInspect.addAll(event.getUsers());
+		// for (UserVo user : usersToInspect) {
+		// boolean isOk = true;
+		// if (user.getUserName().contentEquals(username)) {
+		// isOk = false;
+		// } else {
+		// for (UserVo userToShow : usersToShow) {
+		// if (user.getId() == userToShow.getId()) {
+		// isOk = false;
+		// }
+		// }
+		// }
+		// if (isOk) {
+		// usersToShow.add(user);
+		// }
+		// }
+		//
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -135,17 +155,4 @@ public class WriteFeedbackBean implements Serializable {
 		this.usersToShow = usersToShow;
 	}
 
-	/**
-	 * @return the selectedEvent
-	 */
-	public EventVo getSelectedEvent() {
-		return selectedEvent;
-	}
-
-	/**
-	 * @param selectedEvent the selectedEvent to set
-	 */
-	public void setSelectedEvent(EventVo selectedEvent) {
-		this.selectedEvent = selectedEvent;
-	}
 }
