@@ -85,7 +85,7 @@ public class ExamServiceImpl implements ExamService {
 	public void modifyTitle(ExamVo vo) throws Exception {
 		try {
 			Exam exam = ExamMapper.toDto(vo);
-			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());
+			examRepository.updateExamTitleById(exam.getTitle(), exam.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

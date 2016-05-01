@@ -64,7 +64,7 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public List<AnswerVo> getAllByUserId(Long id) throws Exception {
 		try {
-			return AnswerMapper.toVo(answerRepository.findAnswersByUserId(id));
+			return AnswerMapper.toVo(answerRepository.findAllByUserId(id));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

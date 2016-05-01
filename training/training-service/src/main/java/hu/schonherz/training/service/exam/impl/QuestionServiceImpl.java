@@ -89,7 +89,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public void modifyText(QuestionVo vo) throws Exception {
 		try {
 			Question question = QuestionMapper.toDto(vo);
-			questionRepository.modifyQuestionTitleById(question.getText(), question.getId());
+			questionRepository.updateQuestionTitleById(question.getText(), question.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -100,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
 	public void modifyNote(QuestionVo vo) throws Exception {
 		try {
 			Question question = QuestionMapper.toDto(vo);
-			questionRepository.modifyQuestionNoteById(question.getNote(), question.getId());
+			questionRepository.updateQuestionNoteById(question.getNote(), question.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

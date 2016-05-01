@@ -21,6 +21,6 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 	
 	@Modifying
 	@Query(value = "UPDATE exam SET title = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyExamTitleById(String title, Long id) throws Exception;
+	public Integer updateExamTitleById(String title, Long id) throws Exception;
 
 }
