@@ -55,7 +55,7 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	}
 
 	@Override
-	public void save(ExamUserRelationVo vo) throws Exception {
+	public void add(ExamUserRelationVo vo) throws Exception {
 		try {
 			examUserRelationRepository.saveAndFlush(ExamUserRelationMapper.toDto(vo));
 		} catch (Exception ex) {

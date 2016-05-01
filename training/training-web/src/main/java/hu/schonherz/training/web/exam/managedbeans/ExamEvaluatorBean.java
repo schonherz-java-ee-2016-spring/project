@@ -64,7 +64,7 @@ public class ExamEvaluatorBean implements Serializable {
 		try {
 			evalRecordList.clear();
 
-			List<QuestionVo> textBasedQuestionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
+			List<QuestionVo> textBasedQuestionList = questionService.getAllByExamId(Long.parseLong(selectedExamIdAsString))
 					.stream().filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
 
 			List<OptionVo> optionList = textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
@@ -84,7 +84,7 @@ public class ExamEvaluatorBean implements Serializable {
 				AnswerTextVo answerText = answerTextService.getByAnswerId(answer.getId());
 				record.setAnswerText(answerText);
 
-				QuestionVo question = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
+				QuestionVo question = questionService.getAllByExamId(Long.parseLong(selectedExamIdAsString))
 						.stream().filter(q -> q.getQuestionType().getId() == 3).filter(q -> q.getOptions().get(0)
 								.getId().longValue() == answer.getOption().getId().longValue()).findFirst().orElse(null);
 
@@ -102,7 +102,7 @@ public class ExamEvaluatorBean implements Serializable {
 
 	public void applyEvaluation() throws Exception {
 		for (EvalRecord evalRecord : evalRecordList) {
-			answerService.modifyGoodById(evalRecord.getAnswer(), evalRecord.getAnswer().getGood());
+			answerService.modifyGood(evalRecord.getAnswer());
 		}
 	}
 

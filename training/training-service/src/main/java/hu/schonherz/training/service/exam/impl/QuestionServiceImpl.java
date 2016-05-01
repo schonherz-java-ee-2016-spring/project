@@ -71,7 +71,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void save(QuestionVo vo, Long examId) throws Exception {
+	public void add(QuestionVo vo, Long examId) throws Exception {
 		try {
 			Exam exam = examRepository.findOne(examId);
 			Collection<Question> questions = exam.getQuestions();
@@ -86,7 +86,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateText(QuestionVo vo) throws Exception {
+	public void modifyText(QuestionVo vo) throws Exception {
 		try {
 			Question question = QuestionMapper.toDto(vo);
 			questionRepository.modifyQuestionTitleById(question.getText(), question.getId());
@@ -97,7 +97,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateNote(QuestionVo vo) throws Exception {
+	public void modifyNote(QuestionVo vo) throws Exception {
 		try {
 			Question question = QuestionMapper.toDto(vo);
 			questionRepository.modifyQuestionNoteById(question.getNote(), question.getId());
@@ -108,7 +108,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public List<QuestionVo> getAllById(Long examId) throws Exception {
+	public List<QuestionVo> getAllByExamId(Long examId) throws Exception {
 		try {
 			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
 			return examVo.getQuestions().stream().distinct().collect(Collectors.toList());

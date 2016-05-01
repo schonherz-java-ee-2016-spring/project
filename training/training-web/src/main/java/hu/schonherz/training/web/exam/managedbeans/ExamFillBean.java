@@ -111,7 +111,7 @@ public class ExamFillBean implements Serializable {
 			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 			answerVo.setUser(userVo);
 			answerTextVo.setAnswer(answerVo);
-			answerTextService.save(answerTextVo);
+			answerTextService.add(answerTextVo);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,7 +130,7 @@ public class ExamFillBean implements Serializable {
 				userVo = userService
 						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 				answerVo.setUser(userVo);
-				answerService.save(answerVo);
+				answerService.add(answerVo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -154,7 +154,7 @@ public class ExamFillBean implements Serializable {
 				userVo = userService
 						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 				answerVo.setUser(userVo);
-				answerService.save(answerVo);
+				answerService.add(answerVo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -169,7 +169,7 @@ public class ExamFillBean implements Serializable {
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
-			questionList = questionService.getAllById(examId);
+			questionList = questionService.getAllByExamId(examId);
 			localQuestionList = questionList;
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -35,7 +35,7 @@ public class ExamServiceTest {
 
 		ExamVo examVo = new ExamVo();
 		examVo.setTitle("JUNIT");
-		serviceLocal.save(examVo);
+		serviceLocal.add(examVo);
 	}
 
 	@After
@@ -51,7 +51,7 @@ public class ExamServiceTest {
 	@Test(expected = Exception.class)
 	public void saveTestWithFail() throws Exception {
 		ExamVo examVo = new ExamVo();
-		serviceLocal.save(examVo);
+		serviceLocal.add(examVo);
 	}
 
 	@Test(expected = Exception.class)

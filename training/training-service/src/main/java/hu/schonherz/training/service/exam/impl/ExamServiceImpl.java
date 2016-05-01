@@ -72,7 +72,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void save(ExamVo vo) throws Exception {
+	public void add(ExamVo vo) throws Exception {
 		try {
 			examRepository.saveAndFlush(ExamMapper.toDto(vo));
 		} catch (Exception ex) {
@@ -82,7 +82,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void updateTitle(ExamVo vo) throws Exception {
+	public void modifyTitle(ExamVo vo) throws Exception {
 		try {
 			Exam exam = ExamMapper.toDto(vo);
 			examRepository.modifyExamTitleById(exam.getTitle(), exam.getId());

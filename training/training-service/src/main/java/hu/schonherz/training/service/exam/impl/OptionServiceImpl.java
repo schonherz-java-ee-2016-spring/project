@@ -68,7 +68,7 @@ public class OptionServiceImpl implements OptionService {
 	}
 
 	@Override
-	public void save(OptionVo optionVo, Long questionId) throws Exception {
+	public void add(OptionVo optionVo, Long questionId) throws Exception {
 		try {
 			Question question = questionRepository.findOne(questionId);
 			Collection<Option> options = question.getOptions();

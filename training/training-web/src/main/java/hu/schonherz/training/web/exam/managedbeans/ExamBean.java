@@ -63,7 +63,7 @@ public class ExamBean implements Serializable {
 		exam.setTitle(newExamTitle);
 
 		try {
-			getExamService().save(exam);
+			getExamService().add(exam);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam created");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {

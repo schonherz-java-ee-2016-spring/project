@@ -91,7 +91,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		setUpQuestion();
 
 		questionService.removeById(questionId);
-		questionService.save(question, examId);
+		questionService.add(question, examId);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 				questionVo.setNote("You can't leave the note unfilled");
 			else
 				questionVo.setNote(questionNoteText);
-			questionService.updateNote(questionVo);
+			questionService.modifyNote(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -173,7 +173,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 				questionVo.setText("You can't leave the question's text unfilled");
 			else
 				questionVo.setText(questionText);
-			questionService.updateText(questionVo);
+			questionService.modifyText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

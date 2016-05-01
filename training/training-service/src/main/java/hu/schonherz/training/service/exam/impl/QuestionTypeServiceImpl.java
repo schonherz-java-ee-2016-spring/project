@@ -60,7 +60,7 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	}
 
 	@Override
-	public void save(QuestionTypeVo vo) throws Exception {
+	public void add(QuestionTypeVo vo) throws Exception {
 		try {
 			questionTypeRepository.saveAndFlush(QuestionTypeMapper.toDto(vo));
 		} catch (Exception ex) {

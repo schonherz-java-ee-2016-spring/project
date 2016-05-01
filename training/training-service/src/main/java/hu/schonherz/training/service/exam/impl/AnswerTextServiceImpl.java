@@ -51,7 +51,7 @@ public class AnswerTextServiceImpl implements AnswerTextService {
 	}
 
 	@Override
-	public void save(AnswerTextVo vo) throws Exception {
+	public void add(AnswerTextVo vo) throws Exception {
 		try {
 			answerTextRepository.saveAndFlush(AnswerTextMapper.toDto(vo));
 		} catch (Exception ex) {

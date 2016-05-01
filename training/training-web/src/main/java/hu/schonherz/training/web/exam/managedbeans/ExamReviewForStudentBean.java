@@ -29,7 +29,7 @@ public class ExamReviewForStudentBean extends ExamReview {
 	@Override
 	public void loadContent() {
 		try {
-			questionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString));
+			questionList = questionService.getAllByExamId(Long.parseLong(selectedExamIdAsString));
 			answerList = getAnswerService().getAllByUserId(user.getId());
 			answerList = answerList.stream()
 					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
