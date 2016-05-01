@@ -31,22 +31,12 @@ public class AnswerTextServiceImpl implements AnswerTextService {
 
 	@Override
 	public List<AnswerTextVo> getAll() throws Exception {
-		try {
 			return AnswerTextMapper.toVo(answerTextRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override
 	public AnswerTextVo getById(Long id) throws Exception {
-		try {
 			return AnswerTextMapper.toVo(answerTextRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override
@@ -71,12 +61,7 @@ public class AnswerTextServiceImpl implements AnswerTextService {
 
 	@Override
 	public AnswerTextVo getByAnswerId(Long id) throws Exception {
-		try {
 			return AnswerTextMapper.toVo(answerTextRepository.findTextByAnswerId(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 }
