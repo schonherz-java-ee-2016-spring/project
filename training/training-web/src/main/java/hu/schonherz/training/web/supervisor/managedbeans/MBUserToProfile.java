@@ -22,6 +22,8 @@ public class MBUserToProfile implements Serializable {
 
 	private UserVo user;
 
+	private String email;
+
 	@EJB
 	private UserService userService;
 
@@ -37,6 +39,11 @@ public class MBUserToProfile implements Serializable {
 
 	}
 
+	public void changeData() {
+		user.setEmail(email);
+		userService.updateUser(user);
+	}
+
 	public MBUserToProfile() {
 		// TODO Auto-generated constructor stub
 	}
@@ -47,6 +54,14 @@ public class MBUserToProfile implements Serializable {
 
 	public void setUser(UserVo user) {
 		this.user = user;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }
