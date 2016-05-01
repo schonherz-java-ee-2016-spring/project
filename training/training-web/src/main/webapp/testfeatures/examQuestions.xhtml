@@ -6,7 +6,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Question</ui:define>
+	<ui:define name="pageTitle">#{out.questions}</ui:define>
 	<ui:define name="content">
 
 		<h:form styleClass="h1" id="examTitleRename">
@@ -18,16 +18,16 @@
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
-			<p:column headerText="Question Id">
+			<p:column headerText="#{out.questionid}">
     			#{question.id}
     		</p:column>
-			<p:column headerText="Question Title">
+			<p:column headerText="#{out.questiontitle}">
     			#{question.text}
     		</p:column>
-			<p:column headerText="Question Type">
+			<p:column headerText="#{out.questiontype}">
     		    #{question.questionType.getName()}
     		</p:column>
-			<p:column headerText="Details">
+			<p:column headerText="#{out.details}">
 				<h:form id="form">
 
 
@@ -35,7 +35,7 @@
 						<f:facet name="left">
 
 							<p:commandButton action="goToSingleQuestionDetailsPage"
-								value="Edit " icon="ui-icon-wrench" rendered="#{question.questionType.getId() eq 1}">
+								value="#{out.edit} " icon="ui-icon-wrench" rendered="#{question.questionType.getId() eq 1}">
 								<f:setPropertyActionListener
 									target="#{singleQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
@@ -47,7 +47,7 @@
 									value="#{true}" />
 							</p:commandButton>
 							<p:commandButton icon="ui-icon-wrench" action="goToMultipleQuestionDetailsPage"
-								value="Edit" rendered="#{question.questionType.getId() eq 2}">
+								value="#{out.edit}" rendered="#{question.questionType.getId() eq 2}">
 								<f:setPropertyActionListener
 									target="#{multipleQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
@@ -59,13 +59,13 @@
 									value="#{true}" />
 							</p:commandButton>
 							<p:commandButton icon="ui-icon-wrench" action="goToTextbasedQuestionDetailsPage"
-								value="Edit" rendered="#{question.questionType.getId() eq 3}">
+								value="#{out.edit}" rendered="#{question.questionType.getId() eq 3}">
 								<f:setPropertyActionListener
 									target="#{textbasedQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
 							</p:commandButton>
 							
-							<p:commandButton value="Delete " title="Delete" icon="ui-icon-trash"
+							<p:commandButton value="#{out.delete} " title="Delete" icon="ui-icon-trash"
 								actionListener="#{questionBean.removeQuestion}" ajax="false">
 								<f:attribute name="questionIdAsString" value="#{question.id}" />
 							</p:commandButton>
@@ -80,11 +80,11 @@
 		</p:dataTable>
 
 		<h:form id="newQuestionForm">
-			<p:commandButton value="Add a new single answer question"
+			<p:commandButton value="#{out.addnewsingleaq}"
 				action="#{questionBean.addSingleQuestion}" />
-			<p:commandButton value="Add a new multiple answer question"
+			<p:commandButton value="#{out.addnewmultiaq}"
 				action="#{questionBean.addMultiQuestion}" />
-			<p:commandButton value="Add a new textbased answer question"
+			<p:commandButton value="#{out.addnewtextbasedq}"
 				action="#{questionBean.addTextBasedQuestion}" />
 		</h:form>
 	</ui:define>
