@@ -12,13 +12,15 @@ public class ObsEventList implements Serializable{
 	private Long eventId;
 	private String eventName;
 	private String studentName;
+	private String studentUsername;
 	/**
 	 * 
 	 */
-	public ObsEventList(Long id, String eName, String sName) {
+	public ObsEventList(Long id, String eName, String sName, String sUsername) {
 		eventId = id;
 		eventName = eName;
 		studentName = sName;
+		studentUsername = sUsername;
 	}
 	/**
 	 * @return the eventId
@@ -55,6 +57,18 @@ public class ObsEventList implements Serializable{
 	 */
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
+	}
+	/**
+	 * @return the studentUsername
+	 */
+	public String getStudentUsername() {
+		return studentUsername;
+	}
+	/**
+	 * @param studentUsername the studentUsername to set
+	 */
+	public void setStudentUsername(String studentUsername) {
+		this.studentUsername = studentUsername;
 	}
 	
 	
