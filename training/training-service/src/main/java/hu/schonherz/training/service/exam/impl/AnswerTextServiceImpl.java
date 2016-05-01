@@ -29,25 +29,34 @@ public class AnswerTextServiceImpl implements AnswerTextService {
 	@Autowired
 	AnswerTextRepository answerTextRepository;
 
-	@Deprecated
 	@Override
 	public List<AnswerTextVo> getAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return AnswerTextMapper.toVo(answerTextRepository.findAll());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
-	@Deprecated
 	@Override
 	public AnswerTextVo getById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return AnswerTextMapper.toVo(answerTextRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
-	@Deprecated
 	@Override
 	public void removeById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-
+		try {
+			answerTextRepository.delete(id);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 	@Override
