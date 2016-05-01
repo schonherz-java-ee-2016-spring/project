@@ -34,24 +34,14 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 
 	@Override
 	public List<ExamVo> getAllExamByUserId(Long id) throws Exception {
-		try {
 			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(id));
 			return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override
 	public List<UserVo> getAllUserByExamId(Long id) throws Exception {
-		try {
 			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(id));
 			return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override

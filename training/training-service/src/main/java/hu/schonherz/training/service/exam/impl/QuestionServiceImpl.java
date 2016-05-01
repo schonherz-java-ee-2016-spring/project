@@ -42,22 +42,12 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public List<QuestionVo> getAll() throws Exception {
-		try {
-			return QuestionMapper.toVo(questionRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionMapper.toVo(questionRepository.findAll());
 	}
 
 	@Override
 	public QuestionVo getById(Long id) throws Exception {
-		try {
-			return QuestionMapper.toVo(questionRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionMapper.toVo(questionRepository.findOne(id));
 	}
 
 	@Override
@@ -109,13 +99,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public List<QuestionVo> getAllByExamId(Long examId) throws Exception {
-		try {
-			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
-			return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
+		return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
 	}
 
 }

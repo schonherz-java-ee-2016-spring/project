@@ -32,33 +32,17 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public List<ExamVo> getAll() throws Exception {
-		try {
-			return ExamMapper.toVo(examRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return ExamMapper.toVo(examRepository.findAll());
 	}
 
 	@Override
 	public ExamVo getByTitle(String title) throws Exception {
-		try {
-			return ExamMapper.toVo(examRepository.findByTitleIgnoreCase(title));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-
+		return ExamMapper.toVo(examRepository.findByTitleIgnoreCase(title));
 	}
 
 	@Override
 	public ExamVo getById(Long id) throws Exception {
-		try {
-			return ExamMapper.toVo(examRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return ExamMapper.toVo(examRepository.findOne(id));
 	}
 
 	@Override
@@ -94,12 +78,6 @@ public class ExamServiceImpl implements ExamService {
 
 	@Override
 	public List<ExamVo> getAllSortedById() throws Exception {
-		try {
-			return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
 	}
-
 }

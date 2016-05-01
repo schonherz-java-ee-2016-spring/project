@@ -31,22 +31,12 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 
 	@Override
 	public List<QuestionTypeVo> getAll() throws Exception {
-		try {
-			return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
 	}
 
 	@Override
 	public QuestionTypeVo getById(Long id) throws Exception {
-		try {
-			return QuestionTypeMapper.toVo(questionTypeRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionTypeMapper.toVo(questionTypeRepository.findOne(id));
 	}
 
 	@Override
