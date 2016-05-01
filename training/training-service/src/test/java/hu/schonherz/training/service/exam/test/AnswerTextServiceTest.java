@@ -41,14 +41,11 @@ public class AnswerTextServiceTest {
 			throw e;
 		}
 
-		AnswerTextVo answerText = new AnswerTextVo();
-
-		answerText.setText("Test answer text 0");
-		answerTextServiceLocal.add(answerText);
-		answerText.setText("Test answer text 1");
-		answerTextServiceLocal.add(answerText);
-		answerText.setText("Test answer text 2");
-		answerTextServiceLocal.add(answerText);
+		for (int i = 0; i < 3; i++) {
+			AnswerTextVo answerText = new AnswerTextVo();
+			answerText.setText("Test answer text " + i);
+			answerTextServiceLocal.add(answerText);
+		}
 	}
 
 	@After
@@ -83,7 +80,8 @@ public class AnswerTextServiceTest {
 	public void test2GetById() {
 		AnswerTextVo answerText = new AnswerTextVo();
 		try {
-			answerText = answerTextServiceLocal.getById(10003L);
+			AnswerTextVo answerTextFirst = answerTextServiceLocal.getAll().get(0);
+			answerText = answerTextServiceLocal.getById(answerTextFirst.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -95,14 +93,15 @@ public class AnswerTextServiceTest {
 	public void test3RemoveById() {
 		List<AnswerTextVo> answerTextList = new ArrayList<>();
 		try {
-			answerTextServiceLocal.removeById(10008L);
+			AnswerTextVo answerTextFirst = answerTextServiceLocal.getAll().get(0);
+			answerTextServiceLocal.removeById(answerTextFirst.getId());
 			answerTextList = answerTextServiceLocal.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
 		}
 		for (int i = 0; i < answerTextList.size(); i++) {
-			Assert.assertEquals("Test answer text " + i, answerTextList.get(i).getText());
+			Assert.assertEquals("Test answer text " + (i + 1), answerTextList.get(i).getText());
 		}
 	}
 
@@ -129,12 +128,13 @@ public class AnswerTextServiceTest {
 		AnswerTextVo answerText = new AnswerTextVo();
 		try {
 			answerText.setText("Test answer text 3");
-			
 			AnswerVo answer = new AnswerVo();
 			answerText.setAnswer(answer);
 
 			answerTextServiceLocal.add(answerText);
-			answerText = answerTextServiceLocal.getByAnswerId(10017L);
+
+			AnswerTextVo answerTextWithAnswer = answerTextServiceLocal.getAll().get(3);
+			answerText = answerTextServiceLocal.getByAnswerId(answerTextWithAnswer.getAnswer().getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
