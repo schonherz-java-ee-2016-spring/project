@@ -42,13 +42,22 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public AnswerVo getById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return AnswerMapper.toVo(answerRepository.findOne(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 	@Override
 	public void removeById(Long id) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			answerRepository.delete(id);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
 	}
 
 	@Override
@@ -80,6 +89,6 @@ public class AnswerServiceImpl implements AnswerService {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
-	} 
+	}
 
 }
