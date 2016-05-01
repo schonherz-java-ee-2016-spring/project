@@ -49,7 +49,7 @@ public class ExamServiceTest {
 	}
 
 	@Test(expected = Exception.class)
-	public void saveTestWithFail() throws Exception {
+	public void addTestWithFail() throws Exception {
 		ExamVo examVo = new ExamVo();
 		serviceLocal.add(examVo);
 	}
@@ -64,6 +64,32 @@ public class ExamServiceTest {
 		try {
 			List<ExamVo> examList = serviceLocal.getAll();
 			Assert.assertEquals(true, (examList == null ? false : true));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+	
+	@Test
+	public void getByIdTest() {
+		try {
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
+			examVo = serviceLocal.getById(examVo.getId());
+			Assert.assertEquals(true, (examVo != null ? true : false));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+	
+	@Test
+	public void modifyTitleTest() {
+		try {
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
+			examVo.setTitle("Junit2");
+			serviceLocal.modifyTitle(examVo);
+			examVo = serviceLocal.getByTitle("Junit2");
+			Assert.assertEquals(examVo.getTitle(), "Junit2");
+			examVo.setTitle("JUNIT");
+			serviceLocal.modifyTitle(examVo);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}

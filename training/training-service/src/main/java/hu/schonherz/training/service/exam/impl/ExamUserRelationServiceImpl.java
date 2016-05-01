@@ -64,4 +64,14 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 		}
 	}
 
+	@Override
+	public void removeAllByUserId(Long userId) throws Exception {
+		examUserRelationRepository.deleteAllByUserId(userId);
+	}
+
+	@Override
+	public void removeAllByExamId(Long examId) throws Exception {
+		examUserRelationRepository.deleteAllByExamId(examId);
+	}
+
 }
