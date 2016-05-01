@@ -1,15 +1,21 @@
 INSERT INTO public."role"( id, name, roleCode)VALUES(2001, 'User groups managing','ROLE_UGS');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2002, 'User managing','ROLE_USERS');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2003, 'Feedbacks','ROLE_FEEDBACKS');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2004, 'Student','ROLE_STUDENT');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2005, 'Instructor','ROLE_INSTRUCTOR');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2003,'Student Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2004,'Observer Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2005,'Guest Role Group');     
+
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2004, 2003);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2002);
+
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2002, 'email2@localhost.com', 'Instructor', 1, '$2a$10$bRsjrjA9RLw5KLga6NZlouR4K/jK4xrLO6ahPl1SgOMv3dfYof.Ve','instructor');
@@ -21,11 +27,11 @@ INSERT INTO public.usergroup(id, groupname,description,recuser,recdate)  VALUES 
 
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2001, 2001);
 INSERT INTO public.group_to_user(user_id, group_id) VALUES (2002, 2002);
-INSERT INTO public.group_to_user(user_id, group_id) VALUES (2003, 2002);
+--INSERT INTO public.group_to_user(user_id, group_id) VALUES (2003, 2002);
 
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2002);
-INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2003);
+--INSERT INTO public.rolegroup_to_usergroup(usergroup_id, rolegroup_id) VALUES (2002, 2003);
 
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2001, 2001);
 INSERT INTO public.rolegroup_to_user(rolegroup_id, user_id) VALUES (2002, 2002);
@@ -177,6 +183,81 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (4013, false, '
 INSERT INTO public.option(id, correct, text, question_id) VALUES (4014, false, 'Csak verzioszamok egy tartomanyat lehet megadni', 3004);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (4015, false, 'A verzioszamokat nem lehet megadni, a maven implicit kezeli', 3004);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'Konkret verzioszamot es verzioszamok tartomanyat is meg lehet adni', 3004);
+
+
+
+
+-- Exam-module
+
+INSERT INTO public.exam(id, title) VALUES(2002, 'JPA');
+INSERT INTO public.exam(id, title) VALUES(2003, 'EJB');
+INSERT INTO public.exam(id, title) VALUES(2004, 'JSF');
+INSERT INTO public.exam(id, title) VALUES(2005, 'Kacsa');
+INSERT INTO public.exam(id, title) VALUES(2006, 'Filltest');
+
+
+
+
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2007, 'Single Q with 2 options', 1 , 2005, 'First Note');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2008, 'Single Q with 3 options', 1 , 2005, 'Note 2');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2009, 'Multi Q with 2 options', 2 , 2005, 'Atka');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2010, 'Multi Q with 3 options', 2 , 2005, 'There is a cat');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2011, 'Text based Q', 3 , 2005, 'No hope');
+INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2012, 'Another text based Q', 3 , 2005, 'Magic Note');
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'Option1', 2007);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'Option2', 2007);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, true, 'Option3', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, false, 'Option4', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'Option5', 2008);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, true, 'Option6', 2009);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, true, 'Option7', 2009);
+
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2009, true, 'Option8', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, 'Option9', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'Option10', 2010);
+
+INSERT INTO public.option(id, question_id) VALUES (2012, 2011);
+INSERT INTO public.option(id, question_id) VALUES (2013, 2012);
+
+
+
+-- Answers
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (1, 2001, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (2, 2001, 2004, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (3, 2001, 2006, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (4, 2001, 2007, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (5, 2001, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id) VALUES (7, 2001, 2012);
+INSERT INTO public.answer(id, user_id, option_id) VALUES (8, 2001, 2013);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (200, 7, 'Atkaaaaaaaaaaaaaaaaaa');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (201, 8, 'Filitáááááááááán');
+
+
+
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (10, 2003, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2006, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2007, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2009, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2012, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2013, true);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 15, 'Atkaaaaaaaaaaaaaaaaaa');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 16, 'Filitáááááááááán');
+
+
+-- Exam - User - Relation
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(100, 2005, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(101, 2006, 2001)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(104, 2006, 2003)
 
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
