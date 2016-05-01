@@ -29,7 +29,7 @@
 		<h:outputStylesheet library="default" name="css/editor.css"></h:outputStylesheet>
 		<h:outputScript library="default" name="js/editor.js"></h:outputScript>
 
-		<div class="container">
+		<div class="container" style="width: 95%;">
 			<h:form class="form-horizontal">
 				<p:panel id="panel">
 					<!-- Form Name -->
@@ -44,13 +44,42 @@
 						<label class="control-label" for="event">Who do you want to send feedback to?</label>
 						<div class="controls">
 							<h:selectOneMenu id="event">
-								<f:selectItems value="#{writeFeedbackBean.usersToShow}"
-									var="user" itemLabel="#{user.fullName}"
-									itemValue="#{user.id}"  />
+								<f:selectItems value="#{writeObsFeedback.displayList}"
+									var="display" itemLabel="#{display.studentName} #{display.eventName} #{display.eventId}"
+									 />
 								
 							</h:selectOneMenu>
 						</div>
 					</div>
+					
+					<div class="control-group">
+						<label class="control-label" for="isPublic">Is this
+							feedback public?</label>
+						<div class="controls">
+							<h:selectOneMenu id="isPublic" value="">
+								<f:selectItem itemLabel="No" itemValue="#{isPublic}"></f:selectItem>
+								<f:selectItem itemLabel="Yes" itemValue="#{isPublic}"></f:selectItem>
+							</h:selectOneMenu>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label" for="txtEditor">Write your
+							feedback here </label>
+						
+						<div id="txtEditor"></div>
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$("#txtEditor").Editor();
+							});
+						</script>
+					</div>
+					
+					<div></div>
+					
+					<div class="text-right" style="float: right;">
+							<p:commandButton value="Send feedback"></p:commandButton>
+						</div>
 				</p:panel>
 			</h:form>
 		</div>
