@@ -42,44 +42,38 @@
 
 					<p:messages id="msgs" showDetail="true" />
 
+
+
+					<!-- Select Basic -->
 					<div class="control-group">
-						<label class="control-label" for="studentemail">You want to send feedback about:</label>
+						<label class="control-label" for="event">Choose an event</label>
 						<div class="controls">
-							<h:selectOneMenu id="feedbackType" >
-								<f:selectItem></f:selectItem>
-								<f:selectItem itemLabel="an event" itemValue="event"></f:selectItem>
-								<f:selectItem itemLabel="a person" itemValue="event"></f:selectItem>	
+							<h:selectOneMenu id="event"
+								value="#{writeFeedbackBean.usersToShow}"
+								valueChangeListener="#{writeFeedbackBean.eventChanged}"
+								onchange="submit()">
+								<f:selectItems value="#{writeFeedbackBean.eventsToShow}"
+									var="event" itemLabel="#{event.name} (#{event.date})"
+									itemValue="#{event.getId()}"  />
 							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<!-- Select Basic -->
 					<div class="control-group">
-						<label class="control-label" for="studentemail">Choose an
-							event</label>
-						<div class="controls">
-							<h:selectOneMenu id="event">
-								<f:selectItems value="#{writeFeedbackBean.eventsToShow}" var="event"
-									itemLabel="#{event.name} (#{event.date})" itemValue="#{event}" />	
-							</h:selectOneMenu>
-						</div>
-					</div>
-
-					<!-- Select Basic -->
-					<div class="control-group">
-						<label class="control-label" for="studentname">Choose
-							student to rate</label>
+						<label class="control-label" for="rated">Choose student to
+							rate</label>
 						<div class="controls">
 							<h:selectOneMenu id="rated">
-								<f:selectItems value="#{writeFeedbackBean.usersToShow}" var="user"
-									itemLabel="#{user.fullName}" itemValue="#{user}" />	
+								<f:selectItems value="#{writeFeedbackBean.usersToShow}"
+									var="user" itemLabel="#{user.fullName}" itemValue="#{user}" />
 							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<!-- Select Basic -->
 					<div class="control-group">
-						<label class="control-label" for="dayslate">Is this
+						<label class="control-label" for="isPublic">Is this
 							feedback public?</label>
 						<div class="controls">
 							<h:selectOneMenu id="isPublic" value="">
@@ -90,7 +84,7 @@
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="dayslate">Write your
+						<label class="control-label" for="txtEditor">Write your
 							feedback here </label>
 						<div class="text-right" style="float: right;">
 							<p:commandButton value="Send feedback"></p:commandButton>

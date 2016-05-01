@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.UserService;
@@ -23,6 +24,7 @@ public class WriteFeedbackBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2972060697014376693L;
+	
 
 	@EJB
 	EventService eventService;
@@ -30,20 +32,22 @@ public class WriteFeedbackBean implements Serializable {
 	@EJB
 	UserService userService;
 
-	List<EventVo> eventsToShow = new ArrayList<>();
+	private List<EventVo> eventsToShow = new ArrayList<>();
 
-	List<UserVo> usersToShow = new ArrayList<>();
+	private List<UserVo> usersToShow = new ArrayList<>();
 
-	UserVo loggedInUser = new UserVo();
-
-	static {
-
-	}
+	private UserVo loggedInUser = new UserVo();
+	
+	private EventVo selectedEvent = new EventVo();
+	
+	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+	
 
 	@PostConstruct
 	public void init() {
-		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+		
 		try {
+			usersToShow.clear();
 			loggedInUser = userService.findUserByName(username);
 			eventsToShow = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
 			for (EventVo event : eventsToShow) {
@@ -64,11 +68,19 @@ public class WriteFeedbackBean implements Serializable {
 						usersToShow.add(user);
 					}
 				}
-				// usersToShow.addAll(usersToInspect);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void eventChanged(ValueChangeEvent e) {
+		usersToShow.clear();
+		String idString = e.getNewValue().toString();
+		Long id = Long.parseLong(idString);
+		selectedEvent = eventService.findEventById(id);
+		usersToShow.addAll(selectedEvent.getUsers());
 	}
 
 	/**
@@ -121,5 +133,19 @@ public class WriteFeedbackBean implements Serializable {
 	 */
 	public void setUsersToShow(List<UserVo> usersToShow) {
 		this.usersToShow = usersToShow;
+	}
+
+	/**
+	 * @return the selectedEvent
+	 */
+	public EventVo getSelectedEvent() {
+		return selectedEvent;
+	}
+
+	/**
+	 * @param selectedEvent the selectedEvent to set
+	 */
+	public void setSelectedEvent(EventVo selectedEvent) {
+		this.selectedEvent = selectedEvent;
 	}
 }
