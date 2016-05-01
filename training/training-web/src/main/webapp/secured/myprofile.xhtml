@@ -47,12 +47,12 @@
 					<div class="tab-pane fade in active" id="tab1">
 						<h3>Personal Data</h3>
 						<ul style="list-style-type: disc">
-							<li>E-mail: #{profileBean.user.email}</li> 
-							
-							</ul> 
-						<h4>Feedbacks</h4>
+							<li>E-mail: #{profileBean.user.email}</li>
+
+						</ul>
+						<h3>Feedbacks</h3>
 						<ui:include src="feedback-list.xhtml"></ui:include>
-						<h4>My results</h4>
+						<h3>My results</h3>
 						<table id="resultTable" class="table-header-rotated">
 							<thead>
 								<tr>
@@ -113,6 +113,14 @@
 					</div>
 					<div class="tab-pane fade in" id="tab2">
 						<h4>Change Data</h4>
+						<h:form>
+							<h:panelGrid columns="2" cellpadding="5">
+								<p:outputLabel value="New e-mail: "></p:outputLabel>
+								<p:inputText value="#{profileBean.email}"></p:inputText>
+								<p:commandButton value="Submit"
+									actionListener="#{profileBean.changeData}" />
+							</h:panelGrid>
+						</h:form>
 
 					</div>
 					<div class="tab-pane fade in" id="tab3">
