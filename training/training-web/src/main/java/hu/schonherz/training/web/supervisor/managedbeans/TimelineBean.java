@@ -10,8 +10,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.service.admin.EventService;
+import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
 
 @ManagedBean(name = "timelineBean")
@@ -22,22 +24,30 @@ public class TimelineBean implements Serializable {
 
 	@EJB
 	private EventService eventService;
+	@EJB
+	private UserService userService;
 
 	List<EventVo> events;
 
 	private long nextId;
-	
 
 	@PostConstruct
 	public void init() {
 		try {
-			events = eventService.findAllEvent();
-			events = events.stream().sorted((e1, e2) -> { return e1.getDate().compareTo(e2.getDate());}).collect(Collectors.toList());
-			Date date = new GregorianCalendar().getTime();
-			nextId = events.stream()
-					.filter(e -> { return e.getDate().after(date); })
-					.min((e1, e2) -> {return e1.getDate().compareTo(e2.getDate());})
-					.get().getId();
+			// events = eventService.findAllEvent();
+			// events = events.stream().sorted((e1, e2) -> { return
+			// e1.getDate().compareTo(e2.getDate());}).collect(Collectors.toList());
+			// Date date = new GregorianCalendar().getTime();
+			// nextId = events.stream()
+			// .filter(e -> { return e.getDate().after(date); })
+			// .min((e1, e2) -> {return e1.getDate().compareTo(e2.getDate());})
+			// .get().getId();
+
+			Long id = userService
+					.findUserByName(FacesContext.getCurrentInstance()
+					.getExternalContext().getRemoteUser()).getId();
+			events = eventService.findEventsByUserOrderedByDate(id);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

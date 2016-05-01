@@ -40,65 +40,19 @@
 						</div>
 					</legend>
 
-					<p:messages id="msgs" showDetail="true" />
-
-
-
-					<!-- Select Basic -->
 					<div class="control-group">
-						<label class="control-label" for="event">Choose an event</label>
+						<label class="control-label" for="event">Who do you want to send feedback to?</label>
 						<div class="controls">
-							<h:selectOneMenu id="event"
-								value="#{writeFeedbackBean.usersToShow}"
-								valueChangeListener="#{writeFeedbackBean.eventChanged}"
-								onchange="submit()">
-								<f:selectItems value="#{writeFeedbackBean.eventsToShow}"
-									var="event" itemLabel="#{event.name} (#{event.date})"
-									itemValue="#{event}"  />
-							</h:selectOneMenu>
-						</div>
-					</div>
-
-					<!-- Select Basic -->
-					<div class="control-group">
-						<label class="control-label" for="rated">Choose student to
-							rate</label>
-						<div class="controls">
-							<h:selectOneMenu id="rated">
+							<h:selectOneMenu id="event">
 								<f:selectItems value="#{writeFeedbackBean.usersToShow}"
-									var="user" itemLabel="#{user.fullName}" itemValue="#{user}" />
+									var="user" itemLabel="#{user.fullName}"
+									itemValue="#{user.id}"  />
+								
 							</h:selectOneMenu>
 						</div>
-					</div>
-
-					<!-- Select Basic -->
-					<div class="control-group">
-						<label class="control-label" for="isPublic">Is this
-							feedback public?</label>
-						<div class="controls">
-							<h:selectOneMenu id="isPublic" value="">
-								<f:selectItem itemLabel="No" itemValue="#{isPublic}"></f:selectItem>
-								<f:selectItem itemLabel="Yes" itemValue="#{isPublic}"></f:selectItem>
-							</h:selectOneMenu>
-						</div>
-					</div>
-
-					<div class="control-group">
-						<label class="control-label" for="txtEditor">Write your
-							feedback here </label>
-						<div class="text-right" style="float: right;">
-							<p:commandButton value="Send feedback"></p:commandButton>
-						</div>
-						<div id="txtEditor"></div>
-						<script type="text/javascript">
-							$(document).ready(function() {
-								$("#txtEditor").Editor();
-							});
-						</script>
 					</div>
 				</p:panel>
 			</h:form>
 		</div>
-
 	</ui:define>
 </ui:composition>
