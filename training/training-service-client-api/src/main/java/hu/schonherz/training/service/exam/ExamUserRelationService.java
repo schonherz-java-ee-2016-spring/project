@@ -12,6 +12,6 @@ public interface ExamUserRelationService {
 
 	public List<UserVo> getAllUserByExamId(Long id) throws Exception;
 
-	public void save(ExamUserRelationVo vo) throws Exception;
+	public void add(ExamUserRelationVo vo) throws Exception;
 
 }

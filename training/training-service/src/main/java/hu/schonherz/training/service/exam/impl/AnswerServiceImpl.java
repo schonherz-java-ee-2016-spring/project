@@ -40,22 +40,19 @@ public class AnswerServiceImpl implements AnswerService {
 		}
 	}
 
-	@Deprecated
 	@Override
 	public AnswerVo getById(Long id) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Deprecated
 	@Override
 	public void removeById(Long id) throws Exception {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
-	public void save(AnswerVo vo) throws Exception {
+	public void add(AnswerVo vo) throws Exception {
 		try {
 			answerRepository.saveAndFlush(AnswerMapper.toDto(vo));
 		} catch (Exception ex) {
@@ -75,10 +72,10 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void modifyGoodById(AnswerVo vo, boolean good) throws Exception {
+	public void modifyGood(AnswerVo vo) throws Exception {
 		try {
 			Answer answer = AnswerMapper.toDto(vo);
-			answerRepository.modifyGoodById(good, answer.getId());
+			answerRepository.updateGoodById(answer.getId(), answer.getGood());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

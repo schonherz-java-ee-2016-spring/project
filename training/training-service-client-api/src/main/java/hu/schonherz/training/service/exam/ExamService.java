@@ -6,9 +6,9 @@ import hu.schonherz.training.service.exam.vo.ExamVo;
 
 public interface ExamService extends BaseService<ExamVo> {
 
-	public void save(ExamVo vo) throws Exception;
+	public void add(ExamVo vo) throws Exception;
 
-	public void updateTitle(ExamVo vo) throws Exception;
+	public void modifyTitle(ExamVo vo) throws Exception;
 	
 	public ExamVo getByTitle(String title) throws Exception;
 
