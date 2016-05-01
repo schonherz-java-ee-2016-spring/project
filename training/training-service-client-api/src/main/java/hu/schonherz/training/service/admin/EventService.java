@@ -21,5 +21,7 @@ public interface EventService {
 	public EventVo findEventById(Long id);
 	
 	public List<EventVo> findEventByPlace(String place);
+
+	List<EventVo> findEventsByUserOrderedByDate(Long userId);
 	
 }

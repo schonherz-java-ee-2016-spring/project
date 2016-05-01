@@ -21,7 +21,9 @@ import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
+import hu.schonherz.training.service.exam.vo.eval.EvalRecord;
 
 @ManagedBean(name = "examEvaluatorBean")
 @ViewScoped
@@ -45,18 +47,14 @@ public class ExamEvaluatorBean implements Serializable {
 	private List<UserVo> userList;
 	private String selectedUserIdAsString;
 
-	private List<QuestionVo> textBasedQuestionList;
-	private List<AnswerVo> answerList;
-	private List<AnswerTextVo> answerTextList;
+	private List<EvalRecord> evalRecordList;
 
 	@PostConstruct
 	public void initBean() {
 		try {
 			examList = examService.getAllSortedById();
 			userList = userService.findAllUser();
-			textBasedQuestionList = new ArrayList<>();
-			answerList = new ArrayList<>();
-			setAnswerTextList(new ArrayList<>());
+			evalRecordList = new ArrayList<>();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,26 +62,48 @@ public class ExamEvaluatorBean implements Serializable {
 
 	public void loadContent() {
 		try {
-			textBasedQuestionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString)).stream()
-					.filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
+			evalRecordList.clear();
 
-			answerList = answerService.getAllByUserId(Long.parseLong(selectedUserIdAsString));
-			answerList.stream().filter(a -> textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
-					.filter(o -> o.getId() == a.getOption().getId()).count() > 0).collect(Collectors.toList());
+			List<QuestionVo> textBasedQuestionList = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
+					.stream().filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
 
-			answerTextList.clear();
-			for (AnswerVo answerVo : answerList) {
-				AnswerTextVo answerText = answerTextService.getByAnswerId(answerVo.getId());
-				answerTextList.add(answerText);
+			List<OptionVo> optionList = textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
+					.collect(Collectors.toList());
+
+			List<AnswerVo> answerList = answerService.getAllByUserId(Long.parseLong(selectedUserIdAsString)).stream()
+					.filter(a -> optionList.stream()
+							.filter(o -> o.getId().longValue() == a.getOption().getId().longValue()).count() > 0)
+					.collect(Collectors.toList());
+
+			for (AnswerVo answer : answerList) {
+
+				EvalRecord record = new EvalRecord();
+				record.setUser(userService.findUserById(Long.parseLong(selectedUserIdAsString)));
+
+				record.setAnswer(answer);
+				AnswerTextVo answerText = answerTextService.getByAnswerId(answer.getId());
+				record.setAnswerText(answerText);
+
+				QuestionVo question = questionService.getAllById(Long.parseLong(selectedExamIdAsString))
+						.stream().filter(q -> q.getQuestionType().getId() == 3).filter(q -> q.getOptions().get(0)
+								.getId().longValue() == answer.getOption().getId().longValue()).findFirst().orElse(null);
+
+				record.setQuestion(question);
+				record.setOption(question.getOptions().get(0));
+
+				evalRecordList.add(record);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		RequestContext.getCurrentInstance().update("evaluatorForm");
+		RequestContext.getCurrentInstance().update("answerTextEvaluatorForm");
 	}
 
-	public void applyEvaluation() {
-		// TODO
+	public void applyEvaluation() throws Exception {
+		for (EvalRecord evalRecord : evalRecordList) {
+			answerService.modifyGoodById(evalRecord.getAnswer(), evalRecord.getAnswer().getGood());
+		}
 	}
 
 	/**
@@ -124,28 +144,12 @@ public class ExamEvaluatorBean implements Serializable {
 		this.selectedExamIdAsString = selectedExamIdAsString;
 	}
 
-	public List<QuestionVo> getTextBasedQuestionList() {
-		return textBasedQuestionList;
-	}
-
-	public void setTextBasedQuestionList(List<QuestionVo> textBasedQuestionList) {
-		this.textBasedQuestionList = textBasedQuestionList;
-	}
-
 	public QuestionService getQuestionService() {
 		return questionService;
 	}
 
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
-	}
-
-	public List<AnswerVo> getAnswerList() {
-		return answerList;
-	}
-
-	public void setAnswerList(List<AnswerVo> answerList) {
-		this.answerList = answerList;
 	}
 
 	public AnswerService getAnswerService() {
@@ -180,19 +184,19 @@ public class ExamEvaluatorBean implements Serializable {
 		this.userService = userService;
 	}
 
-	public List<AnswerTextVo> getAnswerTextList() {
-		return answerTextList;
-	}
-
-	public void setAnswerTextList(List<AnswerTextVo> answerTextList) {
-		this.answerTextList = answerTextList;
-	}
-
 	public AnswerTextService getAnswerTextService() {
 		return answerTextService;
 	}
 
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
+	}
+
+	public List<EvalRecord> getEvalRecordList() {
+		return evalRecordList;
+	}
+
+	public void setEvalRecordList(List<EvalRecord> evalRecordList) {
+		this.evalRecordList = evalRecordList;
 	}
 }

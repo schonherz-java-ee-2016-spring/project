@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.core.exam.entity.Answer;
 import hu.schonherz.training.core.exam.repository.AnswerRepository;
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.mapper.AnswerMapper;
@@ -67,6 +68,17 @@ public class AnswerServiceImpl implements AnswerService {
 	public List<AnswerVo> getAllByUserId(Long id) throws Exception {
 		try {
 			return AnswerMapper.toVo(answerRepository.findAnswersByUserId(id));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
+	public void modifyGoodById(AnswerVo vo, boolean good) throws Exception {
+		try {
+			Answer answer = AnswerMapper.toDto(vo);
+			answerRepository.modifyGoodById(good, answer.getId());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

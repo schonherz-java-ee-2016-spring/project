@@ -24,6 +24,5 @@ public class OptionVo extends BaseIdentityVo {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
+	}	
 }
