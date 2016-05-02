@@ -1,11 +1,14 @@
 package hu.schonherz.training.service.exam.test;
 
+import java.util.List;
+
 import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -39,7 +42,7 @@ public class ExamUserRelationServiceTest {
 		}
 
 		ExamVo examVo = new ExamVo();
-		examVo.setTitle("JUNIT");
+		examVo.setTitle("JUNIT alpha test");
 		examService.add(examVo);
 
 		UserVo userVO = new UserVo();
@@ -50,7 +53,7 @@ public class ExamUserRelationServiceTest {
 		userService.registrationUser(userVO);
 
 		ExamUserRelationVo examUserRelationVo = new ExamUserRelationVo();
-		examUserRelationVo.setExam(examService.getByTitle("JUNIT"));
+		examUserRelationVo.setExam(examService.getByTitle("JUNIT alpha test"));
 		examUserRelationVo.setUser(userService.findUserByName("IWantToLogin"));
 
 		examUserRelationService.add(examUserRelationVo);
@@ -59,33 +62,51 @@ public class ExamUserRelationServiceTest {
 	@After
 	public void tearDown() {
 		try {
-			ExamVo examVo = examService.getByTitle("JUNIT");
+			ExamVo examVo = examService.getByTitle("JUNIT alpha test");
 			examUserRelationService.removeAllByExamId(examVo.getId());
-			examService.removeById(examService.getByTitle("JUNIT").getId());
+			examService.removeById(examService.getByTitle("JUNIT alpha test").getId());
 			userService.deleteUserById(userService.findUserByName("IWantToLogin").getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	// @Test(expected = Exception.class)
-	// public void addTestWithFail() throws Exception {
-	// ExamVo examVo = new ExamVo();
-	// UserVo userVo = new UserVo();
-	// ExamUserRelationVo examUserRelationVo = new ExamUserRelationVo();
-	// examUserRelationVo.setExam(examVo);
-	// examUserRelationVo.setUser(userVo);
-	// examUserRelationService.add(examUserRelationVo);
-	// }
-
-	@Test
-	public void removeAllByUserIdTest() throws Exception {
-		examUserRelationService.removeAllByUserId(-1L);
+	@Test(expected = Exception.class)
+	public void addTestWithFail() throws Exception {
+		ExamVo examVo = new ExamVo();
+		UserVo userVo = new UserVo();
+		ExamUserRelationVo examUserRelationVo = new ExamUserRelationVo();
+		examUserRelationVo.setExam(examVo);
+		examUserRelationVo.setUser(userVo);
+		examUserRelationService.add(examUserRelationVo);
 	}
 
 	@Test
-	public void removeAl2lByUserIdTest() throws Exception {
+	public void removeAllTest() throws Exception {
 		examUserRelationService.removeAllByUserId(-1L);
+		examUserRelationService.removeAllByUserId(-1L);
+	}
+	
+	@Test
+	public void getAllExamByUserId() {
+		try {
+			UserVo userVo = userService.findUserByName("IWantToLogin");
+			List<ExamVo> examList = examUserRelationService.getAllExamByUserId(userVo.getId());
+			Assert.assertEquals(true, (examList == null ? false : true));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+	}
+	
+	@Test
+	public void getAllUserByUserId() {
+		try {
+			ExamVo examVo = examService.getByTitle("JUNIT alpha test");
+			List<UserVo> userList = examUserRelationService.getAllUserByExamId(examVo.getId());
+			Assert.assertEquals(true, (userList == null ? false : true));
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
 	}
 
 }
