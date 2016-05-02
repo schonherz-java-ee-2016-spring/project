@@ -23,7 +23,7 @@ public class ExamServiceTest {
 	static final Logger logger = LogManager.getLogger(ExamServiceTest.class.getName());
 
 	@EJB
-	ExamService serviceLocal;
+	ExamService examServiceLocal;
 
 	@Before
 	public void startTheContainer() throws Exception {
@@ -35,14 +35,14 @@ public class ExamServiceTest {
 
 		ExamVo examVo = new ExamVo();
 		examVo.setTitle("JUNIT alpha test");
-		serviceLocal.add(examVo);
+		examServiceLocal.add(examVo);
 	}
 
 	@After
 	public void tearDown() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
-			serviceLocal.removeById(examVo.getId());
+			ExamVo examVo = examServiceLocal.getByTitle("JUNIT alpha test");
+			examServiceLocal.removeById(examVo.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,19 +50,18 @@ public class ExamServiceTest {
 
 	@Test(expected = Exception.class)
 	public void addTestWithFail() throws Exception {
-		ExamVo examVo = new ExamVo();
-		serviceLocal.add(examVo);
+		examServiceLocal.add(new ExamVo());
 	}
 
 	@Test(expected = Exception.class)
 	public void removeByIdTestWithFail() throws Exception {
-		serviceLocal.removeById(-1L);
+		examServiceLocal.removeById(-1L);
 	}
 
 	@Test
 	public void getAllTest() {
 		try {
-			List<ExamVo> examList = serviceLocal.getAll();
+			List<ExamVo> examList = examServiceLocal.getAll();
 			Assert.assertEquals(true, (examList == null ? false : true));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -72,8 +71,8 @@ public class ExamServiceTest {
 	@Test
 	public void getByIdTest() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
-			examVo = serviceLocal.getById(examVo.getId());
+			ExamVo examVo = examServiceLocal.getByTitle("JUNIT alpha test");
+			examVo = examServiceLocal.getById(examVo.getId());
 			Assert.assertEquals(true, (examVo != null ? true : false));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
@@ -83,13 +82,16 @@ public class ExamServiceTest {
 	@Test
 	public void modifyTitleTest() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
+			ExamVo examVo = examServiceLocal.getByTitle("JUNIT alpha test");
 			examVo.setTitle("JUNIT beta test");
-			serviceLocal.modifyTitle(examVo);
-			examVo = serviceLocal.getByTitle("JUNIT beta test");
+			examServiceLocal.modifyTitle(examVo);
+			examVo = examServiceLocal.getByTitle("JUNIT beta test");
 			Assert.assertEquals(examVo.getTitle(), "JUNIT beta test");
 			examVo.setTitle("JUNIT alpha test");
-			serviceLocal.modifyTitle(examVo);
+			examServiceLocal.modifyTitle(examVo);
+			
+			examVo = examServiceLocal.getByTitle("JUNIT alpha test");
+			Assert.assertEquals("JUNIT alpha test", examVo.getTitle());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
@@ -99,9 +101,9 @@ public class ExamServiceTest {
 	public void modifyTitleWithFail() throws Exception {
 		ExamVo examVo = new ExamVo();
 		examVo.setTitle("JUNIT final test");
-		serviceLocal.add(examVo);
-		examVo = serviceLocal.getByTitle("JUNIT final test");
+		examServiceLocal.add(examVo);
+		examVo = examServiceLocal.getByTitle("JUNIT final test");
 		examVo.setTitle("JUNIT alpha test");
-		serviceLocal.modifyTitle(examVo);
+		examServiceLocal.modifyTitle(examVo);
 	}
 }

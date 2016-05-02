@@ -61,11 +61,6 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 
 	@Override
 	public QuestionTypeVo getByName(String questionTypeName) throws Exception {
-		try {
-			return QuestionTypeMapper.toVo(questionTypeRepository.findByNameIgnoreCase(questionTypeName));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionTypeMapper.toVo(questionTypeRepository.findByNameIgnoreCase(questionTypeName));
 	}
 }

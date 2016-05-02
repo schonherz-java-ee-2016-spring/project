@@ -1,6 +1,5 @@
 package hu.schonherz.training.core.exam.relationtable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,11 +26,11 @@ import hu.schonherz.training.core.exam.entity.Exam;
 public class ExamUserRelation extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 

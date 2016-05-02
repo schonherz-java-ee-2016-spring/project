@@ -71,4 +71,12 @@ public class AnswerTextServiceTest {
 			Assert.fail();
 		}
 	}
+
+
+	@Test(expected = Exception.class)
+	public void removeByIdTestWithFail() throws Exception {
+		answerTextServiceLocal.removeById(-1L);
+	}
+
+
 }

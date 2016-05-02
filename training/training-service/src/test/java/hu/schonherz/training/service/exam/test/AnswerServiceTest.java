@@ -15,6 +15,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 
@@ -28,6 +30,9 @@ public class AnswerServiceTest {
 
 	static final Logger logger = LogManager.getLogger(AnswerServiceTest.class.getName());
 
+	@EJB
+	UserService userServiceLocal;
+	
 	@EJB
 	AnswerService answerServiceLocal;
 
@@ -169,5 +174,31 @@ public class AnswerServiceTest {
 		}
 		Assert.assertEquals("TestUser 0", answer.getModUser());
 		Assert.assertEquals(true, answer.getGood());
+	}
+	
+	@Test(expected = Exception.class)
+	public void removeByIdTestWithFail() throws Exception {
+		answerServiceLocal.removeById(-1L);
+	}
+	
+	@Test
+	public void getAllByUserId() throws Exception {
+		// minden teszt előtt beregisztrálunk valakit
+		UserVo userVO = new UserVo();
+//		userVo.setId( 978 );
+		userVO.setUserName("IWantToLogin");
+		userVO.setPassword("WithMyPassword");
+		userVO.setFullName("Mr IWantToLogin");
+		userVO.setEmail("IWantToLogin@login.log");
+		
+		userServiceLocal.registrationUser(userVO);
+		userVO = userServiceLocal.findUserByName("IWantToLogin");
+		
+		AnswerVo answerVo = new AnswerVo();
+		answerVo.setUser(userVO);
+		
+		answerServiceLocal.add(answerVo);
+		List<AnswerVo> answerList = answerServiceLocal.getAllByUserId(userVO.getId());
+		Assert.assertEquals(1, answerList.size());
 	}
 }

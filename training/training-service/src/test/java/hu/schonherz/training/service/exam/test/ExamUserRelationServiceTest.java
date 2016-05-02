@@ -10,9 +10,7 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
@@ -21,7 +19,7 @@ import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.vo.ExamUserRelationVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @ManagedBean
 public class ExamUserRelationServiceTest {
 	static final Logger logger = LogManager.getLogger(ExamUserRelationServiceTest.class.getName());
@@ -71,13 +69,11 @@ public class ExamUserRelationServiceTest {
 		}
 	}
 
-	@Test(expected = Exception.class)
-	public void addTestWithFail() throws Exception {
-		ExamVo examVo = new ExamVo();
-		UserVo userVo = new UserVo();
+	@Test
+	public void addTest() throws Exception {
 		ExamUserRelationVo examUserRelationVo = new ExamUserRelationVo();
-		examUserRelationVo.setExam(examVo);
-		examUserRelationVo.setUser(userVo);
+		examUserRelationVo.setExam(null);
+		examUserRelationVo.setUser(null);
 		examUserRelationService.add(examUserRelationVo);
 	}
 
@@ -86,24 +82,24 @@ public class ExamUserRelationServiceTest {
 		examUserRelationService.removeAllByUserId(-1L);
 		examUserRelationService.removeAllByUserId(-1L);
 	}
-	
+
 	@Test
 	public void getAllExamByUserId() {
 		try {
 			UserVo userVo = userService.findUserByName("IWantToLogin");
 			List<ExamVo> examList = examUserRelationService.getAllExamByUserId(userVo.getId());
-			Assert.assertEquals(true, (examList == null ? false : true));
+			Assert.assertEquals(1, examList.size());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-	
+
 	@Test
-	public void getAllUserByUserId() {
+	public void getAllUserByExamId() {
 		try {
 			ExamVo examVo = examService.getByTitle("JUNIT alpha test");
 			List<UserVo> userList = examUserRelationService.getAllUserByExamId(examVo.getId());
-			Assert.assertEquals(true, (userList == null ? false : true));
+			Assert.assertEquals(1, userList.size());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}

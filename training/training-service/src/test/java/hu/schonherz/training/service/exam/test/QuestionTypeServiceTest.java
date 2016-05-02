@@ -21,7 +21,7 @@ import hu.schonherz.training.service.exam.vo.QuestionTypeVo;
 @ManagedBean
 public class QuestionTypeServiceTest {
 
-	static final Logger logger = LogManager.getLogger(QuestionServiceTest.class.getName());
+	static final Logger logger = LogManager.getLogger(QuestionTypeServiceTest.class.getName());
 
 	@EJB
 	QuestionTypeService questionTypeService;
@@ -51,9 +51,8 @@ public class QuestionTypeServiceTest {
 	}
 
 	@Test(expected = Exception.class)
-	public void saveTestWithFail() throws Exception {
-		QuestionTypeVo questionTypeVo = new QuestionTypeVo();
-		questionTypeService.add(questionTypeVo);
+	public void addTestWithFail() throws Exception {
+		questionTypeService.add(new QuestionTypeVo());
 	}
 
 	@Test(expected = Exception.class)

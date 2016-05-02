@@ -12,7 +12,7 @@ import hu.schonherz.training.core.exam.relationtable.ExamUserRelation;
 
 
 @Repository
-@Transactional(propagation = Propagation.SUPPORTS)
+@Transactional(propagation = Propagation.REQUIRED)
 public interface ExamUserRelationRepository extends JpaRepository<ExamUserRelation, Long> {
 
 	public List<ExamUserRelation> findAllByExamId(@Param("id") Long id) throws Exception;

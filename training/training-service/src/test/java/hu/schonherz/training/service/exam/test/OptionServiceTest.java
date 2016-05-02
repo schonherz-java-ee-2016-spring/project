@@ -103,4 +103,15 @@ public class OptionServiceTest {
 			Assert.fail();
 		}
 	}
+	
+	@Test(expected = Exception.class)
+	public void addTestWithFail() throws Exception {
+		optionServiceLocal.add(new OptionVo(), -1L);
+	}
+	
+	@Test(expected = Exception.class)
+	public void removeByIdTest() throws Exception {
+		optionServiceLocal.removeById(-1L);
+	}
+	
 }
