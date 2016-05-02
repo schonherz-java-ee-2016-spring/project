@@ -11,8 +11,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.service.admin.EventService;
+import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 
@@ -33,6 +35,9 @@ public class WriteStudentFeedback implements Serializable {
 	
 	@EJB
 	FeedbackService feedbackService;
+	
+	@EJB
+	RoleGroupService roleGroupService;
 
 //	variables for list events related to the logged in student
 	private UserVo loggedInUser = new UserVo();
@@ -47,12 +52,23 @@ public class WriteStudentFeedback implements Serializable {
 			loggedInUser = userService.findUserByName(username);
 			events = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
 			List<UserVo> usersToInspect = new ArrayList<>();
+			List<RoleGroupVo> roleGroupsToInspect = new ArrayList<>();
 			for (EventVo event : events) {
 				usersToInspect.addAll(event.getUsers());
 				for (UserVo user : usersToInspect) {
 					isOk = true;
 					for (UserVo usr : users) {
 						if (usr.getId() == user.getId()) {
+							isOk = false;
+						}
+					}
+					roleGroupsToInspect.addAll(user.getRoleGroups());
+					for (RoleGroupVo roleGroup : roleGroupsToInspect) {
+						if (!(roleGroup.getName().contentEquals("Instructor Role Group")) && isOk) {
+							isOk = true;
+						} else if (roleGroup.getName().contentEquals("Instructor Role Group")) {
+							isOk = true;
+						} else {
 							isOk = false;
 						}
 					}
