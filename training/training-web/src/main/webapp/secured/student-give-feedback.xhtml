@@ -12,9 +12,9 @@
 	<ui:define name="content">
 		<div class="container" style="width: 95%;">
 			<h:form class="form-horizontal" id="form">
-			
+
 				<p:messages id="msgs"></p:messages>
-			
+
 				<p:panel id="panel">
 					<!-- Form Name -->
 					<legend>
@@ -28,11 +28,9 @@
 						<label class="control-label" for="event">Who do you want
 							to send feedback to?</label>
 						<div class="controls">
-							<h:selectOneMenu id="event" value="#{writeObsFeedback.eventAndRatedSelector}">
-								<f:selectItems value="#{writeObsFeedback.displayList}"
-									var="display"
-									itemLabel=" #{display.eventName} - #{display.ratedName}"
-									itemValue="#{display.eventId};#{display.ratedUsername}" />
+							<h:selectOneMenu id="event">
+								<f:selectItems value="#{writeStudentFeedback.users}"
+									var="user" itemLabel="#{user.fullName}" />
 
 							</h:selectOneMenu>
 						</div>
@@ -42,11 +40,9 @@
 						<label class="control-label" for="isPublic">Is this
 							feedback public?</label>
 						<div class="controls">
-							<h:selectOneMenu id="isPublic" value="#{writeObsFeedback.isPublic}">
-								<f:selectItem itemLabel="No"
-									itemValue="no"></f:selectItem>
-								<f:selectItem itemLabel="Yes"
-									itemValue="yes"></f:selectItem>
+							<h:selectOneMenu id="isPublic">
+								<f:selectItem itemLabel="No" itemValue="no"></f:selectItem>
+								<f:selectItem itemLabel="Yes" itemValue="yes"></f:selectItem>
 							</h:selectOneMenu>
 						</div>
 					</div>
@@ -54,12 +50,11 @@
 					<div class="control-group">
 						<label class="control-label" for="txtEditor">Write your
 							feedback here </label>
-						<p:editor value="#{writeObsFeedback.feedbackMessage}"></p:editor>
+						<p:editor></p:editor>
 					</div>
 
 					<div class="control-group" style="float: right;">
-						<p:commandButton value="Send feedback" update="form,growl"
-							action="#{writeObsFeedback.sendFeedback}" icon="ui-icon-check"></p:commandButton>
+						<p:commandButton value="Send feedback"></p:commandButton>
 					</div>
 				</p:panel>
 			</h:form>

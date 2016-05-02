@@ -19,6 +19,8 @@
 			access="hasRole('FEEDBACKS')" />
 		<security:intercept-url pattern="/secured/obs-give-feedbacks.xhtml"
 			access="hasRole('WRITE_OBS_FEEDBACK')" />
+			<security:intercept-url pattern="/secured/student-give-feedbacks.xhtml"
+			access="hasRole('WRITE_STUDENT_FEEDBACK')" />
 
 		<security:form-login login-page="/public/login.xhtml"
 			login-processing-url="/login" default-target-url="/index.xhtml"
