@@ -15,9 +15,9 @@ import hu.schonherz.training.core.exam.entity.Answer;
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
-	public List<Answer> findAnswersByUserId(@Param("id") Long id) throws Exception;
+	public List<Answer> findAllByUserId(@Param("id") Long id) throws Exception;
 	
 	@Modifying
-	@Query(value = "UPDATE answer SET good = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyGoodById(boolean good, Long id) throws Exception;
+	@Query(value = "UPDATE answer SET good = ?2 WHERE id = ?1", nativeQuery = true)
+	public Integer updateGoodById(Long id, boolean good) throws Exception;
 }

@@ -66,11 +66,11 @@
 			<p:dialog closeOnEscape="true" header="#{out.newoption}" widgetVar="dlg"
 				resizable="false" modal="true">
 				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
-					<h:outputLabel for="newOptionText" value="#{out.option}:" />
 					<p:inputTextarea cols="100" rows="3" id="newOptionText"
 						value="#{singleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputTextarea>
+					
 					<f:facet name="footer">
 						<p:commandButton value="#{out.add}" update="message,optionPanelGrid"
 							actionListener="#{singleQuestionDetailsBean.addOption}">

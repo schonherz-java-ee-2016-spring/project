@@ -15,9 +15,9 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 	
 	@Modifying
 	@Query(value = "UPDATE question SET text = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyQuestionTitleById(String text, Long id) throws Exception;
+	public Integer updateQuestionTitleById(String text, Long id) throws Exception;
 	
 	@Modifying
 	@Query(value = "UPDATE question SET note = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyQuestionNoteById(String text, Long id) throws Exception;
+	public Integer updateQuestionNoteById(String text, Long id) throws Exception;
 }
