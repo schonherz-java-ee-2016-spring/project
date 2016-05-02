@@ -32,30 +32,26 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public List<AnswerVo> getAll() throws Exception {
+		return AnswerMapper.toVo(answerRepository.findAll());
+	}
+
+	@Override
+	public AnswerVo getById(Long id) throws Exception {
+		return AnswerMapper.toVo(answerRepository.findOne(id));
+	}
+
+	@Override
+	public void removeById(Long id) throws Exception {
 		try {
-			return AnswerMapper.toVo(answerRepository.findAll());
+			answerRepository.delete(id);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
 	}
 
-	@Deprecated
 	@Override
-	public AnswerVo getById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Deprecated
-	@Override
-	public void removeById(Long id) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void save(AnswerVo vo) throws Exception {
+	public void add(AnswerVo vo) throws Exception {
 		try {
 			answerRepository.saveAndFlush(AnswerMapper.toDto(vo));
 		} catch (Exception ex) {
@@ -66,23 +62,18 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public List<AnswerVo> getAllByUserId(Long id) throws Exception {
+		return AnswerMapper.toVo(answerRepository.findAllByUserId(id));
+	}
+
+	@Override
+	public void modifyGood(AnswerVo vo) throws Exception {
 		try {
-			return AnswerMapper.toVo(answerRepository.findAnswersByUserId(id));
+			Answer answer = AnswerMapper.toDto(vo);
+			answerRepository.updateGoodById(answer.getId(), answer.getGood());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
 	}
-
-	@Override
-	public void modifyGoodById(AnswerVo vo, boolean good) throws Exception {
-		try {
-			Answer answer = AnswerMapper.toDto(vo);
-			answerRepository.modifyGoodById(good, answer.getId());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
-	} 
 
 }

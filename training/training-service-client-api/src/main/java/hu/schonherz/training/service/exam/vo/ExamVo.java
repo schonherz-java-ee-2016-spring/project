@@ -7,6 +7,7 @@ public class ExamVo extends BaseIdentityVo {
 	private static final long serialVersionUID = 1L;
 	private String title;
 	private List<QuestionVo> questions;
+	private Boolean status;
 
 	public ExamVo() {
 		super();
@@ -28,4 +29,13 @@ public class ExamVo extends BaseIdentityVo {
 		this.questions = questions;
 	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	
 }

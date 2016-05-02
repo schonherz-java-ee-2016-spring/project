@@ -22,7 +22,7 @@ import hu.schonherz.training.core.admin.entity.BaseEntity;
 public class Question extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "text")
+	@Column(name = "text", nullable = true)
 	private String text;
 
 	@Column(name = "note", nullable = true)

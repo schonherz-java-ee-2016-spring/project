@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -17,7 +17,7 @@ import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 
 @ManagedBean(name = "examBean")
-@ViewScoped
+@SessionScoped
 public class ExamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,7 @@ public class ExamBean implements Serializable {
 	private String newExamTitle;
 	private String examIdAsString;
 	private List<ExamVo> examList;
+	private String booleanChangeExamIdAsString;
 
 	@PostConstruct
 	public void init() {
@@ -34,11 +35,15 @@ public class ExamBean implements Serializable {
 	}
 
 	public void removeExam(ActionEvent event) {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
 		Long examId = Long.parseLong(examIdAsString);
 		try {
 			examService.removeById(examId);
 		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"This exam has already been filled out by a student");
+			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
 		updateExamList();
@@ -58,16 +63,54 @@ public class ExamBean implements Serializable {
 
 	public void registerNewExam() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-
 		ExamVo exam = new ExamVo();
+		exam.setStatus(false);
 		exam.setTitle(newExamTitle);
 
 		try {
-			getExamService().save(exam);
+			getExamService().add(exam);
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam created");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't create exam");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+		updateExamList();
+		updateViewContent();
+	}
+
+	public void setStatusToTrue(ActionEvent event) {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString")
+				.toString();
+		Long examid = Long.parseLong(booleanChangeExamIdAsString);
+		try {
+			examService.modifyStatusToTrue(examid);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam started");
+			currentInstance.addMessage(null, facesMessage);
+
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't start exam");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+		updateExamList();
+		updateViewContent();
+	}
+
+	public void setStatusToFalse(ActionEvent event) {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString")
+				.toString();
+		Long examid = Long.parseLong(booleanChangeExamIdAsString);
+		try {
+			examService.modifyStatusToFalse(examid);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam stopped");
+			currentInstance.addMessage(null, facesMessage);
+
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't stop exam");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -105,6 +148,14 @@ public class ExamBean implements Serializable {
 
 	public void setExamList(List<ExamVo> examList) {
 		this.examList = examList;
+	}
+
+	public String getBooleanChangeExamIdAsString() {
+		return booleanChangeExamIdAsString;
+	}
+
+	public void setBooleanChangeExamIdAsString(String booleanChangeExamIdAsString) {
+		this.booleanChangeExamIdAsString = booleanChangeExamIdAsString;
 	}
 
 }

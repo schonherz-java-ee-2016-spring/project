@@ -42,22 +42,12 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public List<QuestionVo> getAll() throws Exception {
-		try {
-			return QuestionMapper.toVo(questionRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionMapper.toVo(questionRepository.findAll());
 	}
 
 	@Override
 	public QuestionVo getById(Long id) throws Exception {
-		try {
-			return QuestionMapper.toVo(questionRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionMapper.toVo(questionRepository.findOne(id));
 	}
 
 	@Override
@@ -71,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void save(QuestionVo vo, Long examId) throws Exception {
+	public void add(QuestionVo vo, Long examId) throws Exception {
 		try {
 			Exam exam = examRepository.findOne(examId);
 			Collection<Question> questions = exam.getQuestions();
@@ -86,36 +76,22 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void updateText(QuestionVo vo) throws Exception {
-		try {
-			Question question = QuestionMapper.toDto(vo);
-			questionRepository.modifyQuestionTitleById(question.getText(), question.getId());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+	public void modifyText(QuestionVo vo) throws Exception {
+		Question question = QuestionMapper.toDto(vo);
+		questionRepository.updateQuestionTitleById(question.getText(), question.getId());
+
 	}
 
 	@Override
-	public void updateNote(QuestionVo vo) throws Exception {
-		try {
-			Question question = QuestionMapper.toDto(vo);
-			questionRepository.modifyQuestionNoteById(question.getNote(), question.getId());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+	public void modifyNote(QuestionVo vo) throws Exception {
+		Question question = QuestionMapper.toDto(vo);
+		questionRepository.updateQuestionNoteById(question.getNote(), question.getId());
 	}
 
 	@Override
-	public List<QuestionVo> getAllById(Long examId) throws Exception {
-		try {
-			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
-			return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+	public List<QuestionVo> getAllByExamId(Long examId) throws Exception {
+		ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
+		return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
 	}
 
 }

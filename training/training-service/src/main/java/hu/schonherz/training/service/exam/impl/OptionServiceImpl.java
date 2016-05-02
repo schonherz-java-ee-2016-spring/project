@@ -39,22 +39,12 @@ public class OptionServiceImpl implements OptionService {
 
 	@Override
 	public List<OptionVo> getAll() throws Exception {
-		try {
 			return OptionMapper.toVo(optionRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override
 	public OptionVo getById(Long id) throws Exception {
-		try {
 			return OptionMapper.toVo(optionRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
 	}
 
 	@Override
@@ -68,7 +58,7 @@ public class OptionServiceImpl implements OptionService {
 	}
 
 	@Override
-	public void save(OptionVo optionVo, Long questionId) throws Exception {
+	public void add(OptionVo optionVo, Long questionId) throws Exception {
 		try {
 			Question question = questionRepository.findOne(questionId);
 			Collection<Option> options = question.getOptions();

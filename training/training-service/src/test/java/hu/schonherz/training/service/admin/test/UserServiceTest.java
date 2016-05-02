@@ -46,7 +46,7 @@ public class UserServiceTest {
 	}
 	
 	@After
-	public void tearDown(){
+	public void tearDown() {
 		try {
 			UserVo user = serviceLocal.findUserByName("IWantToLogin");
 			serviceLocal.deleteUserById(user.getId());

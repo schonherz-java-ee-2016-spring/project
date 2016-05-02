@@ -40,7 +40,7 @@ public class QuestionBean implements Serializable {
 			question.setText("New single answer question");
 			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public class QuestionBean implements Serializable {
 			question.setText("New multiple answer question");
 			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,7 +74,7 @@ public class QuestionBean implements Serializable {
 			List<OptionVo> options = new ArrayList<>();
 			options.add(optionVo);
 			question.setOptions(options);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,7 +119,7 @@ public class QuestionBean implements Serializable {
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
-			questionList = questionService.getAllById(examId);
+			questionList = questionService.getAllByExamId(examId);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -147,7 +147,7 @@ public class QuestionBean implements Serializable {
 		try {
 			examVo = examService.getById(Long.parseLong(examIdAsString));
 			examVo.setTitle(examTitleInputText);
-			examService.updateTitle(examVo);
+			examService.modifyTitle(examVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
