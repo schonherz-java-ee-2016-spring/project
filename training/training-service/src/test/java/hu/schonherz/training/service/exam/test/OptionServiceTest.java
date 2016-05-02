@@ -15,10 +15,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.QuestionService;
-import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
@@ -36,8 +34,6 @@ public class OptionServiceTest {
 	OptionService optionServiceLocal;
 	@EJB
 	QuestionService questionServiceLocal;
-	@EJB
-	ExamService examServiceLocal;
 
 	@Before
 	public void startTheContainer() throws Exception {
@@ -47,10 +43,6 @@ public class OptionServiceTest {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
-		List<ExamVo> examList = examServiceLocal.getAll();
-		for (ExamVo exam : examList) {
-			examServiceLocal.removeById(exam.getId());
-		}
 		List<QuestionVo> questionList = questionServiceLocal.getAll();
 		for (QuestionVo question : questionList) {
 			questionServiceLocal.removeById(question.getId());
@@ -59,12 +51,8 @@ public class OptionServiceTest {
 		for (OptionVo option : optionList) {
 			optionServiceLocal.removeById(option.getId());
 		}
-
-		ExamVo exam = new ExamVo();
-		exam.setTitle("Test title");
-		examServiceLocal.add(exam);
 		QuestionVo question = new QuestionVo();
-		questionServiceLocal.add(question, examServiceLocal.getAll().get(0).getId());
+		questionServiceLocal.add(question, 0L);
 		OptionVo option = new OptionVo();
 		option.setText("Test option text 0");
 		optionServiceLocal.add(option, questionServiceLocal.getAll().get(0).getId());
@@ -80,10 +68,6 @@ public class OptionServiceTest {
 	@After
 	public void tearDown() {
 		try {
-			List<ExamVo> examList = examServiceLocal.getAll();
-			for (ExamVo exam : examList) {
-				examServiceLocal.removeById(exam.getId());
-			}
 			List<QuestionVo> questionList = questionServiceLocal.getAll();
 			for (QuestionVo question : questionList) {
 				questionServiceLocal.removeById(question.getId());
