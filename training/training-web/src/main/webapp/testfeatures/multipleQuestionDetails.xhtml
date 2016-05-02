@@ -44,19 +44,11 @@
 							<span class="ui-separator"> <span
 								class="ui-icon ui-icon-grip-dotted-vertical" />
 							</span>
-							<p:commandButton value="#{out.edit}"
-								actionListener="#{multipleQuestionDetailsBean.setUpEditOption}"
-								update="editDialogForm" icon="ui-icon-wrench"
-								oncomplete="PF('edit').show();">
-								<f:attribute name="optionName" value="#{option.text}" />
-							</p:commandButton>
 							<p:commandButton title="Delete" icon="ui-icon-trash"
 								actionListener="#{multipleQuestionDetailsBean.removeOption}"
 								ajax="false">
 								<f:attribute name="optionName" value="#{option.text}" />
 							</p:commandButton>
-
-
 						</f:facet>
 					</p:toolbar>
 				</p:column>
@@ -73,41 +65,21 @@
 				<p:commandButton value="#{out.newoption}" />
 			</h:outputLink>
 
-			<p:dialog closeOnEscape="true" header="#{out.newoption}"
-				widgetVar="dlg" resizable="false" modal="true">
+			<p:dialog closeOnEscape="true" header="#{out.newoption}" widgetVar="dlg"
+				resizable="false" modal="true">
 				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
-
+				
 					<p:inputTextarea cols="100" rows="3" id="newOptionText"
 						value="#{multipleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputTextarea>
 					<f:facet name="footer">
-						<p:commandButton value="#{out.add}"
-							update="message,optionPanelGrid"
+						<p:commandButton value="#{out.add}" update="message,optionPanelGrid"
 							actionListener="#{multipleQuestionDetailsBean.addOption}">
 							<p:hotkey bind="return"
 								actionListener="#{multipleQuestionDetailsBean.addOption}"
 								update="message,optionPanelGrid"></p:hotkey>
-						</p:commandButton>
-					</f:facet>
-				</h:panelGrid>
-			</p:dialog>
-		</h:form>
 
-		<h:form id="editDialogForm">
-			<p:dialog closeOnEscape="true" header="#{out.editoption}"
-				widgetVar="edit" resizable="false" modal="true">
-				<h:panelGrid id="optionEditPanelGrid" columns="2" cellpadding="5">
-
-					<p:inputTextarea cols="100" rows="3" id="newOptionText"
-						value="#{multipleQuestionDetailsBean.editOptionText}"
-						required="true">
-						<f:validateLength minimum="1" />
-					</p:inputTextarea>
-					<f:facet name="footer">
-						<p:commandButton value="#{out.save}"
-							update="message,optionEditPanelGrid"
-							actionListener="#{multipleQuestionDetailsBean.editOption}">
 						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>
