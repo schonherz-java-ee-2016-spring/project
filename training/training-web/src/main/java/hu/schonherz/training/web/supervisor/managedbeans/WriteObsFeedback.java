@@ -18,7 +18,7 @@ import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
-import hu.schonherz.training.web.supervisor.accessories.ObsEventList;
+import hu.schonherz.training.web.supervisor.accessories.EventList;
 
 @ManagedBean(name = "writeObsFeedback")
 @ViewScoped
@@ -38,13 +38,15 @@ public class WriteObsFeedback implements Serializable {
 	@EJB
 	FeedbackService feedbackService;
 
-	private List<ObsEventList> displayList = new ArrayList<>();
+//	variables for list events related to the logged in observer
+	private List<EventList> displayList = new ArrayList<>();
 	private UserVo loggedInUser = new UserVo();
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	private List<EventVo> events = new ArrayList<>();
 	private List<UserVo> users = new ArrayList<>();
-	boolean isOk;
+	
 
+//	variables for save new feedback
 	private String eventAndRatedSelector;
 	private String[] split;
 	private String eventId;
@@ -58,15 +60,19 @@ public class WriteObsFeedback implements Serializable {
 		String eventName;
 		String studentName = "";
 		String studentUsername = "";
+		boolean isOk;
 		try {
+//			get the logged in user
 			loggedInUser = userService.findUserByName(username);
+//			get the events related to the logged in user
 			events = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
 			for (EventVo event : events) {
+//				get users related to the events
 				users.addAll(event.getUsers());
 				for (UserVo user : users) {
 
 					isOk = true;
-
+//					do not include the logged in user (no one can write feedback about him-/herself)
 					if (user.getUserName().contentEquals(username)) {
 						isOk = false;
 					}
@@ -78,8 +84,9 @@ public class WriteObsFeedback implements Serializable {
 				}
 				eventId = event.getId();
 				eventName = event.getName();
+//				store the event and student together for every events
 				if (!studentName.isEmpty()) {
-					displayList.add(new ObsEventList(eventId, eventName, studentName, studentUsername));
+					displayList.add(new EventList(eventId, eventName, studentName, studentUsername));
 				}
 			}
 		} catch (Exception e) {
@@ -89,6 +96,7 @@ public class WriteObsFeedback implements Serializable {
 
 	public void sendFeedback() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
+//		eventId and rated student's name passed in one String, need to split it into two
 		split = eventAndRatedSelector.split(";");
 		eventId = split[0];
 		ratedUsername = split[1];
@@ -108,7 +116,7 @@ public class WriteObsFeedback implements Serializable {
 		try {
 			feedback.setRated(userService.findUserByName(ratedUsername));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		feedback.setSender(loggedInUser);
@@ -138,7 +146,7 @@ public class WriteObsFeedback implements Serializable {
 	/**
 	 * @return the displayList
 	 */
-	public List<ObsEventList> getDisplayList() {
+	public List<EventList> getDisplayList() {
 		return displayList;
 	}
 
@@ -146,7 +154,7 @@ public class WriteObsFeedback implements Serializable {
 	 * @param displayList
 	 *            the displayList to set
 	 */
-	public void setDisplayList(List<ObsEventList> displayList) {
+	public void setDisplayList(List<EventList> displayList) {
 		this.displayList = displayList;
 	}
 
@@ -197,21 +205,6 @@ public class WriteObsFeedback implements Serializable {
 	 */
 	public void setUsers(List<UserVo> users) {
 		this.users = users;
-	}
-
-	/**
-	 * @return the isOk
-	 */
-	public boolean isOk() {
-		return isOk;
-	}
-
-	/**
-	 * @param isOk
-	 *            the isOk to set
-	 */
-	public void setOk(boolean isOk) {
-		this.isOk = isOk;
 	}
 
 	/**
