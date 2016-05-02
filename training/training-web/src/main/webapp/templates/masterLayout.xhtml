@@ -143,7 +143,7 @@
 								class="pull-right showopacity fa fa-calendar-o"></span></a></li>
 
 						<sec:authorize access="isAuthenticated()">
-							<li><a href="#{request.contextPath}/public/timeline.xhtml">Timeline<span
+							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
 									style="font-size: 16px;"
 									class="pull-right showopacity fa fa-calendar"></span></a></li>
 						</sec:authorize>

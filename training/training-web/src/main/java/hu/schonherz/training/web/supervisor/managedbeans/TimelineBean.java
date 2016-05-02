@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -34,15 +35,6 @@ public class TimelineBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		try {
-			// events = eventService.findAllEvent();
-			// events = events.stream().sorted((e1, e2) -> { return
-			// e1.getDate().compareTo(e2.getDate());}).collect(Collectors.toList());
-			// Date date = new GregorianCalendar().getTime();
-			// nextId = events.stream()
-			// .filter(e -> { return e.getDate().after(date); })
-			// .min((e1, e2) -> {return e1.getDate().compareTo(e2.getDate());})
-			// .get().getId();
-
 			Long id = userService
 					.findUserByName(FacesContext.getCurrentInstance()
 					.getExternalContext().getRemoteUser()).getId();
@@ -50,6 +42,7 @@ public class TimelineBean implements Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			events = new ArrayList<>();
 		}
 	}
 

@@ -11,9 +11,13 @@
 	<ui:define name="content">
 		<h:outputStylesheet library="default" name="css/timeline.css"
 			rel="stylesheet" />
-		<h2 class="text-muted">Timeline</h2>
-
-		<div class="container">
+		<h2 class="text-muted"><h:outputText value="#{out.timeline}" /></h2>
+		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty()}">
+			<h5><h:outputText  value="#{out.emptytimeline}" /> </h5>
+		</h:panelGroup>
+		
+		
+		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty() == false}">
 			<ul class="timeline">
 				<ui:repeat var="event" value="#{timelineBean.events}">
 					<li id="timeline_#{event.id}">
@@ -54,7 +58,7 @@
 				</ui:repeat>
 			</ul>
 			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
-		</div>
+		</h:panelGroup>
 		<script type="text/javascript">
 			$('.timeline-panel').on('click', function(e) {
 			
