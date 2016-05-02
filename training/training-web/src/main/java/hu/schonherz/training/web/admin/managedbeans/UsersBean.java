@@ -7,12 +7,14 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Session;
 
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
@@ -31,7 +33,7 @@ public class UsersBean implements Serializable {
 
 	@EJB
 	private UserService userService;
-
+	
 	@EJB
 	private RoleGroupService roleGroupService;
 
@@ -39,10 +41,19 @@ public class UsersBean implements Serializable {
 	private String fullname;
 	private String email;
 	private boolean selected;
+	private String message;
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-
+	
+    @ManagedProperty(value="#{mailSenderBean}")
+    private MailSenderBean mailSenderBean;
+	
+	@Resource(mappedName="java:jboss/mail/Default")
+	private Session mailSessionSeznam;
+	
+	
+	
 	private UserVo selectedUser;
 	private List<UserVo> users;
 	private List<RoleGroupVo> allRoleGroups;
@@ -126,17 +137,22 @@ public class UsersBean implements Serializable {
 
 		// Random password generation
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		String uuid = UUID.randomUUID().toString();
-
+		String uuid = (UUID.randomUUID().toString());
+		uuid = uuid.substring(0, 8);
 		UserVo userVo = new UserVo();
 		userVo.setFullName(fullname);
 		userVo.setUserName(username);
 		userVo.setEmail(email);
 		userVo.setPassword(bCryptPasswordEncoder.encode(uuid));
-
+		userVo.setHashCode(bCryptPasswordEncoder.encode(uuid));
 		try {
 			userService.registrationUser(userVo);
-			users.add(userService.findUserByName(username));
+			message = "http://" + currentInstance.getExternalContext().getRequestServerName()
+					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
+					+ currentInstance.getExternalContext().getRequestContextPath()
+					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
+			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failCreate"));
@@ -303,6 +319,30 @@ public class UsersBean implements Serializable {
 
 	public void setSelectedRoleGroups(DualListModel<RoleGroupVo> selectedRoleGroups) {
 		this.selectedRoleGroups = selectedRoleGroups;
+	}
+
+	public MailSenderBean getMailSenderBean() {
+		return mailSenderBean;
+	}
+
+	public void setMailSenderBean(MailSenderBean mailSenderBean) {
+		this.mailSenderBean = mailSenderBean;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Session getMailSessionSeznam() {
+		return mailSessionSeznam;
+	}
+
+	public void setMailSessionSeznam(Session mailSessionSeznam) {
+		this.mailSessionSeznam = mailSessionSeznam;
 	}
 
 }

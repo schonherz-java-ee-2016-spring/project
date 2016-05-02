@@ -24,16 +24,16 @@
 				<p:dataTable id="optionTable" lazy="true"
 					value="#{examFillBean.getOptionList()}" var="option"
 					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
-					<p:column selectionMode="single"
+					<p:column headerText="#{out.isitcorrect}" selectionMode="single"
 						style="width:10%;text-align:center" />
-					<p:column headerText="Options">
+					<p:column headerText="#{out.options}">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 				</p:dataTable>
 				<p />
 				<p:commandButton update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionSingle()}"
-					value="Next"></p:commandButton>
+					value="#{out.next}"></p:commandButton>
 
 				<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 			</h:form>
@@ -51,12 +51,12 @@
 
 					<p:column selectionMode="multiple"
 						style="width:10%;text-align:center" />
-					<p:column headerText="Options">
+					<p:column headerText="#{out.options}">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 				</p:dataTable>
 				<p />
-				<p:commandButton value="Next" update="panelId"
+				<p:commandButton value="#{out.next}" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionMulti()}">
 				</p:commandButton>
 			</h:form>
@@ -68,13 +68,11 @@
 				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
 
-				<p:inputTextarea value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p:inputTextarea autoResize="true" cols="100" rows="3" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
-				<p:commandButton value="Next" update="panelId"
+				<p:commandButton value="#{out.next}" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">
 				</p:commandButton>
-
-
 			</h:form>
 		</p:panel>
 

@@ -21,8 +21,8 @@ import hu.schonherz.training.core.exam.entity.Exam;
 @Entity
 @Table(name = "exam_user_relation")
 @NamedQueries(value = {
-		@NamedQuery(name = "findAllUserByExamId", query = "SELECT eur.exam FROM ExamUserRelation eur WHERE eur.exam.id = :id"),
-		@NamedQuery(name = "findAllExamByUserId", query = "SELECT eur.user FROM ExamUserRelation eur WHERE eur.user.id = :id") })
+		@NamedQuery(name = "findAllByExamId", query = "SELECT eur FROM ExamUserRelation eur WHERE eur.exam.id = :id"),
+		@NamedQuery(name = "findAllByUserId", query = "SELECT eur FROM ExamUserRelation eur WHERE eur.user.id = :id") })
 public class ExamUserRelation implements Serializable {
 
 	private static final long serialVersionUID = 1L;

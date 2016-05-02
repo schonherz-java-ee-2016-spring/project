@@ -4,14 +4,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DualListModel;
 
@@ -27,6 +31,8 @@ import hu.schonherz.training.service.admin.vo.UserVo;
 public class UserGroupsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	static final Logger logger = LogManager.getLogger(UserGroupsBean.class);
+
 	@EJB
 	private UserGroupService userGroupService;
 
@@ -34,6 +40,8 @@ public class UserGroupsBean implements Serializable {
 	private UserService userService;
 	private List<UserGroupVo> userGroups;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 	/**
 	 * DualListModel a picklist megvalósítás érdekében.
 	 */
@@ -77,7 +85,7 @@ public class UserGroupsBean implements Serializable {
 			selected = new UserGroupVo();
 			userGroups = userGroupService.getUserGroups();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -124,7 +132,7 @@ public class UserGroupsBean implements Serializable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		// A picklisthez gyártsuk le a két oldal listájával
 		users = new DualListModel<UserVo>(usersSource, usersTarget);
@@ -148,7 +156,7 @@ public class UserGroupsBean implements Serializable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		rGroups = new DualListModel<RoleGroupVo>(rGroupsSource, rGroupsTarget);
 	}
@@ -166,7 +174,7 @@ public class UserGroupsBean implements Serializable {
 			try {
 				userGroupService.saveUserGroup(selected);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
 
@@ -183,10 +191,12 @@ public class UserGroupsBean implements Serializable {
 			try {
 				userGroupService.saveUserGroup(selected);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role Groups saved!");
+
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("roleGroupsSaved"));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -227,7 +237,8 @@ public class UserGroupsBean implements Serializable {
 			userVo.setGroups(ugvo);
 			userService.updateUser(userVo);
 		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Users saved!");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("usersSaved"));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -246,8 +257,8 @@ public class UserGroupsBean implements Serializable {
 			// ha újat gyártunk nem adható a használt név névnek.
 			UserGroupVo gvo = userGroupService.findGroupByName(selected.getGroupName());
 			if ((gvo != null) && !gvo.getId().equals(selected.getId())) {
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
-						"User Group name is already exists!");
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+						bundle.getString("userGroupNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			} else {
 				// Egyébként lementjük a csoportot az új dialog adatokkal,
@@ -259,11 +270,12 @@ public class UserGroupsBean implements Serializable {
 				userGroups.remove(selected);
 				selected = userGroupService.findGroupByName(selected.getGroupName());
 				userGroups.add(selected);
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "User Group saved!");
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						bundle.getString("userGroupSaved"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		// Ha létrehozás volt, akkor újat készítünk, ha létre akarna hozni
 		// egyből egy másikat is, így nem az előzőleg létrehozott fog módosulni.
@@ -280,7 +292,7 @@ public class UserGroupsBean implements Serializable {
 			userGroupService.deleteUserGroup(selected.getId());
 			userGroups.remove(selected);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -353,5 +365,13 @@ public class UserGroupsBean implements Serializable {
 
 	public void setrGroupsTarget(List<RoleGroupVo> rGroupsTarget) {
 		this.rGroupsTarget = rGroupsTarget;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 }

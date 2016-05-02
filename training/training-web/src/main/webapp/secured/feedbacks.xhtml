@@ -12,6 +12,11 @@
 			rel="stylesheet" />
 		<h:body>
 			<h1>Feedbacks</h1>
+			<sec:authorize access="hasRole('WRITE_OBS_FEEDBACK')">
+				<p style="float: right;">
+					<a href="obs-give-feedback.xhtml">Write new feedback</a>
+				</p>
+			</sec:authorize>
 			<ui:include src="feedback-list.xhtml"></ui:include>
 		</h:body>
 	</ui:define>

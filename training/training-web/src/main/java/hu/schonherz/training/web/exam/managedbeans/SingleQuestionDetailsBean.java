@@ -29,6 +29,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		questionText = "";
 		RequestContext.getCurrentInstance().update("optionTableForm");
 		RequestContext.getCurrentInstance().update("questionTitleForm");
+		RequestContext.getCurrentInstance().update("questionNoteForm");
 	}
 
 	@Override
@@ -60,10 +61,15 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
+			clearOptionText();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
 			currentInstance.addMessage(null, facesMessage);
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
+	}
+
+	private void clearOptionText() {
+		optionText = "";
 	}
 
 	@Override
@@ -89,7 +95,8 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "One answer!!!!");
+
+			FacesMessage facesMessage = new FacesMessage("Mark the correct option");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
@@ -132,7 +139,10 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		Long questionId = Long.parseLong(questionIdAsString);
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
-			questionVo.setText(questionText);
+			if (questionText.length() < 1)
+				questionVo.setText("You can't leave the question's text unfilled");
+			else
+				questionVo.setText(questionText);
 			questionService.updateText(questionVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,11 +159,41 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		}
 	}
 
+	@Override
+	public void setQuestionNoteText(String questionNoteText) {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo questionVo = questionService.getById(questionId);
+
+			if (questionNoteText.length() < 1)
+				questionVo.setNote("You can't leave the question's note unfilled");
+			else
+				questionVo.setNote(questionNoteText);
+
+			questionService.updateNote(questionVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String getQuestionNoteText() {
+		Long questionId = Long.parseLong(questionIdAsString);
+		try {
+			QuestionVo question = questionService.getById(questionId);
+			questionText = question.getNote();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return questionText;
+
+	}
+
 	public void updateOptionList() {
 		Long id = Long.parseLong(questionIdAsString);
 		try {
 			optionList = questionService.getById(id).getOptions();
-			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().get();
+			correctOption = optionList.stream().filter(o -> o.getCorrect()).findFirst().orElse(null);
 			initLoading = false;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -183,4 +223,5 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void setInitLoading(Boolean initLoading) {
 		this.initLoading = initLoading;
 	}
+
 }

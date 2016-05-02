@@ -1,120 +1,109 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
-import org.primefaces.context.RequestContext;
 
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
+import hu.schonherz.training.service.exam.AnswerTextService;
 import hu.schonherz.training.service.exam.ExamService;
+import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
-import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
-@ManagedBean(name = "examReviewBean")
-@SessionScoped
-public class ExamReviewBean implements Serializable {
+public abstract class ExamReviewBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	protected String selectedExamIdAsString;
+	protected UserVo user;
+
+	protected List<ExamVo> examList;
+	protected List<QuestionVo> questionList;
+	protected List<AnswerVo> answerList;
+	protected List<Long> selectedOptionIdList;
+
 	@EJB
-	private ExamService examService;
+	protected ExamService examService;
 	@EJB
-	private QuestionService questionService;
+	protected QuestionService questionService;
 	@EJB
-	private UserService userService;
+	protected UserService userService;
 	@EJB
-	private AnswerService answerService;
+	protected AnswerService answerService;
+	@EJB
+	protected ExamUserRelationService examUserRelationService;
+	@EJB
+	protected AnswerTextService answerTextService;
 
-	private List<ExamVo> examList;
-	private String selectedExamIdAsString;
-	private String selectedUserIdAsString;
-	private UserVo user;
-
-	private List<QuestionVo> questionList;
-	private List<AnswerVo> answerList;
-
-	private OptionVo selected;
-	private List<OptionVo> selecteds;
-
-	private int counter = 0;
-
-	@PostConstruct
-	public void initBean() {
-		try {
-			questionList = new ArrayList<>();
-			examList = getExamService().getAllSortedById();
-			setUser(userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser()));
-			setAnswerList(new ArrayList<>());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public String getSelectedExamIdAsString() {
+		return selectedExamIdAsString;
 	}
 
-	public void changeTab() {
-		if (questionList.size() > 0) {
-			selected = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o)).findFirst()
-					.get();
-			selecteds = questionList.get(counter).getOptions().stream().filter(o -> answerList.contains(o))
-					.collect(Collectors.toList());
-		}
+	public void setSelectedExamIdAsString(String selectedExamIdAsString) {
+		this.selectedExamIdAsString = selectedExamIdAsString;
 	}
 
-	public void loadContent() throws Exception {
-		try {
-			setQuestionList(questionService.getAllById(Long.parseLong(selectedExamIdAsString)));
-			answerList = getAnswerService().getAllByUserId(user.getId());
-
-			answerList = answerList.stream()
-					.filter(a -> questionList.stream().flatMap(q -> q.getOptions().stream())
-							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
-					.collect(Collectors.toList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		RequestContext.getCurrentInstance().update("tabView");
+	public UserVo getUser() {
+		return user;
 	}
 
-	/**
-	 * @return the examService
-	 */
-	public ExamService getExamService() {
-		return examService;
+	public void setUser(UserVo user) {
+		this.user = user;
 	}
 
-	/**
-	 * @param examService
-	 *            the examService to set
-	 */
-	public void setExamService(ExamService examService) {
-		this.examService = examService;
-	}
-
-	/**
-	 * @return the examList
-	 */
 	public List<ExamVo> getExamList() {
 		return examList;
 	}
 
-	/**
-	 * @param examList
-	 *            the examList to set
-	 */
 	public void setExamList(List<ExamVo> examList) {
 		this.examList = examList;
 	}
+
+	public List<QuestionVo> getQuestionList() {
+		return questionList;
+	}
+
+	public void setQuestionList(List<QuestionVo> questionList) {
+		this.questionList = questionList;
+	}
+
+	public List<AnswerVo> getAnswerList() {
+		return answerList;
+	}
+
+	public void setAnswerList(List<AnswerVo> answerList) {
+		this.answerList = answerList;
+	}
+
+	public List<Long> getSelectedOptionIdList() {
+		return selectedOptionIdList;
+	}
+
+	public void setSelectedOptionIdList(List<Long> selectedOptionIdList) {
+		this.selectedOptionIdList = selectedOptionIdList;
+	}
+
+	public ExamService getExamService() {
+		return examService;
+	}
+
+	public void setExamService(ExamService examService) {
+		this.examService = examService;
+	}
+
+	public QuestionService getQuestionService() {
+		return questionService;
+	}
+
+	public void setQuestionService(QuestionService questionService) {
+		this.questionService = questionService;
+	}
+
 	public UserService getUserService() {
 		return userService;
 	}
@@ -131,76 +120,20 @@ public class ExamReviewBean implements Serializable {
 		this.answerService = answerService;
 	}
 
-	public List<AnswerVo> getAnswerList() {
-		return answerList;
+	public ExamUserRelationService getExamUserRelationService() {
+		return examUserRelationService;
 	}
 
-	public void setAnswerList(List<AnswerVo> answerList) {
-		this.answerList = answerList;
+	public void setExamUserRelationService(ExamUserRelationService examUserRelationService) {
+		this.examUserRelationService = examUserRelationService;
 	}
 
-	public String getSelectedExamIdAsString() {
-		return selectedExamIdAsString;
+	public AnswerTextService getAnswerTextService() {
+		return answerTextService;
 	}
 
-	public void setSelectedExamIdAsString(String selectedExamIdAsString) {
-		this.selectedExamIdAsString = selectedExamIdAsString;
-	}
-
-	public String getSelectedUserIdAsString() {
-		return selectedUserIdAsString;
-	}
-
-	public void setSelectedUserIdAsString(String selectedUserIdAsString) {
-		this.selectedUserIdAsString = selectedUserIdAsString;
-	}
-
-	public QuestionService getQuestionService() {
-		return questionService;
-	}
-
-	public void setQuestionService(QuestionService questionService) {
-		this.questionService = questionService;
-	}
-
-	public List<QuestionVo> getQuestionList() {
-		return questionList;
-	}
-
-	public void setQuestionList(List<QuestionVo> questionList) {
-		this.questionList = questionList;
-	}
-
-	public int getCounter() {
-		return counter;
-	}
-
-	public void setCounter(int counter) {
-		this.counter = counter;
-	}
-
-	public OptionVo getSelected() {
-		return selected;
-	}
-
-	public void setSelected(OptionVo selected) {
-		this.selected = selected;
-	}
-
-	public List<OptionVo> getSelecteds() {
-		return selecteds;
-	}
-
-	public void setSelecteds(List<OptionVo> selecteds) {
-		this.selecteds = selecteds;
-	}
-
-	public UserVo getUser() {
-		return user;
-	}
-
-	public void setUser(UserVo user) {
-		this.user = user;
+	public void setAnswerTextService(AnswerTextService answerTextService) {
+		this.answerTextService = answerTextService;
 	}
 
 }

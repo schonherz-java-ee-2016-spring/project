@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@EJB
 	UserService userService;
 	
-
+	
 	@Override
 	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 		UserVo user;

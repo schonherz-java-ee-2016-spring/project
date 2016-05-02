@@ -1,85 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:sec="http://www.springframework.org/security/tags" xmlns:p="http://primefaces.org/ui">
 
 <f:view>
 
 	<h:head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 		<title><ui:insert name="pageTitle"></ui:insert></title>
 		<ui:insert name="head-extra" />
 
 
 		<h:outputStylesheet library="default" name="css/bootstrap.css"></h:outputStylesheet>
-		<h:outputStylesheet library="default" name="css/font-awesome.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/basic.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/custom.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/feedbac-overview.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/bootstrap-social.css"
-			rel="stylesheet" />
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans'
-			rel='stylesheet' type='text/css' />
+		<h:outputStylesheet library="default" name="css/font-awesome.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/basic.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/custom.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/feedbac-overview.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/bootstrap-social.css" rel="stylesheet" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-		<h:outputScript library="primefaces" name="jquery/jquery.js"
-			target="head" />
-		<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"
-			target="head" />
+		<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+		<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
 		<!-- BOOTSTRAP SCRIPTS -->
 		<h:outputScript library="default" name="js/bootstrap.js"></h:outputScript>
 		<!-- METISMENU SCRIPTS -->
 		<h:outputScript library="default" name="js/jquery.metisMenu.js"></h:outputScript>
 		<!-- CUSTOM SCRIPTS -->
-		<h:outputScript library="default"
-			name="js/wizard/modernizr-2.6.2.min.js"></h:outputScript>
-		<h:outputScript library="default"
-			name="js/wizard/jquery.cookie-1.3.1.js"></h:outputScript>
+		<h:outputScript library="default" name="js/wizard/modernizr-2.6.2.min.js"></h:outputScript>
+		<h:outputScript library="default" name="js/wizard/jquery.cookie-1.3.1.js"></h:outputScript>
 		<h:outputScript library="default" name="js/wizard/jquery.steps.js"></h:outputScript>
 		<h:outputScript library="default" name="js/custom.js"></h:outputScript>
 
 	</h:head>
 
 	<h:body>
-		<p:growl id="growl" showDetail="true" life="4000" globalOnly="true"
-			severity="info" />
+		<p:growl id="growl" showDetail="true" life="4000" globalOnly="true" severity="info" />
 		<div id="wrapper">
-			<nav class="navbar navbar-default navbar-cls-top " role="navigation"
-				style="margin-bottom: 0">
+			<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-sidebar-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<h:graphicImage library="default" name="img/logo.png"
-					class="navbar-brand"></h:graphicImage>
+				<h:graphicImage library="default" name="img/logo.png" class="navbar-brand"></h:graphicImage>
 			</div>
 
 			<div class="header-right">
 				<ul class="nav navbar-nav navbar-right">
 					<sec:authorize access="isAnonymous()">
-						<li><a href="#{request.contextPath}/public/signup.xhtml"><i
-								class="fa fa-pencil "></i>Sign up</a></li>
-						<li><a href="#{request.contextPath}/public/login.xhtml"><i
-								class="fa fa-sign-in "></i>Login</a></li>
+						<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>#{out.signup}</a></li>
+						<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>#{out.login}</a></li>
 					</sec:authorize>
 					<sec:authorize access="isAuthenticated()">
-						<li><a href="#{request.contextPath}/logout"><i
-								class="fa fa-sign-out "></i>Logout</a></li>
+						<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>#{out.logout}</a></li>
 					</sec:authorize>
 
 				</ul>
@@ -89,79 +68,90 @@
 
 			<nav class=" navbar-default sidebar" role="navigation">
 			<div class="container-fluid">
-				<div class="collapse navbar-collapse"
-					id="bs-sidebar-navbar-collapse-1">
+				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="#{request.contextPath}/index.xhtml">Home<span
-								style="font-size: 16px;"
+						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/public/myprofile.xhtml">My Profile<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-user"></span></a></li>
+						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-user"></span>
+						</a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
-							<li class="dropdown"><a href="#" data-toggle="dropdown">User
-									Management<span class="caret"></span><span
-									style="font-size: 16px;"
+							<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.usermanagement}<span
+									class="caret"></span><span style="font-size: 16px;"
 									class="pull-right showopacity fa fa-users"></span>
 							</a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('USERS')">
-										<li><a href="#{request.contextPath}/secured/users.xhtml">Users</a></li>
+										<li><a href="#{request.contextPath}/secured/users.xhtml">#{out.users}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('UGS')">
-										<li><a
-											href="#{request.contextPath}/secured/usergroups.xhtml">User
-												Groups</a></li>
+										<li><a href="#{request.contextPath}/secured/usergroups.xhtml">#{out.usergroups}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 
-						<li><a href="#" data-toggle="dropdown">Role Management<span
-								class="caret"></span><span style="font-size: 16px;"
-								class="pull-right showopacity fa fa-lock"></span></a>
-							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a href="#{request.contextPath}/public/roles.xhtml">Roles</a></li>
-								<li><a
-									href="#{request.contextPath}/public/rolegroups.xhtml">Role
-										Groups</a></li>
-							</ul></li>
+						<sec:authorize access="hasRole('RGS') or hasRole('ROLES')">
+							<li><a href="#" data-toggle="dropdown">#{out.rolemanagement}<span class="caret"></span><span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-lock"></span></a>
+								<ul class="dropdown-menu forAnimate" role="menu">
+									<sec:authorize access="hasRole('ROLES')">
+										<li><a href="#{request.contextPath}/secured/roles.xhtml">#{out.roles}</a></li>
+									</sec:authorize>
+									<sec:authorize access="hasRole('RGS')">
+										<li><a href="#{request.contextPath}/secured/rolegroups.xhtml">#{out.roleGroups}</a></li>
+									</sec:authorize>
+								</ul></li>
+						</sec:authorize>
 
-						<li class="dropdown"><a href="#" data-toggle="dropdown">Training
-								Management<span class="caret"></span><span
-								style="font-size: 16px;"
+						<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.trainingmanagement}<span
+								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-laptop"></span>
 						</a>
 							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
+								<li><a href="#{request.contextPath}/public/trainings.xhtml">#{out.trainings}</a></li>
 							</ul></li>
-						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-trophy"></span></a></li>
-								
+						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
+
 						<li><a href="#{request.contextPath}/public/events.xhtml">Events<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-calendar-o"></span></a></li>
+								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
+
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
+									style="font-size: 16px;"
+									class="pull-right showopacity fa fa-calendar"></span></a></li>
+						</sec:authorize>
 
 
 
-						<li><a href="#" data-toggle="dropdown">Exam<span
+						<li><a href="#" data-toggle="dropdown">#{out.exam}<span
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-pencil-square"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
 								<li><a
-									href="#{request.contextPath}/testfeatures/exams.xhtml">Exam
-										List</a></li>
+									href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
 								<li><a
-									href="#{request.contextPath}/testfeatures/examChoose.xhtml">Take
-										a test</a></li>
+									href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
+
 								<li><a
-									href="#{request.contextPath}/testfeatures/corrector/examCorrector.xhtml">Evaluate
-										tests</a></li>
+									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
+
+								<sec:authorize access="hasRole('STUDENT')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
+									</a></li>
+								</sec:authorize>
+
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}
+									</a></li>
+								</sec:authorize>
+
 							</ul></li>
-						<sec:authorize access="hasRole('USERS')">
+						<sec:authorize access="hasRole('FEEDBACKS')">
 							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-comments-o"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-comments-o"></span></a></li>
 						</sec:authorize>
 					</ul>
 				</div>
@@ -194,8 +184,7 @@
 		</div>
 		<!-- /. WRAPPER  -->
 		<div id="footer-sec">
-			&copy; 2016 Schönherz | Design By : <a
-				href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
+			&copy; 2016 Schönherz | Design By : <a href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
 		</div>
 	</h:body>
 </f:view>

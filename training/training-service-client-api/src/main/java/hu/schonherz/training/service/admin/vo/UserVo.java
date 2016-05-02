@@ -17,6 +17,7 @@ public class UserVo implements Serializable {
 	private String recUser;
 	private String modUser;
 	private String password;
+	private String hashCode;
 	private boolean isActive;
 	private Collection<RoleGroupVo> roleGroups;
 	private Collection<UserGroupVo> groups;
@@ -131,6 +132,14 @@ public class UserVo implements Serializable {
 
 	public void setModUser(String modUser) {
 		this.modUser = modUser;
+	}
+
+	public String getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(String hashCode) {
+		this.hashCode = hashCode;
 	}
 
 }

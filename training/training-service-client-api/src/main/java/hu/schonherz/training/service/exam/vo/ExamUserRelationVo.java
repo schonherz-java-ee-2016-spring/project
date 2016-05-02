@@ -7,41 +7,27 @@ import hu.schonherz.training.service.admin.vo.UserVo;
 public class ExamUserRelationVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private ExamVo examVo;
-	private UserVo userVo;
+	private ExamVo exam;
+	private UserVo user;
 
 	public ExamUserRelationVo() {
 		super();
 	}
 
-	/**
-	 * @return the examVo
-	 */
-	public ExamVo getExamVo() {
-		return examVo;
+	public ExamVo getExam() {
+		return exam;
 	}
 
-	/**
-	 * @param examVo
-	 *            the examVo to set
-	 */
-	public void setExamVo(ExamVo examVo) {
-		this.examVo = examVo;
+	public void setExam(ExamVo exam) {
+		this.exam = exam;
 	}
 
-	/**
-	 * @return the userVo
-	 */
-	public UserVo getUserVo() {
-		return userVo;
+	public UserVo getUser() {
+		return user;
 	}
 
-	/**
-	 * @param userVo
-	 *            the userVo to set
-	 */
-	public void setUserVo(UserVo userVo) {
-		this.userVo = userVo;
+	public void setUser(UserVo user) {
+		this.user = user;
 	}
 
 }

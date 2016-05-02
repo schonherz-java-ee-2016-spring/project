@@ -1,6 +1,7 @@
 package hu.schonherz.training.service.exam.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -14,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.core.exam.repository.ExamUserRelationRepository;
-import hu.schonherz.training.service.admin.mapper.UserMapper;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.ExamUserRelationService;
-import hu.schonherz.training.service.exam.mapper.ExamMapper;
 import hu.schonherz.training.service.exam.mapper.ExamUserRelationMapper;
 import hu.schonherz.training.service.exam.vo.ExamUserRelationVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
@@ -36,7 +35,8 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	@Override
 	public List<ExamVo> getAllExamByUserId(Long id) throws Exception {
 		try {
-			return ExamMapper.toVo(examUserRelationRepository.findAllExamByUserId(id));
+			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(id));
+			return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -46,7 +46,8 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	@Override
 	public List<UserVo> getAllUserByExamId(Long id) throws Exception {
 		try {
-			return UserMapper.toVo(examUserRelationRepository.findAllUserByExamId(id));
+			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(id));
+			return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

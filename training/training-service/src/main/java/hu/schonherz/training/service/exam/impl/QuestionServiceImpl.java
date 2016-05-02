@@ -97,6 +97,17 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
+	public void updateNote(QuestionVo vo) throws Exception {
+		try {
+			Question question = QuestionMapper.toDto(vo);
+			questionRepository.modifyQuestionNoteById(question.getNote(), question.getId());
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
+	@Override
 	public List<QuestionVo> getAllById(Long examId) throws Exception {
 		try {
 			ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));

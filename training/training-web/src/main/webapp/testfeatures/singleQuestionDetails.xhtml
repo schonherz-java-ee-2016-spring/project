@@ -6,73 +6,85 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Single Question Details</ui:define>
+	<ui:define name="pageTitle">#{out.singlequestiondetails}</ui:define>
 	<ui:define name="content">
-	
+		<p:growl id="message" />
 
-		<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-		
-		<h:form id="questionTitleRename">
+		<h:form id="questionTitleForm">
+			<h3>#{out.questiontitle}</h3>
 			<p:inplace editor="true">
 				<p:inputText value="#{singleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
+
+		<h:form id="questionNoteForm">
+			<h3>#{out.questionnote}</h3>
+			<p:inplace editor="true">
+				<p:inputText value="#{singleQuestionDetailsBean.questionNoteText}" />
+			</p:inplace>
+		</h:form>
+
 		<h:form id="optionTableForm">
 			<p:dataTable id="optionTable" lazy="true"
 				value="#{singleQuestionDetailsBean.optionList}" var="option"
 				selection="#{singleQuestionDetailsBean.correctOption}"
 				rowKey="#{option.text}">
 				<f:facet name="header">
-				Options
+				#{out.options}
 			</f:facet>
-				<p:column selectionMode="single" />
-				<p:column headerText="Option Text">
+				<p:column headerText="#{out.isitcorrect}" selectionMode="single" />
+				<p:column headerText="#{out.optiontext}">
 					<h:outputText value="#{option.text}" />
 				</p:column>
-				<p:column headerText="Delete">
+				<p:column headerText="#{out.delete}">
 					<p:toolbar>
 						<f:facet name="left">
 							<span class="ui-separator"> <span
 								class="ui-icon ui-icon-grip-dotted-vertical" />
 							</span>
 							<p:commandButton title="Delete" icon="ui-icon-trash"
-								actionListener="#{singleQuestionDetailsBean.removeOption}" ajax="false">
+								actionListener="#{singleQuestionDetailsBean.removeOption}"
+								ajax="false">
 								<f:attribute name="optionName" value="#{option.text}" />
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>
-
-			</p:column>
+				</p:column>
 				<f:facet name="footer">
-					<p:commandButton value="Save" update="message"
+					<p:commandButton value="#{out.savecorrectoption}" update="message"
 						action="#{singleQuestionDetailsBean.tryToSaveQuestion}" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>
-		
+
 		<h:form id="newOptionForm">
 			<h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();"
 				title="newOption">
-				<p:commandButton value="New Option" />
+				<p:commandButton value="#{out.newoption}" />
 			</h:outputLink>
 
-			<p:dialog header="New Option" widgetVar="dlg" resizable="false"
-				modal="true">
-				<h:panelGrid columns="2" cellpadding="5">
-					<h:outputLabel for="newOptionText" value="Option:" />
-					<p:inputText id="newOptionText"
+			<p:dialog closeOnEscape="true" header="#{out.newoption}" widgetVar="dlg"
+				resizable="false" modal="true">
+				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
+					<h:outputLabel for="newOptionText" value="#{out.option}:" />
+					<p:inputTextarea cols="100" rows="3" id="newOptionText"
 						value="#{singleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
-					</p:inputText>
+					</p:inputTextarea>
 					<f:facet name="footer">
-						<p:commandButton value="Add" update="message"
-							actionListener="#{singleQuestionDetailsBean.addOption}" />
+						<p:commandButton value="#{out.add}" update="message,optionPanelGrid"
+							actionListener="#{singleQuestionDetailsBean.addOption}">
+							<p:hotkey bind="return"
+								actionListener="#{singleQuestionDetailsBean.addOption}"
+								update="message,optionPanelGrid"></p:hotkey>
+						</p:commandButton>
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
+
 		<h:form id="backForm">
-			<p:commandButton value="Back" action="goToExamQuestionsPage" />
+			<p:commandButton value="#{out.back}" action="goToExamQuestionsPage" />
 		</h:form>
 	</ui:define>
 </ui:composition>
