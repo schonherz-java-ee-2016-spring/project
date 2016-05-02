@@ -75,4 +75,20 @@ public class ExamServiceImpl implements ExamService {
 			throw ex;
 		}
 	}
+
+	@Override
+	public void modifyStatusToTrue(Long id) throws Exception {
+		examRepository.updateExamStatusToTrueById(id);
+	}
+
+	@Override
+	public void modifyStatusToFalse(Long id) throws Exception {
+		examRepository.updateExamStatusToFalseById(id);
+
+	}
+
+	@Override
+	public List<ExamVo> getAllSortedById() throws Exception {
+		return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
+	}
 }
