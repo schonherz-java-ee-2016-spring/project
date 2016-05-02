@@ -39,7 +39,7 @@
 									target="#{questionBean.examIdAsString}" value="#{exam.id}" />
 							</p:commandButton>
 
-							<p:commandButton value="Delete" title="#{out.delete}"
+							<p:commandButton value="Delete" update="msg" title="#{out.delete}"
 								icon="ui-icon-trash" actionListener="#{examBean.removeExam}"
 								ajax="false">
 								<f:attribute name="examIdAsString" value="#{exam.id}" />
@@ -65,19 +65,18 @@
 
 		<h:form>
 			<p:panel id="panel" header="#{out.newexam}">
-				<p:messages id="msgs" showDetail="true" />
 				<h:panelGrid columns="3" cellpadding="5">
 					<p:outputLabel for="newExamTitle" value="#{out.examtitle}:" />
 					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
 						required="true" label="newExamTitle">
 						<f:validateLength minimum="3" />
-						<p:ajax update="newExamTitleMsg" event="keyup" />
+						<p:ajax update="growl" event="keyup" />
 					</p:inputText>
-					<p:message for="newExamTitle" display="icon" id="newExamTitleMsg" />
-
+						<p:growl id="growl" />
+				
 
 				</h:panelGrid>
-				<p:commandButton value="#{out.create}" update="panel"
+				<p:commandButton  value="#{out.create}" update="panel,msg"
 					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
 			</p:panel>
 		</h:form>

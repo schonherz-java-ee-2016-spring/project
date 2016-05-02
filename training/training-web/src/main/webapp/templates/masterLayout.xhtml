@@ -149,20 +149,24 @@
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-pencil-square"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a
-									href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
-								<li><a
-									href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
-
-								<li><a
-									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
-
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('STUDENT')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
+								</sec:authorize>
 								<sec:authorize access="hasRole('STUDENT')">
 									<li><a
 										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
 									</a></li>
 								</sec:authorize>
-								
+
 								<sec:authorize access="hasRole('INSTRUCTOR')">
 									<li><a
 										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}

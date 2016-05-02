@@ -35,11 +35,15 @@ public class ExamBean implements Serializable {
 	}
 
 	public void removeExam(ActionEvent event) {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
 		Long examId = Long.parseLong(examIdAsString);
 		try {
 			examService.removeById(examId);
 		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"This exam has already been filled out by a student");
+			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
 		updateExamList();
@@ -78,17 +82,16 @@ public class ExamBean implements Serializable {
 
 	public void setStatusToTrue(ActionEvent event) {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString").toString();
+		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString")
+				.toString();
 		Long examid = Long.parseLong(booleanChangeExamIdAsString);
 		try {
 			examService.modifyStatusToTrue(examid);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"Exam started");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam started");
 			currentInstance.addMessage(null, facesMessage);
 
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't start exam");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't start exam");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -98,17 +101,16 @@ public class ExamBean implements Serializable {
 
 	public void setStatusToFalse(ActionEvent event) {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString").toString();
+		String booleanChangeExamIdAsString = event.getComponent().getAttributes().get("booleanChangeExamIdAsString")
+				.toString();
 		Long examid = Long.parseLong(booleanChangeExamIdAsString);
 		try {
 			examService.modifyStatusToFalse(examid);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!",
-					"Exam stopped");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam stopped");
 			currentInstance.addMessage(null, facesMessage);
 
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"Couldn't stop exam");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't stop exam");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
