@@ -29,10 +29,6 @@ public class ExamFillBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public ExamFillBean() {
-		textbasedOptionAnswer = "Give your answer here..";
-	}
-
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -97,6 +93,7 @@ public class ExamFillBean implements Serializable {
 			toTheNextQuestionTextSave();
 			finishedExam(currentInstance);
 		}
+		textbasedOptionAnswer="";
 	}
 
 	private void toTheNextQuestionTextSave() {

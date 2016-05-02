@@ -68,7 +68,8 @@
 				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
 
-				<p:inputTextarea autoResize="true" cols="100" rows="3" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p:inputTextarea autoResize="true" cols="100" rows="3"
+					placeholder="#{out.textbasedanswerpalceholder}" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
 				<p:commandButton value="#{out.next}" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">
