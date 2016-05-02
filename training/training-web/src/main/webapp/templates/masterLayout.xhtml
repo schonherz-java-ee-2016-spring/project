@@ -95,8 +95,7 @@
 						<li><a href="#{request.contextPath}/index.xhtml">Home<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">My
-								Profile<span style="font-size: 16px;"
+						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-user"></span>
 						</a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
@@ -135,7 +134,7 @@
 							<ul class="dropdown-menu forAnimate" role="menu">
 								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
 							</ul></li>
-						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
+						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
 								style="font-size: 16px;"
 								class="pull-right showopacity fa fa-trophy"></span></a></li>
 
