@@ -8,6 +8,9 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.exam}</ui:define>
 	<ui:define name="content">
+
+
+		<f:event listener="#{examBean.updateExamList}" type="preRenderView" />
 		<p:dataTable reflow="true" style="width:100%;" id="examTable"
 			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -31,8 +34,8 @@
 					</p:commandButton>
 					<p:commandButton rendered="#{exam.status eq false}" disabled="true"
 						action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
-						value="#{out.takeexam}"/>
-						<!-- 					SZAGLIK REFACTOR INC -->
+						value="#{out.takeexam}" />
+					<!-- 					SZAGLIK REFACTOR INC -->
 				</h:form>
 			</p:column>
 		</p:dataTable>
