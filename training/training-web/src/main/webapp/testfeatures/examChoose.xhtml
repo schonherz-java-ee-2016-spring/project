@@ -6,19 +6,19 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Exam</ui:define>
+	<ui:define name="pageTitle">#{out.exam}</ui:define>
 	<ui:define name="content">
-		<p:dataTable style="width:100%;" id="examTable" var="exam"
+		<p:dataTable reflow="true" style="width:100%;" id="examTable" var="exam"
 			value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="5,10,20,50">
 
-			<p:column headerText="Exams">
+			<p:column headerText="#{out.exams}">
 				<h:outputText  value="#{exam.title}"  />
 			</p:column>
 			<p:column headerText="" style="text-align:right">
 				<h:form id="form">
-					<p:commandButton action="goToExamFill" style="width:20%;" icon="ui-icon-pencil" value="Take exam" >
+					<p:commandButton action="goToExamFill" style="width:20%;" icon="ui-icon-pencil" value="#{out.takeexam}" >
 							<f:setPropertyActionListener
 							target="#{examFillBean.examIdAsString}" value="#{exam.id}" />
 								<f:setPropertyActionListener

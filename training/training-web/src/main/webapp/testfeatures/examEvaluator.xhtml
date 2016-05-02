@@ -36,17 +36,20 @@
 		</h:form>
 
 		<!-- The datatable of the textbased answers -->
-		<h:form id="evaluatorForm">
-			<p:dataTable id="answerTable" value="#{examEvaluatorBean.answerTextList}"
-				var="answerText">
+		<h:form id="answerTextEvaluatorForm">
+			<p:dataTable id="answerTable" value="#{examEvaluatorBean.evalRecordList}"
+				var="evalRecord">
 				<p:column headerText="Student name">
-				#{answerText.answer.user.userName}
+				#{evalRecord.user.userName}
+				</p:column>
+				<p:column headerText="Question">
+				#{evalRecord.question.text}
 				</p:column>
 				<p:column headerText="Answer text">
-				#{answerText.text}
+				#{evalRecord.answerText.text}
 				</p:column>
 				<p:column headerText="Acceptable">
-				TODO Two checkboxs
+				<p:selectBooleanCheckbox value="#{evalRecord.answer.good}" />
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="Apply"

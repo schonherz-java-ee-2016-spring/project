@@ -21,8 +21,9 @@
 .past {
   background-color: #dddddd;
 }
-.timeline > li:HOVER{
-  background-color: #8888ee;
+.timeline > li .timeline-panel:HOVER, .timeline > li .timeline-panel:HOVER .text-muted{
+    background-color: #8888ee;
+    color: #000;
 }
 .timeline > li:before,
 .timeline > li:after {
@@ -50,7 +51,58 @@
   -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
 }
-.timeline > li > .timeline-panel:before {
+
+
+.timeline > li > .timeline-panel:hover:before {
+  position: absolute;
+  top: 26px;
+  left: -15px;
+  display: inline-block;
+  border-top: 15px solid transparent;
+  border-right: 15px solid #8888ee !important;
+  border-left: 0 solid #8888ee !important;
+  border-bottom: 15px solid transparent;
+  content: " ";
+}
+
+.timeline > li > .timeline-panel:hover:after {
+  position: absolute;
+  top: 27px;
+  left: -14px;
+  display: inline-block;
+  border-top: 14px solid transparent;
+  border-right: 14px solid #8888ee !important;
+  border-left: 0 solid #8888ee !important;
+  border-bottom: 14px solid transparent;
+  content: " ";
+}
+
+
+.timeline > li > .timeline-panel.past:before {
+  position: absolute;
+  top: 26px;
+  left: -15px;
+  display: inline-block;
+  border-top: 15px solid transparent;
+  border-right: 15px solid #ddd;
+  border-left: 0 solid #ccc;
+  border-bottom: 15px solid transparent;
+  content: " ";
+}
+
+.timeline > li > .timeline-panel.past:after {
+  position: absolute;
+  top: 27px;
+  left: -14px;
+  display: inline-block;
+  border-top: 14px solid transparent;
+  border-right: 14px solid #ddd;
+  border-left: 0 solid #fff;
+  border-bottom: 14px solid transparent;
+  content: " ";
+}
+
+.timeline > li > .timeline-panel:not(.past):before {
   position: absolute;
   top: 26px;
   left: -15px;
@@ -61,7 +113,8 @@
   border-bottom: 15px solid transparent;
   content: " ";
 }
-.timeline > li > .timeline-panel:after {
+
+.timeline > li > .timeline-panel:not(.past):after {
   position: absolute;
   top: 27px;
   left: -14px;
@@ -72,6 +125,21 @@
   border-bottom: 14px solid transparent;
   content: " ";
 }
+
+.timeline-panel:hover{
+	cursor: pointer;
+}
+
+.timeline > li > .timeline-badge.timeline-homework{
+	background-color: #81bef7;
+}
+.timeline > li > .timeline-badge.timeline-interview{
+	background-color: #F79F81;
+}
+.timeline > li > .timeline-badge.timeline-test{
+	background-color: #44B351;
+}
+
 .timeline > li > .timeline-badge {
   color: #fff;
   width: 50px;
@@ -132,6 +200,8 @@
   margin-top: 5px;
 }
 
+
 .timeline-body {
     display: none;
+    border-top: 1px solid #888888;
 }
