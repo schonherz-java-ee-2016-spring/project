@@ -39,7 +39,7 @@
 		<h:form id="answerTextEvaluatorForm">
 			<p:dataTable id="answerTable" value="#{examEvaluatorBean.evalRecordList}"
 				var="evalRecord">
-				<p:column headerText="Student name">
+				<p:column headerText="Student name" >
 				#{evalRecord.user.userName}
 				</p:column>
 				<p:column headerText="Question">
