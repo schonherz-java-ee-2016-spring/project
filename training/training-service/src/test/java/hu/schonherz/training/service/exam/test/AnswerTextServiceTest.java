@@ -21,7 +21,7 @@ import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 public class AnswerTextServiceTest {
 
 	/*
-	 * TESTING: getAll getById removeById add getByAnswerId
+	 * TESTING: getAll getById removeById add
 	 */
 
 	static final Logger logger = LogManager.getLogger(AnswerTextServiceTest.class.getName());
@@ -39,20 +39,6 @@ public class AnswerTextServiceTest {
 		}
 	}
 
-	// @After
-	// public void tearDown() {
-	// try {
-	// List<AnswerTextVo> answerTextList = answerTextServiceLocal.getAll();
-	// if (!answerTextList.isEmpty()) {
-	// for (AnswerTextVo answerTextVo : answerTextList) {
-	// answerTextServiceLocal.removeById(answerTextVo.getId());
-	// }
-	// }
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	@Test
 	public void testAll() {
 		try {
@@ -68,14 +54,6 @@ public class AnswerTextServiceTest {
 
 			// getById
 			answerText = answerTextServiceLocal.getById(answerText.getId());
-
-			// TESTING
-			Assert.assertEquals("Test answer text", answerText.getText());
-
-			// getByAnswerId
-			// answerText =
-			// answerTextServiceLocal.getByAnswerId(answerList.get(answerList.size()
-			// - 1).getId());
 
 			// TESTING
 			Assert.assertEquals("Test answer text", answerText.getText());
