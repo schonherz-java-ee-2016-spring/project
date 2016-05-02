@@ -17,7 +17,7 @@
 								<a class="pull-left" href="#"> <img class="media-object"
 									src="http://placekitten.com/g/200/300" height="75" width="50" /></a>
 								<div class="media-body">
-									<p>#{feedback.feedbackMessage}</p>
+									<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
 									<p class="text-right">
 										<h:outputText value="#{feedback.recDate}">
 											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>

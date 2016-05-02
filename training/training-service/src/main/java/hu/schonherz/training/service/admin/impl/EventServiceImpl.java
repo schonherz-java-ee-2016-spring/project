@@ -15,7 +15,9 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import hu.schonherz.training.core.admin.repository.EventRepository;
 import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.mapper.EventMapper;
+import hu.schonherz.training.service.admin.mapper.UserMapper;
 import hu.schonherz.training.service.admin.vo.EventVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @Stateless(mappedName = "EventService", name = "EventService")
 @Transactional(value = TxType.REQUIRED)
@@ -72,4 +74,8 @@ public class EventServiceImpl implements EventService {
 		return vos;
 	}
 
+	@Override
+	public List<EventVo> findEventsByUserOrderedByDate(Long userId) {
+		return EventMapper.toVo(eventRepository.getUserEvents(userId));
+	}
 }
