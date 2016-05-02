@@ -75,9 +75,4 @@ public class ExamServiceImpl implements ExamService {
 			throw ex;
 		}
 	}
-
-	@Override
-	public List<ExamVo> getAllSortedById() throws Exception {
-		return ExamMapper.toVo(examRepository.findAllByOrderByIdAsc());
-	}
 }

@@ -46,7 +46,7 @@ public class ExamBean implements Serializable {
 
 	public void updateExamList() {
 		try {
-			examList = getExamService().getAllSortedById();
+			examList = getExamService().getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
