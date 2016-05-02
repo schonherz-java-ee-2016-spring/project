@@ -13,14 +13,16 @@
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
 			<p:inplace editor="true">
-				<p:inputText value="#{singleQuestionDetailsBean.questionText}" />
+				<p:inputTextarea cols="100" rows="3"
+					value="#{singleQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
 
 		<h:form id="questionNoteForm">
 			<h3>#{out.questionnote}</h3>
 			<p:inplace editor="true">
-				<p:inputText value="#{singleQuestionDetailsBean.questionNoteText}" />
+				<p:inputTextarea cols="100" rows="3"
+					value="#{singleQuestionDetailsBean.questionNoteText}" />
 			</p:inplace>
 		</h:form>
 
@@ -32,7 +34,7 @@
 				<f:facet name="header">
 				#{out.options}
 			</f:facet>
-				<p:column headerText="#{out.isitcorrect}" selectionMode="single"/>
+				<p:column headerText="#{out.isitcorrect}" selectionMode="single" />
 				<p:column headerText="#{out.optiontext}">
 					<h:outputText value="#{option.text}" />
 				</p:column>

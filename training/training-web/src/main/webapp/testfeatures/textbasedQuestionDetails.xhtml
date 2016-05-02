@@ -13,14 +13,15 @@
 		<h:form id="questionTitleRename">
 			<h3>#{out.questiontitle}</h3>
 			<p:inplace editor="true">
-				<p:inputText value="#{textbasedQuestionDetailsBean.questionText}" />
+				<p:inputTextarea cols="100" rows="3"
+					value="#{textbasedQuestionDetailsBean.questionText}" />
 			</p:inplace>
 		</h:form>
 
 		<h:form id="questionNoteRename">
 			<h3>#{out.questionnote}</h3>
 			<p:inplace editor="true">
-				<p:inputText
+				<p:inputTextarea cols="100" rows="3"
 					value="#{textbasedQuestionDetailsBean.questionNoteText}" />
 			</p:inplace>
 		</h:form>
