@@ -28,6 +28,9 @@ public class Exam extends BaseEntity {
 	@JoinColumn(name = "exam_id")
 	@OrderBy("text asc")
 	private Collection<Question> questions;
+	
+	@Column(columnDefinition = "boolean default false" )
+	private Boolean status;	
 
 	public Exam() {
 		super();
@@ -48,5 +51,15 @@ public class Exam extends BaseEntity {
 	public void setQuestions(Collection<Question> questions) {
 		this.questions = questions;
 	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	
+	
 
 }

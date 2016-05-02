@@ -8,12 +8,14 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.exams}</ui:define>
 	<ui:define name="content">
-
-		<p:dataTable reflow="true" style="width:100%;" id="examTable" var="exam"
-			value="#{examBean.examList}" rows="10" paginator="true"
+		<p:messages id="msg" showDetail="true" />
+		<p:growl id="message" />
+		
+		<p:dataTable reflow="true" style="width:100%;" id="examTable"
+			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="1,5,10,15,">
-			
+
 			<p:column headerText="#{out.title}">
 				<h:outputText value="#{exam.title}" />
 			</p:column>
@@ -41,6 +43,17 @@
 								icon="ui-icon-trash" actionListener="#{examBean.removeExam}"
 								ajax="false">
 								<f:attribute name="examIdAsString" value="#{exam.id}" />
+							</p:commandButton>
+
+							<p:commandButton rendered="#{exam.status eq false}"
+								value="Start" update="msg" icon="ui-icon-play" actionListener="#{examBean.setStatusToTrue}">
+								<f:attribute name="booleanChangeExamIdAsString" value="#{exam.id}" />
+							</p:commandButton>
+
+							<p:commandButton rendered="#{exam.status eq true}"
+								value="Stop" update="msg" icon="ui-icon-stop" actionListener="#{examBean.setStatusToFalse}">
+								<f:attribute name="booleanChangeExamIdAsString" value="#{exam.id}" />
+								
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>
