@@ -74,7 +74,7 @@ public class QuestionBean implements Serializable {
 			List<OptionVo> options = new ArrayList<>();
 			options.add(optionVo);
 			question.setOptions(options);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
