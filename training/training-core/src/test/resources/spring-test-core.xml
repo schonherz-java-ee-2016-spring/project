@@ -16,7 +16,7 @@
 	<context:component-scan base-package="hu.schonherz.training.core" />
 
 <!-- Ideiglenesen az admin van beállítva a tágabb core helyett, mert a QuestionType-ra Exception-t dob -->
-	<jpa:repositories base-package="hu.schonherz.training.core.admin"
+	<jpa:repositories base-package="hu.schonherz.training.core"
 		repository-impl-postfix="Impl" />
 
 	<bean id="entityManagerFactory"

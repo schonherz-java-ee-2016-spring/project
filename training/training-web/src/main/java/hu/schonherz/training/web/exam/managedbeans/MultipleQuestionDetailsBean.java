@@ -22,8 +22,6 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	private String questionIdAsString;
 	private List<OptionVo> correctOptions;
 	private Boolean initLoading = true;
-	private String editOptionText;
-	private String oldOptionText;
 
 	@Override
 	protected void updatePageContent() {
@@ -202,36 +200,6 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		}
 	}
 
-	public void setUpEditOption(ActionEvent event) {
-		oldOptionText = event.getComponent().getAttributes().get("optionName").toString();
-		editOptionText = oldOptionText;
-	}
-
-	public void editOption() {
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
-		try {
-			option = new OptionVo();
-			option.setText(editOptionText);
-
-			for (int i = 0; i < optionList.size(); i++) {
-				if (optionList.get(i).getText().equalsIgnoreCase(oldOptionText)) {
-					optionList.remove(i);
-					optionList.add(i, option);
-				}
-
-			}
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
-			currentInstance.addMessage(null, facesMessage);
-			RequestContext.getCurrentInstance().update("editDialogForm");
-			RequestContext.getCurrentInstance().update("optionTableForm");
-		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
-			currentInstance.addMessage(null, facesMessage);
-			e.printStackTrace();
-		}
-
-	}
-
 	public String getQuestionIdAsString() {
 		return questionIdAsString;
 	}
@@ -255,13 +223,4 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	public void setInitLoading(Boolean initLoading) {
 		this.initLoading = initLoading;
 	}
-
-	public String getEditOptionText() {
-		return editOptionText;
-	}
-
-	public void setEditOptionText(String editOptionText) {
-		this.editOptionText = editOptionText;
-	}
-
 }

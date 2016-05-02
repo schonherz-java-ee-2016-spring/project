@@ -18,10 +18,7 @@
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
-			<p:column headerText="#{out.questionid}">
-    			#{question.id}
-    		</p:column>
-			<p:column headerText="#{out.questiontitle}">
+			<p:column headerText="Questions">
     			#{question.text}
     		</p:column>
 			<p:column headerText="#{out.questiontype}">
