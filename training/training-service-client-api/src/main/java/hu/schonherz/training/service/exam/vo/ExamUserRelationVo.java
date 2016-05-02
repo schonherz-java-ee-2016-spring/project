@@ -1,10 +1,8 @@
 package hu.schonherz.training.service.exam.vo;
 
-import java.io.Serializable;
-
 import hu.schonherz.training.service.admin.vo.UserVo;
 
-public class ExamUserRelationVo implements Serializable {
+public class ExamUserRelationVo extends BaseIdentityVo {
 	private static final long serialVersionUID = 1L;
 
 	private ExamVo exam;

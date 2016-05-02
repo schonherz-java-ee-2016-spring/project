@@ -32,22 +32,12 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public List<AnswerVo> getAll() throws Exception {
-		try {
-			return AnswerMapper.toVo(answerRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return AnswerMapper.toVo(answerRepository.findAll());
 	}
 
 	@Override
 	public AnswerVo getById(Long id) throws Exception {
-		try {
-			return AnswerMapper.toVo(answerRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return AnswerMapper.toVo(answerRepository.findOne(id));
 	}
 
 	@Override
@@ -72,12 +62,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public List<AnswerVo> getAllByUserId(Long id) throws Exception {
-		try {
-			return AnswerMapper.toVo(answerRepository.findAllByUserId(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return AnswerMapper.toVo(answerRepository.findAllByUserId(id));
 	}
 
 	@Override
