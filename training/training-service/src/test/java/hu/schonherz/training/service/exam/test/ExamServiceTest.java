@@ -34,14 +34,14 @@ public class ExamServiceTest {
 		}
 
 		ExamVo examVo = new ExamVo();
-		examVo.setTitle("JUNIT");
+		examVo.setTitle("JUNIT alpha test");
 		serviceLocal.add(examVo);
 	}
 
 	@After
 	public void tearDown() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
 			serviceLocal.removeById(examVo.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +72,7 @@ public class ExamServiceTest {
 	@Test
 	public void getByIdTest() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
 			examVo = serviceLocal.getById(examVo.getId());
 			Assert.assertEquals(true, (examVo != null ? true : false));
 		} catch (Exception ex) {
@@ -83,16 +83,25 @@ public class ExamServiceTest {
 	@Test
 	public void modifyTitleTest() {
 		try {
-			ExamVo examVo = serviceLocal.getByTitle("JUNIT");
-			examVo.setTitle("Junit2");
+			ExamVo examVo = serviceLocal.getByTitle("JUNIT alpha test");
+			examVo.setTitle("JUNIT beta test");
 			serviceLocal.modifyTitle(examVo);
-			examVo = serviceLocal.getByTitle("Junit2");
-			Assert.assertEquals(examVo.getTitle(), "Junit2");
-			examVo.setTitle("JUNIT");
+			examVo = serviceLocal.getByTitle("JUNIT beta test");
+			Assert.assertEquals(examVo.getTitle(), "JUNIT beta test");
+			examVo.setTitle("JUNIT alpha test");
 			serviceLocal.modifyTitle(examVo);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
 	}
-
+	
+	@Test(expected = Exception.class)
+	public void modifyTitleWithFail() throws Exception {
+		ExamVo examVo = new ExamVo();
+		examVo.setTitle("JUNIT final test");
+		serviceLocal.add(examVo);
+		examVo = serviceLocal.getByTitle("JUNIT final test");
+		examVo.setTitle("JUNIT alpha test");
+		serviceLocal.modifyTitle(examVo);
+	}
 }

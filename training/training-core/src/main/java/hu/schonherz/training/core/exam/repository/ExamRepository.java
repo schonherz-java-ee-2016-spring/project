@@ -1,7 +1,5 @@
 package hu.schonherz.training.core.exam.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +12,6 @@ import hu.schonherz.training.core.exam.entity.Exam;
 @Repository
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-	
-	public List<Exam> findAllByOrderByIdAsc() throws Exception;
 	
 	public Exam findByTitleIgnoreCase(String title) throws Exception;
 	

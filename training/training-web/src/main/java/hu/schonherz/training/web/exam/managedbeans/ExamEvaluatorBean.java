@@ -52,7 +52,7 @@ public class ExamEvaluatorBean implements Serializable {
 	@PostConstruct
 	public void initBean() {
 		try {
-			examList = examService.getAllSortedById();
+			examList = examService.getAll();
 			userList = userService.findAllUser();
 			evalRecordList = new ArrayList<>();
 		} catch (Exception e) {
