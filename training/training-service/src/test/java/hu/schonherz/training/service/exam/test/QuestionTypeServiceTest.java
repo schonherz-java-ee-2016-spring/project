@@ -63,22 +63,6 @@ public class QuestionTypeServiceTest {
 		questionTypeService.removeById(-1L);
 	}
 	
-
-	@Test
-	public void getAllTest() {
-		
-	}
-	
-	@Test(expected = Exception.class)
-	public void getAllTestWithFail() {
-		try {
-			List<QuestionTypeVo> questionTypeVos = questionTypeService.getAll();
-			
-			Assert.assertEquals(true, (questionTypeVos == null ? false : true));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-		}
-	}
 	
 
 }
