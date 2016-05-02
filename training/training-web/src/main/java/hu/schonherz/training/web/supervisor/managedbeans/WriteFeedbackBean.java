@@ -2,75 +2,112 @@ package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.training.service.admin.EventService;
+import hu.schonherz.training.service.admin.RoleGroupService;
+import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 
-@ManagedBean(name="writeFeedbackBean")
+@ManagedBean(name = "writeFeedbackBean")
 @ViewScoped
-public class WriteFeedbackBean implements Serializable{
+public class WriteFeedbackBean implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2972060697014376693L;
-	
-	@ManagedProperty("#{eventsBean.allEvent}")
-	List<EventVo> events;
-	
-	
-	List<EventVo> eventsToShow = new ArrayList<>();
-	
-	@ManagedProperty("#{usersBean.users}")
-	List<UserVo> users;
-	
-	UserVo loggedInUser = new UserVo();
-	
+
+	@EJB
+	EventService eventService;
+
+	@EJB
+	UserService userService;
+
+	@EJB
+	RoleGroupService roleGroupService;
+
+	private List<EventVo> eventsToShow = new ArrayList<>();
+
+	private List<UserVo> usersToShow = new ArrayList<>();
+
+	private UserVo loggedInUser = new UserVo();
+
+	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+
 	@PostConstruct
 	public void init() {
-		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-		for (UserVo user : users) {
-			if (user.getUserName().equals(username)) {
-				loggedInUser = user;
-			}
-		}
-		for (EventVo event : events) {
-			Collection<UserVo> usrVo = event.getUsers();
-			for (UserVo uVo : usrVo) {
-				if (uVo.equals(loggedInUser)) {
-					eventsToShow.add(event);
+
+		List<UserVo> usersToInspect = new ArrayList<>();
+		RoleGroupVo observerRoleGroup = new RoleGroupVo();
+		boolean isOk;
+
+		try {
+			loggedInUser = userService.findUserByName(username);
+			observerRoleGroup = roleGroupService.getRoleGroupById((long) 2004);
+			eventsToShow = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
+			if (loggedInUser.getRoleGroups().contains(roleGroupService.getRoleGroupById((long) 2004))) {
+				for (EventVo event : eventsToShow) {
+					usersToInspect.addAll(event.getUsers());
+					for (UserVo user : usersToInspect) {
+						isOk = true;
+
+						if (user.getUserName().contentEquals(username)) {
+							isOk = false;
+						}
+
+						if (isOk) {
+							usersToShow.add(user);
+						}
+
+					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
 		}
-	}
+		
 
-	/**
-	 * @return the events
-	 */
-	public List<EventVo> getEvents() {
-		return events;
-	}
-
-	/**
-	 * @param events the events to set
-	 */
-	public void setEvents(List<EventVo> events) {
-		this.events = events;
+		// try {
+		//
+		// for (EventVo event : eventsToShow) {
+		// usersToInspect.addAll(event.getUsers());
+		// for (UserVo user : usersToInspect) {
+		// boolean isOk = true;
+		// if (user.getUserName().contentEquals(username)) {
+		// isOk = false;
+		// } else {
+		// for (UserVo userToShow : usersToShow) {
+		// if (user.getId() == userToShow.getId()) {
+		// isOk = false;
+		// }
+		// }
+		// }
+		// if (isOk) {
+		// usersToShow.add(user);
+		// }
+		// }
+		//
+		// }
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
 	 * 
 	 */
 	public WriteFeedbackBean() {
-	
+
 	}
 
 	/**
@@ -81,24 +118,11 @@ public class WriteFeedbackBean implements Serializable{
 	}
 
 	/**
-	 * @param eventsToShow the eventsToShow to set
+	 * @param eventsToShow
+	 *            the eventsToShow to set
 	 */
 	public void setEventsToShow(List<EventVo> eventsToShow) {
 		this.eventsToShow = eventsToShow;
-	}
-
-	/**
-	 * @return the users
-	 */
-	public List<UserVo> getUsers() {
-		return users;
-	}
-
-	/**
-	 * @param users the users to set
-	 */
-	public void setUsers(List<UserVo> users) {
-		this.users = users;
 	}
 
 	/**
@@ -109,9 +133,26 @@ public class WriteFeedbackBean implements Serializable{
 	}
 
 	/**
-	 * @param loggedInUser the loggedInUser to set
+	 * @param loggedInUser
+	 *            the loggedInUser to set
 	 */
 	public void setLoggedInUser(UserVo loggedInUser) {
 		this.loggedInUser = loggedInUser;
 	}
+
+	/**
+	 * @return the usersToShow
+	 */
+	public List<UserVo> getUsersToShow() {
+		return usersToShow;
+	}
+
+	/**
+	 * @param usersToShow
+	 *            the usersToShow to set
+	 */
+	public void setUsersToShow(List<UserVo> usersToShow) {
+		this.usersToShow = usersToShow;
+	}
+
 }

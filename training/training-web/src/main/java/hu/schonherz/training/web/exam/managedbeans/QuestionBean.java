@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import org.primefaces.context.RequestContext;
 import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionTypeVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
@@ -68,6 +70,10 @@ public class QuestionBean implements Serializable {
 			question.setText("New textbased question");
 			question.setNote("Insert your note here");
 			question.setQuestionType(questionType);
+			OptionVo optionVo = new OptionVo();
+			List<OptionVo> options = new ArrayList<>();
+			options.add(optionVo);
+			question.setOptions(options);
 			questionService.save(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();

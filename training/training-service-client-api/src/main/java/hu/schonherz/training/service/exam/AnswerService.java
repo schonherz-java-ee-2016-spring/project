@@ -9,4 +9,6 @@ public interface AnswerService extends BaseService<AnswerVo> {
 	public void save(AnswerVo vo) throws Exception;
 
 	public List<AnswerVo> getAllByUserId(Long id) throws Exception;
+	
+	public void modifyGoodById(AnswerVo vo, boolean good) throws Exception;
 }

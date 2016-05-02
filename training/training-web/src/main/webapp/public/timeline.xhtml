@@ -11,19 +11,25 @@
 	<ui:define name="content">
 		<h:outputStylesheet library="default" name="css/timeline.css"
 			rel="stylesheet" />
-		<h2 class="text-muted">Timeline</h2>
-
-		<div class="container">
+		<h2 class="text-muted"><h:outputText value="#{out.timeline}" /></h2>
+		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty()}">
+			<h5><h:outputText  value="#{out.emptytimeline}" /> </h5>
+		</h:panelGroup>
+		
+		
+		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty() == false}">
 			<ul class="timeline">
 				<ui:repeat var="event" value="#{timelineBean.events}">
-					<li id="timeline_#{event.id}"><h:panelGroup layout="block"
-							styleClass="timeline-badge"
+					<li id="timeline_#{event.id}">
+					<h:panelGroup layout="block"
+							styleClass="timeline-badge #{event.type == 'Homework' ? 'timeline-homework' : ''}"
 							rendered="#{event.type == 'Homework'}">
 							<i class="glyphicon glyphicon-home"></i>
-						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
-							rendered="#{event.type == 'Interview'}">
+						</h:panelGroup> 
+						<h:panelGroup layout="block" styleClass="timeline-badge #{event.type == 'Job Interview' ? 'timeline-interview' : ''}"
+							rendered="#{event.type == 'Job Interview'}">
 							<i class="glyphicon glyphicon-user"></i>
-						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge"
+						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge #{event.type == 'Test' ? 'timeline-test' : ''}"
 							rendered="#{event.type == 'Test'}">
 							<i class="glyphicon glyphicon-tasks"></i>
 						</h:panelGroup>
@@ -45,23 +51,35 @@
 							</div>
 							<div class="timeline-body">
 								<p>
-									<h:outputText value="#{event.description}" />
+									<h:outputText value="#{event.description}" escape="false" />
 								</p>
 							</div>
 						</div></li>
 				</ui:repeat>
 			</ul>
 			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
-		</div>
-		<h:outputScript>
-			$('.timeline-panel').click(function() {
-			    $('.timeline-body', this).toggle();
+		</h:panelGroup>
+		<script type="text/javascript">
+			$('.timeline-panel').on('click', function(e) {
+			
+				var tlBody = $('.timeline-body', this);
+				if (tlBody.is(':visible')) {
+					tlBody.slideUp();
+				} else {
+					tlBody.slideDown();
+				}
 			});
+			$('.timeline-body').on('click', function(e) {
+			
+ 				e.stopPropagation();
+			});
+			
 			$('html,body').animate({
-        			scrollTop: $("#"+$('#next').val()).offset().top},
-        		'slow');
+				scrollTop : $("#" + $('#next').val()).offset().top
+			}, 'slow');
         		
-        	$("#"+$('#next').val()).prevAll().addClass('past');
-		</h:outputScript>
+			$("#" + $('#next').val()).prevAll().find('.timeline-panel')
+					.addClass('past');
+		</script>
 	</ui:define>
 </ui:composition>

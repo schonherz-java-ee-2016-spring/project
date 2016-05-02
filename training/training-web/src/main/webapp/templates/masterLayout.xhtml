@@ -73,8 +73,8 @@
 					<ul class="nav navbar-nav">
 						<li><a href="#{request.contextPath}/index.xhtml">Home<span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/public/myprofile.xhtml">My Profile<span
-								style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
+						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-user"></span>
 						</a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">User Management<span
@@ -111,22 +111,44 @@
 							<ul class="dropdown-menu forAnimate" role="menu">
 								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
 							</ul></li>
-						<li><a href="#{request.contextPath}/public/results.xhtml">Results<span
+						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
 
 						<li><a href="#{request.contextPath}/public/events.xhtml">Events<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
 
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
+									style="font-size: 16px;"
+									class="pull-right showopacity fa fa-calendar"></span></a></li>
+						</sec:authorize>
 
 
-						<li><a href="#" data-toggle="dropdown">Exam<span class="caret"></span><span
-								style="font-size: 16px;" class="pull-right showopacity fa fa-pencil-square"></span></a>
+
+						<li><a href="#" data-toggle="dropdown">#{out.exam}<span
+								class="caret"></span><span style="font-size: 16px;"
+								class="pull-right showopacity fa fa-pencil-square"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a href="#{request.contextPath}/testfeatures/exams.xhtml">Exam List</a></li>
-								<li><a href="#{request.contextPath}/testfeatures/examChoose.xhtml">Take a test</a></li>
-								<li><a href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">Evaluate
-										tests</a></li>
-								<li><a href="#{request.contextPath}/testfeatures/examReview.xhtml">Review tests</a></li>
+								<li><a
+									href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
+								<li><a
+									href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
+
+								<li><a
+									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
+
+								<sec:authorize access="hasRole('STUDENT')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
+									</a></li>
+								</sec:authorize>
+
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}
+									</a></li>
+								</sec:authorize>
+
 							</ul></li>
 						<sec:authorize access="hasRole('FEEDBACKS')">
 							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
