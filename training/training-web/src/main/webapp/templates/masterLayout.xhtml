@@ -54,12 +54,11 @@
 			<div class="header-right">
 				<ul class="nav navbar-nav navbar-right">
 					<sec:authorize access="isAnonymous()">
-						<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>Sign
-								up</a></li>
-						<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>Login</a></li>
+						<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>#{out.signup}</a></li>
+						<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>#{out.login}</a></li>
 					</sec:authorize>
 					<sec:authorize access="isAuthenticated()">
-						<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>Logout</a></li>
+						<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>#{out.logout}</a></li>
 					</sec:authorize>
 
 				</ul>
@@ -71,45 +70,45 @@
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="#{request.contextPath}/index.xhtml">Home<span style="font-size: 16px;"
+						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-home"></span></a></li>
 						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-user"></span>
 						</a></li>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
-							<li class="dropdown"><a href="#" data-toggle="dropdown">User Management<span
+							<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.usermanagement}<span
 									class="caret"></span><span style="font-size: 16px;"
 									class="pull-right showopacity fa fa-users"></span>
 							</a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('USERS')">
-										<li><a href="#{request.contextPath}/secured/users.xhtml">Users</a></li>
+										<li><a href="#{request.contextPath}/secured/users.xhtml">#{out.users}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('UGS')">
-										<li><a href="#{request.contextPath}/secured/usergroups.xhtml">User Groups</a></li>
+										<li><a href="#{request.contextPath}/secured/usergroups.xhtml">#{out.usergroups}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('RGS') or hasRole('ROLES')">
-							<li><a href="#" data-toggle="dropdown">Role Management<span class="caret"></span><span
+							<li><a href="#" data-toggle="dropdown">#{out.rolemanagement}<span class="caret"></span><span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-lock"></span></a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('ROLES')">
-										<li><a href="#{request.contextPath}/secured/roles.xhtml">Roles</a></li>
+										<li><a href="#{request.contextPath}/secured/roles.xhtml">#{out.roles}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('RGS')">
-										<li><a href="#{request.contextPath}/secured/rolegroups.xhtml">Role Groups</a></li>
+										<li><a href="#{request.contextPath}/secured/rolegroups.xhtml">#{out.roleGroups}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 
-						<li class="dropdown"><a href="#" data-toggle="dropdown">Training Management<span
+						<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.trainingmanagement}<span
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-laptop"></span>
 						</a>
 							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a href="#{request.contextPath}/public/trainings.xhtml">Trainings</a></li>
+								<li><a href="#{request.contextPath}/public/trainings.xhtml">#{out.trainings}</a></li>
 							</ul></li>
 						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
