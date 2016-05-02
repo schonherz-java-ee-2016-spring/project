@@ -1,5 +1,7 @@
 INSERT INTO public."role"( id, name, roleCode)VALUES(2001, 'User groups managing','ROLE_UGS');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2002, 'User managing','ROLE_USERS');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2004, 'Role managing','ROLE_ROLES');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2005, 'Role groups managing','ROLE_RGS');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2003, 'Feedbacks','ROLE_FEEDBACKS');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
@@ -10,6 +12,8 @@ INSERT INTO public.rolegroup( id, name)  VALUES (2005,'Guest Role Group');
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2001, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2004, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2001);
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2002, 'email2@localhost.com', 'Instructor', 1, '$2a$10$bRsjrjA9RLw5KLga6NZlouR4K/jK4xrLO6ahPl1SgOMv3dfYof.Ve','instructor');
