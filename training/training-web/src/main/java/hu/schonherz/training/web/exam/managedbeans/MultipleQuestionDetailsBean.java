@@ -210,20 +210,27 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	public void editOption() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try {
-			option = new OptionVo();
-			option.setText(editOptionText);
+			if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(editOptionText)).count() > 0) {
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Option already exsist!", "");
+				currentInstance.addMessage(null, facesMessage);
 
-			for (int i = 0; i < optionList.size(); i++) {
-				if (optionList.get(i).getText().equalsIgnoreCase(oldOptionText)) {
-					optionList.remove(i);
-					optionList.add(i, option);
+			} else {
+
+				option = new OptionVo();
+				option.setText(editOptionText);
+
+				for (int i = 0; i < optionList.size(); i++) {
+					if (optionList.get(i).getText().equalsIgnoreCase(oldOptionText)) {
+						optionList.remove(i);
+						optionList.add(i, option);
+					}
+
 				}
-
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+				currentInstance.addMessage(null, facesMessage);
+				RequestContext.getCurrentInstance().update("editDialogForm");
+				RequestContext.getCurrentInstance().update("optionTableForm");
 			}
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
-			currentInstance.addMessage(null, facesMessage);
-			RequestContext.getCurrentInstance().update("editDialogForm");
-			RequestContext.getCurrentInstance().update("optionTableForm");
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
 			currentInstance.addMessage(null, facesMessage);
