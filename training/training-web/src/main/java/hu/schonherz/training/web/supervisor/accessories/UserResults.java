@@ -20,6 +20,10 @@ public class UserResults implements Serializable {
 
 	private List<ExamResultVo> examResults;
 
+	private Integer examSum;
+
+	private Integer homeworkSum;
+
 	public UserResults() {
 		// TODO Auto-generated constructor stub
 	}
@@ -46,6 +50,22 @@ public class UserResults implements Serializable {
 
 	public void setExamResults(List<ExamResultVo> examResults) {
 		this.examResults = examResults;
+	}
+
+	public Integer getExamSum() {
+		return examSum;
+	}
+
+	public void setExamSum(Integer examSum) {
+		this.examSum = examSum;
+	}
+
+	public Integer getHomeworkSum() {
+		return homeworkSum;
+	}
+
+	public void setHomeworkSum(Integer homeworkSum) {
+		this.homeworkSum = homeworkSum;
 	}
 
 }

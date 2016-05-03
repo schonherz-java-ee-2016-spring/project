@@ -6,5 +6,5 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CreateContext.class, OptionServiceTest.class, CloseContext.class })
-public class OptionServiceSuite {
+public class OptionServiceSuiteTest {
 }
