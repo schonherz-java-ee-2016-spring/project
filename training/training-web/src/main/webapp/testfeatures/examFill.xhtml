@@ -13,11 +13,11 @@
 
 			<p:panel id="panelId" style="text-align: center;">
 
-				<!-- 					Single question's form -->
-
 				<h:outputText
 					value="#{examFillBean.questionList.get(examFillBean.counter).text}"
 					escape="false" />
+
+				<!-- 					Single question's form -->
 
 				<h:form
 					rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 1}">
