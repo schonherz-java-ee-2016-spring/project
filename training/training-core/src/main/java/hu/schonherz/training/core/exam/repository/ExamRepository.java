@@ -17,8 +17,18 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
 	
 	public List<Exam> findAllByOrderByIdAsc() throws Exception;
 	
+	public Exam findByTitleIgnoreCase(String title) throws Exception;
+	
 	@Modifying
 	@Query(value = "UPDATE exam SET title = ?1 WHERE id = ?2", nativeQuery = true)
-	public Integer modifyExamTitleById(String title, Long id) throws Exception;
+	public Integer updateExamTitleById(String title, Long id) throws Exception;
+	
+	@Modifying
+	@Query(value = "UPDATE exam SET status = true WHERE id = ?1", nativeQuery = true)
+	public Integer updateExamStatusToTrueById(Long id) throws Exception;
+
+	@Modifying
+	@Query(value = "UPDATE exam SET status = false WHERE id = ?1", nativeQuery = true)
+	public Integer updateExamStatusToFalseById(Long id) throws Exception;
 
 }

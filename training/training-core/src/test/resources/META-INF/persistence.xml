@@ -6,13 +6,23 @@
 	<persistence-unit name="hu.schonherz.training.test">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>hu.schonherz.training.core.admin.entity.BaseEntity</class>
-		<class>hu.schonherz.training.core.admin.entity.User</class>
+		<class>hu.schonherz.training.core.admin.entity.Event</class>
 		<class>hu.schonherz.training.core.admin.entity.Role</class>
 		<class>hu.schonherz.training.core.admin.entity.RoleGroup</class>
-		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
 		<class>hu.schonherz.training.core.admin.entity.Theme</class>
 		<class>hu.schonherz.training.core.admin.entity.Training</class>
-		<class>hu.schonherz.training.core.admin.entity.Event</class>
+		<class>hu.schonherz.training.core.admin.entity.User</class>
+		<class>hu.schonherz.training.core.admin.entity.UserGroup</class>
+		<class>hu.schonherz.training.core.exam.entity.Answer</class>
+		<class>hu.schonherz.training.core.exam.entity.AnswerText</class>
+		<class>hu.schonherz.training.core.exam.entity.Exam</class>
+		<class>hu.schonherz.training.core.exam.entity.ExamResult</class>
+		<class>hu.schonherz.training.core.exam.entity.Option</class>
+		<class>hu.schonherz.training.core.exam.entity.Question</class>
+		<class>hu.schonherz.training.core.exam.entity.QuestionType</class>
+		<class>hu.schonherz.training.core.supervisor.entity.Feedback</class>
+		<class>hu.schonherz.training.core.supervisor.entity.HomeworkResult</class>
+		<class>hu.schonherz.training.core.exam.relationtable.ExamUserRelation</class>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="hibernate.archive.autodetection" value="class, hbm" />

@@ -32,13 +32,13 @@
 				<f:facet name="header">
 				#{out.options}
 			</f:facet>
-				<p:column headerText="#{out.isitcorrect}" selectionMode="multiple" />
+				<p:column headerText="#{out.isitcorrect}" selectionMode="multiple"/>
 				<p:column headerText="#{out.optiontext}">
 					<h:outputText value="#{option.text}" />
 				</p:column>
 				<p:column headerText="#{out.delete}">
 					<p:toolbar>
-						<f:facet name="left">
+						<f:facet name="left" >
 							<span class="ui-separator"> <span
 								class="ui-icon ui-icon-grip-dotted-vertical" />
 							</span>
@@ -66,7 +66,7 @@
 			<p:dialog closeOnEscape="true" header="#{out.newoption}" widgetVar="dlg"
 				resizable="false" modal="true">
 				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
-					<h:outputLabel for="newOptionText" value="#{out.option}:" />
+				
 					<p:inputTextarea cols="100" rows="3" id="newOptionText"
 						value="#{multipleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
