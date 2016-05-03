@@ -10,7 +10,7 @@
 	<ui:define name="content">
 		<p:messages id="msg" showDetail="true" />
 		<p:growl id="message" />
-		
+		<sec:authorize access="hasRole('INSTRUCTOR')"> 
 		<p:dataTable reflow="true" style="width:100%;" id="examTable"
 			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -84,5 +84,6 @@
 					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
 			</p:panel>
 		</h:form>
+		</sec:authorize>
 	</ui:define>
 </ui:composition>
