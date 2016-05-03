@@ -1,9 +1,11 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
+import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -15,6 +17,10 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 public class TextBasedQuestionDetailsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
 	@EJB
 	private QuestionService questionService;
 
@@ -54,7 +60,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
 
 			if (questionTitleInputText.length() < 1)
-				questionVo.setText("You can't leave the question's text unfilled");
+				questionVo.setText(bundle.getString("setqtext"));
 			else
 				questionVo.setText(questionTitleInputText);
 			getQuestionService().modifyText(questionVo);
@@ -82,7 +88,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 		try {
 			questionVo = getQuestionService().getById(Long.parseLong(questionIdAsString));
 			if (questionNoteText.length() < 1)
-				questionVo.setNote("You can't leave the question's note unfilled");
+				questionVo.setNote(bundle.getString("setqnote"));
 			else
 				questionVo.setNote(questionNoteText);
 			getQuestionService().modifyNote(questionVo);
@@ -99,4 +105,14 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+	
+	
 }

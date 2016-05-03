@@ -71,7 +71,7 @@
 			<p:panel id="panel" header="#{out.newexam}">
 				<h:panelGrid columns="3" cellpadding="5">
 					<p:outputLabel for="newExamTitle" value="#{out.examtitle}:" />
-					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
+					<p:inputText placeholder="#{out.exampletitle}" id="newExamTitle" value="#{examBean.newExamTitle}"
 						required="true" label="newExamTitle">
 						<f:validateLength minimum="3" />
 						<p:ajax update="growl" event="keyup" />

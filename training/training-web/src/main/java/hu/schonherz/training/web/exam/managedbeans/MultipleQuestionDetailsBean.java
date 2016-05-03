@@ -1,10 +1,12 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -25,6 +27,9 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	private String editOptionText;
 	private String oldOptionText;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
 	@Override
 	protected void updatePageContent() {
 		optionList.clear();
@@ -61,12 +66,12 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		setUpOption();
 		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(option.getText())).count() > 0) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists") , "");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
 			clearOptionText();
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
 			currentInstance.addMessage(null, facesMessage);
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
@@ -100,19 +105,19 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOptions == null || optionList.isEmpty()) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Min one option");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("qneedsatleastoneoption"), "");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
 				saveQuestion();
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
 				FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
 						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
 
 			} catch (Exception e) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), "");
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
@@ -211,7 +216,7 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try {
 			if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(editOptionText)).count() > 0) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Option already exsist!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists"), "");
 				currentInstance.addMessage(null, facesMessage);
 
 			} else {
@@ -226,13 +231,13 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 					}
 
 				}
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
 				currentInstance.addMessage(null, facesMessage);
 				RequestContext.getCurrentInstance().update("editDialogForm");
 				RequestContext.getCurrentInstance().update("optionTableForm");
 			}
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), "");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -269,6 +274,14 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 
 	public void setEditOptionText(String editOptionText) {
 		this.editOptionText = editOptionText;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 }

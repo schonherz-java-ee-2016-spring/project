@@ -1,10 +1,12 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -24,6 +26,9 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	private Boolean initLoading = true;
 	private String editOptionText;
 	private String oldOptionText;
+
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 
 	@Override
 	protected void updatePageContent() {
@@ -59,12 +64,13 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		setUpOption();
 		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(option.getText())).count() > 0) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Option is exists");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("optionexists"));
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
 			clearOptionText();
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
 			currentInstance.addMessage(null, facesMessage);
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
@@ -98,19 +104,21 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
 
-			FacesMessage facesMessage = new FacesMessage("Mark the correct option");
+			FacesMessage facesMessage = new FacesMessage(bundle.getString("markcorrectoption"));
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
 				saveQuestion();
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
-				FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
+				FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(
+						FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
 
 			} catch (Exception e) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
@@ -142,7 +150,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		try {
 			QuestionVo questionVo = questionService.getById(questionId);
 			if (questionText.length() < 1)
-				questionVo.setText("You can't leave the question's text unfilled");
+				questionVo.setText(bundle.getString("setqtext"));
 			else
 				questionVo.setText(questionText);
 			questionService.modifyText(questionVo);
@@ -168,7 +176,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			QuestionVo questionVo = questionService.getById(questionId);
 
 			if (questionNoteText.length() < 1)
-				questionVo.setNote("You can't leave the question's note unfilled");
+				questionVo.setNote(bundle.getString("setqnote"));
 			else
 				questionVo.setNote(questionNoteText);
 
@@ -187,8 +195,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try {
 			if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(editOptionText)).count() > 0) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Option already exsist!",
-						"");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists"), "");
 				currentInstance.addMessage(null, facesMessage);
 
 			} else {
@@ -203,13 +210,14 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 					}
 
 				}
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				RequestContext.getCurrentInstance().update("editDialogForm");
 				RequestContext.getCurrentInstance().update("optionTableForm");
 			}
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), "");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -270,6 +278,14 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 
 	public void setEditOptionText(String editOptionText) {
 		this.editOptionText = editOptionText;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 }

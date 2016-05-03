@@ -2,11 +2,13 @@ package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -29,6 +31,9 @@ public class ExamBean implements Serializable {
 	private List<ExamVo> examList;
 	private String booleanChangeExamIdAsString;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+
 	@PostConstruct
 	public void init() {
 		updateExamList();
@@ -39,10 +44,13 @@ public class ExamBean implements Serializable {
 		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
 		Long examId = Long.parseLong(examIdAsString);
 		try {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("examstopped"));
+			currentInstance.addMessage(null, facesMessage);
 			examService.removeById(examId);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-					"This exam has already been filled out by a student");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("erralreadyfilledout"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -69,10 +77,12 @@ public class ExamBean implements Serializable {
 
 		try {
 			getExamService().add(exam);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam created");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("examcreated"));
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't create exam");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("errcouldntcreateexam"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -87,11 +97,13 @@ public class ExamBean implements Serializable {
 		Long examid = Long.parseLong(booleanChangeExamIdAsString);
 		try {
 			examService.modifyStatusToTrue(examid);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam started");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("examstarted"));
 			currentInstance.addMessage(null, facesMessage);
 
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't start exam");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("errcouldntstartexam"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -106,11 +118,13 @@ public class ExamBean implements Serializable {
 		Long examid = Long.parseLong(booleanChangeExamIdAsString);
 		try {
 			examService.modifyStatusToFalse(examid);
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Exam stopped");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("examstopped"));
 			currentInstance.addMessage(null, facesMessage);
 
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Couldn't stop exam");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("errcouldntstopexam"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -156,6 +170,14 @@ public class ExamBean implements Serializable {
 
 	public void setBooleanChangeExamIdAsString(String booleanChangeExamIdAsString) {
 		this.booleanChangeExamIdAsString = booleanChangeExamIdAsString;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 }
