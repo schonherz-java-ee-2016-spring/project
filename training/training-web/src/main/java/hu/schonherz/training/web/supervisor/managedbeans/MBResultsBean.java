@@ -63,8 +63,7 @@ public class MBResultsBean implements Serializable {
 		List<LessonVo> lessons = new ArrayList<>();
 		String[] lessonNames = { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
 				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok",
-				"Összesen" };
+				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
 		for (int i = 0; i < lessonNames.length; i++) {
 			lessons.add(new LessonVo());
 		}
@@ -109,17 +108,23 @@ public class MBResultsBean implements Serializable {
 			for (UserResults userResult : course.getUserResults()) {
 				List<ExamResultVo> examResults = new ArrayList<>();
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
+				Integer examSum = new Integer(0);
+				Integer homeworkSum = new Integer(0);
 				for (int i = 0; i < lessons.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
 					examResult.setScore(rand.nextInt(10));
+					examSum += examResult.getScore();
 					examResults.add(examResult);
 					HomeworkResultVo homeworkResult = new HomeworkResultVo();
 					homeworkResult.setScore(rand.nextInt(10));
+					homeworkSum += homeworkResult.getScore();
 					homeworkResults.add(homeworkResult);
 				}
 
 				userResult.setExamResults(examResults);
 				userResult.setHomeworkResults(homeworkResults);
+				userResult.setExamSum(examSum);
+				userResult.setHomeworkSum(homeworkSum);
 			}
 		}
 	}

@@ -11,4 +11,5 @@ import hu.schonherz.training.core.exam.entity.QuestionType;
 @Transactional(propagation = Propagation.SUPPORTS)
 public interface QuestionTypeRepository extends JpaRepository<QuestionType, Long> {
 
+	public QuestionType findByNameIgnoreCase(String name) throws Exception;
 }

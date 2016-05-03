@@ -12,7 +12,7 @@
 		<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
 
 		<p:panel id="panelId"
-			header="#{examFillBean.questionList.get(examFillBean.counter).text}">
+			header="#{examFillBean.questionList.get(examFillBean.counter).text}" style="text-align: center;">
 
 			<!-- 					Single question's form -->
 
@@ -26,7 +26,7 @@
 					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
 					<p:column headerText="#{out.isitcorrect}" selectionMode="single"
 						style="width:10%;text-align:center" />
-					<p:column headerText="#{out.options}">
+					<p:column headerText="#{out.options}" style="text-align: center;">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 				</p:dataTable>
@@ -51,7 +51,7 @@
 
 					<p:column selectionMode="multiple"
 						style="width:10%;text-align:center" />
-					<p:column headerText="#{out.options}">
+					<p:column headerText="#{out.options}" style="text-align: center;">
 						<h:outputText value="#{option.text}" />
 					</p:column>
 				</p:dataTable>
@@ -68,7 +68,8 @@
 				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
 
-				<p:inputTextarea autoResize="true" cols="100" rows="3" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p:inputTextarea autoResize="true" cols="100" rows="3"
+					placeholder="#{out.textbasedanswerpalceholder}" value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
 				<p:commandButton value="#{out.next}" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">

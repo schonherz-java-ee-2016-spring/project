@@ -6,7 +6,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:sec="http://www.springframework.org/security/tags" xmlns:p="http://primefaces.org/ui">
 
-<f:view>
+<f:view locale="#{languageBean.locale}" >
 
 	<h:head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -51,18 +51,31 @@
 				<h:graphicImage library="default" name="img/logo.png" class="navbar-brand"></h:graphicImage>
 			</div>
 
-			<div class="header-right">
-				<ul class="nav navbar-nav navbar-right">
-					<sec:authorize access="isAnonymous()">
-						<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>#{out.signup}</a></li>
-						<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>#{out.login}</a></li>
-					</sec:authorize>
-					<sec:authorize access="isAuthenticated()">
-						<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>#{out.logout}</a></li>
-					</sec:authorize>
-
-				</ul>
-			</div>
+			<h:form>
+				<div class="header-right">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<p:commandLink id="lang_hu" update="growl" actionListener="#{languageBean.setToHun}" ajax="false">
+		        				<h:outputText value="Magyar" />
+		    				</p:commandLink>
+	    				</li>
+						<li>
+							<p:commandLink id="lang_en" update="growl" actionListener="#{languageBean.setToEn}" ajax="false">
+		        				<h:outputText value="English" />
+		    				</p:commandLink>
+	    				</li>
+	
+						<sec:authorize access="isAnonymous()">
+							<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>#{out.signup}</a></li>
+							<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>#{out.login}</a></li>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>#{out.logout}</a></li>
+						</sec:authorize>
+	
+					</ul>
+				</div>
+			</h:form>
 			</nav>
 			<!-- /. NAV TOP  -->
 
@@ -128,14 +141,18 @@
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-pencil-square"></span></a>
 							<ul class="dropdown-menu forAnimate" role="menu">
-								<li><a
-									href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
-								<li><a
-									href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
-
-								<li><a
-									href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
-
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('STUDENT')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
+								</sec:authorize>
+								<sec:authorize access="hasRole('INSTRUCTOR')">
+									<li><a
+										href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
+								</sec:authorize>
 								<sec:authorize access="hasRole('STUDENT')">
 									<li><a
 										href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}

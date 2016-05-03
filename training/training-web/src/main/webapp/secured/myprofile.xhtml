@@ -113,9 +113,9 @@
 						<h4>#{out.profilechangedata}</h4>
 						<h:form>
 							<h:panelGrid columns="2" cellpadding="5">
-								<p:outputLabel value="New e-mail: "></p:outputLabel>
+								<p:outputLabel value="#{out.newemail}: "></p:outputLabel>
 								<p:inputText value="#{profileBean.email}"></p:inputText>
-								<p:commandButton value="Submit"
+								<p:commandButton value="#{out.submit}"
 									actionListener="#{profileBean.changeData}" />
 							</h:panelGrid>
 						</h:form>
@@ -129,7 +129,7 @@
 							<p:fileUpload value="#{fileUploadView.file}" mode="simple"
 								skinSimple="true" />
 
-							<p:commandButton value="Submit" ajax="false"
+							<p:commandButton value="#{out.submit}" ajax="false"
 								actionListener="#{fileUploadView.upload}" />
 						</h:form>
 					</div>
