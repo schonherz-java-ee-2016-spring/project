@@ -107,7 +107,7 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
 				FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml");
+						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
 
 			} catch (Exception e) {
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "");

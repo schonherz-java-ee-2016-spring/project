@@ -58,8 +58,8 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 			else
 				questionVo.setText(questionTitleInputText);
 			getQuestionService().modifyText(questionVo);
-			FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-					.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml");
+			FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(
+					FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
