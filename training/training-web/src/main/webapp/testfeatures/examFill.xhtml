@@ -11,9 +11,11 @@
 		<sec:authorize access="hasRole('STUDENT')">
 			<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
 
-			<p:panel id="panelId"
-				header="#{examFillBean.questionList.get(examFillBean.counter).text}"
-				style="text-align: center;">
+			<p:panel id="panelId" style="text-align: center;">
+
+				<h:outputText
+					value="#{examFillBean.questionList.get(examFillBean.counter).text}"
+					escape="false" />
 
 				<!-- 					Single question's form -->
 

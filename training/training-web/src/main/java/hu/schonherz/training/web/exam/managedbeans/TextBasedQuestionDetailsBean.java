@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
@@ -22,6 +23,10 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 	private String questionText;
 
 	private String questionNoteText;
+
+	public void saveQuestion() {
+		setQuestionText(questionText);
+	}
 
 	public String getQuestionIdAsString() {
 		return questionIdAsString;
@@ -53,6 +58,8 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 			else
 				questionVo.setText(questionTitleInputText);
 			getQuestionService().modifyText(questionVo);
+			FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
+					.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

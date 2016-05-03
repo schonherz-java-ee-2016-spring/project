@@ -10,12 +10,15 @@
 	<ui:define name="content">
 		<p:growl id="message" />
 
-		<h:form id="questionTitleRename">
+		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<p:inplace editor="true">
-				<p:inputTextarea cols="100" rows="3"
-					value="#{textbasedQuestionDetailsBean.questionText}" />
-			</p:inplace>
+			<p:editor id="editor" widgetVar="editorWidget"
+				value="#{textbasedQuestionDetailsBean.questionText}" width="600" />
+
+			<h:panelGrid columns="2" style="margin-top: 10px">
+				<p:commandButton value="Save name" update="message"
+					action="#{textbasedQuestionDetailsBean.saveQuestion}" />
+			</h:panelGrid>
 		</h:form>
 
 		<h:form id="questionNoteRename">

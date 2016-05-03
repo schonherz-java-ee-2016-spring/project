@@ -12,10 +12,13 @@
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<p:inplace editor="true">
-				<p:inputTextarea cols="100" rows="3"
-					value="#{singleQuestionDetailsBean.questionText}" />
-			</p:inplace>
+			<p:editor id="editor" widgetVar="editorWidget"
+				value="#{singleQuestionDetailsBean.questionText}" width="600" />
+
+			<h:panelGrid columns="2" style="margin-top: 10px">
+				<p:commandButton value="Save name" update="message"
+					action="#{singleQuestionDetailsBean.tryToSaveQuestion}" />
+			</h:panelGrid>
 		</h:form>
 
 		<h:form id="questionNoteForm">
