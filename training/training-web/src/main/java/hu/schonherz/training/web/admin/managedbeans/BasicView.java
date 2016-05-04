@@ -18,29 +18,30 @@ public class BasicView implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private TreeNode roots;
+	private TreeNode root;
           
-    @ManagedProperty("#{themesService}")
-    private themesService service;
+    @ManagedProperty(value="#{themesService}")
+    private ThemeServiceBean service;
+    
      
     @PostConstruct
     public void init() {
-    	roots = service.createThemes();
+    	root = service.createThemes();
     }
 
-	public TreeNode getRoots() {
-		return roots;
+	public TreeNode getRoot() {
+		return root;
 	}
 
-	public void setRoots(TreeNode roots) {
-		this.roots = roots;
+	public void setRoots(TreeNode root) {
+		this.root = root;
 	}
 
-	public themesService getService() {
+	public ThemeServiceBean getService() {
 		return service;
 	}
 
-	public void setService(themesService service) {
+	public void setService(ThemeServiceBean service) {
 		this.service = service;
 	}
  

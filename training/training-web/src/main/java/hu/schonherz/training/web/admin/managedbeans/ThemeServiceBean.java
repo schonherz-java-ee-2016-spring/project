@@ -14,25 +14,38 @@ import hu.schonherz.training.service.admin.vo.ThemeVo;
  
 @ManagedBean(name = "themesService")
 @ApplicationScoped
-public class themesService {
+public class ThemeServiceBean {
 	
 	@EJB
 	private ThemeService themeService;
 	
-	List<ThemeVo> maintypes = themeService.getThemesByType("main");
-	List<ThemeVo> itemtypes = themeService.getThemesByType("item");
+	//List<ThemeVo> maintypes = themeService.getThemesByType("main");
+	//List<ThemeVo> itemtypes = themeService.getThemesByType("item");
    	//List<TreeNode> roots = null;
 	//List<TreeNode> mains = null;
      
 	
-	
     public TreeNode createThemes() {
-    	System.out.println("ASDASD");
-    	System.out.println("ASDASD");
-    	System.out.println("ASDASD");
-    	   	TreeNode roots = null;
-    			roots = new DefaultTreeNode(.,null);
-    			TreeNode item1 = new DefaultTreeNode(itemtypes.get(0), roots);
+    	List<ThemeVo> maintypes = themeService.getThemesByType("main");
+    	List<ThemeVo> itemtypes = themeService.getThemesByType("item");
+       	List<TreeNode> mains = null;
+    	List<TreeNode> items = null;
+    	ThemeVo rootVo = new ThemeVo();
+    	TreeNode root = new DefaultTreeNode(rootVo,null);
+    	for (ThemeVo main : maintypes) {
+			TreeNode node = new DefaultTreeNode(main, root);
+			for (ThemeVo item : itemtypes) {
+				if(item.getThemeCode().equals(main.getThemeCode())){
+					TreeNode itemNode = new DefaultTreeNode(item, node);
+				}
+			}
+		}
+
+
+//    	TreeNode item1 = new DefaultTreeNode(maintypes.get(0), root);
+//    	TreeNode item2 = new DefaultTreeNode(itemtypes.get(0),item1);
+//    	TreeNode item3 = new DefaultTreeNode(itemtypes.get(1),item1);
+//    	TreeNode item4 = new DefaultTreeNode(itemtypes.get(2),item1);
    
 
     	        
@@ -63,9 +76,8 @@ public class themesService {
 //        TreeNode goodfellas = new DefaultTreeNode("mp3", new Document("Goodfellas", "23 GB", "Movie File"), deniro);
 //        TreeNode untouchables = new DefaultTreeNode("mp3", new Document("Untouchables", "17 GB", "Movie File"), deniro);
          
-        return roots;
+        return root;
     }
-
 
 
 	public ThemeService getThemeService() {
@@ -77,30 +89,5 @@ public class themesService {
 	public void setThemeService(ThemeService themeService) {
 		this.themeService = themeService;
 	}
-
-
-
-	public List<ThemeVo> getMaintypes() {
-		return maintypes;
-	}
-
-
-
-	public void setMaintypes(List<ThemeVo> maintypes) {
-		this.maintypes = maintypes;
-	}
-
-
-
-	public List<ThemeVo> getItemtypes() {
-		return itemtypes;
-	}
-
-
-
-	public void setItemtypes(List<ThemeVo> itemtypes) {
-		this.itemtypes = itemtypes;
-	}
-
 
 }
