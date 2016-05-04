@@ -17,4 +17,8 @@ public interface ThemeService {
 	List<ThemeVo> getThemesByType( String type );
 	
 	ThemeVo getThemeByThemeCode( String themeCode );
+
+	List<ThemeVo> getAllParentTheme();
+
+	public List<ThemeVo> getThemesByThemeCode(String string);
 }

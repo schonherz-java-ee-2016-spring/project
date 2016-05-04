@@ -1,5 +1,6 @@
 package hu.schonherz.training.core.admin.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -9,6 +10,7 @@ public class Theme extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(nullable = false, unique = true)
 	private String name;
 	private String type;
 	//Ez "köti" majd össze a fő témát és az altémákat a hierarchia miatt.
