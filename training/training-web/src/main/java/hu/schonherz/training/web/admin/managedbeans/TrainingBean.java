@@ -80,22 +80,29 @@ public class TrainingBean implements Serializable {
 		child.add(t1);
 		child2.add(t2);
 
-		List<ThemeVo> tvos = themeService.findAllTheme();
+		List<ThemeVo> tvos = themeService.getAllParentTheme();
 		List<ThemeVo> selectedThemes = trainingService.getTrainingById(selected.getId()).getThemes();
-
 		for (ThemeVo themeVo : tvos) {
+			TreeNode tp = new DefaultTreeNode(themeVo.getName());
+			List<TreeNode> tchild = new ArrayList<TreeNode>();
+			List<ThemeVo> childThemes = themeService.getThemesByThemeCode(themeVo.getId().toString());
+			for (ThemeVo themeVo2 : childThemes) {
+				tchild.add(new DefaultTreeNode(themeVo2.getName()));
+			}
+			((DefaultTreeNode) tp).setChildren(tchild);
 			int o = 0;
 			for (ThemeVo themeVo2 : selectedThemes) {
 				if (themeVo.getId().equals(themeVo2.getId())) {
 					child.remove(t1);
-					child.add(new DefaultTreeNode(themeVo.getName()));
+					child.add(tp);
 					o = 1;
 					break;
 				}
 			}
+
 			if (o == 0) {
 				child2.remove(t2);
-				child2.add(new DefaultTreeNode(themeVo.getName()));
+				child2.add(tp);
 			}
 		}
 		((DefaultTreeNode) root1).setChildren(child);
