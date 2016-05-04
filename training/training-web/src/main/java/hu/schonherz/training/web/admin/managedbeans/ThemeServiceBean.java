@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -38,7 +37,7 @@ public class ThemeServiceBean {
 
 	@PostConstruct
 	public void init() {
-		setRoot(createThemes());
+		root = createThemes();
 		mainSelected = true;
 		disabled = true;
 	}
@@ -75,7 +74,11 @@ public class ThemeServiceBean {
 			ThemeVo testVo = (ThemeVo) selectedNode.getData();
 			if (testVo.getType().equals("main")) {
 				newTheme.setType("item");
+				newTheme.setHours(hours);
 				newTheme.setThemeCode(testVo.getThemeCode());
+			}else {
+				newTheme.setType("main");
+				newTheme.setThemeCode(Integer.toString(code++));
 			}
 		} else {
 			newTheme.setType("main");
@@ -85,6 +88,7 @@ public class ThemeServiceBean {
 		root = createThemes();
 		name = null;
 		description = null;
+		hours = null;
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
 		currentInstance.addMessage(null, msgs);
 	}
@@ -94,9 +98,8 @@ public class ThemeServiceBean {
 		ThemeVo testVo = (ThemeVo) selectedNode.getData();
 		if(testVo.getType().equals("main"))
 			mainSelected = false;
-		
-		if (selectedNode.getType().equals("main"))
-			mainSelected = false;
+		else
+			mainSelected = true;
 	}
 
 	public ThemeService getThemeService() {

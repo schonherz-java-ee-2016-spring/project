@@ -34,29 +34,30 @@
 						value="Create Theme" icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"></p:commandButton>
-					<p:commandButton type="button" onclick="PF('createDialog').show();"
-						value="Create item Theme" icon="ui-icon-plusthick"
+					<p:commandButton type="button"
+						onclick="PF('createItemDialog').show();" value="Create item Theme"
+						icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"
 						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
-					<p:commandButton type="button" onclick="PF('createDialog').show();"
-						value="delete Theme" icon="ui-icon-plusthick"
-						update=":treeTableForm:treeTable, treeTableForm"
-						oncomplete="PF('createDialog').hide()"
-						disabled="#{themeServiceBean.disabled}" id="deleteButton"></p:commandButton>
-					<p:commandButton type="button" onclick="PF('createDialog').show();"
-						value="edit Theme" icon="ui-icon-plusthick"
-						update=":treeTableForm:treeTable, treeTableForm"
-						oncomplete="PF('createDialog').hide()"
-						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton>
+<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
+<!-- 						value="delete Theme" icon="ui-icon-plusthick" -->
+<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
+<!-- 						oncomplete="PF('createDialog').hide()" -->
+<!-- 						disabled="#{themeServiceBean.disabled}" id="deleteButton"></p:commandButton> -->
+<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
+<!-- 						value="edit Theme" icon="ui-icon-plusthick" -->
+<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
+<!-- 						oncomplete="PF('createDialog').hide()" -->
+<!-- 						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton> -->
 				</f:facet>
 				<p:ajax process="treeTable" event="select"
-					update="growl,deleteButton,editButton,createItem"
+					update="growl,createItem"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
 
-		<h:form styleClass="form-horizontal" id="form">
+		<h:form styleClass="form-horizontal" id="themeForm">
 			<p:dialog header="Create Theme" widgetVar="createDialog"
 				dynamic="true" resizable="false" responsive="true">
 				<p:panel id="panel2">
@@ -82,9 +83,48 @@
 						</div>
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
-						update="growl,:treeTableForm:treeTable,treeTableForm,form"
+						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
 						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
 						oncomplete="PF('createDialog').hide();" />
+				</p:panel>
+			</p:dialog>
+			<p:dialog header="Create Theme" widgetVar="createItemDialog"
+				dynamic="true" resizable="false" responsive="true">
+				<p:panel id="panel3">
+					<p:messages id="msgs2" showDetail="true" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="themename" class="col-sm-4">themename</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="themename2"
+									value="#{themeServiceBean.name}" required="true"
+									label="themename">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">Description</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="description2"
+									value="#{themeServiceBean.description}" required="true"
+									label="description">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">Hours</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="hours2"
+									value="#{themeServiceBean.hours}" required="true"
+									label="hours">
+								</p:inputText>
+							</div>
+						</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}"
+						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
+						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
+						oncomplete="PF('createItemDialog').hide();" />
 				</p:panel>
 			</p:dialog>
 		</h:form>
