@@ -8,7 +8,9 @@
 
 	<ui:define name="content">
 		<h:form id="treeTableForm">
-			<p:treeTable value="#{themeServiceBean.root}" var="theme" id="treeTable">
+			<p:treeTable value="#{themeServiceBean.root}" var="theme"
+				id="treeTable" selectionMode="single"
+				selection="#{themeServiceBean.selectedNode}">
 				<f:facet name="header">
             Theme viewer
         </f:facet>
@@ -28,21 +30,35 @@
 					<h:outputText value="#{theme.themeCode}" />
 				</p:column>
 				<f:facet name="footer">
-					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('createDialog').show();"
 						value="Create Theme" icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"></p:commandButton>
-					<!-- 					form reset -->
+					<p:commandButton type="button" onclick="PF('createDialog').show();"
+						value="Create item Theme" icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"
+						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
+					<p:commandButton type="button" onclick="PF('createDialog').show();"
+						value="delete Theme" icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"
+						disabled="#{themeServiceBean.disabled}" id="deleteButton"></p:commandButton>
+					<p:commandButton type="button" onclick="PF('createDialog').show();"
+						value="edit Theme" icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"
+						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton>
 				</f:facet>
+				<p:ajax process="treeTable" event="select"
+					update="growl,deleteButton,editButton,createItem"
+					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
-
-
 		</h:form>
 
 		<h:form styleClass="form-horizontal" id="form">
-			<p:dialog header="Create Theme" widgetVar="createDialog" dynamic="true"
-				resizable="false" responsive="true">
+			<p:dialog header="Create Theme" widgetVar="createDialog"
+				dynamic="true" resizable="false" responsive="true">
 				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
@@ -51,7 +67,7 @@
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="themename"
 									value="#{themeServiceBean.name}" required="true"
-									 label="themename">
+									label="themename">
 								</p:inputText>
 							</div>
 						</div>
@@ -59,7 +75,7 @@
 							<label for="description" class="col-sm-4">Description</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="description"
-									value="#{themeServiceBean.description}" required="true" 
+									value="#{themeServiceBean.description}" required="true"
 									label="description">
 								</p:inputText>
 							</div>

@@ -9,6 +9,8 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -21,33 +23,39 @@ public class ThemeServiceBean {
 
 	@EJB
 	private ThemeService themeService;
-	
+
 	private String name;
 	private String type;
 	private String themeCode;
 	private String description;
 	private Integer hours;
 	private Integer code = 0;
+	private boolean disabled;
+	private boolean mainSelected;
 
 	private TreeNode root;
-	
-    @PostConstruct
-    public void init() {
-    	setRoot(createThemes());
-    }
-	
+	private TreeNode selectedNode;
+
+	@PostConstruct
+	public void init() {
+		setRoot(createThemes());
+		mainSelected = true;
+		disabled = true;
+	}
+
 	public TreeNode createThemes() {
-		//get all the "main" themes
+		// get all the "main" themes
 		List<ThemeVo> maintypes = themeService.getThemesByType("main");
-		//get all the "item" themes
+		// get all the "item" themes
 		List<ThemeVo> itemtypes = themeService.getThemesByType("item");
-		//rootVo for the root TreeNode - this will not show anything
+		// rootVo for the root TreeNode - this will not show anything
 		ThemeVo rootVo = new ThemeVo();
 		TreeNode root = new DefaultTreeNode(rootVo, null);
-		//adding all the main types for the node TreeNode
+		// adding all the main types for the node TreeNode
 		for (ThemeVo main : maintypes) {
 			TreeNode node = new DefaultTreeNode(main, root);
-			//where themeCode is equals - creates a TreeNode item for the main TreeNode
+			// where themeCode is equals - creates a TreeNode item for the main
+			// TreeNode
 			for (ThemeVo item : itemtypes) {
 				if (item.getThemeCode().equals(main.getThemeCode())) {
 					TreeNode itemNode = new DefaultTreeNode(item, node);
@@ -57,21 +65,38 @@ public class ThemeServiceBean {
 
 		return root;
 	}
-	
-	public void createMainTheme(){
+
+	public void createMainTheme() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		ThemeVo newTheme = new ThemeVo();
 		newTheme.setName(name);
 		newTheme.setDescription(description);
-		newTheme.setType("main");
-		System.out.println(code);
-		newTheme.setThemeCode(Integer.toString(code++));
-		System.out.println(code);
+		if (selectedNode != null) {
+			ThemeVo testVo = (ThemeVo) selectedNode.getData();
+			if (testVo.getType().equals("main")) {
+				newTheme.setType("item");
+				newTheme.setThemeCode(testVo.getThemeCode());
+			}
+		} else {
+			newTheme.setType("main");
+			newTheme.setThemeCode(Integer.toString(code++));
+		}
 		themeService.createTheme(newTheme);
-		setRoot(createThemes());
+		root = createThemes();
+		name = null;
+		description = null;
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
 		currentInstance.addMessage(null, msgs);
+	}
+
+	public void onRowSelect(NodeSelectEvent event) {
+		disabled = false;
+		ThemeVo testVo = (ThemeVo) selectedNode.getData();
+		if(testVo.getType().equals("main"))
+			mainSelected = false;
 		
+		if (selectedNode.getType().equals("main"))
+			mainSelected = false;
 	}
 
 	public ThemeService getThemeService() {
@@ -136,6 +161,30 @@ public class ThemeServiceBean {
 
 	public void setRoot(TreeNode root) {
 		this.root = root;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public boolean isMainSelected() {
+		return mainSelected;
+	}
+
+	public void setMainSelected(boolean mainSelected) {
+		this.mainSelected = mainSelected;
+	}
+
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
 	}
 
 }
