@@ -29,23 +29,26 @@
 													<span>#{lesson.lessonName}</span>
 												</div></th>
 										</ui:repeat>
-										<th class="rotate">#{out.sum}</th>
+										<th class="rotate"><div>
+												<span>#{out.sum}</span>
+											</div></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td class="row-header">#{out.exams}</td>
 										<ui:repeat var="examResult" value="#{userResult.examResults}">
- 											<td>#{examResult.score}</td>
- 										</ui:repeat>
- 										<td class="row-header">#{userResult.examSum}</td>
+											<td>#{examResult.score}</td>
+										</ui:repeat>
+										<td class="row-header">#{userResult.examSum}</td>
 									</tr>
 									<tr>
 										<td class="row-header">#{out.homeworks}</td>
-										<ui:repeat var="homeworkResult" value="#{userResult.homeworkResults}">
- 											<td>#{homeworkResult.score}</td>
- 										</ui:repeat>
- 										<td class="row-header">#{userResult.homeworkSum}</td>
+										<ui:repeat var="homeworkResult"
+											value="#{userResult.homeworkResults}">
+											<td>#{homeworkResult.score}</td>
+										</ui:repeat>
+										<td class="row-header">#{userResult.homeworkSum}</td>
 									</tr>
 								</tbody>
 							</table>
