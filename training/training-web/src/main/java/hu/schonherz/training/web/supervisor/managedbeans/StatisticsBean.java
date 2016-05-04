@@ -3,10 +3,13 @@ package hu.schonherz.training.web.supervisor.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,7 +35,7 @@ import hu.schonherz.training.service.supervisor.vo.LessonVo;
 import hu.schonherz.training.web.supervisor.accessories.Course;
 import hu.schonherz.training.web.supervisor.accessories.UserResults;
 
-@ManagedBean(name = "statisticsBean", eager = true)
+@ManagedBean(name = "statisticsBean")
 @ViewScoped
 public class StatisticsBean implements Serializable {
 
@@ -50,95 +53,147 @@ public class StatisticsBean implements Serializable {
 
 	private Long trainingId;
 
-	private int maxExam;
 	private int maxHomework;
 	
 	private Course training;
 
 	private Map<String, Long> trainingList;
+//
+//	private LineChartModel examModel;
+//	private LineChartModel homeworkModel;
 
-	private LineChartModel examModel;
-	private LineChartModel homeworkModel;
-
+	
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
 			training = courses.stream().filter(a -> {
 				return a.getUserGroup().getId() == trainingId;
 			}).findFirst().get();
-			createLineModel();
 		}
 	}
+	
+	
+	public String testDataForChart(){
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("[");
+		stringBuilder.append("['student'");
+		
+		
 
-	private LineChartModel initExamModel() {
-		LineChartModel model = new LineChartModel();
-
-		int size = training.getUserResults().size();
-
-		LineChartSeries series[] = new LineChartSeries[size];
-		for (int i = 0; i < size; ++i) {
-			series[i] = new LineChartSeries();
-			series[i].setLabel(training.getUserResults().get(i).getUser().getFullName());
-
+		for(UserResults userResults: training.getUserResults()){
+			stringBuilder.append(", '");
+			stringBuilder.append(userResults.getUser().getFullName());
+			stringBuilder.append("'");
 			
-			List<ExamResultVo> examResultVos = training.getUserResults().get(i).getExamResults();
-
-			for (ExamResultVo examResultVo : examResultVos) {
-				series[i].set(examResultVo.getExam().getTitle(), examResultVo.getScore());
-				if(examResultVo.getScore() > maxExam){
-					maxExam = examResultVo.getScore();
-				}
-			}
-			
-			model.addSeries(series[i]);
-
 		}
-		return model;
-	}
-	private LineChartModel initHomeworkModel() {
-		LineChartModel model = new LineChartModel();
-
-		int size = training.getUserResults().size();
-
-		LineChartSeries series[] = new LineChartSeries[size];
-		for (int i = 0; i < size; ++i) {
-
-			series[i] = new LineChartSeries();
-			series[i].setLabel(training.getUserResults().get(i).getUser().getFullName());
-
+		stringBuilder.append("]");
+		
+		List<LessonVo> lessonVos = training.getLessons();
+		for(int i = 0; i < lessonVos.size(); ++i){
+			stringBuilder.append(", ['");
+			stringBuilder.append(lessonVos.get(i).getLessonName());
+			stringBuilder.append("'");
 			
-			List<HomeworkResultVo> homeworkResultVos = training.getUserResults().get(i).getHomeworkResults();
-
-			for (HomeworkResultVo homeworkResultVo : homeworkResultVos) {
-				series[i].set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
-				if(homeworkResultVo.getScore() > maxHomework)
-					maxHomework = homeworkResultVo.getScore();
-			}
-			
-			model.addSeries(series[i]);
-
-		}
-		return model;
-	}
-	private void createLineModel() {
-		maxExam = 0;
-		examModel = initExamModel();
-		examModel.setTitle("");
-		examModel.setLegendPosition("e");
-		examModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-		Axis yAxis = examModel.getAxis(AxisType.Y);
-		yAxis.setMin(0);
-		yAxis.setMax(maxExam);
+			for(UserResults userResults:training.getUserResults()){
 				
-		maxHomework = 0;
-		homeworkModel = initHomeworkModel();
-		homeworkModel.setTitle("");
-		homeworkModel.setLegendPosition("e");
-		homeworkModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
-		yAxis = homeworkModel.getAxis(AxisType.Y);
-		yAxis.setMin(0);
-		yAxis.setMax(maxHomework);
-
+				Integer score = userResults.getExamResults().get(i).getScore();
+				if(score != null){
+					stringBuilder.append(", ");
+					stringBuilder.append(score);
+					
+				}
+				
+				
+			}
+			
+			stringBuilder.append("]");
+		}
+		
+		stringBuilder.append("]");
+		return stringBuilder.toString();
 	}
+	
+	
+	
+	
+//	public void onTrainingIdChange() {
+//		if (trainingId != null) {
+//			training = courses.stream().filter(a -> {
+//				return a.getUserGroup().getId() == trainingId;
+//			}).findFirst().get();
+//			createLineModel();
+//		}
+//	}
+//
+//	private LineChartModel initExamModel() {
+//		LineChartModel model = new LineChartModel();
+//
+//		int size = training.getUserResults().size();
+//
+//		LineChartSeries series[] = new LineChartSeries[size];
+//		for (int i = 0; i < size; ++i) {
+//			series[i] = new LineChartSeries();
+//			series[i].setLabel(training.getUserResults().get(i).getUser().getFullName());
+//
+//			
+//			List<ExamResultVo> examResultVos = training.getUserResults().get(i).getExamResults();
+//			int k = 0;
+//			for (ExamResultVo examResultVo : examResultVos) {
+//				series[i].set(k/*examResultVo.getExam().getTitle()*/, examResultVo.getScore());
+//				++k;
+//			}
+//			
+//			model.addSeries(series[i]);
+//
+//		}
+//		return model;
+//	}
+//	private LineChartModel initHomeworkModel() {
+//		LineChartModel model = new LineChartModel();
+//
+//		int size = training.getUserResults().size();
+//
+//		LineChartSeries series[] = new LineChartSeries[size];
+//		for (int i = 0; i < size; ++i) {
+//
+//			series[i] = new LineChartSeries();
+//			series[i].setLabel(training.getUserResults().get(i).getUser().getFullName());
+//
+//			
+//			List<HomeworkResultVo> homeworkResultVos = training.getUserResults().get(i).getHomeworkResults();
+//
+//			for (HomeworkResultVo homeworkResultVo : homeworkResultVos) {
+//				series[i].set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
+//				if(homeworkResultVo.getScore() > maxHomework)
+//					maxHomework = homeworkResultVo.getScore();
+//			}
+//			
+//			model.addSeries(series[i]);
+//
+//		}
+//		return model;
+//	}
+//	private void createLineModel() {
+//		examModel = initExamModel();
+//		examModel.setTitle("");
+//		examModel.setLegendPosition("e");
+//		examModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+//		examModel.setMouseoverHighlight(true);
+//		Axis xAxis = examModel.getAxis(AxisType.X);
+//		examModel.setZoom(true);
+//		
+//		xAxis.setTickAngle(-45);
+//		xAxis.setTickFormat("");
+//		Axis yAxis = examModel.getAxis(AxisType.Y);
+//		yAxis.setMin(0);
+//		maxHomework = 0;
+//		homeworkModel = initHomeworkModel();
+//		homeworkModel.setTitle("");
+//		homeworkModel.setLegendPosition("e");
+//		homeworkModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+//		yAxis = homeworkModel.getAxis(AxisType.Y);
+//		yAxis.setMin(0);
+//
+//	}
 
 	@PostConstruct
 	public void init() {
@@ -267,13 +322,13 @@ public class StatisticsBean implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-
-	public LineChartModel getExamModel() {
-		return examModel;
-	}
-
-	public LineChartModel getHomeworkModel() {
-		return homeworkModel;
-	}
+//
+//	public LineChartModel getExamModel() {
+//		return examModel;
+//	}
+//
+//	public LineChartModel getHomeworkModel() {
+//		return homeworkModel;
+//	}
 
 }
