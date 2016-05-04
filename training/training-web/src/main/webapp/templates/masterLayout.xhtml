@@ -55,12 +55,12 @@
 				<div class="header-right">
 					<ul class="nav navbar-nav navbar-right">
 						<li>
-							<p:commandLink id="lang_hu" update="growl" actionListener="#{languageBean.setToHun}" ajax="false">
+							<p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}" disabled="#{languageBean.disabledHU}">
 		        				<h:outputText value="Magyar" />
 		    				</p:commandLink>
 	    				</li>
 						<li>
-							<p:commandLink id="lang_en" update="growl" actionListener="#{languageBean.setToEn}" ajax="false">
+							<p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}" disabled="#{languageBean.disabledEN}">
 		        				<h:outputText value="English" />
 		    				</p:commandLink>
 	    				</li>
