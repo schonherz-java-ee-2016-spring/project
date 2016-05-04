@@ -2,7 +2,9 @@ package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,7 +16,6 @@ import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
-import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 
@@ -43,51 +44,21 @@ public class WriteStudentFeedback implements Serializable {
 	private UserVo loggedInUser = new UserVo();
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	private List<EventVo> events = new ArrayList<>();
-	private List<UserVo> users = new ArrayList<>();
+	private Set<UserVo> users = new HashSet<>();
 	
 	@PostConstruct
 	public void init() {
-		boolean isOk;
 		try {
 			loggedInUser = userService.findUserByName(username);
 			events = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
 			List<UserVo> usersToInspect = new ArrayList<>();
-			List<RoleGroupVo> roleGroupsToInspect = new ArrayList<>();
 			for (EventVo event : events) {
 				usersToInspect.addAll(event.getUsers());
-				for (UserVo user : usersToInspect) {
-					isOk = true;
-					for (UserVo usr : users) {
-						if (usr.getId() == user.getId()) {
-							isOk = false;
-						}
-					}
-					roleGroupsToInspect.addAll(user.getRoleGroups());
-					for (RoleGroupVo roleGroup : roleGroupsToInspect) {
-						if (!(roleGroup.getName().contentEquals("Instructor Role Group")) && isOk) {
-							isOk = true;
-						} else if (roleGroup.getName().contentEquals("Instructor Role Group")) {
-							isOk = true;
-						} else {
-							isOk = false;
-						}
-					}
-					if (isOk) {
-						users.add(user);
-					}
-				}
-				
 			}
+			users.addAll(usersToInspect);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * 
-	 */
-	public WriteStudentFeedback() {
-		
 	}
 
 	/**
@@ -121,16 +92,15 @@ public class WriteStudentFeedback implements Serializable {
 	/**
 	 * @return the users
 	 */
-	public List<UserVo> getUsers() {
+	public Set<UserVo> getUsers() {
 		return users;
 	}
 
 	/**
 	 * @param users the users to set
 	 */
-	public void setUsers(List<UserVo> users) {
+	public void setUsers(Set<UserVo> users) {
 		this.users = users;
 	}
 
-	
 }
