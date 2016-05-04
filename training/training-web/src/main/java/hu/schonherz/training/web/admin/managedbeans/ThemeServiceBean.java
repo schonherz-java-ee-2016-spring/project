@@ -93,6 +93,10 @@ public class ThemeServiceBean {
 		currentInstance.addMessage(null, msgs);
 	}
 
+	public void deleteTheme(){
+
+	}
+	
 	public void onRowSelect(NodeSelectEvent event) {
 		disabled = false;
 		ThemeVo testVo = (ThemeVo) selectedNode.getData();

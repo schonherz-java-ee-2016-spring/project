@@ -40,19 +40,25 @@
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"
 						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
-<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
-<!-- 						value="delete Theme" icon="ui-icon-plusthick" -->
-<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
-<!-- 						oncomplete="PF('createDialog').hide()" -->
-<!-- 						disabled="#{themeServiceBean.disabled}" id="deleteButton"></p:commandButton> -->
-<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
-<!-- 						value="edit Theme" icon="ui-icon-plusthick" -->
-<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
-<!-- 						oncomplete="PF('createDialog').hide()" -->
-<!-- 						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton> -->
+					<p:commandButton id="deleteButton" process="treeTable"
+						update=":treeTableForm:treeTable, treeTableForm" icon="ui-icon-trash"
+						value="#{out.delete}" disabled="#{(themeServiceBean.selectedNode)}"
+						action="#{themeServiceBean.deleteTheme}" >
+						<p:confirm header="#{out.confirmation}"
+							message="#{out.sureDelete}?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
+					<!-- 						value="delete Theme" icon="ui-icon-plusthick" -->
+					<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
+					<!-- 						oncomplete="PF('createDialog').hide()" -->
+					<!-- 						disabled="#{themeServiceBean.disabled}" id="deleteButton"></p:commandButton> -->
+					<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
+					<!-- 						value="edit Theme" icon="ui-icon-plusthick" -->
+					<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
+					<!-- 						oncomplete="PF('createDialog').hide()" -->
+					<!-- 						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton> -->
 				</f:facet>
-				<p:ajax process="treeTable" event="select"
-					update="growl,createItem"
+				<p:ajax process="treeTable" event="select" update="growl,createItem"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
@@ -115,8 +121,7 @@
 							<label for="description" class="col-sm-4">Hours</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="hours2"
-									value="#{themeServiceBean.hours}" required="true"
-									label="hours">
+									value="#{themeServiceBean.hours}" required="true" label="hours">
 								</p:inputText>
 							</div>
 						</div>
