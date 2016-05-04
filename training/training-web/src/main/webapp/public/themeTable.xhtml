@@ -7,21 +7,71 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="content">
-		<h:form id="form">
-    <p:treeTable value="#{ttBasicView.root}" var="theme">
-        <f:facet name="header">
-            Document Viewer
+		<h:form id="treeTableForm">
+			<p:treeTable value="#{themeServiceBean.root}" var="theme" id="treeTable">
+				<f:facet name="header">
+            Theme viewer
         </f:facet>
-        <p:column headerText="Name">
-            <h:outputText value="#{theme.name}" />
-        </p:column>
-        <p:column headerText="Type">
-            <h:outputText value="#{theme.type}" />
-        </p:column>
-    </p:treeTable>
+				<p:column headerText="Name">
+					<h:outputText value="#{theme.name}" />
+				</p:column>
+				<p:column headerText="Time">
+					<h:outputText value="#{theme.hours}" />
+				</p:column>
+				<p:column headerText="Description">
+					<h:outputText value="#{theme.description}" />
+				</p:column>
+				<p:column headerText="Type">
+					<h:outputText value="#{theme.type}" />
+				</p:column>
+				<p:column headerText="Theme Code">
+					<h:outputText value="#{theme.themeCode}" />
+				</p:column>
+				<f:facet name="footer">
+					<!-- 				A felhasználó létrehozás dialog gombja -->
+					<p:commandButton type="button" onclick="PF('createDialog').show();"
+						value="Create Theme" icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"></p:commandButton>
+					<!-- 					form reset -->
+				</f:facet>
+			</p:treeTable>
 
- 
-</h:form>
+
+		</h:form>
+
+		<h:form styleClass="form-horizontal" id="form">
+			<p:dialog header="Create Theme" widgetVar="createDialog" dynamic="true"
+				resizable="false" responsive="true">
+				<p:panel id="panel2">
+					<p:messages id="msgs" showDetail="true" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="themename" class="col-sm-4">themename</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="themename"
+									value="#{themeServiceBean.name}" required="true"
+									 label="themename">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">Description</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="description"
+									value="#{themeServiceBean.description}" required="true" 
+									label="description">
+								</p:inputText>
+							</div>
+						</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}"
+						update="growl,:treeTableForm:treeTable,treeTableForm,form"
+						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
+						oncomplete="PF('createDialog').hide();" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
 
 	</ui:define>
 </ui:composition>
