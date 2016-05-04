@@ -120,7 +120,10 @@
 				<p:ajax event="rowSelect" 
 				listener="#{eventsBean.onRowSelect}" 
 				update="growl,editButton,deleteButton,manageUsers,manageUserGroups,:pickUserForm:pickUserList,:pickUserGroupForm:pickUserGroupList" />
-				
+				<p:ajax process="eventstable" event="rowDblselect"
+					update="growl,editButton,deleteButton,manageUsers,manageUserGroups,:pickUserForm:pickUserList,:pickUserGroupForm:pickUserGroupList"
+					listener="#{eventsBean.onRowSelect}"
+					oncomplete="PF('editDialog').show();" />
 			</p:dataTable>
 			</h:form>
 			

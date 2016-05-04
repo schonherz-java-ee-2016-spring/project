@@ -139,6 +139,7 @@ public class UsersBean implements Serializable {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		String uuid = (UUID.randomUUID().toString());
 		uuid = uuid.substring(0, 8);
+		
 		UserVo userVo = new UserVo();
 		userVo.setFullName(fullname);
 		userVo.setUserName(username);
@@ -159,7 +160,14 @@ public class UsersBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-
+		try {
+			users.add(userService.findUserByName(userVo.getUserName()));
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("failCreate"));
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
 				bundle.getString("succesCreate"));
 		currentInstance.addMessage(null, facesMessage);

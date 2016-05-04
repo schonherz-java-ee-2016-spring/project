@@ -152,14 +152,15 @@
 						update="panel2,growl,form,:createUserForm:dataTable"
 						action="#{usersBean.create}" icon="ui-icon-check"
 						oncomplete="PF('dlg1').hide();">
-						<p:ajax resetValues="true" />	
+<!-- 						<p:ajax resetValues="true" /> -->
+						<f:ajax execute="@form" render="@form" />
 					</p:commandButton>
 				</p:panel>
 			</p:dialog>
 		</h:form>
 
 		<!-- 			A felhasználó módosítása dialog -->
-		<h:form styleClass="form-horizontal" id="form2">
+		<h:form styleClass="form-horizontal" id="form2" >
 			<p:dialog responsive="true" showEffect="clip" widgetVar="modify_user"
 				modal="true" resizable="false">
 				<p:panel id="panel">

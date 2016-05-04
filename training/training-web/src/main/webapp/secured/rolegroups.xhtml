@@ -88,7 +88,10 @@
 				<p:ajax event="rowSelect" 
 				listener="#{roleGroupsBean.onRowSelect}" 
 				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList" />
-				
+				<p:ajax process="rolegrouptable" event="rowDblselect"
+					update="growl,editButton,deleteButton,manageRoles,:pickform:pickList"
+					listener="#{roleGroupsBean.onRowSelect}"
+					oncomplete="PF('editDialog').show();" />
 			</p:dataTable>
 			</h:form>
 			

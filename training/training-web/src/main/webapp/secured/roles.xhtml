@@ -64,6 +64,10 @@
 				</f:facet>
 				<p:ajax event="rowSelect" listener="#{RoleBean.onRowSelect}"
 					update="growl,deleteButton,editButton" />
+				<p:ajax process="roleTable" event="rowDblselect"
+					update="growl,deleteButton,editButton"
+					listener="#{RoleBean.onRowSelect}"
+					oncomplete="PF('editDialog').show();" />	
 			</p:dataTable>
 		</h:form>
 
