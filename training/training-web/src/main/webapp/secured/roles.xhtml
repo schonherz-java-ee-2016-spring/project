@@ -49,8 +49,7 @@
 											<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 						process="roleTable" disabled="#{RoleBean.disabled}"
-						value="#{out.editRole}" onclick="PF('editDialog').show();" 
-						update="growl,:roleForm:roleTable" />
+						value="#{out.editRole}" onclick="PF('editDialog').show();"  />
 
 					<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
@@ -134,6 +133,7 @@
     				}
 				</script>
 			</p:dialog>   
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

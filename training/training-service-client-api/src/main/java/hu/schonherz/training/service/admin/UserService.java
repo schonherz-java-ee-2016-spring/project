@@ -21,4 +21,6 @@ public interface UserService {
 	public void modifyUser(UserVo selectedUser) throws Exception;
 
 	public UserVo findUserById(Long id);
+	
+	public UserVo findUserByHashCode(String password);
 }

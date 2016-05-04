@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CreateContext.class, AnswerServiceTest.class, CloseContext.class })
-public class AnswerServiceSuite {
+@SuiteClasses({ CreateContext.class, QuestionServiceTest.class, CloseContext.class })
+public class QuestionServiceSuiteTest {
 
 }

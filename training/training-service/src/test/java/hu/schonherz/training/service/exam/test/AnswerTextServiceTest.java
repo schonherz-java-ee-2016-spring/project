@@ -8,7 +8,6 @@ import javax.ejb.EJB;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -16,7 +15,6 @@ import org.junit.runners.MethodSorters;
 
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.AnswerTextService;
-import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -57,48 +55,48 @@ public class AnswerTextServiceTest {
 		}
 	}
 
-	@Test
-	public void testAll() {
-		try {
-			List<AnswerVo> answerList = answerServiceLocal.getAll();
-			AnswerVo answer = answerList.get(answerList.size() - 1);
-
-			AnswerTextVo answerText = new AnswerTextVo();
-			answerText.setText("Test answer text");
-			answerText.setAnswer(answer);
-
-			// add
-			answerTextServiceLocal.add(answerText);
-
-			// getAll
-			List<AnswerTextVo> answerTextList = answerTextServiceLocal.getAll();
-			answerText = answerTextList.get(answerTextList.size() - 1);
-
-			// getById
-			answerText = answerTextServiceLocal.getById(answerText.getId());
-
-			// TESTING
-			Assert.assertEquals("Test answer text", answerText.getText());
-
-			// getByAnswerId
-			answerText = answerTextServiceLocal.getByAnswerId(answer.getId());
-
-			// TESTING
-			Assert.assertEquals("Test answer text", answerText.getText());
-
-			// removeById
-			answerTextServiceLocal.removeById(answerText.getId());
-
-			// TESTING
-			answerTextList = answerTextServiceLocal.getAll();
-			for (AnswerTextVo answerTextVo : answerTextList) {
-				Assert.assertTrue(answerTextVo.getId().longValue() != answerText.getId().longValue());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
+//	@Test
+//	public void testAll() {
+//		try {
+//			List<AnswerVo> answerList = answerServiceLocal.getAll();
+//			AnswerVo answer = answerList.get(answerList.size() - 1);
+//
+//			AnswerTextVo answerText = new AnswerTextVo();
+//			answerText.setText("Test answer text");
+//			answerText.setAnswer(answer);
+//
+//			// add
+//			answerTextServiceLocal.add(answerText);
+//
+//			// getAll
+//			List<AnswerTextVo> answerTextList = answerTextServiceLocal.getAll();
+//			answerText = answerTextList.get(answerTextList.size() - 1);
+//
+//			// getById
+//			answerText = answerTextServiceLocal.getById(answerText.getId());
+//
+//			// TESTING
+//			Assert.assertEquals("Test answer text", answerText.getText());
+//
+//			// getByAnswerId
+//			answerText = answerTextServiceLocal.getByAnswerId(answer.getId());
+//
+//			// TESTING
+//			Assert.assertEquals("Test answer text", answerText.getText());
+//
+//			// removeById
+//			answerTextServiceLocal.removeById(answerText.getId());
+//
+//			// TESTING
+//			answerTextList = answerTextServiceLocal.getAll();
+//			for (AnswerTextVo answerTextVo : answerTextList) {
+//				Assert.assertTrue(answerTextVo.getId().longValue() != answerText.getId().longValue());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			Assert.fail();
+//		}
+//	}
 
 
 	@Test(expected = Exception.class)
