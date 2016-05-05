@@ -82,7 +82,8 @@
 									process="eventstable" 
 									disabled="#{eventsBean.disabled}"
 									value="#{out.esemenyModositasa}" 
-									onclick="PF('editDialog').show();" />
+									onclick="PF('editDialog').show();" 
+									update="editEventForm"/>
 				<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 									process="eventstable"
@@ -121,7 +122,7 @@
 				listener="#{eventsBean.onRowSelect}" 
 				update="growl,editButton,deleteButton,manageUsers,manageUserGroups,:pickUserForm:pickUserList,:pickUserGroupForm:pickUserGroupList" />
 				<p:ajax process="eventstable" event="rowDblselect"
-					update="growl,editButton,deleteButton,manageUsers,manageUserGroups,:pickUserForm:pickUserList,:pickUserGroupForm:pickUserGroupList"
+					update="editEventForm"
 					listener="#{eventsBean.onRowSelect}"
 					oncomplete="PF('editDialog').show();" />
 			</p:dataTable>
@@ -200,7 +201,7 @@
 						<label for="editEventName" class="col-sm-3">#{out.esemenyNeve}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventName"
-								value="#{eventsBean.newEventName}" required="true"
+								value="#{eventsBean.selectedEvent.name}" required="true"
 								label="editEventName">
 							</p:inputText>
 						</div>
@@ -208,7 +209,7 @@
 						<label for="editEventType" class="col-sm-3">#{out.esemenyTipusa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventType"
-								value="#{eventsBean.newEventType}" required="true"
+								value="#{eventsBean.selectedEvent.type}" required="true"
 								label="editEventType">
 							</p:inputText>
 						</div>
@@ -216,7 +217,7 @@
 						<label for="editEventDescription" class="col-sm-3">#{out.esemenyLeirasa}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventDescription"
-								value="#{eventsBean.newEventDescription}" required="true"
+								value="#{eventsBean.selectedEvent.description}" required="true"
 								label="editEventDescription">
 							</p:inputText>
 						</div>
@@ -224,7 +225,7 @@
 						<label for="editEventPlace" class="col-sm-3">#{out.esemenyHelye}:</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="editEventPlace"
-								value="#{eventsBean.newEventPlace}" required="true"
+								value="#{eventsBean.selectedEvent.place}" required="true"
 								label="editEventPlace">
 							</p:inputText>
 						</div>
@@ -232,7 +233,7 @@
 						<label for="editEventDate" class="col-sm-3">#{out.esemenyIdeje}:</label>
 						<div class="col-sm-9">
 						<p:calendar id="buttonCalendar" 
-						value="#{eventsBean.newEventDate}" 
+						value="#{eventsBean.selectedEvent.date}" 
 						showOn="button" />
 <!-- 							<p:inputText styleClass="form-control" id="editEventDate" -->
 <!-- 								value="#{eventsBean.newEventDate}" required="true" -->
