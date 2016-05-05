@@ -30,32 +30,31 @@ public class WriteStudentFeedback implements Serializable {
 
 	@EJB
 	EventService eventService;
-	
+
 	@EJB
 	UserService userService;
-	
+
 	@EJB
 	FeedbackService feedbackService;
-	
+
 	@EJB
 	RoleGroupService roleGroupService;
 
-//	variables for list events related to the logged in student
+	// variables for list events related to the logged in student
 	private UserVo loggedInUser = new UserVo();
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	private List<EventVo> events = new ArrayList<>();
 	private Set<UserVo> users = new HashSet<>();
-	
+
 	@PostConstruct
 	public void init() {
 		try {
 			loggedInUser = userService.findUserByName(username);
 			events = eventService.findEventsByUserOrderedByDate(loggedInUser.getId());
-			List<UserVo> usersToInspect = new ArrayList<>();
 			for (EventVo event : events) {
-				usersToInspect.addAll(event.getUsers());
+				users.addAll(event.getUsers());
 			}
-			users.addAll(usersToInspect);
+			users.remove(loggedInUser);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -69,7 +68,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param loggedInUser the loggedInUser to set
+	 * @param loggedInUser
+	 *            the loggedInUser to set
 	 */
 	public void setLoggedInUser(UserVo loggedInUser) {
 		this.loggedInUser = loggedInUser;
@@ -83,7 +83,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param events the events to set
+	 * @param events
+	 *            the events to set
 	 */
 	public void setEvents(List<EventVo> events) {
 		this.events = events;
@@ -97,7 +98,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param users the users to set
+	 * @param users
+	 *            the users to set
 	 */
 	public void setUsers(Set<UserVo> users) {
 		this.users = users;
