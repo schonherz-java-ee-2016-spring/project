@@ -65,7 +65,7 @@ public class ThemeServiceBean {
 		return root;
 	}
 
-	public void createMainTheme() {
+	public void createTheme() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		ThemeVo newTheme = new ThemeVo();
 		newTheme.setName(name);
@@ -73,10 +73,16 @@ public class ThemeServiceBean {
 		if (selectedNode != null) {
 			ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
 			if (testVo.getType().equals("main")) {
+				if (testVo.getHours() == null) {
+					testVo.setHours(hours);
+				} else {
+					testVo.setHours(testVo.getHours() + hours);
+				}
+				themeService.createTheme(testVo);
 				newTheme.setType("item");
 				newTheme.setHours(hours);
 				newTheme.setThemeCode(testVo.getThemeCode());
-			}else {
+			} else {
 				newTheme.setType("main");
 				newTheme.setThemeCode(Integer.toString(code++));
 			}
@@ -93,26 +99,27 @@ public class ThemeServiceBean {
 		currentInstance.addMessage(null, msgs);
 	}
 
-	public void deleteTheme(){
+	public void deleteTheme() {
 
 	}
-	
+
 	public void onRowSelect(NodeSelectEvent event) {
 		disabled = false;
 		System.out.println(event.getTreeNode().getData().toString());
 		ThemeVo testVo = themeService.getThemeByName(event.getTreeNode().getData().toString());
-		if(testVo.getType().equals("main"))
+		if (testVo.getType().equals("main"))
 			mainSelected = false;
 		else
 			mainSelected = true;
 	}
-	
-    public void displaySelectedSingle() {
-        if(selectedNode != null) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", selectedNode.getData().toString());
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
+
+	public void displaySelectedSingle() {
+		if (selectedNode != null) {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected",
+					selectedNode.getData().toString());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
 
 	public ThemeService getThemeService() {
 		return themeService;

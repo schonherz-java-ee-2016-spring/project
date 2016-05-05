@@ -90,7 +90,7 @@
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
 						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
-						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
+						action="#{themeServiceBean.createTheme}" icon="ui-icon-check"
 						oncomplete="PF('createDialog').hide();" />
 				</p:panel>
 			</p:dialog>
@@ -128,7 +128,7 @@
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
 						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
-						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
+						action="#{themeServiceBean.createTheme}" icon="ui-icon-check"
 						oncomplete="PF('createItemDialog').hide();" />
 				</p:panel>
 			</p:dialog>
