@@ -1,6 +1,8 @@
 package hu.schonherz.training.core.supervisor.entity;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +19,7 @@ import hu.schonherz.training.core.admin.entity.User;
 
 @Entity
 @Table(name = "feedback")
-public class Feedback extends BaseEntity {
+public class Feedback extends BaseEntity{
 
 	/**
 	 * 
@@ -116,4 +118,14 @@ public class Feedback extends BaseEntity {
 		this.rated = rated;
 	}
 
+	public static Comparator<Feedback> FeedbackDateComparator = new Comparator<Feedback>() {
+
+		@Override
+		public int compare(Feedback o1, Feedback o2) {
+			Date feedbackDate1 = o1.getRecDate();
+			Date feedbackDate2 = o2.getRecDate();
+			return feedbackDate2.compareTo(feedbackDate1);
+		}
+		
+	};
 }

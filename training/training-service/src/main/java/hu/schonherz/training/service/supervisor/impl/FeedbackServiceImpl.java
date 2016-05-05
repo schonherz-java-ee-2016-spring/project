@@ -1,6 +1,7 @@
 package hu.schonherz.training.service.supervisor.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -14,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.core.supervisor.entity.Feedback;
 import hu.schonherz.training.core.supervisor.repository.FeedbackRepository;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.mapper.FeedbackMapper;
@@ -45,8 +47,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 		if (feedbackRepository.findAll() == null) {
 			result = new ArrayList<>();
 		} else {
-			result = FeedbackMapper.toVo(feedbackRepository.findAll());
+			List<Feedback> unsortedResult = new ArrayList<>();
+			unsortedResult = feedbackRepository.findAll();
+			Collections.sort(unsortedResult, Feedback.FeedbackDateComparator);
+			result = FeedbackMapper.toVo(unsortedResult);
 		}
+		
 		return result;
 	}
 
