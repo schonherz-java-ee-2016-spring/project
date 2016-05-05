@@ -120,11 +120,6 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public List<ThemeVo> getAllParentTheme() {
-		return ThemeMapper.toVo(themeRepository.findParentThemes());
-	}
-
-	@Override
 	public List<ThemeVo> getThemesByThemeCode(String code) {
 		return ThemeMapper.toVo(themeRepository.findThemesByThemeCode(code));
 	}
