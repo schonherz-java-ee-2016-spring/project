@@ -66,7 +66,6 @@ public class ThemeServiceBean {
 	}
 
 	public void createTheme() {
-		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		ThemeVo newTheme = new ThemeVo();
 		newTheme.setName(name);
 		newTheme.setDescription(description);
@@ -96,11 +95,23 @@ public class ThemeServiceBean {
 		description = null;
 		hours = null;
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
-		currentInstance.addMessage(null, msgs);
+		FacesContext.getCurrentInstance().addMessage(null, msgs);
 	}
 
 	public void deleteTheme() {
-
+		ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
+		if (!(testVo.getType().equals("main"))) {
+			ThemeVo parent = themeService.getThemeByName(selectedNode.getParent().getData().toString());
+			System.out.println("ASDASDASD" + parent.toString());
+			if (parent.getHours() != null) {
+				parent.setHours(parent.getHours() - testVo.getHours());
+			}
+			themeService.createTheme(parent);
+		}
+		themeService.deleteTheme(testVo.getId());
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes", "Theme deleted!");
+		FacesContext.getCurrentInstance().addMessage(null, msgs);
+		root = createThemes();
 	}
 
 	public void onRowSelect(NodeSelectEvent event) {

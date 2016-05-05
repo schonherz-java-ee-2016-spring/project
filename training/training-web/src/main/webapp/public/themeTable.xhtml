@@ -41,12 +41,20 @@
 						oncomplete="PF('createDialog').hide()"
 						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
 					<p:commandButton id="deleteButton" process="treeTable"
-						update=":treeTableForm:treeTable, treeTableForm" icon="ui-icon-trash"
-						value="#{out.delete}" disabled="#{(themeServiceBean.disabled)}"
-						action="#{themeServiceBean.deleteTheme}" >
+						update=":treeTableForm:treeTable, treeTableForm"
+						icon="ui-icon-trash" value="#{out.delete}"
+						disabled="#{(themeServiceBean.disabled)}"
+						action="#{themeServiceBean.deleteTheme}">
 						<p:confirm header="#{out.confirmation}"
 							message="#{out.sureDelete}?" icon="ui-icon-alert" />
 					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="#{out.yes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+							update="treeTableForm" />
+						<p:commandButton value="#{out.no}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
 					<!-- 					<p:commandButton type="button" onclick="PF('createDialog').show();" -->
 					<!-- 						value="delete Theme" icon="ui-icon-plusthick" -->
 					<!-- 						update=":treeTableForm:treeTable, treeTableForm" -->
@@ -58,7 +66,7 @@
 					<!-- 						oncomplete="PF('createDialog').hide()" -->
 					<!-- 						disabled="#{themeServiceBean.disabled}" id="editButton"></p:commandButton> -->
 				</f:facet>
-				<p:ajax process="treeTable" event="select" update="growl,createItem"
+				<p:ajax process="treeTable" event="select" update="growl,createItem,deleteButton"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
