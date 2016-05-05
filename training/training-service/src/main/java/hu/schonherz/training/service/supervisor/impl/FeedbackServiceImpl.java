@@ -14,8 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-import hu.schonherz.training.core.admin.entity.User;
-import hu.schonherz.training.core.supervisor.entity.Feedback;
 import hu.schonherz.training.core.supervisor.repository.FeedbackRepository;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.mapper.FeedbackMapper;
@@ -38,57 +36,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 			feedbackRepository.saveAndFlush(FeedbackMapper.toDto(feedbackVo));
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public FeedbackVo getFeedback(Long feedbackId) throws Exception {
-		Feedback feedback = feedbackRepository.findOne(feedbackId);
-		return FeedbackMapper.toVo(feedback);
-	}
-
-	@Override
-	public List<FeedbackVo> getAllFeedbackBySender(Long userId) throws Exception {
-		List<FeedbackVo> result = null;
-		try {
-			List<Feedback> feedbacks = feedbackRepository.findAll();
-			for (Feedback feedback : feedbacks) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
-				if (feedback.getSender().getId() == userId) {
-					result.add(FeedbackMapper.toVo(feedback));
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
-		}
-
-	}
-
-	@Override
-	public List<FeedbackVo> getAllFeedbackByRated(Long userId) throws Exception {
-		List<FeedbackVo> result = null;
-		try {
-			List<Feedback> feedbacks = feedbackRepository.findAll();
-			for (Feedback feedback : feedbacks) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
-				List<User> rateds = new ArrayList<>();
-				rateds.addAll(feedback.getRated());
-				for (User rated : rateds) {
-					if (rated.getId() == userId) {
-						result.add(FeedbackMapper.toVo(feedback));
-					}
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
 		}
 	}
 

@@ -108,7 +108,7 @@ public class WriteObsFeedback implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		if (isPublic.contentEquals(isPublic)) {
+		if (isPublic.equalsIgnoreCase("true")) {
 			feedback.setPublic(true);
 		} else {
 			feedback.setPublic(false);
