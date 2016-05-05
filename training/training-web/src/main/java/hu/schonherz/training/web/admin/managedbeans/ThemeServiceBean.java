@@ -71,7 +71,7 @@ public class ThemeServiceBean {
 		newTheme.setName(name);
 		newTheme.setDescription(description);
 		if (selectedNode != null) {
-			ThemeVo testVo = (ThemeVo) selectedNode.getData();
+			ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
 			if (testVo.getType().equals("main")) {
 				newTheme.setType("item");
 				newTheme.setHours(hours);
@@ -99,12 +99,20 @@ public class ThemeServiceBean {
 	
 	public void onRowSelect(NodeSelectEvent event) {
 		disabled = false;
-		ThemeVo testVo = (ThemeVo) selectedNode.getData();
+		System.out.println(event.getTreeNode().getData().toString());
+		ThemeVo testVo = themeService.getThemeByName(event.getTreeNode().getData().toString());
 		if(testVo.getType().equals("main"))
 			mainSelected = false;
 		else
 			mainSelected = true;
 	}
+	
+    public void displaySelectedSingle() {
+        if(selectedNode != null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", selectedNode.getData().toString());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
 
 	public ThemeService getThemeService() {
 		return themeService;

@@ -42,7 +42,7 @@
 						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
 					<p:commandButton id="deleteButton" process="treeTable"
 						update=":treeTableForm:treeTable, treeTableForm" icon="ui-icon-trash"
-						value="#{out.delete}" disabled="#{(themeServiceBean.selectedNode)}"
+						value="#{out.delete}" disabled="#{(themeServiceBean.disabled)}"
 						action="#{themeServiceBean.deleteTheme}" >
 						<p:confirm header="#{out.confirmation}"
 							message="#{out.sureDelete}?" icon="ui-icon-alert" />

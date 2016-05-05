@@ -101,8 +101,7 @@ public class ThemeVo implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ThemeVo [name=" + name + ", type=" + type + ", themeCode=" + themeCode + ", description=" + description
-				+ ", hours=" + hours + "]";
+		return name;
 	}
 
 	public Date getRecDate() {
