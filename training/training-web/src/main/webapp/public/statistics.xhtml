@@ -6,24 +6,49 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
 
+	<ui:define name="head-extra">
+		<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+		<h:outputScript id="resultsScript">
+			google.charts.load('current', {
+				'packages' : [ 'corechart' ]
+			});
+			google.charts.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable(#{statisticsBean.testDataForChart()});
+
+				var options = {
+					title : 'asd',
+					curveType : 'function',
+					legend : {
+						position : 'top'
+					}
+				};
+
+				var chart = new google.visualization.LineChart(document
+						.getElementById('testChart'));
+
+				chart.draw(data, options);
+			}
+		</h:outputScript>
+	</ui:define>
 	<ui:define name="content">
 
 		<h:panelGroup layout="block" styleClass="container">
 
-				<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
-				<p:ajax listener="#{statisticsBean.onTrainingIdChange}" update="exam,homework" />
-                
-					<f:selectItems value="#{statisticsBean.trainingList}" />
-				</p:selectOneMenu>
+			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
+				<p:ajax update="" />
+				<f:selectItems value="#{statisticsBean.trainingList}" />
+			</p:selectOneMenu>
 
 		</h:panelGroup>
 		<h:panelGroup id="linear" layout="block" styleClass="container">
-		<h:outputText value="#{out.statisticsexam}" />
-			<p:chart id="exam" type="line" model="#{statisticsBean.examModel}"
-				style="height:300pt;" />
-		<h:outputText value="#{out.statisticshomework}" />
-			<p:chart id="homework" type="line" model="#{statisticsBean.homeworkModel}"
-				style="height:300pt;" />
+
+
+			<h:panelGroup id="testChart" layout="block" style="height: 500pt;">
+			</h:panelGroup>
+			<h:panelGroup id="homeworkChart" layout="block"></h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
 
