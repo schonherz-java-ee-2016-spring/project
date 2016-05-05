@@ -9,29 +9,46 @@
 	<ui:define name="head-extra">
 		<script type="text/javascript"
 			src="https://www.gstatic.com/charts/loader.js"></script>
-		<h:outputScript id="resultsScript">
+		<script type="text/javascript">
 			google.charts.load('current', {
-				'packages' : [ 'corechart' ]
+				'packages' : [ 'line' ]
 			});
 			google.charts.setOnLoadCallback(drawChart);
 
 			function drawChart() {
-				var data = google.visualization.arrayToDataTable(#{statisticsBean.testDataForChart()});
+
+				var data = new google.visualization.DataTable();
+// 				data.addColumn('number', 'Day');
+// 				data.addColumn('number', 'Guardians of the Galaxy');
+// 				data.addColumn('number', 'The Avengers');
+// 				data.addColumn('number', 'Transformers: Age of Extinction');
+
+				var first = true;
+				#{statisticsBean.columnsToJsArray()}.forEach(function(event){
+					if(first){
+						data.addColumn('string', '#{out.statisticsexam}');
+						
+						first = false;
+					}else
+						data.addColumn('number', event);
+				})
+				
+				data.addRows(#{statisticsBean.testDataForChart()});
 
 				var options = {
-					title : 'asd',
-					curveType : 'function',
-					legend : {
-						position : 'top'
-					}
+					chart : {
+						title : '#{out.statisticsexam}'
+					},
+					width : 900,
+					height : 500
 				};
 
-				var chart = new google.visualization.LineChart(document
+				var chart = new google.charts.Line(document
 						.getElementById('testChart'));
 
 				chart.draw(data, options);
 			}
-		</h:outputScript>
+		</script>
 	</ui:define>
 	<ui:define name="content">
 
@@ -46,7 +63,7 @@
 		<h:panelGroup id="linear" layout="block" styleClass="container">
 
 
-			<h:panelGroup id="testChart" layout="block" style="height: 500pt;">
+			<h:panelGroup id="testChart" layout="block">
 			</h:panelGroup>
 			<h:panelGroup id="homeworkChart" layout="block"></h:panelGroup>
 		</h:panelGroup>
