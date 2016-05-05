@@ -69,7 +69,7 @@
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
 						update=":createUserForm:dataTable, form"
-						oncomplete="PF('dlg1').hide();"></p:commandButton>
+						></p:commandButton>
 					<!-- 					form reset -->
 
 					<!-- 				a felhasználó módosítása dialog gomb -->
@@ -109,7 +109,7 @@
 		<!-- 			A felhasználó létrehozás dialok -->
 		<h:form styleClass="form-horizontal" id="form">
 			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
-				resizable="false" responsive="true">
+				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}">
 				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
@@ -151,7 +151,7 @@
 					<p:commandButton value="#{out.save}"
 						update="panel2,growl,form,:createUserForm:dataTable"
 						action="#{usersBean.create}" icon="ui-icon-check"
-						oncomplete="PF('dlg1').hide();">
+						 onsuccess="PF('dlg1').hide();">
 <!-- 						<p:ajax resetValues="true" /> -->
 						<f:ajax execute="@form" render="@form" />
 					</p:commandButton>
@@ -195,7 +195,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}"
-						update="panel,growl,form2,createUserForm" oncomplete="PF('modify_user').hide();"
+						update="panel,growl,form2,createUserForm" onsuccess="PF('modify_user').hide();"
 						action="#{usersBean.modifyUser}" icon="ui-icon-check" />
 				</p:panel>
 			</p:dialog>

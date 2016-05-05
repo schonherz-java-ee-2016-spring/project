@@ -11,8 +11,8 @@
 
 		<h:form id="roleForm">
 			<p:dataTable id="roleTable" style="width:100%;" var="role" reflow="true" row="5"
-				value="#{RoleBean.roles}" rows="10" paginator="true"
-				selectionMode="single" selection="#{RoleBean.selectedRole}"
+				value="#{roleBean.roles}" rows="10" paginator="true"
+				selectionMode="single" selection="#{roleBean.selectedRole}"
 				rowKey="#{role.id}"
 				rowsPerPageTemplate="1,5,10,15,">
 				<p:column headerText="#{out.name}" priority="1"> 
@@ -48,25 +48,25 @@
 						
 											<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
-						process="roleTable" disabled="#{RoleBean.disabled}"
+						process="roleTable" disabled="#{roleBean.disabled}" update="editrole"
 						value="#{out.editRole}" onclick="PF('editDialog').show();"  />
 
 					<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 						process="roleTable" update="growl,:roleForm:roleTable"
-						disabled="#{RoleBean.disabled}" value="#{out.deleteRole}"
-						action="#{RoleBean.delete}">
+						disabled="#{roleBean.disabled}" value="#{out.deleteRole}"
+						action="#{roleBean.delete}">
 						<p:confirm icon="ui-icon-alert" header="#{out.deleteRole}"
 							message="Biztosan törli?" />
 					</p:commandButton>
 
 
 				</f:facet>
-				<p:ajax event="rowSelect" listener="#{RoleBean.onRowSelect}"
+				<p:ajax event="rowSelect" listener="#{roleBean.onRowSelect}"
 					update="growl,deleteButton,editButton" />
 				<p:ajax process="roleTable" event="rowDblselect"
-					update="growl,deleteButton,editButton"
-					listener="#{RoleBean.onRowSelect}"
+					update="growl,deleteButton,editButton,editrole"
+					listener="#{roleBean.onRowSelect}"
 					oncomplete="PF('editDialog').show();" />	
 			</p:dataTable>
 		</h:form>
@@ -79,7 +79,6 @@
 				styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 		<br />
-			<h:form id="dialogForm">
 			<p:dialog header="#{out.createRole}" widgetVar="createDialog" modal="true"
 						resizable="false" draggable="false" responsive="true" >
     			<h:form id="newrole" styleClass="form-horizontal" >
@@ -87,20 +86,20 @@
 						<label for="rolename" class="col-sm-3">#{out.roleName}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolename"
-								value="#{RoleBean.roleName}" required="true"
+								value="#{roleBean.roleName}" required="true"
 								label="rolename">
 							</p:inputText>
 						</div>
 						<label for="rolecode" class="col-sm-3">#{out.roleCode}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolecode"
-								value="#{RoleBean.roleCode}" required="true"
+								value="#{roleBean.roleCode}" required="true"
 								label="rolecode">
 							</p:inputText>
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
-					action="#{RoleBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
+					action="#{roleBean.create}" icon="ui-icon-check" onsuccess="closeCreateDialog()"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeCreateDialog() {
@@ -116,20 +115,20 @@
 						<label for="rolename" class="col-sm-3">#{out.roleName}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolename"
-								value="#{RoleBean.roleName}" required="true"
+								value="#{roleBean.selectedRole.name}" required="true"
 								label="rolename">
 							</p:inputText>
 						</div>
 						<label for="rolecode" class="col-sm-3">#{out.roleCode}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolecode"
-								value="#{RoleBean.roleCode}" required="true"
+								value="#{roleBean.selectedRole.roleCode}" required="true"
 								label="rolecode">
 							</p:inputText>
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
-					action="#{RoleBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+					action="#{roleBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeEditDialog() {
@@ -138,6 +137,5 @@
 				</script>
 			</p:dialog>   
 			
-		</h:form>
 	</ui:define>
 </ui:composition>
