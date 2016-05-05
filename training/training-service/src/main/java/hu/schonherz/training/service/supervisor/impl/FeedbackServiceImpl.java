@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+import hu.schonherz.training.core.admin.entity.User;
 import hu.schonherz.training.core.supervisor.entity.Feedback;
 import hu.schonherz.training.core.supervisor.repository.FeedbackRepository;
 import hu.schonherz.training.service.supervisor.FeedbackService;
@@ -76,8 +77,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 				if (result == null) {
 					result = new ArrayList<>();
 				}
-				if (feedback.getRated().getId() == userId) {
-					result.add(FeedbackMapper.toVo(feedback));
+				List<User> rateds = new ArrayList<>();
+				rateds.addAll(feedback.getRated());
+				for (User rated : rateds) {
+					if (rated.getId() == userId) {
+						result.add(FeedbackMapper.toVo(feedback));
+					}
 				}
 			}
 			return result;

@@ -1,6 +1,7 @@
 package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import hu.schonherz.training.service.admin.vo.EventVo;
@@ -14,7 +15,7 @@ public class FeedbackVo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UserVo sender;
-	private UserVo rated;
+	private Collection<UserVo> rated;
 	private String feedbackMessage;
 	private Date recDate;
 	private boolean isPublic;
@@ -40,20 +41,6 @@ public class FeedbackVo implements Serializable {
 	 */
 	public void setSender(UserVo sender) {
 		this.sender = sender;
-	}
-
-	/**
-	 * @return the rated
-	 */
-	public UserVo getRated() {
-		return rated;
-	}
-
-	/**
-	 * @param rated the rated to set
-	 */
-	public void setRated(UserVo rated) {
-		this.rated = rated;
 	}
 
 	/**
@@ -113,9 +100,18 @@ public class FeedbackVo implements Serializable {
 		this.event = event;
 	}
 
-	public String toString() {
-		return "Feedback [sender=" + sender.getId() + ", rated=" + rated.getId() + ", feedbackMessage="
-				+ feedbackMessage + ", isPublic=" + isPublic + ", event=" + event.getId() + "].";
+	/**
+	 * @return the rated
+	 */
+	public Collection<UserVo> getRated() {
+		return rated;
+	}
+
+	/**
+	 * @param rated the rated to set
+	 */
+	public void setRated(Collection<UserVo> rated) {
+		this.rated = rated;
 	}
 
 }

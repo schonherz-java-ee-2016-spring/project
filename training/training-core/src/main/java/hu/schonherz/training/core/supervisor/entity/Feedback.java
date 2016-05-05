@@ -1,10 +1,13 @@
 package hu.schonherz.training.core.supervisor.entity;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,9 +28,9 @@ public class Feedback extends BaseEntity {
 	@JoinTable(name = "sender_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "sender_id", referencedColumnName = "id"))
 	private User sender;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
-	private User rated;
+	private Collection<User> rated;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinTable(name = "event_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "event_id", referencedColumnName = "id"))
@@ -52,21 +55,6 @@ public class Feedback extends BaseEntity {
 	 */
 	public void setSender(User sender) {
 		this.sender = sender;
-	}
-
-	/**
-	 * @return the rated
-	 */
-	public User getRated() {
-		return rated;
-	}
-
-	/**
-	 * @param rated
-	 *            the rated to set
-	 */
-	public void setRated(User rated) {
-		this.rated = rated;
 	}
 
 	/**
@@ -114,9 +102,18 @@ public class Feedback extends BaseEntity {
 		this.isPublic = isPublic;
 	}
 
-	@Override
-	public String toString() {
-		return "Feedback [sender=" + sender.getId() + ", rated=" + rated.getId() + ", feedbackMessage="
-				+ feedbackMessage + ", isPublic=" + isPublic + ", event=" + event.getId() + "].";
+	/**
+	 * @return the rated
+	 */
+	public Collection<User> getRated() {
+		return rated;
 	}
+
+	/**
+	 * @param rated the rated to set
+	 */
+	public void setRated(Collection<User> rated) {
+		this.rated = rated;
+	}
+
 }

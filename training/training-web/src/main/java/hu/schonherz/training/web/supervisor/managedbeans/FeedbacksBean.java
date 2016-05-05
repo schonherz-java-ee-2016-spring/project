@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
 
@@ -33,8 +34,12 @@ public class FeedbacksBean implements Serializable {
 			List<FeedbackVo> feedbacksTmp = feedbackService.getAll();
 			String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 			for (FeedbackVo feedback : feedbacksTmp) {
-				if (feedback.getRated().getUserName().equals(username)) {
-					feedbacks.add(feedback);
+				List<UserVo> rateds = new ArrayList<>();
+				rateds.addAll(feedback.getRated());
+				for (UserVo rated: rateds) {
+					if (rated.getUserName().equals(username)) {
+						feedbacks.add(feedback);
+					}
 				}
 			}
 		} catch (Exception e) {
