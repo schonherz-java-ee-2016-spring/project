@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
@@ -25,8 +26,9 @@ public class FeedbacksBean implements Serializable {
 
 	@EJB
 	FeedbackService feedbackService;
-
+	
 	List<FeedbackVo> feedbacks = new ArrayList<>();
+	List<FeedbackVo> writtenFeedbacks = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
@@ -40,6 +42,9 @@ public class FeedbacksBean implements Serializable {
 					if (rated.getUserName().equals(username)) {
 						feedbacks.add(feedback);
 					}
+				}
+				if (feedback.getSender().getUserName().equals(username)) {
+					writtenFeedbacks.add(feedback);
 				}
 			}
 		} catch (Exception e) {
@@ -65,5 +70,19 @@ public class FeedbacksBean implements Serializable {
 	 */
 	public void setFeedbacks(List<FeedbackVo> feedbacks) {
 		this.feedbacks = feedbacks;
+	}
+
+	/**
+	 * @return the writtenFeedbacks
+	 */
+	public List<FeedbackVo> getWrittenFeedbacks() {
+		return writtenFeedbacks;
+	}
+
+	/**
+	 * @param writtenFeedbacks the writtenFeedbacks to set
+	 */
+	public void setWrittenFeedbacks(List<FeedbackVo> writtenFeedbacks) {
+		this.writtenFeedbacks = writtenFeedbacks;
 	}
 }
