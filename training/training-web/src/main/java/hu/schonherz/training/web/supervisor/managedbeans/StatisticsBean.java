@@ -55,7 +55,7 @@ public class StatisticsBean implements Serializable {
 		}
 	}
 
-	public String columnsToJsArray() {
+	public String testColumnsToJsArray() {
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append("['tests', ");
@@ -65,7 +65,8 @@ public class StatisticsBean implements Serializable {
 			for (UserResults userResults : training.getUserResults()) {
 				stringBuilder.append("'");
 				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().get(0).getExamResults().size())
+				if (++k < training.getUserResults().size())
+//						get(0).getExamResults().size())
 					stringBuilder.append("', ");
 				else
 					stringBuilder.append("'");
@@ -101,6 +102,52 @@ public class StatisticsBean implements Serializable {
 		return stringBuilder.toString();
 	}
 
+	public String homeworkColumnsToJsArray() {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append("['homeworks', ");
+		int k = 0;
+
+		if (training.getUserResults() != null)
+			for (UserResults userResults : training.getUserResults()) {
+				stringBuilder.append("'");
+				stringBuilder.append(userResults.getUser().getFullName());
+				if (++k < training.getUserResults().size())
+					stringBuilder.append("', ");
+				else
+					stringBuilder.append("'");
+			}
+
+		stringBuilder.append("]");
+		return stringBuilder.toString();
+	}
+
+	public String homeworkDataForChart() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("[");
+
+		for (int k = 0; k < training.getUserResults().get(0).getHomeworkResults().size(); ++k) {
+
+			stringBuilder.append("['");
+			stringBuilder.append(training.getUserResults().get(0).getHomeworkResults().get(k).getHomework().getName());
+			stringBuilder.append("'");
+
+			for (UserResults userResults : training.getUserResults()) {
+
+				stringBuilder.append(", ");
+				stringBuilder.append(userResults.getHomeworkResults().get(k).getScore());
+			}
+			if (++k < training.getUserResults().get(0).getHomeworkResults().size())
+				stringBuilder.append("], ");
+			else
+				stringBuilder.append("]");
+
+		}
+
+		stringBuilder.append("]");
+		return stringBuilder.toString();
+	}
+	
 	@PostConstruct
 	public void init() {
 

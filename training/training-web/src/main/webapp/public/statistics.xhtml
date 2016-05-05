@@ -13,18 +13,19 @@
 			google.charts.load('current', {
 				'packages' : [ 'line' ]
 			});
-			google.charts.setOnLoadCallback(drawChart);
+			google.charts.setOnLoadCallback(drawCharts);
 
-			function drawChart() {
+			function drawCharts(){
+				drawTestChart();
+				drawHomeworkChart();
+			}
+			
+			function drawTestChart() {
 
 				var data = new google.visualization.DataTable();
-// 				data.addColumn('number', 'Day');
-// 				data.addColumn('number', 'Guardians of the Galaxy');
-// 				data.addColumn('number', 'The Avengers');
-// 				data.addColumn('number', 'Transformers: Age of Extinction');
 
 				var first = true;
-				#{statisticsBean.columnsToJsArray()}.forEach(function(event){
+				#{statisticsBean.testColumnsToJsArray()}.forEach(function(event){
 					if(first){
 						data.addColumn('string', '#{out.statisticsexam}');
 						
@@ -36,15 +37,49 @@
 				data.addRows(#{statisticsBean.testDataForChart()});
 
 				var options = {
+					selectionMode: 'multiple',
 					chart : {
 						title : '#{out.statisticsexam}'
 					},
+
 					width : 900,
 					height : 500
 				};
 
 				var chart = new google.charts.Line(document
 						.getElementById('testChart'));
+
+				chart.draw(data, options);
+			}
+			function drawHomeworkChart() {
+
+				var data = new google.visualization.DataTable();
+
+				var first = true;
+				#{statisticsBean.homeworkColumnsToJsArray()}.forEach(function(event){
+					if(first){
+						data.addColumn('string', '#{out.statisticshomework}');
+						
+						first = false;
+					}else
+						data.addColumn('number', event);
+				})
+				
+				data.addRows(#{statisticsBean.homeworkDataForChart()});
+
+				var options = {
+
+					selectionMode: 'multiple',
+
+					chart : {
+						title : '#{out.statisticshomework}'
+					},
+					width : 900,
+					height : 500
+				};
+
+				var chart = new google.charts.Line(document
+						.getElementById('homeworkChart'));
 
 				chart.draw(data, options);
 			}
