@@ -10,9 +10,4 @@ public interface FeedbackService {
 	
 	public List<FeedbackVo> getAll() throws Exception;
 	
-	public FeedbackVo getFeedback(Long feedbackId) throws Exception;
-	
-	public List<FeedbackVo> getAllFeedbackBySender(Long userId) throws Exception;
-	
-	public List<FeedbackVo> getAllFeedbackByRated(Long userId) throws Exception;
 }
