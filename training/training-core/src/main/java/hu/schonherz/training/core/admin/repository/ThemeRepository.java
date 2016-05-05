@@ -20,9 +20,6 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
 	
 	Theme findByThemeCode( String themeCode );
 
-	@Query("SELECT t FROM Theme t WHERE t.themeCode is null")
-	List<Theme> findParentThemes();
-
 	@Query("SELECT t FROM Theme t WHERE t.themeCode=?1")
 	List<Theme> findThemesByThemeCode(String code);
 
