@@ -9,7 +9,7 @@
 	<ui:define name="head-extra">
 		<script type="text/javascript"
 			src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
+		<h:outputScript type="text/javascript">
 			google.charts.load('current', {
 				'packages' : [ 'line' ]
 			});
@@ -40,10 +40,7 @@
 					selectionMode: 'multiple',
 					chart : {
 						title : '#{out.statisticsexam}'
-					},
-
-					width : 900,
-					height : 500
+					}
 				};
 
 				var chart = new google.charts.Line(document
@@ -73,9 +70,7 @@
 
 					chart : {
 						title : '#{out.statisticshomework}'
-					},
-					width : 900,
-					height : 500
+					}
 				};
 
 				var chart = new google.charts.Line(document
@@ -83,7 +78,12 @@
 
 				chart.draw(data, options);
 			}
-		</script>
+		</h:outputScript>
+		<h:outputStylesheet >
+			.chart {
+				width: 800pt; height: 400pt;
+			}
+		</h:outputStylesheet>
 	</ui:define>
 	<ui:define name="content">
 
@@ -98,9 +98,9 @@
 		<h:panelGroup id="linear" layout="block" styleClass="container">
 
 
-			<h:panelGroup id="testChart" layout="block">
+			<h:panelGroup id="testChart" layout="block" styleClass="chart">
 			</h:panelGroup>
-			<h:panelGroup id="homeworkChart" layout="block"></h:panelGroup>
+			<h:panelGroup id="homeworkChart" layout="block" styleClass="chart"></h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
 
