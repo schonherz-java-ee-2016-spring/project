@@ -90,6 +90,8 @@ public class EventsBean implements Serializable {
 		userPickList = new DualListModel<UserVo>();
 		userGroupPickList = new DualListModel<UserGroupVo>();
 		
+		selectedEvent = new EventVo();
+		
 		// lekérdezünk mindent is
 		try {
 			allUser = userService.findAllUser();
@@ -121,14 +123,21 @@ public class EventsBean implements Serializable {
 //		 hozzáadjuk az új eseményt a táblázathoz
 		try {
 			allEvent.add(eventService.findEventByName(newEventName));
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
+					"Event created!");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
 			System.out.println("Nem találom");
 			e.printStackTrace();
 		}
-		
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
-				"Event created!");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		createEvent();
+	}
+	
+	public void createEvent() {
+		newEventName = null;
+		newEventType = null;
+		newEventPlace = null;
+		newEventDate = null;
 	}
 	
 	// ha kiválasztunk egy sort a táblázatban, akkor fut le
@@ -209,30 +218,29 @@ public class EventsBean implements Serializable {
 		// a kiválasztott esemény új adatai a field-ekben vannak (newEventName stb..)
 		
 		// megkeressük a listában a kiválasztott eseményt és átírjuk az adatait
-		allEvent.get(allEvent.indexOf(selectedEvent)).setName(newEventName);
-		
-		allEvent.get(allEvent.indexOf(selectedEvent)).setType(newEventType);
-		
-		allEvent.get(allEvent.indexOf(selectedEvent)).setDescription(newEventDescription);
-		
-		allEvent.get(allEvent.indexOf(selectedEvent)).setPlace(newEventPlace);
-		
-		allEvent.get(allEvent.indexOf(selectedEvent)).setDate(newEventDate);
+//		allEvent.get(allEvent.indexOf(selectedEvent)).setName(newEventName);
+//		
+//		allEvent.get(allEvent.indexOf(selectedEvent)).setType(newEventType);
+//		
+//		allEvent.get(allEvent.indexOf(selectedEvent)).setDescription(newEventDescription);
+//		
+//		allEvent.get(allEvent.indexOf(selectedEvent)).setPlace(newEventPlace);
+//		
+//		allEvent.get(allEvent.indexOf(selectedEvent)).setDate(newEventDate);
 		
 		// updateljük
-		eventService.updateEvent(allEvent.get(allEvent.indexOf(selectedEvent)));
 		
 		// lefrissítjük a táblázatot
 		try {
-			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(newEventName));
+			eventService.updateEvent(selectedEvent);
+			allEvent.set(allEvent.indexOf(selectedEvent), eventService.findEventByName(selectedEvent.getName()));		
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
+					"Event edited!");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
-				"Event edited!");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+
 	}
 	
 	public void delete(){

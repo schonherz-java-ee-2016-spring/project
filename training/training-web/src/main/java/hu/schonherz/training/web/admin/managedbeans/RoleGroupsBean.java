@@ -91,6 +91,11 @@ public class RoleGroupsBean implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		createRoleGroupForm();
+	}
+	
+	public void createRoleGroupForm() {
+		roleGroupName = null;
 	}
 	
 	public void delete(){
@@ -104,20 +109,21 @@ public class RoleGroupsBean implements Serializable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		disabled = true;
 	}
 	
 	public void edit(){
 		try {
 			
 			// beállítjuk az új nevet
-			allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)).setName(roleGroupName);
+//			allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)).setName(selectedRoleGroup.getName());
 
 			// updateljük a jogcsoportot
-			roleGroupService.updateRoleGroup(allRoleGroup.get(allRoleGroup.indexOf(selectedRoleGroup)));
+			roleGroupService.updateRoleGroup(selectedRoleGroup);
 			
 			// lefrissítjük a listát
 			allRoleGroup.set(allRoleGroup.indexOf(selectedRoleGroup),
-					roleGroupService.getRoleGroupByName(roleGroupName));
+					roleGroupService.getRoleGroupByName(selectedRoleGroup.getName()));
 
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS",
 					"Role Group edited!");

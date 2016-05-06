@@ -118,4 +118,9 @@ public class ThemeServiceImpl implements ThemeService {
 		return theme;
 		
 	}
+
+	@Override
+	public List<ThemeVo> getThemesByThemeCode(String code) {
+		return ThemeMapper.toVo(themeRepository.findThemesByThemeCode(code));
+	}
 }

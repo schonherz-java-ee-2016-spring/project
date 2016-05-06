@@ -281,6 +281,7 @@ public class UserGroupsBean implements Serializable {
 		// egyből egy másikat is, így nem az előzőleg létrehozott fog módosulni.
 		if (isCreateAction == null) {
 			selected = new UserGroupVo();
+			isDisabled = true;
 		}
 	}
 
