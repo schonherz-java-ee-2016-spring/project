@@ -13,6 +13,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
+
 import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
@@ -46,6 +53,12 @@ public class StatisticsBean implements Serializable {
 	private Course training;
 
 	private Map<String, Long> trainingList;
+
+	private LineChartModel categoryModel;
+
+	private String[] lessonNames;
+
+	private String[] names;
 
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
@@ -150,7 +163,6 @@ public class StatisticsBean implements Serializable {
 	
 	@PostConstruct
 	public void init() {
-
 		// Filling the Courses with userGroups
 		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
 		try {
@@ -170,7 +182,7 @@ public class StatisticsBean implements Serializable {
 
 		// Filling the Courses with Lessons
 		List<LessonVo> lessons = new ArrayList<>();
-		String[] lessonNames = { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
+		lessonNames = new String[] { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
 				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
 				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok",
 				"Átlag" };
@@ -186,7 +198,7 @@ public class StatisticsBean implements Serializable {
 		// Filling the Courses with UserResults
 		List<UserResults> userResults = new ArrayList<>();
 		List<UserVo> users = new ArrayList<>();
-		String[] names = { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
+		names = new String[] { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
 				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám", "Átlag" };
 
 		for (int i = 0; i < names.length; i++) {
@@ -245,6 +257,7 @@ public class StatisticsBean implements Serializable {
 
 		trainingId = courses.get(0).getUserGroup().getId();
 		onTrainingIdChange();
+		initCategoryModel();
 	}
 
 	/**
@@ -283,5 +296,44 @@ public class StatisticsBean implements Serializable {
 	// public LineChartModel getHomeworkModel() {
 	// return homeworkModel;
 	// }
+
+	private void initCategoryModel() {
+		categoryModel = new LineChartModel();
+
+		Random rand = new Random();
+		for (String user : names) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user);
+			for (String lesson : lessonNames) {
+				userSerie.set(lesson, rand.nextInt(11));
+			}
+			categoryModel.addSeries(userSerie);
+		}
+		//i18n kéne
+		categoryModel.setTitle("Tesztek");
+		categoryModel.setAnimate(true);
+		categoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		categoryModel.setLegendPosition("e");
+		categoryModel.setExtender("extFn");
+		categoryModel.setShowDatatip(true);
+		categoryModel.setShowPointLabels(false);
+		//i18n kéne
+		categoryModel.getAxes().put(AxisType.X, new CategoryAxis("Témakörök"));
+		Axis xAxis = categoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = categoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel("Pontszám");
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+
+	public LineChartModel getCategoryModel() {
+		return categoryModel;
+	}
+
+	public void setCategoryModel(LineChartModel categoryModel) {
+		this.categoryModel = categoryModel;
+	}
 
 }

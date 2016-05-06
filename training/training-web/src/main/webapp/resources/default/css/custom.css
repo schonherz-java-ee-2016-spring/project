@@ -261,3 +261,19 @@ ul#filters {
 .customAccordion .ui-accordion-header .ui-icon{
 	display: inherit;
 }
+
+.jqplot-canvasOverlay-tooltip, .jqplot-highlighter-tooltip{
+	background: #fff none repeat scroll 0 0 !important;
+    border: 1px solid #cccccc !important;
+    font-size: 1em !important;
+    opacity: 0.9 !important;
+    padding: 10px !important;
+    white-space: nowrap;
+    z-index: 1;
+    border-radius: 5px !important;
+}
+
+.jqplot-table-legend-label{
+	white-space: nowrap;
+	padding: 5px;
+}
