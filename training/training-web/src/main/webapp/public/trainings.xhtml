@@ -8,11 +8,11 @@
 			<p:dataTable id="ttable" var="tr" value="#{trainingBean.trainings}" selectionMode="single"
 				selection="#{trainingBean.selected}" rowKey="#{tr.id}" paginator="true" rows="12"
 				rowsPerPageTemplate="4,8,12">
-				<p:column headerText="#{out.trainingname}" priority="1">
+				<p:column headerText="#{out.trainingname}" priority="1"  filterBy="#{tr.name}" filterMatchMode="contains">
 					<h:outputText value="#{tr.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.description}" priority="2">
+				<p:column headerText="#{out.description}" priority="2"  filterBy="#{tr.description}" filterMatchMode="contains">
 					<h:outputText value="#{tr.description}">
 					</h:outputText>
 				</p:column>
@@ -21,17 +21,17 @@
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.trainingend}" priority="2">
+				<p:column headerText="#{out.trainingend}" priority="2" >
 					<h:outputText value="#{tr.endDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="3">
+				<p:column headerText="#{out.recdate}" priority="3" >
 					<h:outputText value="#{tr.recDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="4">
+				<p:column headerText="#{out.recuser}" priority="4"  filterBy="#{tr.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.recUser}">
 					</h:outputText>
 				</p:column>
@@ -40,7 +40,7 @@
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moduser}" priority="4">
+				<p:column headerText="#{out.moduser}" priority="4"  filterBy="#{tr.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.modUser}">
 					</h:outputText>
 				</p:column>
@@ -54,19 +54,22 @@
 					<p:commandButton id="treeButton" process="ttable" icon="ui-icon-pencil"
 						disabled="#{trainingBean.isDisabled}" value="#{out.managetraining}" update="msgs,treeform"
 						action="#{trainingBean.treeAction()}" onclick="PF('treedialog').show();" />
-					<p:commandButton id="manageButton" process="ttable" icon="ui-icon-pencil"
+					<p:commandButton id="userManageButton" process="ttable" icon="ui-icon-pencil"
 						disabled="#{trainingBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
-						action="#{trainingBean.manageAction()}" onclick="PF('pickdialog').show();" />
+						action="#{trainingBean.userManageAction()}" onclick="PF('pickdialog').show();" />
+						<p:commandButton id="groupManageButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.usergroups}" update="msgs,pickform2"
+						action="#{trainingBean.groupManageAction()}" onclick="PF('pickdialog2').show();" />
 					<p:commandButton id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{trainingBean.isDisabled}"
 						action="#{trainingBean.deleteTraining()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,treeButton"
+				<p:ajax event="rowSelect" update="deleteButton,editButton,userManageButton,groupManageButton,treeButton"
 					listener="#{trainingBean.selectTrainingListener}" />
 				<p:ajax process="ttable" event="rowDblselect"
-					update="deleteButton,editButton,manageButton,treeButton,msgs,form"
+					update="deleteButton,editButton,groupManageButton,userManageButton,treeButton,msgs,form"
 					listener="#{trainingBean.selectTrainingListener}" oncomplete="PF('dialog').show();" />
 			</p:dataTable>
 		</h:form>
@@ -86,6 +89,19 @@
 				</p:pickList>
 				<p:commandButton id="userSubmit" action="#{trainingBean.saveUsers()}" value="#{out.save}"
 					update=":trainingform:ttable,growl" oncomplete="PF('pickdialog').hide();" />
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog2" modal="true"
+			resizable="false">
+			<h:form id="pickform2">
+			<p:pickList id="pickList2" value="#{trainingBean.uGroups}" var="group"
+					itemLabel="#{group.name}" itemValue="#{group}" converter="UserGroupConverter">
+					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
+					<f:facet name="targetCaption">#{out.assigned}</f:facet>
+				</p:pickList>
+				<p:commandButton id="userSubmit" action="#{trainingBean.saveGroups()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('pickdialog2').hide();" />
 			</h:form>
 		</p:dialog>
 
@@ -155,9 +171,9 @@
 								<h:outputText value="#{node}" />
 							</p:treeNode>
 						</p:tree>
-					</div>
+					</div> 
 				</div>
-				<p:commandButton id="trSubmit" action="#{trainingBean.saveTraining()}" value="#{out.save}"
+				<p:commandButton id="trSubmit" action="#{trainingBean.saveThemes()}" value="#{out.save}"
 					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();" />
 
 			</h:form>
