@@ -9,19 +9,28 @@
 
 	<ui:define name="feedback-list">
 		<ui:component>
-			
-				<p:accordionPanel multiple="true" var="feedback" styleClass="customAccordion" value="#{feedbacksBean.feedbacks}" activeIndex="true">
-					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} #{out.by} #{feedback.sender.getFullName()} #{feedback.recDate}"> 	
-						<div class="well">
-							<div class="media">
-								<div class="media-body">
-									<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
-								</div>
+
+			<p:accordionPanel multiple="true" var="feedback"
+				styleClass="customAccordion" value="#{feedbacksBean.feedbacks}"
+				activeIndex="true">
+				<p:tab>
+					<f:facet name="title">
+						<h:outputText value="#{feedback.event.getType()}: #{feedback.event.getName()} #{out.by} #{feedback.sender.getFullName()}"></h:outputText>
+						<h:outputText value="#{feedback.recDate}" style="float:right;">
+							<f:convertDateTime pattern="yyyy.mm.dd" />
+						</h:outputText>		
+					</f:facet>
+				
+				<div class="well">
+						<div class="media">
+							<div class="media-body">
+								<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
 							</div>
 						</div>
-					</p:tab>
-				</p:accordionPanel>
-			
+					</div>
+				</p:tab>
+			</p:accordionPanel>
+
 		</ui:component>
 	</ui:define>
 </ui:composition>
