@@ -1,6 +1,7 @@
 package hu.schonherz.training.web.supervisor.accessories;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class EventList implements Serializable{
@@ -14,7 +15,9 @@ public class EventList implements Serializable{
 	private String eventName;
 	private String ratedName;
 	private String ratedUsername;
-	private Date eventDate;
+	private String eventDate;
+	SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd. hh:mm");
+	
 	/**
 	 * 
 	 */
@@ -23,7 +26,7 @@ public class EventList implements Serializable{
 		eventName = eName;
 		ratedName = sName;
 		ratedUsername = sUsername;
-		eventDate = eDate;
+		eventDate = df.format(eDate);
 	}
 	
 	
@@ -91,7 +94,7 @@ public class EventList implements Serializable{
 	/**
 	 * @return the eventDate
 	 */
-	public Date getEventDate() {
+	public String getEventDate() {
 		return eventDate;
 	}
 
@@ -99,7 +102,7 @@ public class EventList implements Serializable{
 	/**
 	 * @param eventDate the eventDate to set
 	 */
-	public void setEventDate(Date eventDate) {
+	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
 	}
 	
