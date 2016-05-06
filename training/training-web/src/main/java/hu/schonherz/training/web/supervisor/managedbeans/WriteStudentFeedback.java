@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -19,6 +20,7 @@ import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
+import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
 import hu.schonherz.training.web.supervisor.accessories.EventList;
 
 @ManagedBean(name = "writeStudentFeedback")
@@ -48,6 +50,11 @@ public class WriteStudentFeedback implements Serializable {
 	private List<EventVo> eventsToInspect = new ArrayList<>();
 	private Set<UserVo> users = new HashSet<>();
 	private List<EventList> events = new ArrayList<>();
+	
+	// variables for send new feedback
+	private String eventId;
+	private String isPublic;
+	private String feedbackMessage;
 
 	@PostConstruct
 	public void init() {
@@ -64,6 +71,37 @@ public class WriteStudentFeedback implements Serializable {
 		}
 	}
 
+	public void sendEventFeedback() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		FeedbackVo feedback = new FeedbackVo();
+		feedback.setEvent(eventService.findEventById(Long.parseLong(eventId)));
+		feedback.setFeedbackMessage(feedbackMessage);
+		if (feedbackMessage == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Feedback message is missing");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		if (isPublic.equalsIgnoreCase("true")) {
+			feedback.setPublic(true);
+		} else {
+			feedback.setPublic(false);
+		}
+		feedback.setRated(feedback.getEvent().getUsers());
+		feedback.setSender(loggedInUser);
+		feedback.setRecDate(new Date());
+		try {
+			feedbackService.giveFeedback(feedback);
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback could not be sent");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
+				"Feedback successfully sent");
+		currentInstance.addMessage("growl", facesMessage);
+	}
 	/**
 	 * @return the eventsToInspect
 	 */
@@ -104,6 +142,48 @@ public class WriteStudentFeedback implements Serializable {
 	 */
 	public void setEvents(List<EventList> events) {
 		this.events = events;
+	}
+
+	/**
+	 * @return the eventId
+	 */
+	public String getEventId() {
+		return eventId;
+	}
+
+	/**
+	 * @param eventId the eventId to set
+	 */
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
+
+	/**
+	 * @return the isPublic
+	 */
+	public String getIsPublic() {
+		return isPublic;
+	}
+
+	/**
+	 * @param isPublic the isPublic to set
+	 */
+	public void setIsPublic(String isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	/**
+	 * @return the feedbackMessage
+	 */
+	public String getFeedbackMessage() {
+		return feedbackMessage;
+	}
+
+	/**
+	 * @param feedbackMessage the feedbackMessage to set
+	 */
+	public void setFeedbackMessage(String feedbackMessage) {
+		this.feedbackMessage = feedbackMessage;
 	}
 
 
