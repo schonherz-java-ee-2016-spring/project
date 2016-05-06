@@ -8,11 +8,11 @@
 			<p:dataTable id="ttable" var="tr" value="#{trainingBean.trainings}" selectionMode="single"
 				selection="#{trainingBean.selected}" rowKey="#{tr.id}" paginator="true" rows="12"
 				rowsPerPageTemplate="4,8,12">
-				<p:column headerText="#{out.trainingname}" priority="1">
+				<p:column headerText="#{out.trainingname}" priority="1"  filterBy="#{tr.name}" filterMatchMode="contains">
 					<h:outputText value="#{tr.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.description}" priority="2">
+				<p:column headerText="#{out.description}" priority="2"  filterBy="#{tr.description}" filterMatchMode="contains">
 					<h:outputText value="#{tr.description}">
 					</h:outputText>
 				</p:column>
@@ -21,17 +21,17 @@
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.trainingend}" priority="2">
+				<p:column headerText="#{out.trainingend}" priority="2" >
 					<h:outputText value="#{tr.endDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="3">
+				<p:column headerText="#{out.recdate}" priority="3" >
 					<h:outputText value="#{tr.recDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="4">
+				<p:column headerText="#{out.recuser}" priority="4"  filterBy="#{tr.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.recUser}">
 					</h:outputText>
 				</p:column>
@@ -40,7 +40,7 @@
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moduser}" priority="4">
+				<p:column headerText="#{out.moduser}" priority="4"  filterBy="#{tr.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.modUser}">
 					</h:outputText>
 				</p:column>
