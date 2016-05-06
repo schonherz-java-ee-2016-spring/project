@@ -31,7 +31,7 @@ public class Feedback extends BaseEntity{
 	private User sender;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
+	@JoinTable( name = "rated_to_feedback", joinColumns = @JoinColumn(name = "feedback_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "rated_id", referencedColumnName = "id"))
 	private Collection<User> rated;
 
 	@ManyToOne(fetch = FetchType.LAZY)
