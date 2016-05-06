@@ -3,27 +3,36 @@ package hu.schonherz.training.web.admin.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.DualListModel;
 import org.primefaces.model.TreeNode;
 
 import hu.schonherz.training.service.admin.ThemeService;
 import hu.schonherz.training.service.admin.TrainingService;
+import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.ThemeVo;
 import hu.schonherz.training.service.admin.vo.TrainingVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @ManagedBean(name = "trainingBean")
 @ViewScoped
 public class TrainingBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+	static final Logger logger = LogManager.getLogger(UserGroupsBean.class);
 
 	@EJB
 	private TrainingService trainingService;
@@ -31,9 +40,19 @@ public class TrainingBean implements Serializable {
 	@EJB
 	private ThemeService themeService;
 
+	@EJB
+	private UserService userService;
+
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+
 	private List<TrainingVo> trainings;
 	private TrainingVo selected;
 	private Boolean isDisabled = true;
+	private DualListModel<UserVo> users;
+	private List<UserVo> usersSource;
+
+	private List<UserVo> usersTarget;
 
 	private TreeNode root1;
 
@@ -45,11 +64,35 @@ public class TrainingBean implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		users = new DualListModel<>();
 		try {
 			trainings = trainingService.getAllTrainings();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
+	}
+
+	public void manageAction() {
+		usersSource = new ArrayList<>();
+		usersTarget = new ArrayList<>();
+		usersTarget = trainingService.getAllUsers(selected.getId());
+		try {
+			for (UserVo userVo : userService.findAllUser()) {
+				int o = 0;
+				for (UserVo user : usersTarget) {
+					if (user.getId().equals(userVo.getId())) {
+						o = 1;
+						break;
+					}
+				}
+				if (o == 0) {
+					usersSource.add(userVo);
+				}
+			}
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		users = new DualListModel<UserVo>(usersSource, usersTarget);
 	}
 
 	public void saveTraining() {
@@ -124,6 +167,37 @@ public class TrainingBean implements Serializable {
 		selected = new TrainingVo();
 	}
 
+	public void saveUsers() {
+		List<UserVo> trainingUsers = selected.getUsers();
+		for (UserVo userVo : users.getSource()) {
+			for (UserVo tu : trainingUsers) {
+				if (userVo.getId().equals(tu.getId())) {
+					trainingUsers.remove(tu);
+					break;
+				}
+			}
+		}
+		for (UserVo userVo : users.getTarget()) {
+			for (UserVo tu : trainingUsers) {
+				if (userVo.getId().equals(tu.getId())) {
+					trainingUsers.remove(tu);
+					break;
+				}
+			}
+			trainingUsers.add(userVo);
+		}
+		selected.setUsers(trainingUsers);
+		try {
+			trainingService.saveTraining(selected);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("trainingSaved"));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public void save() {
 		Long isCreateAction = selected.getId();
 		try {
@@ -141,7 +215,7 @@ public class TrainingBean implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		if (isCreateAction == null) {
 			selected = new TrainingVo();
@@ -153,7 +227,7 @@ public class TrainingBean implements Serializable {
 			trainingService.deleteTraining(selected.getId());
 			trainings.remove(selected);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 
@@ -212,4 +286,37 @@ public class TrainingBean implements Serializable {
 	public void setSelectedNode2(TreeNode selectedNode2) {
 		this.selectedNode2 = selectedNode2;
 	}
+
+	public DualListModel<UserVo> getUsers() {
+		return users;
+	}
+
+	public void setUsers(DualListModel<UserVo> users) {
+		this.users = users;
+	}
+
+	public List<UserVo> getUsersSource() {
+		return usersSource;
+	}
+
+	public void setUsersSource(List<UserVo> usersSource) {
+		this.usersSource = usersSource;
+	}
+
+	public List<UserVo> getUsersTarget() {
+		return usersTarget;
+	}
+
+	public void setUsersTarget(List<UserVo> usersTarget) {
+		this.usersTarget = usersTarget;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
 }

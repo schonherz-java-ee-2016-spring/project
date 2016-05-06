@@ -162,24 +162,16 @@ public class UserGroupsBean implements Serializable {
 	}
 
 	public void saveRoleGroups() {
+		List<RoleGroupVo> rgvos = selected.getRoleGroups();
 		for (RoleGroupVo rGroupVo : rGroups.getSource()) {
-			List<RoleGroupVo> rgvos = selected.getRoleGroups();
 			for (RoleGroupVo rgvo : rgvos) {
 				if (rGroupVo.getId().equals(rgvo.getId())) {
 					rgvos.remove(rgvo);
 					break;
 				}
 			}
-			selected.setRoleGroups(rgvos);
-			try {
-				userGroupService.saveUserGroup(selected);
-			} catch (Exception e) {
-				logger.error(e);
-			}
 		}
-
 		for (RoleGroupVo rGroupVo : rGroups.getTarget()) {
-			List<RoleGroupVo> rgvos = selected.getRoleGroups();
 			for (RoleGroupVo rgvo : rgvos) {
 				if (rGroupVo.getId().equals(rgvo.getId())) {
 					rgvos.remove(rgvo);
@@ -187,12 +179,12 @@ public class UserGroupsBean implements Serializable {
 				}
 			}
 			rgvos.add(rGroupVo);
-			selected.setRoleGroups(rgvos);
-			try {
-				userGroupService.saveUserGroup(selected);
-			} catch (Exception e) {
-				logger.error(e);
-			}
+		}
+		selected.setRoleGroups(rgvos);
+		try {
+			userGroupService.saveUserGroup(selected);
+		} catch (Exception e) {
+			logger.error(e);
 		}
 
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),

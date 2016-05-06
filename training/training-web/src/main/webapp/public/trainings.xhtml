@@ -54,18 +54,20 @@
 					<p:commandButton id="treeButton" process="ttable" icon="ui-icon-pencil"
 						disabled="#{trainingBean.isDisabled}" value="#{out.managetraining}" update="msgs,treeform"
 						action="#{trainingBean.treeAction()}" onclick="PF('treedialog').show();" />
+					<p:commandButton id="manageButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
+						action="#{trainingBean.manageAction()}" onclick="PF('pickdialog').show();" />
 					<p:commandButton id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{trainingBean.isDisabled}"
 						action="#{trainingBean.deleteTraining()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton,treeButton"
+				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,treeButton"
 					listener="#{trainingBean.selectTrainingListener}" />
 				<p:ajax process="ttable" event="rowDblselect"
-					update="deleteButton,editButton,treeButton,msgs,form"
-					listener="#{trainingBean.selectTrainingListener}"
-					oncomplete="PF('dialog').show();" />
+					update="deleteButton,editButton,manageButton,treeButton,msgs,form"
+					listener="#{trainingBean.selectTrainingListener}" oncomplete="PF('dialog').show();" />
 			</p:dataTable>
 		</h:form>
 
@@ -73,6 +75,19 @@
 			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog" modal="true"
+			resizable="false">
+			<h:form id="pickform">
+				<p:pickList id="pickList" value="#{trainingBean.users}" var="user"
+					itemLabel="#{user.fullName} (#{user.userName})" itemValue="#{user}" converter="UserConverter">
+					<f:facet name="sourceCaption">#{out.notintrainingusers}</f:facet>
+					<f:facet name="targetCaption">#{out.trainingusers}</f:facet>
+				</p:pickList>
+				<p:commandButton id="userSubmit" action="#{trainingBean.saveUsers()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" oncomplete="PF('pickdialog').hide();" />
+			</h:form>
+		</p:dialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
 			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
@@ -111,7 +126,7 @@
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}"
 					update="form,msgs,growl,:trainingform:ttable" action="#{trainingBean.save()}"
-					icon="ui-icon-check" oncomplete="PF('dialog').hide();"/>
+					icon="ui-icon-check" oncomplete="PF('dialog').hide();" />
 			</h:form>
 		</p:dialog>
 
@@ -143,7 +158,7 @@
 					</div>
 				</div>
 				<p:commandButton id="trSubmit" action="#{trainingBean.saveTraining()}" value="#{out.save}"
-					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();"/>
+					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();" />
 
 			</h:form>
 		</p:dialog>
