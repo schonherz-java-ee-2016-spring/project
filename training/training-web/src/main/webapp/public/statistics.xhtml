@@ -9,23 +9,52 @@
 	<ui:define name="head-extra">
 		<script type="text/javascript"
 			src="https://www.gstatic.com/charts/loader.js"></script>
-		<h:outputScript type="text/javascript">
+		
+		<h:outputStylesheet>
+			.chart {
+				width: 800pt; height: 400pt;
+			}
+		</h:outputStylesheet>
+	</ui:define>
+	<ui:define name="content">
+
+		<h:inputHidden id="testcols" value='#{statisticsBean.testColumnsToJsArray()}' />
+		<h:inputHidden id="testdata" value="#{statisticsBean.testDataForChart()}" />
+		<h:inputHidden id="homeworkcols" value="#{statisticsBean.homeworkColumnsToJsArray()}" />
+		<h:inputHidden id="homeworkdata" value="#{statisticsBean.homeworkDataForChart()}" />
+		<h:panelGroup layout="block" styleClass="container">
+
+			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}" >
+				<p:ajax event="change" update="testdata"
+					listener="#{statisticsBean.onTrainingIdChange()}" />
+				<f:selectItems value="#{statisticsBean.trainingList}" />
+			</p:selectOneMenu>
+
+		</h:panelGroup>
+		<h:panelGroup id="linear" layout="block" styleClass="container">
+
+
+			<h:panelGroup id="testChart" layout="block" styleClass="chart">
+			</h:panelGroup>
+			<h:panelGroup id="homeworkChart" layout="block" styleClass="chart"></h:panelGroup>
+		</h:panelGroup>
+		<h:outputScript type="text/javascript" id="drawscript">
 			google.charts.load('current', {
 				'packages' : [ 'line' ]
 			});
 			google.charts.setOnLoadCallback(drawCharts);
 
 			function drawCharts(){
-				drawTestChart();
-				drawHomeworkChart();
+				drawTestChart(eval($('#testcols').val()), eval($('#testdata').val()));
+				drawHomeworkChart(eval($('#homeworkcols').val()), eval($('#homeworkdata').val()));
 			}
 			
-			function drawTestChart() {
+			function drawTestChart(columns, results) {
 
 				var data = new google.visualization.DataTable();
 
 				var first = true;
-				#{statisticsBean.testColumnsToJsArray()}.forEach(function(event){
+				columns.forEach(function(event){
 					if(first){
 						data.addColumn('string', '#{out.statisticsexam}');
 						
@@ -34,7 +63,7 @@
 						data.addColumn('number', event);
 				})
 				
-				data.addRows(#{statisticsBean.testDataForChart()});
+				data.addRows(results);
 
 				var options = {
 					selectionMode: 'multiple',
@@ -48,12 +77,12 @@
 
 				chart.draw(data, options);
 			}
-			function drawHomeworkChart() {
+			function drawHomeworkChart(columns, results) {
 
 				var data = new google.visualization.DataTable();
 
 				var first = true;
-				#{statisticsBean.homeworkColumnsToJsArray()}.forEach(function(event){
+				columns.forEach(function(event){
 					if(first){
 						data.addColumn('string', '#{out.statisticshomework}');
 						
@@ -62,7 +91,7 @@
 						data.addColumn('number', event);
 				})
 				
-				data.addRows(#{statisticsBean.homeworkDataForChart()});
+				data.addRows(results);
 
 				var options = {
 
@@ -79,29 +108,6 @@
 				chart.draw(data, options);
 			}
 		</h:outputScript>
-		<h:outputStylesheet >
-			.chart {
-				width: 800pt; height: 400pt;
-			}
-		</h:outputStylesheet>
-	</ui:define>
-	<ui:define name="content">
-
-		<h:panelGroup layout="block" styleClass="container">
-
-			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
-				<p:ajax update="" />
-				<f:selectItems value="#{statisticsBean.trainingList}" />
-			</p:selectOneMenu>
-
-		</h:panelGroup>
-		<h:panelGroup id="linear" layout="block" styleClass="container">
-
-
-			<h:panelGroup id="testChart" layout="block" styleClass="chart">
-			</h:panelGroup>
-			<h:panelGroup id="homeworkChart" layout="block" styleClass="chart"></h:panelGroup>
-		</h:panelGroup>
 	</ui:define>
 
 </ui:composition>
