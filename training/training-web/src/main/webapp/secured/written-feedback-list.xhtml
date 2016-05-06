@@ -11,11 +11,9 @@
 		<ui:component>
 			
 				<p:accordionPanel multiple="true" var="feedback" styleClass="customAccordion" value="#{feedbacksBean.writtenFeedbacks}" activeIndex="true">
-					<p:tab  title="#{feedback.event.getType()}: #{feedback.event.getName()}"> 	
+					<p:tab  title="#{feedback.event.getType()}: #{feedback.event.getName()} #{feedback.recDate}" > 	
 						<div class="well">
 							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object"
-									src="http://placekitten.com/g/200/300" height="75" width="50" /></a>
 								<div class="media-body">
 									<h:outputText value="#{out.feedbackisabout}"></h:outputText>
 									<p:dataGrid value="#{feedback.rated}" var="rated">
@@ -23,11 +21,6 @@
 									</p:dataGrid>
 									<br/>
 									<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
-									<p class="text-right">
-										<h:outputText value="#{feedback.recDate}">
-											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>
-										</h:outputText>
-									</p>
 								</div>
 							</div>
 						</div>
