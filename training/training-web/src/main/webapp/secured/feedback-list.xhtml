@@ -10,19 +10,12 @@
 	<ui:define name="feedback-list">
 		<ui:component>
 			
-				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
-					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} by #{feedback.sender.getFullName()}"> 	
+				<p:accordionPanel multiple="true" var="feedback" styleClass="customAccordion" value="#{feedbacksBean.feedbacks}" activeIndex="true">
+					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} #{out.by} #{feedback.sender.getFullName()} #{feedback.recDate}"> 	
 						<div class="well">
 							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object"
-									src="http://placekitten.com/g/200/300" height="75" width="50" /></a>
 								<div class="media-body">
 									<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
-									<p class="text-right">
-										<h:outputText value="#{feedback.recDate}">
-											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>
-										</h:outputText>
-									</p>
 								</div>
 							</div>
 						</div>

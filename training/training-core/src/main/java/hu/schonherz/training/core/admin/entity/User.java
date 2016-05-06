@@ -41,6 +41,9 @@ public class User extends BaseEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "group_to_user", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
 	private Collection<UserGroup> groups;
+	
+	@Column(unique = false)
+	private String hashCode;
 
 	public String getUserName() {
 		return userName;
@@ -96,5 +99,13 @@ public class User extends BaseEntity {
 
 	public void setRoleGroups(Collection<RoleGroup> roleGroups) {
 		this.roleGroups = roleGroups;
+	}
+
+	public String getHashCode() {
+		return hashCode;
+	}
+
+	public void setHashCode(String hashCode) {
+		this.hashCode = hashCode;
 	}
 }

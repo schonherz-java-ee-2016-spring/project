@@ -60,6 +60,7 @@ public class WriteObsFeedback implements Serializable {
 		String eventName;
 		String studentName = "";
 		String studentUsername = "";
+		Date eventDate;
 		boolean isOk;
 		try {
 //			get the logged in user
@@ -84,9 +85,10 @@ public class WriteObsFeedback implements Serializable {
 				}
 				eventId = event.getId();
 				eventName = event.getName();
+				eventDate = event.getDate();
 //				store the event and student together for every events
 				if (!studentName.isEmpty()) {
-					displayList.add(new EventList(eventId, eventName, studentName, studentUsername));
+					displayList.add(new EventList(eventId, eventName, eventDate, studentName, studentUsername));
 				}
 			}
 		} catch (Exception e) {
@@ -108,17 +110,18 @@ public class WriteObsFeedback implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		if (isPublic.contentEquals(isPublic)) {
+		if (isPublic.equalsIgnoreCase("true")) {
 			feedback.setPublic(true);
 		} else {
 			feedback.setPublic(false);
 		}
+		List<UserVo> rateds = new ArrayList<>();
 		try {
-			feedback.setRated(userService.findUserByName(ratedUsername));
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+			rateds.add(userService.findUserByName(ratedUsername));
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
+		feedback.setRated(rateds);
 		feedback.setSender(loggedInUser);
 		feedback.setRecDate(new Date());
 

@@ -47,7 +47,7 @@
 					<p:commandButton id="roleManageButton" process="gtable" icon="ui-icon-pencil"
 						disabled="#{userGroupsBean.isDisabled}" value="#{out.roleGroups}" update="msgs,pickform2"
 						action="#{userGroupsBean.roleManageAction()}" onclick="PF('pickdialog2').show();" />
-					<p:commandButton id="deleteButton" process="gtable" update="msgs,:groupform:gtable"
+					<p:commandButton id="deleteButton" process="gtable" update="msgs,:groupform:gtable,growl"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{userGroupsBean.isDisabled}"
 						action="#{userGroupsBean.deleteGroup()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
@@ -61,8 +61,8 @@
 		</h:form>
 
 		<p:confirmDialog global="true" responsive="true" showEffect="clip">
-			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			<p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button"  styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
@@ -75,6 +75,7 @@
 							value="#{userGroupsBean.selected.groupName}" required="true" label="groupname">
 							<f:validateRequired />
 							<f:validateLength minimum="8" />
+							<f:validateLength maximum="30" />
 						</p:inputText>
 					</div>
 				</div>
@@ -84,12 +85,13 @@
 						<p:inputTextarea styleClass="form-control" id="desc"
 							value="#{userGroupsBean.selected.description}" required="true" label="desc">
 							<f:validateRequired />
+							<f:validateLength minimum="10" />
 							<f:validateLength maximum="1000" />
 						</p:inputTextarea>
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}" update="form,msgs,growl,:groupform:gtable"
-					action="#{userGroupsBean.save()}" icon="ui-icon-check" oncomplete="PF('dialog').hide();"/>
+					action="#{userGroupsBean.save()}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialog').hide();"/>
 			</h:form>
 		</p:dialog>
 
@@ -115,7 +117,7 @@
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
 				</p:pickList>
 				<p:commandButton id="roleSubmit" action="#{userGroupsBean.saveRoleGroups()}" value="#{out.save}"
-					update=":groupform:gtable,growl"  oncomplete="PF('pickdialog2').hide();"/>
+					update=":groupform:gtable,growl"  oncomplete="if (args &amp;&amp; !args.validationFailed) PF('pickdialog2').hide();"/>
 			</h:form>
 		</p:dialog>
 	</ui:define>

@@ -32,43 +32,43 @@
 						<form action="#{request.contextPath}/login" method="post">
 						
 						<h:panelGroup layout="block" class="error" styleClass="alert alert-danger"
-					rendered="#{param['error'] == 1}">Wrong password!</h:panelGroup>
+					rendered="#{param['error'] == 1}">#{out.wrongpass}</h:panelGroup>
 							<hr />
-							<h5>Enter Details to Login</h5>
+							<h5>#{out.writedetailstologin}</h5>
 							<br />
 							
 							<div class="form-group input-group">
 								<span class="input-group-addon"><i class="fa fa-tag"></i></span>
 								<input type="text" class="form-control" name="j_username"
-									placeholder="Your Username " />
+									placeholder="#{out.youruser}" />
 							</div>
 							<div class="form-group input-group">
 								<span class="input-group-addon"><i class="fa fa-lock"></i></span>
 								<input type="password" class="form-control" name="j_password"
-									placeholder="Your Password" />
+									placeholder="#{out.yourpass}" />
 							</div>
 							
 							<div class="form-group">
 								<label class="checkbox-inline"> <input type="checkbox"
-									name="remember-me" /> Remember me
-								</label> <span class="pull-right"> <a href="index.html">Forget
-										password ? </a>
+									name="remember-me" /> #{out.rememberme}
+								</label> <span class="pull-right">
+								<a href="#{request.contextPath}/public/forgotPassword.xhtml">#{out.forgotpass}</a>
 								</span>
 							</div>
-
-							<input type="submit" value="Login" class="btn btn-primary "></input>
+							<input type="submit" value="#{out.login}" class="btn btn-primary "></input>
 							<hr />
 							
-							Not register ?
+							#{out.notregistered}
 							<a href="#{request.contextPath}/public/signup.xhtml">
-							click here </a> or go to
-<!-- 							<h:link value="Home"  >Home</h:link> -->
-							<a href="#{request.contextPath}/index.xhtml">Home</a>
+							#{out.clickhere} </a> #{out.orgoto}
+							<a href="#{request.contextPath}/index.xhtml">#{out.home}</a>
 						</form>
+
 					</div>
 				</div>
 			</div>
 		</div>
+
 	</h:body>
 </f:view>
 </html>

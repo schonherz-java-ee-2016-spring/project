@@ -6,24 +6,66 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
 
+	<ui:define name="head-extra">
+		<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+			google.charts.load('current', {
+				'packages' : [ 'line' ]
+			});
+			google.charts.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+
+				var data = new google.visualization.DataTable();
+// 				data.addColumn('number', 'Day');
+// 				data.addColumn('number', 'Guardians of the Galaxy');
+// 				data.addColumn('number', 'The Avengers');
+// 				data.addColumn('number', 'Transformers: Age of Extinction');
+
+				var first = true;
+				#{statisticsBean.columnsToJsArray()}.forEach(function(event){
+					if(first){
+						data.addColumn('string', '#{out.statisticsexam}');
+						
+						first = false;
+					}else
+						data.addColumn('number', event);
+				})
+				
+				data.addRows(#{statisticsBean.testDataForChart()});
+
+				var options = {
+					chart : {
+						title : '#{out.statisticsexam}'
+					},
+					width : 900,
+					height : 500
+				};
+
+				var chart = new google.charts.Line(document
+						.getElementById('testChart'));
+
+				chart.draw(data, options);
+			}
+		</script>
+	</ui:define>
 	<ui:define name="content">
 
 		<h:panelGroup layout="block" styleClass="container">
 
-				<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
-				<p:ajax listener="#{statisticsBean.onTrainingIdChange}" update="exam,homework" />
-                
-					<f:selectItems value="#{statisticsBean.trainingList}" />
-				</p:selectOneMenu>
+			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
+				<p:ajax update="" />
+				<f:selectItems value="#{statisticsBean.trainingList}" />
+			</p:selectOneMenu>
 
 		</h:panelGroup>
 		<h:panelGroup id="linear" layout="block" styleClass="container">
-		<h:outputText value="#{out.statisticsexam}" />
-			<p:chart id="exam" type="line" model="#{statisticsBean.examModel}"
-				style="height:300pt;" />
-		<h:outputText value="#{out.statisticshomework}" />
-			<p:chart id="homework" type="line" model="#{statisticsBean.homeworkModel}"
-				style="height:300pt;" />
+
+
+			<h:panelGroup id="testChart" layout="block">
+			</h:panelGroup>
+			<h:panelGroup id="homeworkChart" layout="block"></h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
 

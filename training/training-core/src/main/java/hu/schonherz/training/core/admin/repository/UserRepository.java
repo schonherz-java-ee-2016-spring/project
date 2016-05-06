@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	void updateUser(String username, String fullname, String email, Long Id);
 	
 //	void updateUserById(Long id) throws Exception;
+	
+	User findUserByHashCode(String hashCode);
 }
