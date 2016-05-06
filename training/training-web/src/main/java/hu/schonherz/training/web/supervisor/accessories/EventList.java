@@ -13,6 +13,7 @@ public class EventList implements Serializable{
 
 	private Long eventId;
 	private String eventName;
+	private String eventType;
 	private String ratedName;
 	private String ratedUsername;
 	private String eventDate;
@@ -30,6 +31,21 @@ public class EventList implements Serializable{
 	}
 	
 	
+	/**
+	 * @param eventId
+	 * @param eventName
+	 * @param eventType
+	 * @param eventDate
+	 */
+	public EventList(Long eventId, String eventName, String eventType, Date eventDate) {
+		super();
+		this.eventId = eventId;
+		this.eventName = eventName;
+		this.eventType = eventType;
+		this.eventDate = df.format(eventDate);
+	}
+
+
 	/**
 	 * @param ratedName
 	 * @param ratedUsername
@@ -104,6 +120,22 @@ public class EventList implements Serializable{
 	 */
 	public void setEventDate(String eventDate) {
 		this.eventDate = eventDate;
+	}
+
+
+	/**
+	 * @return the eventType
+	 */
+	public String getEventType() {
+		return eventType;
+	}
+
+
+	/**
+	 * @param eventType the eventType to set
+	 */
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 	
 	
