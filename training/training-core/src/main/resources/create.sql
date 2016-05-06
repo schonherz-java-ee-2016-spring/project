@@ -394,6 +394,27 @@ INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7115, curren
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7116, current_timestamp, 'CREATE SQL', 4, 'Webservice');
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7117, current_timestamp, 'CREATE SQL', 4, 'Fejlesztési módszertanok');
 
+--Themes to training
+
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7100);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7101);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7102);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7103);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7104);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7105);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7106);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7107);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7108);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7109);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7110);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7111);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7112);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7113);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7114);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7115);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7116);
+INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7117);
+
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
