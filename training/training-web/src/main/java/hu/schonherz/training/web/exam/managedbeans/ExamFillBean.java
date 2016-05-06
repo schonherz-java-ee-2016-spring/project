@@ -55,6 +55,7 @@ public class ExamFillBean implements Serializable {
 	@EJB
 	private ExamUserRelationService examUserRelationService;
 
+	private Boolean isFilled;
 	private List<QuestionVo> questionList;
 	private String examIdAsString;
 	private String questionIdAsString;
@@ -345,5 +346,33 @@ public class ExamFillBean implements Serializable {
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
 	}
+	public Boolean getIsFilled() {
+		try {
+			Long examId = Long.parseLong(getExamIdAsString());
+			UserVo userVo = userService
+					.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+			if (examUserRelationService.getByExamIdAndUserId(examId, userVo.getId()) == null)
+				isFilled = false;
+			else
+				isFilled = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isFilled;
+	}
+
+	public void setIsFilled(Boolean isFilled) {
+		this.isFilled = isFilled;
+	}
+
+	public ExamUserRelationService getExamUserRelationService() {
+		return examUserRelationService;
+	}
+
+	public void setExamUserRelationService(ExamUserRelationService examUserRelationService) {
+		this.examUserRelationService = examUserRelationService;
+	}
+
 
 }
