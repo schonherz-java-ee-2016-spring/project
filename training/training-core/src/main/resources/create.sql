@@ -415,6 +415,29 @@ INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7115);
 INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7116);
 INSERT INTO public.theme_to_training(training_id, theme_id) VALUES (7000, 7117);
 
+--Exam events
+
+INSERT INTO public.event(id, recdate, recuser, date, description, name,  place, type) VALUES (3300, current_timestamp, 'CREATE SQL', to_date('2016 05 19', 'yyyy MM dd'), 'Teszt', 'Verzió kezelés',  'Debrecen, Böszörményi út 68. H-4032 - Hungary', 'Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name,  place, type) VALUES (3301, current_timestamp, 'CREATE SQL', to_date('2016 05 26', 'yyyy MM dd'), 'Teszt', 'Fejesztői eszközök',  'Debrecen, Böszörményi út 68. H-4032 - Hungary', 'Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name,  place, type) VALUES (3302, current_timestamp, 'CREATE SQL', to_date('2016 06 01', 'yyyy MM dd'), 'Teszt', 'Java alapok',  'Debrecen, Böszörményi út 68. H-4032 - Hungary', 'Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3303, current_timestamp, 'CREATE SQL', to_date('2016 05 20', 'yyyy MM dd'), 'Teszt','Objektum orientált design','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3304, current_timestamp, 'CREATE SQL', to_date('2016 05 21', 'yyyy MM dd'), 'Teszt','Maven','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3305, current_timestamp, 'CREATE SQL', to_date('2016 05 22', 'yyyy MM dd'), 'Teszt','Web Előismeretek','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3306, current_timestamp, 'CREATE SQL', to_date('2016 05 23', 'yyyy MM dd'), 'Teszt','Servlet API','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3307, current_timestamp, 'CREATE SQL', to_date('2016 04 18', 'yyyy MM dd'), 'Teszt','SQL','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3308, current_timestamp, 'CREATE SQL', to_date('2016 05 11', 'yyyy MM dd'), 'Teszt','JDBC','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3309, current_timestamp, 'CREATE SQL', to_date('2016 05 25', 'yyyy MM dd'), 'Teszt','Multitier architecture','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3310, current_timestamp, 'CREATE SQL', to_date('2016 04 03', 'yyyy MM dd'), 'Teszt','Spring','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3311, current_timestamp, 'CREATE SQL', to_date('2016 04 24', 'yyyy MM dd'), 'Teszt','Security','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3312, current_timestamp, 'CREATE SQL', to_date('2016 04 30', 'yyyy MM dd'), 'Teszt','JPA','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3313, current_timestamp, 'CREATE SQL', to_date('2016 04 27', 'yyyy MM dd'), 'Teszt','JEE Alapismeretek','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3314, current_timestamp, 'CREATE SQL', to_date('2016 05 20', 'yyyy MM dd'), 'Teszt','JSF','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3315, current_timestamp, 'CREATE SQL', to_date('2016 05 27', 'yyyy MM dd'), 'Teszt','EJB','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3316, current_timestamp, 'CREATE SQL', to_date('2016 04 11', 'yyyy MM dd'), 'Teszt','Webservice','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3317, current_timestamp, 'CREATE SQL', to_date('2016 05 14', 'yyyy MM dd'), 'Teszt','Fejlesztési módszertanok','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
+
+
+
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
