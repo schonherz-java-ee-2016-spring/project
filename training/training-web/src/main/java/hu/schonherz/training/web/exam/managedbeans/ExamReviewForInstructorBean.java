@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.context.RequestContext;
+
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.web.exam.base.ExamReview;
 
@@ -34,11 +36,13 @@ public class ExamReviewForInstructorBean extends ExamReview {
 			user = userService.findUserById(userId);
 			examList = examUserRelationService.getAllExamByUserId(userId);
 			showTable = false;
+			score = null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		RequestContext.getCurrentInstance().update("scoreTextForm");
 	}
-	
+
 	@Override
 	public void loadContent() {
 		try {
@@ -50,10 +54,13 @@ public class ExamReviewForInstructorBean extends ExamReview {
 					.collect(Collectors.toList());
 			setUpselectedOptionIdList();
 			updateQuestionList();
+			calculateExamScore();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		showTable = true;
+		RequestContext.getCurrentInstance().update("scoreTextForm");
 	}
 
 	public Boolean getShowTable() {

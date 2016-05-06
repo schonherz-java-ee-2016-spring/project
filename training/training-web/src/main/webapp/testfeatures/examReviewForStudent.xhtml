@@ -9,6 +9,11 @@
 	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
 
+		<h:form id="scoreTextForm">
+			<p:outputLabel rendered="#{examReviewForStudentBean.score != null}"
+				value="#{examReviewForStudentBean.score} / #{examReviewForStudentBean.maxScore}" />
+		</h:form>
+
 		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
 			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
@@ -16,18 +21,20 @@
 				<p:selectOneMenu id="examSelection"
 					value="#{examReviewForStudentBean.selectedExamIdAsString}"
 					style="width:125px">
-					<f:selectItems value="#{examReviewForStudentBean.examList}" var="exam"
-						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
+					<f:selectItems value="#{examReviewForStudentBean.examList}"
+						var="exam" itemLabel="#{exam.title}" itemValue="#{exam.id}" />
 				</p:selectOneMenu>
 
 
 				<f:facet name="footer">
 					<p:commandButton value="#{out.loadcontent}"
 						actionListener="#{examReviewForStudentBean.loadContent}"
-						icon="ui-icon-check" />
+						icon="ui-icon-check" update="scoreTextForm" />
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
+
+
 
 		<style>
 .good {
@@ -39,8 +46,9 @@
 }
 </style>
 		<h:form id="optionTableForm">
-			<ui:repeat var="question" value="#{examReviewForStudentBean.questionList}">
-				<p:dataTable reflow="true" var="option" value="#{question.options}"
+			<ui:repeat var="question"
+				value="#{examReviewForStudentBean.questionList}">
+				<p:dataTable var="option" value="#{question.options}"
 					rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
 					<f:facet name="header">
             			#{question.text}
