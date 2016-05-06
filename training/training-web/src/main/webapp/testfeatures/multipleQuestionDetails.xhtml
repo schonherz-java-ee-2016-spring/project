@@ -30,7 +30,7 @@
 		</h:form>
 
 		<h:form id="optionTableForm">
-			<p:dataTable id="optionTable" lazy="true"
+			<p:dataTable reflow="true" id="optionTable" lazy="true"
 				value="#{multipleQuestionDetailsBean.optionList}" var="option"
 				selection="#{multipleQuestionDetailsBean.correctOptions}"
 				rowKey="#{option.text}">

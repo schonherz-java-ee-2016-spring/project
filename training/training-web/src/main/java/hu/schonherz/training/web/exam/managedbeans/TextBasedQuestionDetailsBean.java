@@ -36,6 +36,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 
 	public String getQuestionIdAsString() {
 		return questionIdAsString;
+		
 	}
 
 	public void setQuestionIdAsString(String questionIdAsString) {

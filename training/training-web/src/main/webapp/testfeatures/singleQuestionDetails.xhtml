@@ -43,7 +43,7 @@
 			<p:dataTable id="optionTable" lazy="true"
 				value="#{singleQuestionDetailsBean.optionList}" var="option"
 				selection="#{singleQuestionDetailsBean.correctOption}"
-				rowKey="#{option.text}">
+				rowKey="#{option.text}" reflow="true">
 				<f:facet name="header">
 				#{out.options}
 			</f:facet>
