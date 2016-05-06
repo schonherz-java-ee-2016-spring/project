@@ -31,6 +31,8 @@ public class ThemeServiceBean {
 	private Integer code = 0;
 	private boolean disabled;
 	private boolean mainSelected;
+	private ThemeVo testVo;
+	
 
 	private TreeNode root;
 	private TreeNode selectedNode;
@@ -99,7 +101,7 @@ public class ThemeServiceBean {
 	}
 
 	public void deleteTheme() {
-		ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
+//		ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
 		if (!(testVo.getType().equals("main"))) {
 			ThemeVo parent = themeService.getThemeByName(selectedNode.getParent().getData().toString());
 			System.out.println("ASDASDASD" + parent.toString());
@@ -114,23 +116,19 @@ public class ThemeServiceBean {
 		root = createThemes();
 	}
 
+	public void editTheme(){
+		
+	}
+	
 	public void onRowSelect(NodeSelectEvent event) {
 		disabled = false;
-		System.out.println(event.getTreeNode().getData().toString());
-		ThemeVo testVo = themeService.getThemeByName(event.getTreeNode().getData().toString());
+		testVo = themeService.getThemeByName(event.getTreeNode().getData().toString());
 		if (testVo.getType().equals("main"))
 			mainSelected = false;
 		else
 			mainSelected = true;
 	}
 
-	public void displaySelectedSingle() {
-		if (selectedNode != null) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected",
-					selectedNode.getData().toString());
-			FacesContext.getCurrentInstance().addMessage(null, message);
-		}
-	}
 
 	public ThemeService getThemeService() {
 		return themeService;
@@ -218,6 +216,14 @@ public class ThemeServiceBean {
 
 	public void setSelectedNode(TreeNode selectedNode) {
 		this.selectedNode = selectedNode;
+	}
+
+	public ThemeVo getTestVo() {
+		return testVo;
+	}
+
+	public void setTestVo(ThemeVo testVo) {
+		this.testVo = testVo;
 	}
 
 }
