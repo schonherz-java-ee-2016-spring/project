@@ -10,7 +10,7 @@
 	<ui:define name="feedback-list">
 		<ui:component>
 			
-				<p:accordionPanel multiple="true" var="feedback" value="#{feedbacksBean.feedbacks}" activeIndex="true">
+				<p:accordionPanel multiple="true" var="feedback" styleClass="customAccordion" value="#{feedbacksBean.feedbacks}" activeIndex="true">
 					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} by #{feedback.sender.getFullName()}"> 	
 						<div class="well">
 							<div class="media">

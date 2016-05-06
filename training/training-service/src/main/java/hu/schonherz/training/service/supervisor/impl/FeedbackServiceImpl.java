@@ -1,6 +1,7 @@
 package hu.schonherz.training.service.supervisor.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -41,60 +42,17 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	@Override
-	public FeedbackVo getFeedback(Long feedbackId) throws Exception {
-		Feedback feedback = feedbackRepository.findOne(feedbackId);
-		return FeedbackMapper.toVo(feedback);
-	}
-
-	@Override
-	public List<FeedbackVo> getAllFeedbackBySender(Long userId) throws Exception {
-		List<FeedbackVo> result = null;
-		try {
-			List<Feedback> feedbacks = feedbackRepository.findAll();
-			for (Feedback feedback : feedbacks) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
-				if (feedback.getSender().getId() == userId) {
-					result.add(FeedbackMapper.toVo(feedback));
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
-		}
-
-	}
-
-	@Override
-	public List<FeedbackVo> getAllFeedbackByRated(Long userId) throws Exception {
-		List<FeedbackVo> result = null;
-		try {
-			List<Feedback> feedbacks = feedbackRepository.findAll();
-			for (Feedback feedback : feedbacks) {
-				if (result == null) {
-					result = new ArrayList<>();
-				}
-				if (feedback.getRated().getId() == userId) {
-					result.add(FeedbackMapper.toVo(feedback));
-				}
-			}
-			return result;
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return null;
-		}
-	}
-
-	@Override
 	public List<FeedbackVo> getAll() throws Exception {
 		List<FeedbackVo> result;
 		if (feedbackRepository.findAll() == null) {
 			result = new ArrayList<>();
 		} else {
-			result = FeedbackMapper.toVo(feedbackRepository.findAll());
+			List<Feedback> unsortedResult = new ArrayList<>();
+			unsortedResult = feedbackRepository.findAll();
+			Collections.sort(unsortedResult, Feedback.FeedbackDateComparator);
+			result = FeedbackMapper.toVo(unsortedResult);
 		}
+		
 		return result;
 	}
 

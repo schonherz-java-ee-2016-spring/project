@@ -108,17 +108,18 @@ public class WriteObsFeedback implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
-		if (isPublic.contentEquals(isPublic)) {
+		if (isPublic.equalsIgnoreCase("true")) {
 			feedback.setPublic(true);
 		} else {
 			feedback.setPublic(false);
 		}
+		List<UserVo> rateds = new ArrayList<>();
 		try {
-			feedback.setRated(userService.findUserByName(ratedUsername));
-		} catch (Exception e) {
-			
-			e.printStackTrace();
+			rateds.add(userService.findUserByName(ratedUsername));
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
+		feedback.setRated(rateds);
 		feedback.setSender(loggedInUser);
 		feedback.setRecDate(new Date());
 
