@@ -31,6 +31,14 @@ public class Training extends BaseEntity{
 	@JoinTable(name = "theme_to_training", joinColumns = @JoinColumn(name = "training_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "theme_id", referencedColumnName = "id"))
 	private Collection<Theme> themes;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_to_training", joinColumns = @JoinColumn(name = "training_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+	private Collection<User> users;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "groups_to_training", joinColumns = @JoinColumn(name = "training_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+	private Collection<UserGroup> userGroups;
+
 	public String getName() {
 		return name;
 	}
@@ -71,5 +79,21 @@ public class Training extends BaseEntity{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Collection<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Collection<User> users) {
+		this.users = users;
+	}
+
+	public Collection<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(Collection<UserGroup> userGroups) {
+		this.userGroups = userGroups;
 	}
 }
