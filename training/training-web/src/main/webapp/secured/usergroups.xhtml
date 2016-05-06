@@ -43,7 +43,7 @@
 						onclick="PF('dialog').show();" />
 					<p:commandButton id="manageButton" process="gtable" icon="ui-icon-pencil"
 						disabled="#{userGroupsBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
-						action="#{userGroupsBean.manageAction()}" onclick="PF('pickdialog').show();" />
+						action="#{userGroupsBean.userManageAction()}" onclick="PF('pickdialog').show();" />
 					<p:commandButton id="roleManageButton" process="gtable" icon="ui-icon-pencil"
 						disabled="#{userGroupsBean.isDisabled}" value="#{out.roleGroups}" update="msgs,pickform2"
 						action="#{userGroupsBean.roleManageAction()}" onclick="PF('pickdialog2').show();" />

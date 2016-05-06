@@ -30,53 +30,33 @@ import hu.schonherz.training.service.admin.vo.UserVo;
 @ViewScoped
 public class UserGroupsBean implements Serializable {
 	private static final long serialVersionUID = 1L;
-
-	static final Logger logger = LogManager.getLogger(UserGroupsBean.class);
+	private static final Logger logger = LogManager.getLogger(UserGroupsBean.class);
 
 	@EJB
 	private UserGroupService userGroupService;
 
 	@EJB
 	private UserService userService;
-	private List<UserGroupVo> userGroups;
+
+	@EJB
+	private RoleGroupService roleGroupService;
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-	/**
-	 * DualListModel a picklist megvalósítás érdekében.
-	 */
-	private DualListModel<UserVo> users;
 
-	/**
-	 * User lista, a picklist forrás oldalához.
-	 */
-	private List<UserVo> usersSource;
+	private Boolean isDisabled = true;
 
-	/**
-	 * User lista, a picklist cél oldalához.
-	 */
-	private List<UserVo> usersTarget;
-	/**
-	 * UserGroupVo a kiválasztott csoport és a dialog ablakban megjelenő csoport
-	 * adataihoz
-	 */
+	private List<UserGroupVo> userGroups;
 	private UserGroupVo selected;
 
-	/**
-	 * Kivan-e kapcsolva a szerkesztés,törlés gomb?
-	 */
-	private Boolean isDisabled = true;
+	private DualListModel<UserVo> users;
+	private List<UserVo> usersSource;
+	private List<UserVo> usersTarget;
 
 	private DualListModel<RoleGroupVo> rGroups;
 	private List<RoleGroupVo> rGroupsSource;
 	private List<RoleGroupVo> rGroupsTarget;
 
-	@EJB
-	private RoleGroupService roleGroupService;
-
-	/**
-	 * Init metódus, beolvassuk a csoportokat. Példányosítjuk amit kell.
-	 */
 	@PostConstruct
 	public void init() {
 		try {
@@ -89,36 +69,20 @@ public class UserGroupsBean implements Serializable {
 		}
 	}
 
-	/**
-	 * Listener a táblázat selectek érdekében, csoport választásra engedélyezi a
-	 * gombokat.
-	 * 
-	 * @param event
-	 */
 	public void selectGroupListener(SelectEvent event) {
 		isDisabled = false;
 	}
 
-	/**
-	 * Action metódus ha létrehozásra kattintunk új példányt hozunk létre a
-	 * dialoghoz.
-	 */
 	public void createAction() {
 		selected = new UserGroupVo();
 	}
 
-	/**
-	 * Userek kezeléséhez létrehozott metódus, a picklist megfelelő feltöltésére
-	 */
-	public void manageAction() {
+	public void userManageAction() {
 		usersSource = new ArrayList<>();
 		usersTarget = new ArrayList<>();
 		try {
-			// Megkeressük a usereket és bejárjuk őket.
 			for (UserVo userVo : userService.findAllUser()) {
 				int o = 0;
-				// Bejárjuk a user csoportjait, ha van a selecteddel azonos
-				// csoportja van a cél oldalra kerül.
 				for (UserGroupVo group : userVo.getGroups()) {
 					if (group.getId().equals(selected.getId())) {
 						usersTarget.add(userVo);
@@ -126,7 +90,6 @@ public class UserGroupsBean implements Serializable {
 						break;
 					}
 				}
-				// Ha nem került a cél oldalra tegyük a kezdő oldalra.
 				if (o != 1) {
 					usersSource.add(userVo);
 				}
@@ -134,7 +97,6 @@ public class UserGroupsBean implements Serializable {
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		// A picklisthez gyártsuk le a két oldal listájával
 		users = new DualListModel<UserVo>(usersSource, usersTarget);
 	}
 
@@ -159,6 +121,61 @@ public class UserGroupsBean implements Serializable {
 			logger.error(e);
 		}
 		rGroups = new DualListModel<RoleGroupVo>(rGroupsSource, rGroupsTarget);
+	}
+
+	public void save() {
+		Long isCreateAction = selected.getId();
+		try {
+			UserGroupVo gvo = userGroupService.findGroupByName(selected.getGroupName());
+			if ((gvo != null) && !gvo.getId().equals(selected.getId())) {
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+						bundle.getString("userGroupNameExists"));
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			} else {
+				userGroupService.saveUserGroup(selected);
+				userGroups.remove(selected);
+				selected = userGroupService.findGroupByName(selected.getGroupName());
+				userGroups.add(selected);
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						bundle.getString("userGroupSaved"));
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		if (isCreateAction == null) {
+			selected = new UserGroupVo();
+			isDisabled = true;
+		}
+	}
+
+	public void saveUsers() {
+		for (UserVo userVo : users.getSource()) {
+			Collection<UserGroupVo> ugvo = userVo.getGroups();
+			for (UserGroupVo userGroupVo : ugvo) {
+				if (userGroupVo.getId().equals(selected.getId())) {
+					ugvo.remove(userGroupVo);
+					break;
+				}
+			}
+			userVo.setGroups(ugvo);
+			userService.updateUser(userVo);
+		}
+		for (UserVo userVo : users.getTarget()) {
+			Collection<UserGroupVo> ugvo = userVo.getGroups();
+			for (UserGroupVo userGroupVo : ugvo) {
+				if (userGroupVo.getId().equals(selected.getId())) {
+					ugvo.remove(userGroupVo);
+					break;
+				}
+			}
+			ugvo.add(selected);
+			userVo.setGroups(ugvo);
+			userService.updateUser(userVo);
+		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("usersSaved"));
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 	public void saveRoleGroups() {
@@ -192,94 +209,6 @@ public class UserGroupsBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	/**
-	 * Userek picklist utáni mentése
-	 */
-	public void saveUsers() {
-		// Bejárjuk a lista forrás (csoportba nem lévő userek) oldalát
-		for (UserVo userVo : users.getSource()) {
-			// lekérjük a user csoportjait
-			Collection<UserGroupVo> ugvo = userVo.getGroups();
-			// bejárjuk a csoportokat
-			for (UserGroupVo userGroupVo : ugvo) {
-				// Ha van köztük az aktuálisan kezelt csoportnak megfelelő
-				// Akkor azt töröljük a listából, és ezzel kész vagyunk
-				if (userGroupVo.getId().equals(selected.getId())) {
-					ugvo.remove(userGroupVo);
-					break;
-				}
-			}
-			// Vissza adjuk neki az új csoportot, frissítjük a usert.
-			userVo.setGroups(ugvo);
-			userService.updateUser(userVo);
-		}
-		// Megtesszük az előbbi folyamatot a cél oldalon, csak itt újra
-		// felvesszük neki
-		// Mivel lehet olyan user aki újonnan kapja a csoportot, és olyan is
-		// akinek már volt
-		for (UserVo userVo : users.getTarget()) {
-			Collection<UserGroupVo> ugvo = userVo.getGroups();
-			for (UserGroupVo userGroupVo : ugvo) {
-				if (userGroupVo.getId().equals(selected.getId())) {
-					ugvo.remove(userGroupVo);
-					break;
-				}
-			}
-			ugvo.add(selected);
-			userVo.setGroups(ugvo);
-			userService.updateUser(userVo);
-		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-				bundle.getString("usersSaved"));
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-	}
-
-	/**
-	 * Metódus mely az új csoportok mentését és a meglévők frissítését kezeli.
-	 */
-	public void save() {
-		// Letároljuk hogy milyen az id, ha null akkor létrehozni akart, így a
-		// végén megint példányosítunk. Egyébként a kiválasztott csoport id-ja
-		// kerül bele.
-		Long isCreateAction = selected.getId();
-		try {
-			// Bekérjük a csoportot a DB-ből név alapján(dialogon beírt név
-			// mentés előtt), ha létezik ilyen nevű az adatbázisban és nem azt
-			// akarjuk módosítani, akkor nem adható névnek a használt név. Avagy
-			// ha újat gyártunk nem adható a használt név névnek.
-			UserGroupVo gvo = userGroupService.findGroupByName(selected.getGroupName());
-			if ((gvo != null) && !gvo.getId().equals(selected.getId())) {
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
-						bundle.getString("userGroupNameExists"));
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-			} else {
-				// Egyébként lementjük a csoportot az új dialog adatokkal,
-				// töröljük a táblázatból,
-				// betöltjük a DB-ből a változásokat(moddate,moduser,id(ha
-				// létrehozás van,stb))
-				// Majd beírjuk a táblázatba is.
-				userGroupService.saveUserGroup(selected);
-				userGroups.remove(selected);
-				selected = userGroupService.findGroupByName(selected.getGroupName());
-				userGroups.add(selected);
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-						bundle.getString("userGroupSaved"));
-				FacesContext.getCurrentInstance().addMessage(null, msg);
-			}
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		// Ha létrehozás volt, akkor újat készítünk, ha létre akarna hozni
-		// egyből egy másikat is, így nem az előzőleg létrehozott fog módosulni.
-		if (isCreateAction == null) {
-			selected = new UserGroupVo();
-			isDisabled = true;
-		}
-	}
-
-	/**
-	 * Csoport törlése, töröljük a DB-ből majd töröljük a listából is.
-	 */
 	public void deleteGroup() {
 		try {
 			userGroupService.deleteUserGroup(selected.getId());
@@ -290,6 +219,22 @@ public class UserGroupsBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			logger.error(e);
 		}
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
+	public Boolean getIsDisabled() {
+		return isDisabled;
+	}
+
+	public void setIsDisabled(Boolean isDisabled) {
+		this.isDisabled = isDisabled;
 	}
 
 	public List<UserGroupVo> getUserGroups() {
@@ -306,14 +251,6 @@ public class UserGroupsBean implements Serializable {
 
 	public void setSelected(UserGroupVo selected) {
 		this.selected = selected;
-	}
-
-	public Boolean getIsDisabled() {
-		return isDisabled;
-	}
-
-	public void setIsDisabled(Boolean isDisabled) {
-		this.isDisabled = isDisabled;
 	}
 
 	public DualListModel<UserVo> getUsers() {
@@ -339,6 +276,7 @@ public class UserGroupsBean implements Serializable {
 	public void setUsersTarget(List<UserVo> usersTarget) {
 		this.usersTarget = usersTarget;
 	}
+
 	public DualListModel<RoleGroupVo> getrGroups() {
 		return rGroups;
 	}
@@ -361,13 +299,5 @@ public class UserGroupsBean implements Serializable {
 
 	public void setrGroupsTarget(List<RoleGroupVo> rGroupsTarget) {
 		this.rGroupsTarget = rGroupsTarget;
-	}
-
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
-
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
 	}
 }
