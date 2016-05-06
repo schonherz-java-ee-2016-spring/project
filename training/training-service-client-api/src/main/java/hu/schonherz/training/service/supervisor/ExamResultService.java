@@ -10,7 +10,7 @@ public interface ExamResultService {
 
 	public List<ExamResultVo> getAll() throws Exception;
 
-	public List<ExamResultVo> getExamResultByUser(UserVo user) throws Exception;
+	public List<ExamResultVo> getExamResultByUser(UserVo userVo) throws Exception;
 
-	public List<ExamResultVo> getExamResultByExam(ExamVo exam) throws Exception;
+	public List<ExamResultVo> getExamResultByExam(ExamVo examVo) throws Exception;
 }
