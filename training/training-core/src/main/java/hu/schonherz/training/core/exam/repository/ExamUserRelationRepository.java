@@ -19,6 +19,8 @@ public interface ExamUserRelationRepository extends JpaRepository<ExamUserRelati
 	
 	public List<ExamUserRelation> findAllByUserId(@Param("id") Long id) throws Exception;
 	
+	public ExamUserRelation findByExamIdAndUserId(Long examId, Long userId) throws Exception;
+	
 	public void deleteAllByExamId(@Param("id") Long id) throws Exception;
 	
 	public void deleteAllByUserId(@Param("id") Long id) throws Exception;
