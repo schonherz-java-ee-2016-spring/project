@@ -8,83 +8,84 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">Exam fill</ui:define>
 	<ui:define name="content">
-		<sec:authorize access="hasRole('STUDENT')">
-			<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
+		<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
 
-			<p:panel id="panelId" style="text-align: center;" rendered="#{examFillBean.isFilled eq false}">
+		<p:panel id="panelId" style="text-align: center;"
+			rendered="#{examFillBean.isFilled eq false}">
 
-				<h:outputText
-					value="#{examFillBean.questionList.get(examFillBean.counter).text}"
-					escape="false" />
+			<h:outputText
+				value="#{examFillBean.questionList.get(examFillBean.counter).text}"
+				escape="false" />
 
-				<!-- 					Single question's form -->
+			<!-- 					Single question's form -->
 
-				<h:form
-					rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 1}">
-					<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+			<h:form
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 1}">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 
-					<p:message for="optionTable" id="newQuestionTextMsg" />
-					<p:dataTable id="optionTable" lazy="true"
-						value="#{examFillBean.getOptionList()}" var="option"
-						rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
-						<p:column headerText="#{out.isitcorrect}" selectionMode="single"
-							style="width:10%;text-align:center" />
-						<p:column headerText="#{out.options}" style="text-align: center;">
-							<h:outputText value="#{option.text}" />
-						</p:column>
-					</p:dataTable>
-					<p />
-					<p:commandButton update="panelId"
-						actionListener="#{examFillBean.toTheNextQuestionSingle()}"
-						value="#{out.next}"></p:commandButton>
+				<p:message for="optionTable" id="newQuestionTextMsg" />
+				<p:dataTable id="optionTable" lazy="true"
+					value="#{examFillBean.getOptionList()}" var="option"
+					rowKey="#{option.text}" selection="#{examFillBean.selectedOption}">
+					<p:column headerText="#{out.isitcorrect}" selectionMode="single"
+						style="width:10%;text-align:center" />
+					<p:column headerText="#{out.options}" style="text-align: center;">
+						<h:outputText value="#{option.text}" />
+					</p:column>
+				</p:dataTable>
+				<p />
+				<p:commandButton update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionSingle()}"
+					value="#{out.next}"></p:commandButton>
 
-					<p:growl id="message" sticky="true" showDetail="true" life="3000" />
-				</h:form>
-
-				<!-- 					Multi question's form -->
-				<h:form
-					rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 2}">
-					<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
-
-
-					<p:dataTable id="optionTable"
-						value="#{examFillBean.getOptionList()}" var="option"
-						selection="#{examFillBean.selectedOptionList}"
-						rowKey="#{option.text}" lazy="true">
-
-						<p:column selectionMode="multiple"
-							style="width:10%;text-align:center" />
-						<p:column headerText="#{out.options}" style="text-align: center;">
-							<h:outputText value="#{option.text}" />
-						</p:column>
-					</p:dataTable>
-					<p />
-					<p:commandButton value="#{out.next}" update="panelId"
-						actionListener="#{examFillBean.toTheNextQuestionMulti()}">
-					</p:commandButton>
-				</h:form>
-
-				<!-- 					Textbased question's form -->
-				<h:form
-					rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 3 and examFillBean.optionList !=null}"
-					lazy="true">
-					<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
-					<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
-
-					<p:inputTextarea autoResize="true" cols="100" rows="3"
-						placeholder="#{out.textbasedanswerpalceholder}"
-						value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
-					<p />
-					<p:commandButton value="#{out.next}" update="panelId"
-						actionListener="#{examFillBean.toTheNextQuestionText()}">
-					</p:commandButton>
-				</h:form>
-			</p:panel>
-			<h:form rendered="#{examFillBean.isFilled eq true}>
-			<p:outputLabel value="#{out.alreadyfilled}"></p:outputLabel>
-			<br/>
-			<p:commandButton value="Back" action="goToExamChoose" "></p:commandButton>
+				<p:growl id="message" sticky="true" showDetail="true" life="3000" />
 			</h:form>
-		</sec:authorize>
+
+			<!-- 					Multi question's form -->
+			<h:form
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 2}">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+
+
+				<p:dataTable id="optionTable"
+					value="#{examFillBean.getOptionList()}" var="option"
+					selection="#{examFillBean.selectedOptionList}"
+					rowKey="#{option.text}" lazy="true">
+
+					<p:column selectionMode="multiple"
+						style="width:10%;text-align:center" />
+					<p:column headerText="#{out.options}" style="text-align: center;">
+						<h:outputText value="#{option.text}" />
+					</p:column>
+				</p:dataTable>
+				<p />
+				<p:commandButton value="#{out.next}" update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionMulti()}">
+				</p:commandButton>
+			</h:form>
+
+			<!-- 					Textbased question's form -->
+			<h:form
+				rendered="#{examFillBean.localQuestionList.get(examFillBean.counter).questionType.id eq 3 and examFillBean.optionList !=null}"
+				lazy="true">
+				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
+				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
+
+				<p:inputTextarea autoResize="true" cols="100" rows="3"
+					placeholder="#{out.textbasedanswerpalceholder}"
+					value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+				<p />
+				<p:commandButton value="#{out.next}" update="panelId"
+					actionListener="#{examFillBean.toTheNextQuestionText()}">
+				</p:commandButton>
+			</h:form>
+		</p:panel>
+		<h:form
+			rendered="#{examFillBean.isFilled eq true}>
+			<p:outputLabel value="#{out.alreadyfilled}">
+			</p:outputLabel>
+			<br />
+			<p:commandButton value="Back" action="goToExamChoose""></p:commandButton>
+		</h:form>
 	</ui:define>
 </ui:composition>

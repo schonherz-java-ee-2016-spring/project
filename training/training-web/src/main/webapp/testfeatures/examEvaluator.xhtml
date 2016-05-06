@@ -8,58 +8,56 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.examevaluator}</ui:define>
 	<ui:define name="content">
-		<sec:authorize access="hasRole('INSTRUCTOR')">
 
-			<!-- The dropdown menu to select the exam -->
-			<h:form id="selectionForm">
-				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-					<p:outputLabel for="examSelection" value="#{out.exam}:" />
-					<p:selectOneMenu id="examSelection"
-						value="#{examEvaluatorBean.selectedExamIdAsString}"
-						style="width:125px">
-						<f:selectItems value="#{examEvaluatorBean.examList}" var="exam"
-							itemLabel="#{exam.title}" itemValue="#{exam.id}" />
-					</p:selectOneMenu>
+		<!-- The dropdown menu to select the exam -->
+		<h:form id="selectionForm">
+			<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+				<p:outputLabel for="examSelection" value="#{out.exam}:" />
+				<p:selectOneMenu id="examSelection"
+					value="#{examEvaluatorBean.selectedExamIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examEvaluatorBean.examList}" var="exam"
+						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
+				</p:selectOneMenu>
 
-					<p:outputLabel for="userSelection" value="#{out.user}:" />
-					<p:selectOneMenu id="userSelection"
-						value="#{examEvaluatorBean.selectedUserIdAsString}"
-						style="width:125px">
-						<f:selectItems value="#{examEvaluatorBean.userList}" var="user"
-							itemLabel="#{user.userName}" itemValue="#{user.id}" />
-					</p:selectOneMenu>
-					<f:facet name="footer">
-						<p:commandButton value="#{out.loadcontent}"
-							actionListener="#{examEvaluatorBean.loadContent}"
-							icon="ui-icon-check" />
-					</f:facet>
-				</h:panelGrid>
-			</h:form>
+				<p:outputLabel for="userSelection" value="#{out.user}:" />
+				<p:selectOneMenu id="userSelection"
+					value="#{examEvaluatorBean.selectedUserIdAsString}"
+					style="width:125px">
+					<f:selectItems value="#{examEvaluatorBean.userList}" var="user"
+						itemLabel="#{user.userName}" itemValue="#{user.id}" />
+				</p:selectOneMenu>
+				<f:facet name="footer">
+					<p:commandButton value="#{out.loadcontent}"
+						actionListener="#{examEvaluatorBean.loadContent}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</h:panelGrid>
+		</h:form>
 
-			<!-- The datatable of the textbased answers -->
-			<h:form id="answerTextEvaluatorForm">
-				<p:dataTable reflow="true" id="answerTable"
-					value="#{examEvaluatorBean.evalRecordList}" var="evalRecord">
-					<p:column headerText="#{out.studentname}">
+		<!-- The datatable of the textbased answers -->
+		<h:form id="answerTextEvaluatorForm">
+			<p:dataTable reflow="true" id="answerTable"
+				value="#{examEvaluatorBean.evalRecordList}" var="evalRecord">
+				<p:column headerText="#{out.studentname}">
 				#{evalRecord.user.userName}
 				</p:column>
-					<p:column headerText="#{out.question}">
+				<p:column headerText="#{out.question}">
 				#{evalRecord.question.text}
 				</p:column>
-					<p:column headerText="#{out.answertext}">
+				<p:column headerText="#{out.answertext}">
 				#{evalRecord.answerText.text}
 				</p:column>
-					<p:column headerText="#{out.acceptable}">
-						<p:selectBooleanCheckbox value="#{evalRecord.answer.good}" />
-					</p:column>
-					<f:facet name="footer">
-						<p:commandButton value="#{out.apply}"
-							actionListener="#{examEvaluatorBean.applyEvaluation}"
-							icon="ui-icon-check" />
-					</f:facet>
-				</p:dataTable>
-			</h:form>
-		</sec:authorize>
+				<p:column headerText="#{out.acceptable}">
+					<p:selectBooleanCheckbox value="#{evalRecord.answer.good}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton value="#{out.apply}"
+						actionListener="#{examEvaluatorBean.applyEvaluation}"
+						icon="ui-icon-check" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
 
 	</ui:define>
 </ui:composition>
