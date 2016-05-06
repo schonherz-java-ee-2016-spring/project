@@ -10,17 +10,38 @@
 			access="hasRole('UGS')" />
 		<security:intercept-url pattern="/secured/users.xhtml"
 			access="hasRole('USERS')" />
-			<security:intercept-url pattern="/secured/rolegroups.xhtml"
+		<security:intercept-url pattern="/secured/rolegroups.xhtml"
 			access="hasRole('RGS')" />
 		<security:intercept-url pattern="/secured/roles.xhtml"
 			access="hasRole('ROLES')" />
-			
+
 		<security:intercept-url pattern="/secured/feedbacks.xhtml"
 			access="hasRole('FEEDBACKS')" />
 		<security:intercept-url pattern="/secured/obs-give-feedbacks.xhtml"
 			access="hasRole('WRITE_OBS_FEEDBACK')" />
-			<security:intercept-url pattern="/secured/student-give-feedbacks.xhtml"
+		<security:intercept-url pattern="/secured/student-give-feedbacks.xhtml"
 			access="hasRole('WRITE_STUDENT_FEEDBACK')" />
+
+		<security:intercept-url pattern="/testfeatures/exams.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/examEvaluator.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/examChoose.xhtml"
+			access="hasRole('STUDENT')" />
+		<security:intercept-url pattern="/testfeatures/examFill.xhtml"
+			access="hasRole('STUDENT')" />
+		<security:intercept-url pattern="/testfeatures/examQuestions.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/examReviewForInstructor.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/examReviewForStudent.xhtml"
+			access="hasRole('STUDENT')" />
+		<security:intercept-url pattern="/testfeatures/multipleQuestionDetails.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/singleQuestionDetails.xhtml"
+			access="hasRole('INSTRUCTOR')" />
+		<security:intercept-url pattern="/testfeatures/textbasedQuestionDetails.xhtml"
+			access="hasRole('INSTRUCTOR')" />
 
 		<security:form-login login-page="/public/login.xhtml"
 			login-processing-url="/login" default-target-url="/index.xhtml"
