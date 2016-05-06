@@ -11,7 +11,7 @@
 		<sec:authorize access="hasRole('STUDENT')">
 			<!-- 			Now the local questionlist=questionlist dont have to run 500 select anymore -->
 
-			<p:panel id="panelId" style="text-align: center;" rendered="#{examFillBean.isFilled eq false}">
+			<p:panel id="panelId" style="text-align: center;">
 
 				<h:outputText
 					value="#{examFillBean.questionList.get(examFillBean.counter).text}"
@@ -80,11 +80,6 @@
 					</p:commandButton>
 				</h:form>
 			</p:panel>
-			<h:form rendered="#{examFillBean.isFilled eq true}>
-			<p:outputLabel value="#{out.alreadyfilled}"></p:outputLabel>
-			<br/>
-			<p:commandButton value="Back" action="goToExamChoose" "></p:commandButton>
-			</h:form>
 		</sec:authorize>
 	</ui:define>
 </ui:composition>

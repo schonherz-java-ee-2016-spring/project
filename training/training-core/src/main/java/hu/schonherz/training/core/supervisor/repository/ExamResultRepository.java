@@ -18,5 +18,6 @@ public interface ExamResultRepository extends JpaRepository<ExamResult, Long> {
 	public List<ExamResult> findExamResultsByUser(User user);
 
 	public List<ExamResult> findExamResultsByExam(Exam exam);
-
+	
+	public ExamResult findByExamIdAndUserId(Long examId, Long userId) throws Exception;
 }

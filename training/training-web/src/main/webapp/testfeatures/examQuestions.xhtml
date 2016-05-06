@@ -16,7 +16,7 @@
 
 		</h:form>
 
-		<p:dataTable reflow="true" id="questionTable" value="#{questionBean.questionList}"
+		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
 			<p:column headerText="Questions">
 				<h:outputText value="#{question.text}" escape="false" />

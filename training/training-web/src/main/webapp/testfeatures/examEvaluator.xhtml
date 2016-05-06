@@ -38,7 +38,7 @@
 
 			<!-- The datatable of the textbased answers -->
 			<h:form id="answerTextEvaluatorForm">
-				<p:dataTable reflow="true" id="answerTable"
+				<p:dataTable id="answerTable"
 					value="#{examEvaluatorBean.evalRecordList}" var="evalRecord">
 					<p:column headerText="#{out.studentname}">
 				#{evalRecord.user.userName}
