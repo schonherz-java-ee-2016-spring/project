@@ -20,7 +20,8 @@
 </style>
 
 			<h:form id="scoreTextForm">
-				<p:outputLabel rendered="#{examReviewForInstructorBean.score != null}"
+				<p:outputLabel
+					rendered="#{examReviewForInstructorBean.score != null}"
 					value="#{examReviewForInstructorBean.score} / #{examReviewForInstructorBean.maxScore}" />
 			</h:form>
 			<p:panel id="panelId">
@@ -60,7 +61,7 @@
 						<f:facet name="footer">
 							<p:commandButton value="#{out.loadcontent}"
 								actionListener="#{examReviewForInstructorBean.loadContent}"
-								update="panelId" icon="ui-icon-check"/>
+								update="panelId" icon="ui-icon-check" />
 						</f:facet>
 					</h:panelGrid>
 				</h:form>
@@ -82,10 +83,13 @@
 								<h:outputText value="#{option.text}" />
 							</p:column>
 
-							<p:column headerText="#{out.selected}">
-								<h:outputText
-									rendered="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id)}"
-									value="Bejelölted"></h:outputText>
+							<p:column headerText="#{out.selected}"
+								style="width:10%; align:center;">
+								<p:outputLabel
+									rendered="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id) and option.correct == true}"
+									styleClass="ui-icon ui-icon-circle-check" />
+								<p:outputLabel rendered="#{option.correct == false}"
+									styleClass="ui-icon ui-icon-circle-close" />
 							</p:column>
 
 
