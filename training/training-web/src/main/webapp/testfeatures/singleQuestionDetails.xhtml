@@ -21,6 +21,16 @@
 			</h:panelGrid>
 		</h:form>
 
+		<h:form enctype="multipart/form-data">
+			<h:inputFile value="#{singleQuestionDetailsBean.image}">
+				<f:ajax listener="#{singleQuestionDetailsBean.saveImage}" />
+			</h:inputFile>
+		</h:form>
+		
+		<h:form id="usableImageLinkForm">
+			<h:outputLabel value="#{singleQuestionDetailsBean.usableImageLink}" />
+		</h:form>
+
 		<h:form id="questionNoteForm">
 			<h3>#{out.questionnote}</h3>
 			<p:inplace editor="true">

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,11 +17,14 @@ import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.AnswerService;
 import hu.schonherz.training.service.exam.AnswerTextService;
 import hu.schonherz.training.service.exam.ExamService;
+import hu.schonherz.training.service.exam.ExamUserRelationService;
 import hu.schonherz.training.service.exam.OptionService;
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.QuestionTypeService;
 import hu.schonherz.training.service.exam.vo.AnswerTextVo;
 import hu.schonherz.training.service.exam.vo.AnswerVo;
+import hu.schonherz.training.service.exam.vo.ExamUserRelationVo;
+import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 
@@ -30,10 +34,10 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 public class ExamFillBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-	
+
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -48,6 +52,8 @@ public class ExamFillBean implements Serializable {
 	private UserService userService;
 	@EJB
 	private AnswerTextService answerTextService;
+	@EJB
+	private ExamUserRelationService examUserRelationService;
 
 	private List<QuestionVo> questionList;
 	private String examIdAsString;
@@ -56,10 +62,19 @@ public class ExamFillBean implements Serializable {
 	private String textbasedOptionAnswer;
 
 	private List<QuestionVo> localQuestionList;
-
 	private List<OptionVo> optionList;
 	private List<OptionVo> selectedOptionList;
 	private OptionVo selectedOption;
+	private UserVo userVo;
+	
+	@PostConstruct
+	public void initBean() {
+		try {
+			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
 	public void toTheNextQuestionMulti() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
@@ -98,7 +113,7 @@ public class ExamFillBean implements Serializable {
 			toTheNextQuestionTextSave();
 			finishedExam(currentInstance);
 		}
-		textbasedOptionAnswer="";
+		textbasedOptionAnswer = "";
 	}
 
 	private void toTheNextQuestionTextSave() {
@@ -108,9 +123,7 @@ public class ExamFillBean implements Serializable {
 		AnswerTextVo answerTextVo = new AnswerTextVo();
 
 		answerTextVo.setText(textbasedOptionAnswer);
-		UserVo userVo;
 		try {
-			userVo = userService.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 			answerVo.setUser(userVo);
 			answerTextVo.setAnswer(answerVo);
 			answerTextService.add(answerTextVo);
@@ -127,10 +140,8 @@ public class ExamFillBean implements Serializable {
 			AnswerVo answerVo = new AnswerVo();
 			answerVo.setGood(selectedOptionList.get(i).getCorrect());
 			answerVo.setOption(optionList.get(i));
-			UserVo userVo;
+			
 			try {
-				userVo = userService
-						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
 			} catch (Exception e) {
@@ -142,7 +153,8 @@ public class ExamFillBean implements Serializable {
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
 		if (selectedOption == null) {
 			System.out.println("something went wrong");
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), bundle.getString("markcorrectoption"));
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("markcorrectoption"));
 			currentInstance.addMessage(null, facesMessage);
 			counter--;
 			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
@@ -151,10 +163,7 @@ public class ExamFillBean implements Serializable {
 			AnswerVo answerVo = new AnswerVo();
 			answerVo.setGood(selectedOption.getCorrect());
 			answerVo.setOption(selectedOption);
-			UserVo userVo;
 			try {
-				userVo = userService
-						.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
 			} catch (Exception e) {
@@ -164,8 +173,22 @@ public class ExamFillBean implements Serializable {
 	}
 
 	private void finishedExam(FacesContext currentInstance) {
+		registerExamUserRelation();
 		FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-		.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml?faces-redirect=true");
+				.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml?faces-redirect=true");
+	}
+
+	private void registerExamUserRelation() {
+		try {
+			Long examId = Long.parseLong(examIdAsString);
+			ExamVo examVo = examService.getById(examId);
+			ExamUserRelationVo examUserRelationVo = new ExamUserRelationVo();
+			examUserRelationVo.setExam(examVo);
+			examUserRelationVo.setUser(userVo);
+			examUserRelationService.add(examUserRelationVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<QuestionVo> getQuestionList() {
@@ -322,7 +345,5 @@ public class ExamFillBean implements Serializable {
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
 	}
-	
-	
 
 }
