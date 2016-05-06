@@ -19,37 +19,40 @@
 					<p:accordionPanel id="userAccordion" var="userResult"
 						value="#{course.userResults}" activeIndex="true">
 						<p:tab title="#{userResult.user.fullName}">
-
-							<table id="resultTable" class="table-header-rotated">
-								<thead>
-									<tr>
-										<th></th>
-										<ui:repeat var="lesson" value="#{course.lessons}">
+							<div class="well">
+								<table id="resultTable" class="table-header-rotated">
+									<thead>
+										<tr>
+											<th></th>
+											<ui:repeat var="lesson" value="#{course.lessons}">
+												<th class="rotate"><div>
+														<span>#{lesson.lessonName}</span>
+													</div></th>
+											</ui:repeat>
 											<th class="rotate"><div>
-													<span>#{lesson.lessonName}</span>
+													<span>#{out.sum}</span>
 												</div></th>
-										</ui:repeat>
-										<th class="rotate">#{out.sum}</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="row-header">#{out.exams}</td>
-										<ui:repeat var="examResult" value="#{userResult.examResults}">
- 											<td>#{examResult.score}</td>
- 										</ui:repeat>
- 										<td class="row-header">#{userResult.examSum}</td>
-									</tr>
-									<tr>
-										<td class="row-header">#{out.homeworks}</td>
-										<ui:repeat var="homeworkResult" value="#{userResult.homeworkResults}">
- 											<td>#{homeworkResult.score}</td>
- 										</ui:repeat>
- 										<td class="row-header">#{userResult.homeworkSum}</td>
-									</tr>
-								</tbody>
-							</table>
-
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="row-header">#{out.exams}</td>
+											<ui:repeat var="examResult" value="#{userResult.examResults}">
+												<td>#{examResult.score}</td>
+											</ui:repeat>
+											<td class="row-header">#{userResult.examSum}</td>
+										</tr>
+										<tr>
+											<td class="row-header">#{out.homeworks}</td>
+											<ui:repeat var="homeworkResult"
+												value="#{userResult.homeworkResults}">
+												<td>#{homeworkResult.score}</td>
+											</ui:repeat>
+											<td class="row-header">#{userResult.homeworkSum}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</p:tab>
 					</p:accordionPanel>
 				</p:tab>

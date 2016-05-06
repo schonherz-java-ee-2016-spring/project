@@ -30,7 +30,7 @@
 							<h:selectOneMenu id="event" value="#{writeObsFeedback.eventAndRatedSelector}">
 								<f:selectItems value="#{writeObsFeedback.displayList}"
 									var="display"
-									itemLabel=" #{display.eventName} - #{display.ratedName}"
+									itemLabel=" #{display.eventName} (#{display.eventDate}) - #{display.ratedName}"
 									itemValue="#{display.eventId};#{display.ratedUsername}" />
 
 							</h:selectOneMenu>
