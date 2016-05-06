@@ -8,34 +8,38 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.exam}</ui:define>
 	<ui:define name="content">
-		<p:dataTable reflow="true" style="width:100%;" id="examTable"
-			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="5,10,20,50">
+		<sec:authorize access="hasRole('STUDENT')">
 
-			<p:column headerText="#{out.exams}" style="text-align: center;">
-				<h:outputText value="#{exam.title}" />
-			</p:column>
-			<p:column headerText="" style="text-align:right">
-				<h:form id="form">
-					<p:commandButton rendered="#{exam.status eq true}"
-						action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
-						value="#{out.takeexam}">
-						<f:setPropertyActionListener
-							target="#{examFillBean.examIdAsString}" value="#{exam.id}" />
-						<f:setPropertyActionListener
-							target="#{examFillBean.questionIdAsString}"
-							value="#{examFillBean.questionList.get(0).getId()}" />
-						<f:setPropertyActionListener target="#{examFillBean.counter}"
-							value="#{0}" />
-					</p:commandButton>
-					<p:commandButton rendered="#{exam.status eq false}" disabled="true"
-						action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
-						value="#{out.takeexam}"/>
+			<f:event listener="#{examBean.updateExamList}" type="preRenderView" />
+
+			<p:dataTable reflow="true" style="width:100%;" id="examTable"
+				var="exam" value="#{examBean.examList}" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,20,50">
+
+				<p:column headerText="#{out.exams}" style="text-align: center;">
+					<h:outputText value="#{exam.title}" />
+				</p:column>
+				<p:column headerText="" style="text-align:right">
+					<h:form id="form">
+						<p:commandButton rendered="#{exam.status eq true}"
+							action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
+							value="#{out.takeexam}">
+							<f:setPropertyActionListener
+								target="#{examFillBean.examIdAsString}" value="#{exam.id}" />
+							<f:setPropertyActionListener
+								target="#{examFillBean.questionIdAsString}"
+								value="#{examFillBean.questionList.get(0).getId()}" />
+							<f:setPropertyActionListener target="#{examFillBean.counter}"
+								value="#{0}" />
+						</p:commandButton>
+						<p:commandButton rendered="#{exam.status eq false}"
+							disabled="true" action="goToExamFill" style="width:20%;"
+							icon="ui-icon-pencil" value="#{out.takeexam}" />
 						<!-- 					SZAGLIK REFACTOR INC -->
-				</h:form>
-			</p:column>
-		</p:dataTable>
-
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</sec:authorize>
 	</ui:define>
 </ui:composition>

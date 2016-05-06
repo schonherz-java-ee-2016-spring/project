@@ -33,21 +33,26 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	ExamUserRelationRepository examUserRelationRepository;
 
 	@Override
-	public List<ExamVo> getAllExamByUserId(Long id) throws Exception {
-			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(id));
-			return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
+	public List<ExamVo> getAllExamByUserId(Long userId) throws Exception {
+		List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(userId));
+		return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
 	}
 
 	@Override
-	public List<UserVo> getAllUserByExamId(Long id) throws Exception {
-			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(id));
-			return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
+	public List<UserVo> getAllUserByExamId(Long examId) throws Exception {
+		List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(examId));
+		return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
 	}
 
 	@Override
-	public void add(ExamUserRelationVo vo) throws Exception {
+	public ExamUserRelationVo getByExamIdAndUserId(Long examId, Long userId) throws Exception {
+		return ExamUserRelationMapper.toVo(examUserRelationRepository.findByExamIdAndUserId(examId, userId));
+	}
+
+	@Override
+	public void add(ExamUserRelationVo examUserRelationVo) throws Exception {
 		try {
-			examUserRelationRepository.saveAndFlush(ExamUserRelationMapper.toDto(vo));
+			examUserRelationRepository.saveAndFlush(ExamUserRelationMapper.toDto(examUserRelationVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

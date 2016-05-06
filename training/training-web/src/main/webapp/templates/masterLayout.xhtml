@@ -136,7 +136,7 @@
 						</sec:authorize>
 
 
-
+					<sec:authorize  access="hasAnyRole('INSTRUCTOR','STUDENT')">
 						<li><a href="#" data-toggle="dropdown">#{out.exam}<span
 								class="caret"></span><span style="font-size: 16px;"
 								class="pull-right showopacity fa fa-pencil-square"></span></a>
@@ -166,8 +166,9 @@
 								</sec:authorize>
 
 							</ul></li>
+							</sec:authorize>
 						<sec:authorize access="hasRole('FEEDBACKS')">
-							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">Feedbacks<span
+							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">#{out.feedbacks}<span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-comments-o"></span></a></li>
 						</sec:authorize>
 					</ul>
