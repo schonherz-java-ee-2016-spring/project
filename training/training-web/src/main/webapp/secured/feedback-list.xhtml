@@ -9,26 +9,28 @@
 
 	<ui:define name="feedback-list">
 		<ui:component>
-			
-				<p:accordionPanel multiple="true" var="feedback" styleClass="customAccordion" value="#{feedbacksBean.feedbacks}" activeIndex="true">
-					<p:tab title="#{feedback.event.getType()}: #{feedback.event.getName()} by #{feedback.sender.getFullName()}"> 	
-						<div class="well">
-							<div class="media">
-								<a class="pull-left" href="#"> <img class="media-object"
-									src="http://placekitten.com/g/200/300" height="75" width="50" /></a>
-								<div class="media-body">
-									<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
-									<p class="text-right">
-										<h:outputText value="#{feedback.recDate}">
-											<f:convertDateTime pattern="yyyy.MM.dd HH:mm" timeZone="CET"></f:convertDateTime>
-										</h:outputText>
-									</p>
-								</div>
+
+			<p:accordionPanel multiple="true" var="feedback"
+				styleClass="customAccordion" value="#{feedbacksBean.feedbacks}"
+				activeIndex="true">
+				<p:tab>
+					<f:facet name="title">
+						<h:outputText value="#{feedback.event.getType()}: #{feedback.event.getName()} #{out.by} #{feedback.sender.getFullName()}"></h:outputText>
+						<h:outputText value="#{feedback.recDate}" style="float:right;">
+							<f:convertDateTime pattern="yyyy.MM.dd hh:mm" />
+						</h:outputText>		
+					</f:facet>
+				
+				<div class="well">
+						<div class="media">
+							<div class="media-body">
+								<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
 							</div>
 						</div>
-					</p:tab>
-				</p:accordionPanel>
-			
+					</div>
+				</p:tab>
+			</p:accordionPanel>
+
 		</ui:component>
 	</ui:define>
 </ui:composition>

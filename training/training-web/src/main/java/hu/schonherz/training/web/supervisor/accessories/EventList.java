@@ -1,6 +1,8 @@
 package hu.schonherz.training.web.supervisor.accessories;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EventList implements Serializable{
 
@@ -11,19 +13,39 @@ public class EventList implements Serializable{
 
 	private Long eventId;
 	private String eventName;
+	private String eventType;
 	private String ratedName;
 	private String ratedUsername;
+	private String eventDate;
+	SimpleDateFormat df = new SimpleDateFormat("yyyy.MM.dd. hh:mm");
+	
 	/**
 	 * 
 	 */
-	public EventList(Long id, String eName, String sName, String sUsername) {
+	public EventList(Long id, String eName, Date eDate, String sName, String sUsername) {
 		eventId = id;
 		eventName = eName;
 		ratedName = sName;
 		ratedUsername = sUsername;
+		eventDate = df.format(eDate);
 	}
 	
 	
+	/**
+	 * @param eventId
+	 * @param eventName
+	 * @param eventType
+	 * @param eventDate
+	 */
+	public EventList(Long eventId, String eventName, String eventType, Date eventDate) {
+		super();
+		this.eventId = eventId;
+		this.eventName = eventName;
+		this.eventType = eventType;
+		this.eventDate = df.format(eventDate);
+	}
+
+
 	/**
 	 * @param ratedName
 	 * @param ratedUsername
@@ -82,6 +104,38 @@ public class EventList implements Serializable{
 	 */
 	public void setRatedUsername(String ratedUsername) {
 		this.ratedUsername = ratedUsername;
+	}
+
+
+	/**
+	 * @return the eventDate
+	 */
+	public String getEventDate() {
+		return eventDate;
+	}
+
+
+	/**
+	 * @param eventDate the eventDate to set
+	 */
+	public void setEventDate(String eventDate) {
+		this.eventDate = eventDate;
+	}
+
+
+	/**
+	 * @return the eventType
+	 */
+	public String getEventType() {
+		return eventType;
+	}
+
+
+	/**
+	 * @param eventType the eventType to set
+	 */
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
 	}
 	
 	

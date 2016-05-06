@@ -2,10 +2,12 @@ package hu.schonherz.training.web.exam.managedbeans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -28,7 +30,10 @@ import hu.schonherz.training.service.exam.vo.QuestionVo;
 public class ExamFillBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -137,7 +142,7 @@ public class ExamFillBean implements Serializable {
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
 		if (selectedOption == null) {
 			System.out.println("something went wrong");
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Mark the correct answer!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), bundle.getString("markcorrectoption"));
 			currentInstance.addMessage(null, facesMessage);
 			counter--;
 			setQuestionIdAsString(String.valueOf(getQuestionList().get(getCounter()).getId()));
@@ -301,5 +306,23 @@ public class ExamFillBean implements Serializable {
 	public void setLocalQuestionList(List<QuestionVo> localQuestionList) {
 		this.localQuestionList = localQuestionList;
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
+	public AnswerTextService getAnswerTextService() {
+		return answerTextService;
+	}
+
+	public void setAnswerTextService(AnswerTextService answerTextService) {
+		this.answerTextService = answerTextService;
+	}
+	
+	
 
 }

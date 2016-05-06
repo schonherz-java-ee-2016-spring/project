@@ -60,6 +60,7 @@ public class WriteObsFeedback implements Serializable {
 		String eventName;
 		String studentName = "";
 		String studentUsername = "";
+		Date eventDate;
 		boolean isOk;
 		try {
 //			get the logged in user
@@ -84,9 +85,10 @@ public class WriteObsFeedback implements Serializable {
 				}
 				eventId = event.getId();
 				eventName = event.getName();
+				eventDate = event.getDate();
 //				store the event and student together for every events
 				if (!studentName.isEmpty()) {
-					displayList.add(new EventList(eventId, eventName, studentName, studentUsername));
+					displayList.add(new EventList(eventId, eventName, eventDate, studentName, studentUsername));
 				}
 			}
 		} catch (Exception e) {
