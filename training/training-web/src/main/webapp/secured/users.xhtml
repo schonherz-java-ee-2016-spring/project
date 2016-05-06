@@ -109,8 +109,8 @@
 		<!-- 			A felhasználó létrehozás dialok -->
 		<h:form styleClass="form-horizontal" id="form">
 			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
-				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}">
-				<p:panel id="panel2" modal="true">
+				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}" modal="true">
+				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<div class="form-group">
