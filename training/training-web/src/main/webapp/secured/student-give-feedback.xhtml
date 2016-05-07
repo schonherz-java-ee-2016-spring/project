@@ -1,0 +1,127 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+
+
+	<ui:define name="content">
+
+		<h:outputStylesheet library="default" name="css/profile.css"
+			rel="stylesheet" />
+
+		<div class="container" style="width: 95%;">
+
+			<p:messages id="msgs"></p:messages>
+
+			<!-- Form Name -->
+			<legend>
+				#{out.writenewfeedback}
+				<div class="text-right" style="font-size: medium; float: right;">
+					<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
+				</div>
+			</legend>
+
+			<div class="btn-pref btn-group btn-group-justified btn-group-lg"
+				role="group" aria-label="...">
+				<div class="btn-group" role="group">
+					<button type="button" id="stars" class="btn btn-primary"
+						href="#tab1" data-toggle="tab">
+						<div class="hidden-xs">#{out.events}</div>
+					</button>
+				</div>
+				<div class="btn-group" role="group">
+					<button type="button" id="favorites" class="btn btn-default"
+						href="#tab2" data-toggle="tab">
+						<div class="hidden-xs">#{out.instructors}</div>
+					</button>
+				</div>
+			</div>
+
+			<div class="well">
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="tab1">
+
+						<h:form class="form-horizontal" id="formEvent">
+							<div class="control-group">
+								<label class="control-label" for="event">#{out.eventtorate}</label>
+								<div class="controls">
+									<h:selectOneMenu id="event"
+										value="#{writeStudentFeedback.eventId}">
+										<f:selectItems value="#{writeStudentFeedback.events}"
+											var="event"
+											itemLabel="#{event.eventType} #{event.eventName} (#{event.eventDate})"
+											itemValue="#{event.eventId}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="isPublicEvent">#{out.ispulic}</label>
+								<div class="controls">
+									<h:selectOneMenu id="isPublicEvent"
+										value="#{writeStudentFeedback.isPublic}">
+										<f:selectItem itemLabel="#{out.no}" itemValue="no"></f:selectItem>
+										<f:selectItem itemLabel="#{out.yes}" itemValue="yes"></f:selectItem>
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="txtEditorEvent">#{out.feedbackmessage}</label>
+								<p:editor id="txtEditorEvent"
+									value="#{writeStudentFeedback.feedbackMessage}"></p:editor>
+							</div>
+
+							<div class="control-group" style="float: right;">
+								<p:commandButton value="#{out.sendfeedback}"
+									update="formEvent,growl"
+									action="#{writeStudentFeedback.sendEventFeedback}"
+									icon="ui-icon-check"></p:commandButton>
+							</div>
+						</h:form>
+					</div>
+					<div class="tab-pane fade in active" id="tab2">
+
+						<h:form class="form-horizontal" id="formInstrictor">
+							<div class="control-group">
+								<label class="control-label" for="instructor">#{out.whotorate}</label>
+								<div class="controls">
+									<h:selectOneMenu id="instructor">
+										<f:selectItems value="#{writeStudentFeedback.users}"
+											var="user" itemLabel="#{user.fullName}" />
+
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="isPublicInstructor">#{out.ispublic}</label>
+								<div class="controls">
+									<h:selectOneMenu id="isPublicInstructor">
+										<f:selectItem itemLabel="#{out.no}" itemValue="no"></f:selectItem>
+										<f:selectItem itemLabel="#{out.yes}" itemValue="yes"></f:selectItem>
+									</h:selectOneMenu>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<label class="control-label" for="txtEditorInstructor">#{out.feedbackmessage}</label>
+								<p:editor id="txtEditorInstructor"></p:editor>
+							</div>
+
+							<div class="control-group" style="float: right;">
+								<p:commandButton value="#{out.sendfeedback}"></p:commandButton>
+							</div>
+						</h:form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</ui:define>
+</ui:composition>

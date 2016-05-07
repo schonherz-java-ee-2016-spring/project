@@ -55,33 +55,34 @@
 					filterBy="#{user.recDate}" filterMatchMode="contains">
 					<h:outputText value="#{user.recDate}" />
 				</p:column>
+				<!-- 					Db click opens edit dialog -->
+				<p:ajax process="dataTable" event="rowDblselect"
+					update="pickform,manageRoles,deleteButton,modifyButton,form2"
+					listener="#{usersBean.onSelect}"
+					oncomplete="PF('modify_user').show();" />
 				<!-- 				A kiválasztásra aktiválás  -->
 				<p:ajax process="dataTable" event="rowSelect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
-					listener="#{usersBean.onSelect}" />
-<!-- 					Db click opens edit dialog -->
-
-<!-- 				<p:ajax process="dataTable" event="dbclick" -->
-<!-- 					update="pickform,manageRoles,deleteButton,modifyButton,form2" -->
-<!-- 					listener="#{usersBean.onSelect}" /> -->
+					listener="#{usersBean.onSelect}" resetValues="true"/>
 				<f:facet name="footer">
 					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
-						update=":createUserForm:dataTable, form" oncomplete="dlg1.hide)"></p:commandButton>
+						update=":createUserForm:dataTable, form"
+						></p:commandButton>
 					<!-- 					form reset -->
 
 					<!-- 				a felhasználó módosítása dialog gomb -->
 					<p:commandButton type="button" onclick="PF('modify_user').show();"
 						id="modifyButton" value="#{out.edit}"
 						disabled="#{usersBean.selected}" update="modify_user"
-						oncomplete="modify_user.hide)" icon="ui-icon-pencil"></p:commandButton>
+						oncomplete="PF('modify_user').hide();" icon="ui-icon-pencil"></p:commandButton>
 					<!-- 					A felhasználó törlése gomb -->
 					<p:growl id="message" showDetail="true" />
 					<p:commandButton id="deleteButton" process="dataTable"
 						update=":createUserForm:dataTable" icon="ui-icon-trash"
 						value="#{out.delete}" disabled="#{(usersBean.selected)}"
-						action="#{usersBean.deleteUser}" oncomplete="dlg1.hide">
+						action="#{usersBean.deleteUser}">
 						<p:confirm header="#{out.confirmation}"
 							message="#{out.sureDelete}?" icon="ui-icon-alert" />
 					</p:commandButton>
@@ -108,7 +109,7 @@
 		<!-- 			A felhasználó létrehozás dialok -->
 		<h:form styleClass="form-horizontal" id="form">
 			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
-				resizable="false" responsive="true">
+				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}" modal="true">
 				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
@@ -117,7 +118,9 @@
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="fullname"
 									value="#{usersBean.fullname}" required="true"
-									requiredMessage="#{out.fullname_required}" label="fullname">
+									requiredMessage="#{out.fullname_required}" label="fullname" validatorMessage="#{out.incorrectFullname}">
+									<f:validateLength minimum="5" maximum="50" />
+<!-- 									<f:validateRegex pattern="[a-zA-Z*]" /> -->
 								</p:inputText>
 							</div>
 						</div>
@@ -125,7 +128,9 @@
 							<label for="username" class="col-sm-4">#{out.username}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="username"
-									value="#{usersBean.username}" required="true" label="username">
+									value="#{usersBean.username}" required="true" label="username" validatorMessage="#{out.incorrectUsername}"> 
+									<f:validateLength minimum="5" maximum="25" />
+<!-- 									<f:validateRegex pattern="[a-zA-Z0-9*]" /> -->
 								</p:inputText>
 							</div>
 						</div>
@@ -135,7 +140,10 @@
 							<label for="email" class="col-sm-4">#{out.email}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="email"
-									value="#{usersBean.email}" required="true" label="email">
+									value="#{usersBean.email}" required="true" label="email" validatorMessage="#{out.incorrectEmail}">
+									<f:validateLength minimum="5" maximum="100" />
+									<f:validateRegex
+										pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 								</p:inputText>
 							</div>
 						</div>
@@ -143,13 +151,16 @@
 					<p:commandButton value="#{out.save}"
 						update="panel2,growl,form,:createUserForm:dataTable"
 						action="#{usersBean.create}" icon="ui-icon-check"
-						oncomplete="PF('dlg1').hide();" />
+						 onsuccess="PF('dlg1').hide();">
+<!-- 						<p:ajax resetValues="true" /> -->
+						<f:ajax execute="@form" render="@form" />
+					</p:commandButton>
 				</p:panel>
 			</p:dialog>
 		</h:form>
 
 		<!-- 			A felhasználó módosítása dialog -->
-		<h:form styleClass="form-horizontal" id="form2">
+		<h:form styleClass="form-horizontal" id="form2" >
 			<p:dialog responsive="true" showEffect="clip" widgetVar="modify_user"
 				modal="true" resizable="false">
 				<p:panel id="panel">
@@ -184,7 +195,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}"
-						update="panel,growl,form2,createUserForm" oncomplete="dlg1.hide)"
+						update="panel,growl,form2,createUserForm" onsuccess="PF('modify_user').hide();"
 						action="#{usersBean.modifyUser}" icon="ui-icon-check" />
 				</p:panel>
 			</p:dialog>

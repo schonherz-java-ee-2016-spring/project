@@ -8,10 +8,15 @@ import hu.schonherz.training.service.exam.vo.ExamVo;
 
 public interface ExamUserRelationService {
 
-	public List<ExamVo> getAllExamByUserId(Long id) throws Exception;
+	public List<ExamVo> getAllExamByUserId(Long examId) throws Exception;
 
-	public List<UserVo> getAllUserByExamId(Long id) throws Exception;
+	public List<UserVo> getAllUserByExamId(Long userId) throws Exception;
+	
+	public ExamUserRelationVo getByExamIdAndUserId(Long examId, Long userId) throws Exception;
 
-	public void save(ExamUserRelationVo vo) throws Exception;
+	public void add(ExamUserRelationVo examUserRelationVo) throws Exception;
 
+	public void removeAllByUserId(Long userId) throws Exception;
+
+	public void removeAllByExamId(Long examId) throws Exception;
 }

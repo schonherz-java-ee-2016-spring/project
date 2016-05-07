@@ -45,77 +45,87 @@
 			<div class="well">
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="tab1">
-						<h3>#{out.profilepersonaldata}</h3>
-						<ul style="list-style-type: disc">
-							<li>E-mail: #{profileBean.user.email}</li>
-						</ul>
-						<h3>#{out.myresults}</h3>
-						<table id="resultTable" class="table-header-rotated">
-							<thead>
-								<tr>
-									<th></th>
-									<th class="rotate"><div>
-											<span>Lesson1</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson2</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson3</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson4</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson5</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson6</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson7</span>
-										</div></th>
-									<th class="rotate"><div>
-											<span>Lesson8</span>
-										</div></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td class="row-header">Tesztek</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-								</tr>
-								<tr>
-									<td class="row-header">Házik</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-									<td>10</td>
-								</tr>
-							</tbody>
-						</table>
-						<h3>#{out.feedbacks}</h3>
-						<ui:include src="feedback-list.xhtml"></ui:include>
+						<p:accordionPanel multiple="true" styleClass="customAccordion"
+							activeIndex="0,1,2">
+							<p:tab title="#{out.profilepersonaldata}">
+								<div class="well">
+									<ul style="list-style-type: disc">
+										<li>E-mail: #{profileBean.user.email}</li>
+									</ul>
+								</div>
+							</p:tab>
+							<p:tab title="#{out.myresults}">
+								<div class="well">
+									<table id="resultTable" class="table-header-rotated">
+										<thead>
+											<tr>
+												<th></th>
+												<th class="rotate"><div>
+														<span>Lesson1</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson2</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson3</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson4</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson5</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson6</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson7</span>
+													</div></th>
+												<th class="rotate"><div>
+														<span>Lesson8</span>
+													</div></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="row-header">Tesztek</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+											</tr>
+											<tr>
+												<td class="row-header">Házik</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+												<td>10</td>
+											</tr>
+										</tbody>
+									</table>
 
+								</div>
+							</p:tab>
+							<p:tab title="#{out.feedbacks}">
+								<ui:include src="feedback-list.xhtml"></ui:include>
+							</p:tab>
+						</p:accordionPanel>
 					</div>
 					<div class="tab-pane fade in" id="tab2">
 						<h4>#{out.profilechangedata}</h4>
 						<h:form>
 							<h:panelGrid columns="2" cellpadding="5">
-								<p:outputLabel value="New e-mail: "></p:outputLabel>
+								<p:outputLabel value="#{out.newemail}: "></p:outputLabel>
 								<p:inputText value="#{profileBean.email}"></p:inputText>
-								<p:commandButton value="Submit"
+								<p:commandButton value="#{out.submit}"
 									actionListener="#{profileBean.changeData}" />
 							</h:panelGrid>
 						</h:form>
@@ -129,7 +139,7 @@
 							<p:fileUpload value="#{fileUploadView.file}" mode="simple"
 								skinSimple="true" />
 
-							<p:commandButton value="Submit" ajax="false"
+							<p:commandButton value="#{out.submit}" ajax="false"
 								actionListener="#{fileUploadView.upload}" />
 						</h:form>
 					</div>
@@ -137,7 +147,6 @@
 			</div>
 
 		</div>
-
 	</ui:define>
 
 </ui:composition>

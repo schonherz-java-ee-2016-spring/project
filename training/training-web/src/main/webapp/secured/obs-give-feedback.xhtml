@@ -18,47 +18,44 @@
 				<p:panel id="panel">
 					<!-- Form Name -->
 					<legend>
-						Give feedback
+						#{out.writenewfeedback}
 						<div class="text-right" style="font-size: medium; float: right;">
-							<a href="feedbacks.xhtml">Back to feedbacks</a>
+							<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
 						</div>
 					</legend>
 
 					<div class="control-group">
-						<label class="control-label" for="event">Who do you want
-							to send feedback to?</label>
+						<label class="control-label" for="event">#{out.whotorate}</label>
 						<div class="controls">
 							<h:selectOneMenu id="event" value="#{writeObsFeedback.eventAndRatedSelector}">
 								<f:selectItems value="#{writeObsFeedback.displayList}"
 									var="display"
-									itemLabel=" #{display.eventName} - #{display.studentName}"
-									itemValue="#{display.eventId};#{display.studentUsername}" />
+									itemLabel=" #{display.eventName} (#{display.eventDate}) - #{display.ratedName}"
+									itemValue="#{display.eventId};#{display.ratedUsername}" />
 
 							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="isPublic">Is this
-							feedback public?</label>
+						<label class="control-label" for="isPublic">#{out.ispublic}</label>
 						<div class="controls">
 							<h:selectOneMenu id="isPublic" value="#{writeObsFeedback.isPublic}">
-								<f:selectItem itemLabel="No"
+								<f:selectItem itemLabel="#{out.no}"
 									itemValue="no"></f:selectItem>
-								<f:selectItem itemLabel="Yes"
+								<f:selectItem itemLabel="#{out.yes}"
 									itemValue="yes"></f:selectItem>
 							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="txtEditor">Write your
-							feedback here </label>
+						<label class="control-label" for="txtEditor">#{out.feedbackmessage}</label>
 						<p:editor value="#{writeObsFeedback.feedbackMessage}"></p:editor>
 					</div>
 
 					<div class="control-group" style="float: right;">
-						<p:commandButton value="Send feedback" update="form,growl"
+						<p:commandButton value="#{out.sendfeedback}" update="form,growl"
 							action="#{writeObsFeedback.sendFeedback}" icon="ui-icon-check"></p:commandButton>
 					</div>
 				</p:panel>

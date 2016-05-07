@@ -10,20 +10,17 @@
 	<ui:define name="content">
 
 		<h:form styleClass="h1" id="examTitleRename">
-			<p:inplace editor="true" >
+			<p:inplace editor="true">
 				<p:inputText value="#{questionBean.examTitleInputText}" />
 			</p:inplace>
-	
+
 		</h:form>
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
-			<p:column headerText="#{out.questionid}">
-    			#{question.id}
-    		</p:column>
-			<p:column headerText="#{out.questiontitle}">
-    			#{question.text}
-    		</p:column>
+			<p:column headerText="Questions">
+				<h:outputText value="#{question.text}" escape="false" />
+			</p:column>
 			<p:column headerText="#{out.questiontype}">
     		    #{question.questionType.getName()}
     		</p:column>
@@ -35,7 +32,8 @@
 						<f:facet name="left">
 
 							<p:commandButton action="goToSingleQuestionDetailsPage"
-								value="#{out.edit} " icon="ui-icon-wrench" rendered="#{question.questionType.getId() eq 1}">
+								value="#{out.edit} " icon="ui-icon-wrench"
+								rendered="#{question.questionType.getId() eq 1}">
 								<f:setPropertyActionListener
 									target="#{singleQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
@@ -46,8 +44,9 @@
 									target="#{singleQuestionDetailsBean.initLoading}"
 									value="#{true}" />
 							</p:commandButton>
-							<p:commandButton icon="ui-icon-wrench" action="goToMultipleQuestionDetailsPage"
-								value="#{out.edit}" rendered="#{question.questionType.getId() eq 2}">
+							<p:commandButton icon="ui-icon-wrench"
+								action="goToMultipleQuestionDetailsPage" value="#{out.edit}"
+								rendered="#{question.questionType.getId() eq 2}">
 								<f:setPropertyActionListener
 									target="#{multipleQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
@@ -58,14 +57,16 @@
 									target="#{multipleQuestionDetailsBean.initLoading}"
 									value="#{true}" />
 							</p:commandButton>
-							<p:commandButton icon="ui-icon-wrench" action="goToTextbasedQuestionDetailsPage"
-								value="#{out.edit}" rendered="#{question.questionType.getId() eq 3}">
+							<p:commandButton icon="ui-icon-wrench"
+								action="goToTextbasedQuestionDetailsPage" value="#{out.edit}"
+								rendered="#{question.questionType.getId() eq 3}">
 								<f:setPropertyActionListener
 									target="#{textbasedQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
 							</p:commandButton>
-							
-							<p:commandButton value="#{out.delete} " title="Delete" icon="ui-icon-trash"
+
+							<p:commandButton value="#{out.delete} " title="Delete"
+								icon="ui-icon-trash"
 								actionListener="#{questionBean.removeQuestion}" ajax="false">
 								<f:attribute name="questionIdAsString" value="#{question.id}" />
 							</p:commandButton>

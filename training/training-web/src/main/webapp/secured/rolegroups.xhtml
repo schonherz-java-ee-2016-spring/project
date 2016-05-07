@@ -56,13 +56,13 @@
 				<!-- Create -->
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
 									value="#{out.createrolegroup}"
-									onclick="PF('createDialog').show();" />
+									onclick="PF('createDialog').show();" update="newrolegroup"/>
 				<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 									process="rolegrouptable" 
 									disabled="#{roleGroupsBean.disabled}"
 									value="#{out.modifyrolegroup}" 
-									onclick="PF('editDialog').show();" />
+									onclick="PF('editDialog').show();" update="editrolegroup"/>
 				<!-- Delete -->
 					<p:commandButton id="deleteButton" icon="ui-icon-trash"
 									process="rolegrouptable"
@@ -87,8 +87,11 @@
 				</f:facet>
 				<p:ajax event="rowSelect" 
 				listener="#{roleGroupsBean.onRowSelect}" 
-				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList" />
-				
+				update="growl,editButton,deleteButton,manageRoles,:pickform:pickList,editrolegroup" />
+				<p:ajax process="rolegrouptable" event="rowDblselect"
+					update="growl,editButton,deleteButton,manageRoles,:pickform:pickList,editrolegroup"
+					listener="#{roleGroupsBean.onRowSelect}"
+					oncomplete="PF('editDialog').show();" />
 			</p:dataTable>
 			</h:form>
 			
@@ -128,7 +131,7 @@
 						<label for="rolegroupname" class="col-sm-3">#{out.rolegroupname}</label>
 						<div class="col-sm-9">
 							<p:inputText styleClass="form-control" id="rolegroupname"
-								value="#{roleGroupsBean.roleGroupName}" required="true"
+								value="#{roleGroupsBean.selectedRoleGroup.name}" required="true"
 								label="rolegroupname">
 							</p:inputText>
 						</div>

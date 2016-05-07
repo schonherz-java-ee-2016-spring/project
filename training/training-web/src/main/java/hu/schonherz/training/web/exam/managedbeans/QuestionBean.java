@@ -3,9 +3,11 @@ package hu.schonherz.training.web.exam.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
@@ -27,6 +29,9 @@ public class QuestionBean implements Serializable {
 	private List<QuestionVo> questionList;
 	private String examTitleInputText;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+
 	@EJB
 	private ExamService examService;
 	@EJB
@@ -37,10 +42,10 @@ public class QuestionBean implements Serializable {
 			QuestionTypeVo questionType = new QuestionTypeVo();
 			questionType.setId(1L);
 			QuestionVo question = new QuestionVo();
-			question.setText("New single answer question");
-			question.setNote("Insert your note here");
+			question.setText(bundle.getString("newsingleaq"));
+			question.setNote(bundle.getString("insertnote"));
 			question.setQuestionType(questionType);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,10 +57,10 @@ public class QuestionBean implements Serializable {
 			QuestionTypeVo questionType = new QuestionTypeVo();
 			questionType.setId(2L);
 			QuestionVo question = new QuestionVo();
-			question.setText("New multiple answer question");
-			question.setNote("Insert your note here");
+			question.setText(bundle.getString("newmultiaq"));
+			question.setNote(bundle.getString("insertnote"));
 			question.setQuestionType(questionType);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,14 +72,14 @@ public class QuestionBean implements Serializable {
 			QuestionTypeVo questionType = new QuestionTypeVo();
 			questionType.setId(3L);
 			QuestionVo question = new QuestionVo();
-			question.setText("New textbased question");
-			question.setNote("Insert your note here");
+			question.setText(bundle.getString("newtextbasedq"));
+			question.setNote(bundle.getString("insertnote"));
 			question.setQuestionType(questionType);
 			OptionVo optionVo = new OptionVo();
 			List<OptionVo> options = new ArrayList<>();
 			options.add(optionVo);
 			question.setOptions(options);
-			questionService.save(question, Long.parseLong(examIdAsString));
+			questionService.add(question, Long.parseLong(examIdAsString));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,7 +124,7 @@ public class QuestionBean implements Serializable {
 	public List<QuestionVo> getQuestionList() {
 		try {
 			Long examId = Long.parseLong(examIdAsString);
-			questionList = questionService.getAllById(examId);
+			questionList = questionService.getAllByExamId(examId);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -147,9 +152,18 @@ public class QuestionBean implements Serializable {
 		try {
 			examVo = examService.getById(Long.parseLong(examIdAsString));
 			examVo.setTitle(examTitleInputText);
-			examService.updateTitle(examVo);
+			examService.modifyTitle(examVo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+	
 }

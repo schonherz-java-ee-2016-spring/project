@@ -8,16 +8,19 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="content">
-		<h:outputStylesheet library="default" name="css/result-overview.css"
+		<h:outputStylesheet library="default" name="css/custom.css"
 			rel="stylesheet" />
 		<h:body>
-			<h1>Feedbacks</h1>
 			<sec:authorize access="hasRole('WRITE_OBS_FEEDBACK')">
-				<p style="float: right;">
-					<a href="obs-give-feedback.xhtml">Write new feedback</a>
-				</p>
+					<a href="obs-give-feedback.xhtml" style="float: right;">#{out.writenewfeedback}</a>
 			</sec:authorize>
+			<sec:authorize access="hasRole('WRITE_STUDENT_FEEDBACK')">
+					<a href="student-give-feedback.xhtml" style="float: right;">#{out.writenewfeedback}</a>
+			</sec:authorize>
+			<h1>#{out.feedbacks}</h1>
+			
 			<ui:include src="feedback-list.xhtml"></ui:include>
+			<ui:include src="written-feedback-list.xhtml"></ui:include>
 		</h:body>
 	</ui:define>
 

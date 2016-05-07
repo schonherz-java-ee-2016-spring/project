@@ -8,26 +8,32 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.exams}</ui:define>
 	<ui:define name="content">
-
-		<p:dataTable reflow="true" style="width:100%;" id="examTable" var="exam"
-			value="#{examBean.examList}" rows="10" paginator="true"
+		<p:messages id="msg" showDetail="true" />
+		<p:growl id="message" />
+		<sec:authorize access="hasRole('INSTRUCTOR')"> 
+		<p:dataTable reflow="true" style="width:100%;" id="examTable"
+			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowsPerPageTemplate="1,5,10,15,">
-			
-			<p:column headerText="#{out.title}">
+
+			<p:column headerText="#{out.title}" >
 				<h:outputText value="#{exam.title}" />
 			</p:column>
-			<p:column headerText="#{out.datecreated}">
-				<h:outputText value="#{exam.recDate}">
+			
+			<p:column headerText="#{out.numberofquestions}">
+				<h:outputText value="#{exam.getQuestions().size()}"/>
+			</p:column>
+			
+			
+			<p:column headerText="Created">
+				<h:outputText value="#{exam.recDate}" >
 					<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 				</h:outputText>
 			</p:column>
 
-			<p:column headerText="#{out.numberofquestions}">
-				<h:outputText value="#{exam.getQuestions().size()}" />
-			</p:column>
+			
 
-			<p:column headerText="#{out.details}">
+			<p:column headerText="Actions">
 				<h:form id="form">
 					<p:toolbar>
 						<f:facet name="left">
@@ -37,10 +43,21 @@
 									target="#{questionBean.examIdAsString}" value="#{exam.id}" />
 							</p:commandButton>
 
-							<p:commandButton value="Delete" title="#{out.delete}"
+							<p:commandButton value="Delete" update="msg" title="#{out.delete}"
 								icon="ui-icon-trash" actionListener="#{examBean.removeExam}"
 								ajax="false">
 								<f:attribute name="examIdAsString" value="#{exam.id}" />
+							</p:commandButton>
+
+							<p:commandButton rendered="#{exam.status eq false}"
+								value="Start" update="msg" icon="ui-icon-play" actionListener="#{examBean.setStatusToTrue}">
+								<f:attribute name="booleanChangeExamIdAsString" value="#{exam.id}" />
+							</p:commandButton>
+
+							<p:commandButton rendered="#{exam.status eq true}"
+								value="Stop" update="msg" icon="ui-icon-stop" actionListener="#{examBean.setStatusToFalse}">
+								<f:attribute name="booleanChangeExamIdAsString" value="#{exam.id}" />
+								
 							</p:commandButton>
 						</f:facet>
 					</p:toolbar>
@@ -52,21 +69,21 @@
 
 		<h:form>
 			<p:panel id="panel" header="#{out.newexam}">
-				<p:messages id="msgs" showDetail="true" />
 				<h:panelGrid columns="3" cellpadding="5">
 					<p:outputLabel for="newExamTitle" value="#{out.examtitle}:" />
-					<p:inputText id="newExamTitle" value="#{examBean.newExamTitle}"
+					<p:inputText placeholder="#{out.exampletitle}" id="newExamTitle" value="#{examBean.newExamTitle}"
 						required="true" label="newExamTitle">
 						<f:validateLength minimum="3" />
-						<p:ajax update="newExamTitleMsg" event="keyup" />
+						<p:ajax update="growl" event="keyup" />
 					</p:inputText>
-					<p:message for="newExamTitle" display="icon" id="newExamTitleMsg" />
-
+						<p:growl id="growl" />
+				
 
 				</h:panelGrid>
-				<p:commandButton value="#{out.create}" update="panel"
+				<p:commandButton  value="#{out.create}" update="panel,msg"
 					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
 			</p:panel>
 		</h:form>
+		</sec:authorize>
 	</ui:define>
 </ui:composition>

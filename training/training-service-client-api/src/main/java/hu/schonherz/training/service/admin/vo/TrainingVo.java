@@ -19,6 +19,8 @@ public class TrainingVo implements Serializable {
 	private String modUser;
 	
 	private List<ThemeVo> themes;
+	private List<UserVo> users;
+	private List<UserGroupVo> userGroups;
 	
 	public String getName() {
 		return name;
@@ -95,5 +97,21 @@ public class TrainingVo implements Serializable {
 
 	public void setModUser(String modUser) {
 		this.modUser = modUser;
+	}
+
+	public List<UserVo> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<UserVo> users) {
+		this.users = users;
+	}
+
+	public List<UserGroupVo> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(List<UserGroupVo> userGroups) {
+		this.userGroups = userGroups;
 	}
 }

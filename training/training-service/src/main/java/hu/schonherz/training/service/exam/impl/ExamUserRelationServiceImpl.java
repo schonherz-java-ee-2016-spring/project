@@ -33,10 +33,26 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	ExamUserRelationRepository examUserRelationRepository;
 
 	@Override
-	public List<ExamVo> getAllExamByUserId(Long id) throws Exception {
+	public List<ExamVo> getAllExamByUserId(Long userId) throws Exception {
+		List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(userId));
+		return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<UserVo> getAllUserByExamId(Long examId) throws Exception {
+		List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(examId));
+		return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
+	}
+
+	@Override
+	public ExamUserRelationVo getByExamIdAndUserId(Long examId, Long userId) throws Exception {
+		return ExamUserRelationMapper.toVo(examUserRelationRepository.findByExamIdAndUserId(examId, userId));
+	}
+
+	@Override
+	public void add(ExamUserRelationVo examUserRelationVo) throws Exception {
 		try {
-			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByUserId(id));
-			return list.stream().map(v -> v.getExam()).collect(Collectors.toList());
+			examUserRelationRepository.saveAndFlush(ExamUserRelationMapper.toDto(examUserRelationVo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
@@ -44,24 +60,13 @@ public class ExamUserRelationServiceImpl implements ExamUserRelationService {
 	}
 
 	@Override
-	public List<UserVo> getAllUserByExamId(Long id) throws Exception {
-		try {
-			List<ExamUserRelationVo> list = ExamUserRelationMapper.toVo(examUserRelationRepository.findAllByExamId(id));
-			return list.stream().map(v -> v.getUser()).collect(Collectors.toList());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+	public void removeAllByUserId(Long userId) throws Exception {
+		examUserRelationRepository.deleteAllByUserId(userId);
 	}
 
 	@Override
-	public void save(ExamUserRelationVo vo) throws Exception {
-		try {
-			examUserRelationRepository.saveAndFlush(ExamUserRelationMapper.toDto(vo));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+	public void removeAllByExamId(Long examId) throws Exception {
+		examUserRelationRepository.deleteAllByExamId(examId);
 	}
 
 }

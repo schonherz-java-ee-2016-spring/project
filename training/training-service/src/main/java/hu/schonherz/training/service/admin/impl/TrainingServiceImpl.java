@@ -14,7 +14,11 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import hu.schonherz.training.core.admin.repository.TrainingRepository;
 import hu.schonherz.training.service.admin.TrainingService;
 import hu.schonherz.training.service.admin.mapper.TrainingMapper;
+import hu.schonherz.training.service.admin.mapper.UserGroupMapper;
+import hu.schonherz.training.service.admin.mapper.UserMapper;
 import hu.schonherz.training.service.admin.vo.TrainingVo;
+import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.admin.vo.UserVo;
 
 @Stateless(mappedName = "TrainingService", name = "TrainingService")
 @Transactional(value = TxType.REQUIRED)
@@ -47,6 +51,16 @@ public class TrainingServiceImpl implements TrainingService {
 	@Override
 	public void deleteTraining(Long id) {
 		trainingRepository.delete(id);
+	}
+
+	@Override
+	public List<UserVo> getAllUsers(Long trainingId) {
+		return UserMapper.toVo(trainingRepository.findUsersByTrainingId(trainingId));
+	}
+
+	@Override
+	public List<UserGroupVo> getAllUserGroups(Long trainingId) {
+		return UserGroupMapper.toVo(trainingRepository.findUserGroupsByTrainingId(trainingId));
 	}
 
 }

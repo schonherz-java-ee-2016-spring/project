@@ -31,22 +31,12 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 
 	@Override
 	public List<QuestionTypeVo> getAll() throws Exception {
-		try {
-			return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionTypeMapper.toVo(questionTypeRepository.findAll());
 	}
 
 	@Override
 	public QuestionTypeVo getById(Long id) throws Exception {
-		try {
-			return QuestionTypeMapper.toVo(questionTypeRepository.findOne(id));
-		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-			throw ex;
-		}
+		return QuestionTypeMapper.toVo(questionTypeRepository.findOne(id));
 	}
 
 	@Override
@@ -60,12 +50,17 @@ public class QuestionTypeServiceImpl implements QuestionTypeService {
 	}
 
 	@Override
-	public void save(QuestionTypeVo vo) throws Exception {
+	public void add(QuestionTypeVo vo) throws Exception {
 		try {
 			questionTypeRepository.saveAndFlush(QuestionTypeMapper.toDto(vo));
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;
 		}
+	}
+
+	@Override
+	public QuestionTypeVo getByName(String questionTypeName) throws Exception {
+		return QuestionTypeMapper.toVo(questionTypeRepository.findByNameIgnoreCase(questionTypeName));
 	}
 }
