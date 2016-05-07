@@ -1,12 +1,14 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.NodeSelectEvent;
@@ -27,15 +29,18 @@ public class ThemeServiceBean {
 	private String type;
 	private String themeCode;
 	private String description;
-	private Integer hours;
+	private Double hours;
 	private Integer code = 0;
 	private boolean disabled;
 	private boolean mainSelected;
 	private ThemeVo testVo;
-	private Integer lastHours;
+	private Double lastHours;
 
 	private TreeNode root;
 	private TreeNode selectedNode;
+
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 
 	@PostConstruct
 	public void init() {
@@ -75,7 +80,7 @@ public class ThemeServiceBean {
 			testVo = themeService.getThemeByName(selectedNode.getData().toString());
 			if (testVo.getType().equals("main")) {
 				if (testVo.getHours() == null) {
-					testVo.setHours(hours);
+					testVo.setHours(hours);;
 				} else {
 					testVo.setHours(testVo.getHours() + hours);
 				}
@@ -93,9 +98,6 @@ public class ThemeServiceBean {
 		}
 		themeService.createTheme(newTheme);
 		root = createThemes();
-//		name = null;
-//		description = null;
-//		hours = null;
 		resetFields();
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
@@ -138,7 +140,7 @@ public class ThemeServiceBean {
 			mainSelected = true;
 	}
 
-	public void resetFields(){
+	public void resetFields() {
 		name = null;
 		type = null;
 		description = null;
@@ -185,13 +187,6 @@ public class ThemeServiceBean {
 		this.description = description;
 	}
 
-	public Integer getHours() {
-		return hours;
-	}
-
-	public void setHours(Integer hours) {
-		this.hours = hours;
-	}
 
 	public Integer getCode() {
 		return code;
@@ -241,11 +236,28 @@ public class ThemeServiceBean {
 		this.testVo = testVo;
 	}
 
-	public Integer getLastHours() {
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+
+	public Double getHours() {
+		return hours;
+	}
+
+	public void setHours(Double hours) {
+		this.hours = hours;
+	}
+
+	public Double getLastHours() {
 		return lastHours;
 	}
 
-	public void setLastHours(Integer lastHours) {
+	public void setLastHours(Double lastHours) {
 		this.lastHours = lastHours;
 	}
 
