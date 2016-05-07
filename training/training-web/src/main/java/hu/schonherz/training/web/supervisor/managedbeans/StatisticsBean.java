@@ -50,7 +50,7 @@ public class StatisticsBean implements Serializable {
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-	
+
 	private List<Course> courses = new ArrayList<>();
 
 	private Long trainingId;
@@ -68,26 +68,45 @@ public class StatisticsBean implements Serializable {
 
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
-//			training = courses.stream().filter(a -> {
-//				return a.getUserGroup().getId() == trainingId;
-//			}).findFirst().get();
-			initTestCategoryModel();
-			initHomeworkCategoryModel();
+			// training = courses.parallelStream()
+			// .filter(a -> {
+			// return a.getUserGroup().getId() == trainingId;
+			// }).findFirst().get();
+			// ;
+			for (Course course : courses) {
+				if (course.getUserGroup().getId().equals(trainingId)) {
+					training = course;
+					break;
+				}
+			}
+			if (training != null) {
+				initTestCategoryModel();
+				initHomeworkCategoryModel();
+			}
 		}
 	}
 
-	private void initTestCategoryModel() {
-		testCategoryModel = new LineChartModel();
-
-		Random rand = new Random();
-		for (String user : names) {
+	private void fillTestCategoryModel() {
+		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
-			userSerie.setLabel(user);
-			for (String lesson : lessonNames) {
-				userSerie.set(lesson, rand.nextInt(11));
+			userSerie.setLabel(user.getUser().getFullName());
+			for (ExamResultVo examResultVo : user.getExamResults()) {
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getScore());
 			}
 			testCategoryModel.addSeries(userSerie);
 		}
+	}
+
+	
+	
+	
+	
+	
+	private void initTestCategoryModel() {
+		testCategoryModel = new LineChartModel();
+		fillTestCategoryModel();
+
+		
 		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
 		testCategoryModel.setAnimate(true);
 		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
@@ -104,18 +123,22 @@ public class StatisticsBean implements Serializable {
 		yAxis.setMax(10);
 		yAxis.setTickFormat("%d");
 	}
-	private void initHomeworkCategoryModel() {
-		homeworkCategoryModel = new LineChartModel();
 
-		Random rand = new Random();
-		for (String user : names) {
+	private void fillHomeworkCategoryModel() {
+		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
-			userSerie.setLabel(user);
-			for (String lesson : lessonNames) {
-				userSerie.set(lesson, rand.nextInt(11));
+			userSerie.setLabel(user.getUser().getFullName());
+			for (HomeworkResultVo homeworkResultVo : user.getHomeworkResults()) {
+				userSerie.set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
 			}
 			homeworkCategoryModel.addSeries(userSerie);
 		}
+	}
+
+	private void initHomeworkCategoryModel() {
+		homeworkCategoryModel = new LineChartModel();
+
+		fillHomeworkCategoryModel();
 		homeworkCategoryModel.setTitle(bundle.getString("statisticshomework"));
 		homeworkCategoryModel.setAnimate(true);
 		homeworkCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
@@ -132,9 +155,8 @@ public class StatisticsBean implements Serializable {
 		yAxis.setMax(10);
 		yAxis.setTickFormat("%d");
 	}
-	@PostConstruct
-	public void init() {
-		// Filling the Courses with userGroups
+
+	private void mock() {
 		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
 		try {
 			userGroups = userGroupService.getUserGroups();
@@ -151,12 +173,10 @@ public class StatisticsBean implements Serializable {
 			}
 		}
 
-		// Filling the Courses with Lessons
 		List<LessonVo> lessons = new ArrayList<>();
 		lessonNames = new String[] { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
 				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok",
-				"Átlag" };
+				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
 		for (int i = 0; i < lessonNames.length; i++) {
 			lessons.add(new LessonVo());
 		}
@@ -166,29 +186,28 @@ public class StatisticsBean implements Serializable {
 			k++;
 		}
 
-		// Filling the Courses with UserResults
-		List<UserResults> userResults = new ArrayList<>();
-		List<UserVo> users = new ArrayList<>();
 		names = new String[] { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
-				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám", "Átlag" };
+				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám" };
 
-		for (int i = 0; i < names.length; i++) {
-			userResults.add(new UserResults());
-			users.add(new UserVo());
-		}
-		k = 0;
-		for (UserVo user : users) {
-			user.setFullName(names[k]);
-			k++;
-		}
-		k = 0;
-		Iterator<UserVo> userIterator = users.iterator();
-		for (UserResults userResult : userResults) {
-			if (userIterator.hasNext()) {
-				userResult.setUser(userIterator.next());
-			}
-		}
 		for (Course course : courses) {
+			List<UserResults> userResults = new ArrayList<>();
+			List<UserVo> users = new ArrayList<>();
+			for (int i = 0; i < names.length; i++) {
+				userResults.add(new UserResults());
+				users.add(new UserVo());
+			}
+			k = 0;
+			for (UserVo user : users) {
+				user.setFullName(names[k]);
+				k++;
+			}
+			k = 0;
+			Iterator<UserVo> userIterator = users.iterator();
+			for (UserResults userResult : userResults) {
+				if (userIterator.hasNext()) {
+					userResult.setUser(userIterator.next());
+				}
+			}
 			course.setLessons(lessons);
 			course.setUserResults(userResults);
 		}
@@ -220,7 +239,12 @@ public class StatisticsBean implements Serializable {
 				userResult.setHomeworkResults(homeworkResults);
 			}
 		}
+	}
 
+	@PostConstruct
+	public void init() {
+
+		mock();
 		trainingList = new HashMap<>();
 		for (Course course : courses) {
 			trainingList.put(course.getUserGroup().getName(), course.getUserGroup().getId());
@@ -258,7 +282,6 @@ public class StatisticsBean implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-	
 
 	public LineChartModel getTestCategoryModel() {
 		return testCategoryModel;
@@ -283,6 +306,5 @@ public class StatisticsBean implements Serializable {
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
 	}
-
 
 }
