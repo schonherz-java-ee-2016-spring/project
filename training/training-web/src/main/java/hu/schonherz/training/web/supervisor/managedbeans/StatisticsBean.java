@@ -7,12 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -47,6 +48,9 @@ public class StatisticsBean implements Serializable {
 	@EJB
 	private HomeworkResultService homeworkResultService;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+	
 	private List<Course> courses = new ArrayList<>();
 
 	private Long trainingId;
@@ -68,9 +72,66 @@ public class StatisticsBean implements Serializable {
 //				return a.getUserGroup().getId() == trainingId;
 //			}).findFirst().get();
 			initTestCategoryModel();
+			initHomeworkCategoryModel();
 		}
 	}
 
+	private void initTestCategoryModel() {
+		testCategoryModel = new LineChartModel();
+
+		Random rand = new Random();
+		for (String user : names) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user);
+			for (String lesson : lessonNames) {
+				userSerie.set(lesson, rand.nextInt(11));
+			}
+			testCategoryModel.addSeries(userSerie);
+		}
+		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
+		testCategoryModel.setAnimate(true);
+		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		testCategoryModel.setLegendPosition("e");
+		testCategoryModel.setExtender("extFn");
+		testCategoryModel.setShowDatatip(true);
+		testCategoryModel.setShowPointLabels(false);
+		testCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = testCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+	private void initHomeworkCategoryModel() {
+		homeworkCategoryModel = new LineChartModel();
+
+		Random rand = new Random();
+		for (String user : names) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user);
+			for (String lesson : lessonNames) {
+				userSerie.set(lesson, rand.nextInt(11));
+			}
+			homeworkCategoryModel.addSeries(userSerie);
+		}
+		homeworkCategoryModel.setTitle(bundle.getString("statisticshomework"));
+		homeworkCategoryModel.setAnimate(true);
+		homeworkCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		homeworkCategoryModel.setLegendPosition("e");
+		homeworkCategoryModel.setExtender("extFn");
+		homeworkCategoryModel.setShowDatatip(true);
+		homeworkCategoryModel.setShowPointLabels(false);
+		homeworkCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = homeworkCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = homeworkCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
 	@PostConstruct
 	public void init() {
 		// Filling the Courses with userGroups
@@ -197,45 +258,7 @@ public class StatisticsBean implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-	//
-	// public LineChartModel getExamModel() {
-	// return examModel;
-	// }
-	//
-	// public LineChartModel getHomeworkModel() {
-	// return homeworkModel;
-	// }
-
-	private void initTestCategoryModel() {
-		testCategoryModel = new LineChartModel();
-
-		Random rand = new Random();
-		for (String user : names) {
-			LineChartSeries userSerie = new LineChartSeries();
-			userSerie.setLabel(user);
-			for (String lesson : lessonNames) {
-				userSerie.set(lesson, rand.nextInt(11));
-			}
-			testCategoryModel.addSeries(userSerie);
-		}
-		//i18n kéne
-		testCategoryModel.setTitle("Tesztek");
-		testCategoryModel.setAnimate(true);
-		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
-		testCategoryModel.setLegendPosition("e");
-		testCategoryModel.setExtender("extFn");
-		testCategoryModel.setShowDatatip(true);
-		testCategoryModel.setShowPointLabels(false);
-		//i18n kéne
-		testCategoryModel.getAxes().put(AxisType.X, new CategoryAxis("Témakörök"));
-		Axis xAxis = testCategoryModel.getAxis(AxisType.X);
-		xAxis.setTickAngle(-30);
-		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
-		yAxis.setLabel("Pontszám");
-		yAxis.setMin(0);
-		yAxis.setMax(10);
-		yAxis.setTickFormat("%d");
-	}
+	
 
 	public LineChartModel getTestCategoryModel() {
 		return testCategoryModel;
@@ -243,6 +266,22 @@ public class StatisticsBean implements Serializable {
 
 	public void setTestCategoryModel(LineChartModel testCategoryModel) {
 		this.testCategoryModel = testCategoryModel;
+	}
+
+	public LineChartModel getHomeworkCategoryModel() {
+		return homeworkCategoryModel;
+	}
+
+	public void setHomeworkCategoryModel(LineChartModel homeworkCategoryModel) {
+		this.homeworkCategoryModel = homeworkCategoryModel;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 

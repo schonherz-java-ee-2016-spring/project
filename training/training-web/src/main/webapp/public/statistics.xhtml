@@ -33,13 +33,16 @@
 
 					<f:selectItems value="#{statisticsBean.trainingList}" />
 					<f:ajax event="change"
-						listener="#{statisticsBean.onTrainingIdChange}" render="@all" />
+						listener="#{statisticsBean.onTrainingIdChange}" render="testChart homeworkChart" />
 				</h:selectOneMenu>
 			</h:form>
 		</h:panelGroup>
 
 		<p:chart id="testChart" type="line"
 			model="#{statisticsBean.testCategoryModel}" styleClass="chart"
+			responsive="true" />
+		<p:chart id="homeworkChart" type="line"
+			model="#{statisticsBean.homeworkCategoryModel}" styleClass="chart"
 			responsive="true" />
 		<script type="text/javascript">
 			/*$(document).ready(function(){
