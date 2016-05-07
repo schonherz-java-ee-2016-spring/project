@@ -1,5 +1,11 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -8,8 +14,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.Part;
 
 import org.primefaces.context.RequestContext;
 
@@ -27,9 +35,30 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	private String editOptionText;
 	private String oldOptionText;
 
+	private String usableImageLink;
+	private Part image;
+
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-	
+
+	public void saveImage() {
+		try (InputStream input = getImage().getInputStream()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			String folder = ec.getRealPath("/") + "/questionimages/" + questionIdAsString + "/";
+			String filename = getImage().getSubmittedFileName();
+			if (!Files.exists(Paths.get(folder))) {
+				Files.createDirectories(Paths.get(folder));
+			}
+			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+			setUsableImageLink("Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+					+ ec.getRequestServerPort() + "/training-web/questionimages/" + questionIdAsString + "/" + filename);
+			RequestContext.getCurrentInstance().update("usableImageLinkForm");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	protected void updatePageContent() {
 		optionList.clear();
@@ -66,7 +95,8 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		setUpOption();
 		if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(option.getText())).count() > 0) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists") , "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists"),
+					"");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			optionList.add(option);
@@ -105,19 +135,22 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOptions == null || optionList.isEmpty()) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("qneedsatleastoneoption"), "");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					bundle.getString("qneedsatleastoneoption"), "");
 			currentInstance.addMessage(null, facesMessage);
 		} else {
 			try {
 				saveQuestion();
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				updatePageContent();
-				FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
-						.handleNavigation(FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
+				FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(
+						FacesContext.getCurrentInstance(), null, "examQuestions.xhtml?faces-redirect=true");
 
 			} catch (Exception e) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"), "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				e.printStackTrace();
 			}
@@ -216,7 +249,8 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try {
 			if (optionList.stream().filter(o -> o.getText().equalsIgnoreCase(editOptionText)).count() > 0) {
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("optionexists"), "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						bundle.getString("optionexists"), "");
 				currentInstance.addMessage(null, facesMessage);
 
 			} else {
@@ -231,7 +265,8 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 					}
 
 				}
-				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						"");
 				currentInstance.addMessage(null, facesMessage);
 				RequestContext.getCurrentInstance().update("editDialogForm");
 				RequestContext.getCurrentInstance().update("optionTableForm");
@@ -282,6 +317,22 @@ public class MultipleQuestionDetailsBean extends SelectorQuestionBean {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
+	}
+
+	public String getUsableImageLink() {
+		return usableImageLink;
+	}
+
+	public void setUsableImageLink(String usableImageLink) {
+		this.usableImageLink = usableImageLink;
+	}
+
+	public Part getImage() {
+		return image;
+	}
+
+	public void setImage(Part image) {
+		this.image = image;
 	}
 
 }

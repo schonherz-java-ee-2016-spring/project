@@ -20,6 +20,16 @@
 					action="#{textbasedQuestionDetailsBean.saveQuestion}" />
 			</h:panelGrid>
 		</h:form>
+		
+		<h:form enctype="multipart/form-data">
+			<h:inputFile value="#{textbasedQuestionDetailsBean.image}">
+				<f:ajax listener="#{textbasedQuestionDetailsBean.saveImage}" />
+			</h:inputFile>
+		</h:form>
+		
+		<h:form id="usableImageLinkForm">
+			<h:outputLabel value="#{textbasedQuestionDetailsBean.usableImageLink}" />
+		</h:form>
 
 		<h:form id="questionNoteRename">
 			<h3>#{out.questionnote}</h3>

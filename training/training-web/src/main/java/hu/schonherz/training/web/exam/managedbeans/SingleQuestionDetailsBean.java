@@ -42,8 +42,9 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	private ResourceBundle bundle;
 
 	public void saveImage() {
-		try (InputStream input = getImage().getInputStream()) {
-			String folder = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "/questionimages/"
+		try (InputStream input = image.getInputStream()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			String folder = ec.getRealPath("/") + "/questionimages/"
 					+ questionIdAsString + "/";
 			String filename = image.getSubmittedFileName();
 			if (!Files.exists(Paths.get(folder))) {
@@ -51,7 +52,6 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			usableImageLink = "Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 					+ ec.getRequestServerPort() + "/training-web/questionimages/" + questionIdAsString + "/" + filename;
 			RequestContext.getCurrentInstance().update("usableImageLinkForm");
@@ -133,7 +133,6 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
-
 			FacesMessage facesMessage = new FacesMessage(bundle.getString("markcorrectoption"));
 			currentInstance.addMessage(null, facesMessage);
 		} else {
