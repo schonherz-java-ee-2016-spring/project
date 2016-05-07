@@ -31,16 +31,22 @@
 					<h:outputText value="#{theme.themeCode}" />
 				</p:column>
 				<f:facet name="footer">
+				
+					<!-- 				Create Main Theme Button -->
 					<p:commandButton type="button" onclick="PF('createDialog').show();"
 						value="Create Theme" icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"></p:commandButton>
+						
+					<!-- 						Create Item Theme Button -->
 					<p:commandButton type="button"
 						onclick="PF('createItemDialog').show();" value="Create item Theme"
 						icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"
 						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
+
+					<!-- 						Delete Theme Button -->
 					<p:commandButton id="deleteButton" process="treeTable"
 						update=":treeTableForm:treeTable, treeTableForm"
 						icon="ui-icon-trash" value="#{out.delete}"
@@ -56,18 +62,22 @@
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
-					<p:commandButton type="button" onclick="PF('modifyTheme').show();"
+
+					<!-- 					Modify Theme Button -->
+					<p:commandButton process="treeTable" type="button" onclick="PF('modifyTheme').show();"
 						id="modifyButton" value="#{out.edit}"
-						disabled="#{(themeServiceBean.disabled)}" update="treeTableForm"
+						disabled="#{(themeServiceBean.disabled)}" update="modifyTheme,:themeForm2:modifyTheme"
 						icon="ui-icon-pencil"></p:commandButton>
 				</f:facet>
 				<p:ajax process="treeTable" event="select"
-					update="growl,createItem,deleteButton,modifyButton"
+					update="growl,createItem,deleteButton,modifyButton,themeForm2"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
 
 		<h:form styleClass="form-horizontal" id="themeForm">
+
+			<!-- 		Create Main Theme Dialog -->
 			<p:dialog header="Create Theme" widgetVar="createDialog"
 				dynamic="true" resizable="false" responsive="true">
 				<p:panel id="panel2">
@@ -98,6 +108,8 @@
 						oncomplete="PF('createDialog').hide();" />
 				</p:panel>
 			</p:dialog>
+
+			<!-- 			Create Item dialog -->
 			<p:dialog header="Create Theme" widgetVar="createItemDialog"
 				dynamic="true" resizable="false" responsive="true">
 				<p:panel id="panel3">
@@ -137,8 +149,9 @@
 				</p:panel>
 			</p:dialog>
 		</h:form>
-		
-		<h:form styleClass="form-horizontal" id="form2">
+
+		<!-- 		Modify Theme -->
+		<h:form styleClass="form-horizontal" id="themeForm2">
 			<p:dialog responsive="true" showEffect="clip" widgetVar="modifyTheme"
 				modal="true" resizable="false">
 				<p:panel id="panel">
@@ -186,7 +199,7 @@
 						</div>
 					</c:if>
 					<p:commandButton styleClass="btn" value="#{out.save}"
-						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
+						update="growl,treeTableForm,themeForm2"
 						oncomplete="PF('modifyTheme').hide()"
 						action="#{themeServiceBean.editTheme}" icon="ui-icon-check" />
 				</p:panel>

@@ -32,7 +32,7 @@ public class ThemeServiceBean {
 	private boolean disabled;
 	private boolean mainSelected;
 	private ThemeVo testVo;
-	
+	private Integer lastHours;
 
 	private TreeNode root;
 	private TreeNode selectedNode;
@@ -72,7 +72,7 @@ public class ThemeServiceBean {
 		newTheme.setName(name);
 		newTheme.setDescription(description);
 		if (selectedNode != null) {
-			ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
+			testVo = themeService.getThemeByName(selectedNode.getData().toString());
 			if (testVo.getType().equals("main")) {
 				if (testVo.getHours() == null) {
 					testVo.setHours(hours);
@@ -93,18 +93,17 @@ public class ThemeServiceBean {
 		}
 		themeService.createTheme(newTheme);
 		root = createThemes();
-		name = null;
-		description = null;
-		hours = null;
+//		name = null;
+//		description = null;
+//		hours = null;
+		resetFields();
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
 	}
 
 	public void deleteTheme() {
-//		ThemeVo testVo = themeService.getThemeByName(selectedNode.getData().toString());
 		if (!(testVo.getType().equals("main"))) {
 			ThemeVo parent = themeService.getThemeByName(selectedNode.getParent().getData().toString());
-			System.out.println("ASDASDASD" + parent.toString());
 			if (parent.getHours() != null) {
 				parent.setHours(parent.getHours() - testVo.getHours());
 			}
@@ -116,19 +115,35 @@ public class ThemeServiceBean {
 		root = createThemes();
 	}
 
-	public void editTheme(){
-		
+	public void editTheme() {
+		themeService.createTheme(testVo);
+		ThemeVo testVo2 = themeService.getThemeByName(testVo.getName());
+		ThemeVo parent = themeService.getThemeByName(selectedNode.getParent().getData().toString());
+		if (parent.getHours() != null) {
+			parent.setHours(parent.getHours() + (testVo2.getHours() - lastHours));
+		}
+		themeService.createTheme(parent);
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes", "Theme edited!");
+		FacesContext.getCurrentInstance().addMessage(null, msgs);
+		root = createThemes();
 	}
-	
+
 	public void onRowSelect(NodeSelectEvent event) {
 		disabled = false;
 		testVo = themeService.getThemeByName(event.getTreeNode().getData().toString());
+		lastHours = testVo.getHours();
 		if (testVo.getType().equals("main"))
 			mainSelected = false;
 		else
 			mainSelected = true;
 	}
 
+	public void resetFields(){
+		name = null;
+		type = null;
+		description = null;
+		hours = null;
+	}
 
 	public ThemeService getThemeService() {
 		return themeService;
@@ -224,6 +239,14 @@ public class ThemeServiceBean {
 
 	public void setTestVo(ThemeVo testVo) {
 		this.testVo = testVo;
+	}
+
+	public Integer getLastHours() {
+		return lastHours;
+	}
+
+	public void setLastHours(Integer lastHours) {
+		this.lastHours = lastHours;
 	}
 
 }
