@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -52,9 +53,10 @@ public class StatisticsBean implements Serializable {
 
 	private Course training;
 
-	private Map<String, Long> trainingList;
+	private HashMap<String, Long> trainingList;
 
-	private LineChartModel categoryModel;
+	private LineChartModel testCategoryModel;
+	private LineChartModel homeworkCategoryModel;
 
 	private String[] lessonNames;
 
@@ -62,105 +64,13 @@ public class StatisticsBean implements Serializable {
 
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
-			training = courses.stream().filter(a -> {
-				return a.getUserGroup().getId() == trainingId;
-			}).findFirst().get();
+//			training = courses.stream().filter(a -> {
+//				return a.getUserGroup().getId() == trainingId;
+//			}).findFirst().get();
+			initTestCategoryModel();
 		}
 	}
 
-	public String testColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['tests', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-//						get(0).getExamResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
-			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String testDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getExamResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getExamResults().get(k).getExam().getTitle());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getExamResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getExamResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
-		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String homeworkColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['homeworks', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
-			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String homeworkDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getHomeworkResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getHomeworkResults().get(k).getHomework().getName());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getHomeworkResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getHomeworkResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
-		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-	
 	@PostConstruct
 	public void init() {
 		// Filling the Courses with userGroups
@@ -257,7 +167,6 @@ public class StatisticsBean implements Serializable {
 
 		trainingId = courses.get(0).getUserGroup().getId();
 		onTrainingIdChange();
-		initCategoryModel();
 	}
 
 	/**
@@ -297,8 +206,8 @@ public class StatisticsBean implements Serializable {
 	// return homeworkModel;
 	// }
 
-	private void initCategoryModel() {
-		categoryModel = new LineChartModel();
+	private void initTestCategoryModel() {
+		testCategoryModel = new LineChartModel();
 
 		Random rand = new Random();
 		for (String user : names) {
@@ -307,33 +216,34 @@ public class StatisticsBean implements Serializable {
 			for (String lesson : lessonNames) {
 				userSerie.set(lesson, rand.nextInt(11));
 			}
-			categoryModel.addSeries(userSerie);
+			testCategoryModel.addSeries(userSerie);
 		}
 		//i18n kéne
-		categoryModel.setTitle("Tesztek");
-		categoryModel.setAnimate(true);
-		categoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
-		categoryModel.setLegendPosition("e");
-		categoryModel.setExtender("extFn");
-		categoryModel.setShowDatatip(true);
-		categoryModel.setShowPointLabels(false);
+		testCategoryModel.setTitle("Tesztek");
+		testCategoryModel.setAnimate(true);
+		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		testCategoryModel.setLegendPosition("e");
+		testCategoryModel.setExtender("extFn");
+		testCategoryModel.setShowDatatip(true);
+		testCategoryModel.setShowPointLabels(false);
 		//i18n kéne
-		categoryModel.getAxes().put(AxisType.X, new CategoryAxis("Témakörök"));
-		Axis xAxis = categoryModel.getAxis(AxisType.X);
+		testCategoryModel.getAxes().put(AxisType.X, new CategoryAxis("Témakörök"));
+		Axis xAxis = testCategoryModel.getAxis(AxisType.X);
 		xAxis.setTickAngle(-30);
-		Axis yAxis = categoryModel.getAxis(AxisType.Y);
+		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
 		yAxis.setLabel("Pontszám");
 		yAxis.setMin(0);
 		yAxis.setMax(10);
 		yAxis.setTickFormat("%d");
 	}
 
-	public LineChartModel getCategoryModel() {
-		return categoryModel;
+	public LineChartModel getTestCategoryModel() {
+		return testCategoryModel;
 	}
 
-	public void setCategoryModel(LineChartModel categoryModel) {
-		this.categoryModel = categoryModel;
+	public void setTestCategoryModel(LineChartModel testCategoryModel) {
+		this.testCategoryModel = testCategoryModel;
 	}
+
 
 }

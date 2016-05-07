@@ -7,163 +7,87 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="head-extra">
-			<h:outputScript library="default" name="js/charts/jqplot.canvasAxisLabelRenderer.min.js"/>
-			<h:outputScript library="default" name="js/charts/jqplot.canvasAxisTickRenderer.min.js"/>
-			<h:outputScript library="default" name="js/charts/jqplot.canvasOverlay.min.js"/>
-			<h:outputScript library="default" name="js/charts/jqplot.canvasTextRenderer.min.js"/>
-			<h:outputScript library="default" name="js/charts/jqplot.categoryAxisRenderer.min.js"/>
-			<h:outputScript library="default" name="js/charts/jqplot.highlighter.min.js"/>
-	
-		<script type="text/javascript"
-			src="https://www.gstatic.com/charts/loader.js"></script>
-		
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisLabelRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisTickRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasOverlay.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasTextRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.categoryAxisRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.highlighter.min.js" />
 		<h:outputStylesheet>
 			.chart {
-				width: 800pt; height: 400pt;
+				width: 80%; height: 400pt;
 			}
 		</h:outputStylesheet>
 	</ui:define>
 	<ui:define name="content">
-
-		<h:inputHidden id="testcols" value='#{statisticsBean.testColumnsToJsArray()}' />
-		<h:inputHidden id="testdata" value="#{statisticsBean.testDataForChart()}" />
-		<h:inputHidden id="homeworkcols" value="#{statisticsBean.homeworkColumnsToJsArray()}" />
-		<h:inputHidden id="homeworkdata" value="#{statisticsBean.homeworkDataForChart()}" />
 		<h:panelGroup layout="block" styleClass="container">
+			<h:form>
+				<h:selectOneMenu id="training" value="#{statisticsBean.trainingId}"
+					immediate="false">
 
-			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}" >
-				<p:ajax event="change" update="testdata"
-					listener="#{statisticsBean.onTrainingIdChange()}" />
-				<f:selectItems value="#{statisticsBean.trainingList}" />
-			</p:selectOneMenu>
-
+					<f:selectItems value="#{statisticsBean.trainingList}" />
+					<f:ajax event="change"
+						listener="#{statisticsBean.onTrainingIdChange}" render="@all" />
+				</h:selectOneMenu>
+			</h:form>
 		</h:panelGroup>
-		<h:panelGroup id="linear" layout="block" styleClass="container">
 
-
-			<h:panelGroup id="testChart" layout="block" styleClass="chart">
-			</h:panelGroup>
-			<h:panelGroup id="homeworkChart" layout="block" styleClass="chart"></h:panelGroup>
-		</h:panelGroup>
-		<h:outputScript type="text/javascript" id="drawscript">
-			google.charts.load('current', {
-				'packages' : [ 'line' ]
-			});
-			google.charts.setOnLoadCallback(drawCharts);
-
-			function drawCharts(){
-				drawTestChart(eval($('#testcols').val()), eval($('#testdata').val()));
-				drawHomeworkChart(eval($('#homeworkcols').val()), eval($('#homeworkdata').val()));
-			}
-			
-			function drawTestChart(columns, results) {
-
-				var data = new google.visualization.DataTable();
-
-				var first = true;
-				columns.forEach(function(event){
-					if(first){
-						data.addColumn('string', '#{out.statisticsexam}');
-						
-						first = false;
-					}else
-						data.addColumn('number', event);
-				})
-				
-				data.addRows(results);
-
-				var options = {
-					selectionMode: 'multiple',
-					chart : {
-						title : '#{out.statisticsexam}'
-					}
-				};
-
-				var chart = new google.charts.Line(document
-						.getElementById('testChart'));
-
-				chart.draw(data, options);
-			}
-			function drawHomeworkChart(columns, results) {
-
-				var data = new google.visualization.DataTable();
-
-				var first = true;
-				columns.forEach(function(event){
-					if(first){
-						data.addColumn('string', '#{out.statisticshomework}');
-						
-						first = false;
-					}else
-						data.addColumn('number', event);
-				})
-				
-				data.addRows(results);
-
-				var options = {
-
-					selectionMode: 'multiple',
-
-					chart : {
-						title : '#{out.statisticshomework}'
-					}
-				};
-
-				var chart = new google.charts.Line(document
-						.getElementById('homeworkChart'));
-
-				chart.draw(data, options);
-			}
-		</h:outputScript>
-		
-		<p:chart type="line" model="#{statisticsBean.categoryModel}"
-			style="width: 80%;height:500px;" responsive="true" />
+		<p:chart id="testChart" type="line"
+			model="#{statisticsBean.testCategoryModel}" styleClass="chart"
+			responsive="true" />
 		<script type="text/javascript">
 			/*$(document).ready(function(){
 				$.jqplot.config.enablePlugins = true;
 			});*/
-		    function extFn() {
-		        this.cfg.seriesDefaults = {
-		            rendererOptions: {
-		               smooth: true
-		            }
-		        },
-		         this.cfg.canvasOverlay = {
-		                        show: true,
-		                        objects: [
-		                        {
-		                        	horizontalLine :{
-			                        "shadow":"false",
-			                        "lineWidth":2,
-			                        "color":"rgb(255,0,0)",
-			                        "y":3}
-		                        },
-						         {
-						        	 horizontalLine :{
-				                     "shadow":"false",
-				                     "lineWidth":2,
-				                     "color":"rgb(0,255,0)",
-				                     "y":7
-				                     }
-						         }         
-						         ]
-		        },
-		        this.cfg.highlighter = {
-		            show: true,
-		            showMarker:false,
-		            tooltipContentEditor:tooltipContentEditor		            
-		          };
-		    }
+			function extFn() {
+				this.cfg.seriesDefaults = {
+					rendererOptions : {
+						smooth : true
+					}
+				}, this.cfg.canvasOverlay = {
+					show : true,
+					objects : [ {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(255,0,0)",
+							"y" : 3
+						}
+					}, {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(0,255,0)",
+							"y" : 7
+						}
+					} ]
+				}, this.cfg.highlighter = {
+					show : true,
+					showMarker : false,
+					tooltipContentEditor : tooltipContentEditor
+				};
+			}
 			function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
-				var tooltip = "<table><thead><th>" + plot.axes.xaxis.ticks[pointIndex] + "</th></thead><tbody>";
-				$.each( plot.data, function( index, value ){
-					tooltip += "<tr><td>" + plot.series[index]["label"] + "</td><td>" + value[pointIndex][1] + "</td></tr>";					
-				});
+				var tooltip = "<table><thead><th>"
+						+ plot.axes.xaxis.ticks[pointIndex]
+						+ "</th></thead><tbody>";
+				$.each(plot.data,
+						function(index, value) {
+							tooltip += "<tr><td>" + plot.series[index]["label"]
+									+ "</td><td>" + value[pointIndex][1]
+									+ "</td></tr>";
+						});
 				tooltip += "</tbody></table>";
 				return tooltip;
-			    //return plot.series[seriesIndex]["label"] + ": " + plot.axes.xaxis.ticks[pointIndex] + ", " + plot.data[seriesIndex][pointIndex];
+				//return plot.series[seriesIndex]["label"] + ": " + plot.axes.xaxis.ticks[pointIndex] + ", " + plot.data[seriesIndex][pointIndex];
 			}
-    	</script>		
+		</script>
 	</ui:define>
 
 </ui:composition>
