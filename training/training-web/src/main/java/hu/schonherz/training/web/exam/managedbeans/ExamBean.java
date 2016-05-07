@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
@@ -19,7 +19,7 @@ import hu.schonherz.training.service.exam.ExamService;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 
 @ManagedBean(name = "examBean")
-@SessionScoped
+@ViewScoped
 public class ExamBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -263,9 +263,9 @@ INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2022, 'Text
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'true1', 2007);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'false1', 2007);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, false, 'false', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, false, 'false1', 2008);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, true, 'true', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'false', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'false2', 2008);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, false, 'false1', 2009);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'false2', 2009);
@@ -275,18 +275,18 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, '
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'true1', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2012, false, 'false1', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'tru2', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'true2', 2010);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2014, true, 'true1', 2011);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2015, false, 'false1', 2011);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2016, true, 'tru2', 2011);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2016, true, 'true2', 2011);
 
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2017, true, 'true1-bejelölt', 2012);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2018, false, 'false1', 2012);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2019, false, 'bejlelölt-false', 2012);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2020, false, 'true1-bejelölt', 2013);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2020, false, 'false-bejelölt', 2013);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2021, false, 'false1', 2013);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2022, false, 'bejlelölt-false', 2013);
 
@@ -298,7 +298,7 @@ INSERT INTO public.option(id, correct, question_id) VALUES (2026, true, 2021);
 INSERT INTO public.option(id, correct, question_id) VALUES (2027, false, 2022);
 
 -- Answers
-
+/*
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (9, 2003, 2001, true);
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, true);
 INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2011, true);
@@ -317,10 +317,10 @@ INSERT INTO public.answer(id, user_id, option_id, good) VALUES (22, 2003, 2027, 
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 20, 'Nincs még javitva');
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 21, 'Kiétkelve true');
 INSERT INTO public.answer_text(id, answer_id, text) VALUES (204, 22, 'Kiértékelve False');
-
+*/
 -- Exam - User - Relation
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
-INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
+--INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(104, 2006, 2003)
 
 -- ExamResults
@@ -347,8 +347,8 @@ INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VA
 INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5017, current_timestamp, 'CREATE SQL', 10, 2006, 2102);
 
 
-INSERT INTO public.exam_result(id, score, exam_id, user_id) VALUES (20, 8, 2005, 2003)
-INSERT INTO public.exam_result(id, score, exam_id, user_id) VALUES (21, 9, 2006, 2003)
+--INSERT INTO public.exam_result(id, score, exam_id, user_id) VALUES (20, 8, 2005, 2003);
+--INSERT INTO public.exam_result(id, score, exam_id, user_id) VALUES (21, 9, 2006, 2003);
 
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
