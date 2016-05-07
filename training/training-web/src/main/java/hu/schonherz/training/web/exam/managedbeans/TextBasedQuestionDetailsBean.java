@@ -1,13 +1,23 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
+
+import org.primefaces.context.RequestContext;
 
 import hu.schonherz.training.service.exam.QuestionService;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
@@ -25,10 +35,30 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 	private QuestionService questionService;
 
 	private String questionIdAsString;
-
 	private String questionText;
-
 	private String questionNoteText;
+	
+	private String usableImageLink;
+	private Part image;
+
+	public void saveImage() {
+		try (InputStream input = getImage().getInputStream()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			String folder = ec.getRealPath("/") + "/questionimages/"
+					+ questionIdAsString + "/";
+			String filename = getImage().getSubmittedFileName();
+			if (!Files.exists(Paths.get(folder))) {
+				Files.createDirectories(Paths.get(folder));
+			}
+			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+			setUsableImageLink("Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+					+ ec.getRequestServerPort() + "/training-web/questionimages/" + questionIdAsString + "/" + filename);
+			RequestContext.getCurrentInstance().update("usableImageLinkForm");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void saveQuestion() {
 		setQuestionText(questionText);
@@ -112,6 +142,22 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
+	}
+
+	public String getUsableImageLink() {
+		return usableImageLink;
+	}
+
+	public void setUsableImageLink(String usableImageLink) {
+		this.usableImageLink = usableImageLink;
+	}
+
+	public Part getImage() {
+		return image;
+	}
+
+	public void setImage(Part image) {
+		this.image = image;
 	}
 	
 	
