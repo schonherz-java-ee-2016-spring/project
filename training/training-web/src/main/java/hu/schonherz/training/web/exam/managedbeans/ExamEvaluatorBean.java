@@ -24,6 +24,7 @@ import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 import hu.schonherz.training.service.exam.vo.eval.EvalRecord;
+import hu.schonherz.training.service.supervisor.ExamResultService;
 
 @ManagedBean(name = "examEvaluatorBean")
 @ViewScoped
@@ -40,6 +41,8 @@ public class ExamEvaluatorBean implements Serializable {
 	private AnswerService answerService;
 	@EJB
 	private AnswerTextService answerTextService;
+	@EJB
+	private ExamResultService examResultService;
 
 	private List<ExamVo> examList;
 	private String selectedExamIdAsString;
@@ -104,6 +107,15 @@ public class ExamEvaluatorBean implements Serializable {
 		for (EvalRecord evalRecord : evalRecordList) {
 			answerService.modifyGood(evalRecord.getAnswer());
 		}
+		addScoreToTextBasedScore();
+	}
+	
+	private void addScoreToTextBasedScore() throws Exception {
+		Long examId = Long.parseLong(selectedExamIdAsString);
+		Long userId = Long.parseLong(selectedUserIdAsString);
+		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getScore();
+		score += ((int)evalRecordList.stream().filter(e -> e.getAnswer().getGood()).count());
+		examResultService.modifyScore(examId, userId, score);
 	}
 
 	/**

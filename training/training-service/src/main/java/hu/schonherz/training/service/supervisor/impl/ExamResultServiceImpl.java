@@ -64,4 +64,14 @@ public class ExamResultServiceImpl implements ExamResultService {
 		return ExamResultMapper.toVo(examResultRepository.findByExamIdAndUserId(examId, userId));
 	}
 
+	@Override
+	public void modifyScore(Long examId, Long userId, Integer score) throws Exception {
+		try {
+			examResultRepository.updateScoreByExamIdAndUserId(examId, userId, score);
+		} catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+			throw ex;
+		}
+	}
+
 }
