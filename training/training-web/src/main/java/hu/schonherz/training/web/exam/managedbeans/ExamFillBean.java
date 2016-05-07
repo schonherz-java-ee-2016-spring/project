@@ -140,20 +140,19 @@ public class ExamFillBean implements Serializable {
 	}
 
 	private void toTheNextQuestionMultiSave() {
-
 		for (int i = 0; i < selectedOptionList.size(); i++) {
-
 			AnswerVo answerVo = new AnswerVo();
 			answerVo.setGood(selectedOptionList.get(i).getCorrect());
-			answerVo.setOption(optionList.get(i));
-
+			answerVo.setOption(selectedOptionList.get(i));
 			try {
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		}
+		selectedOptionList.clear();
 	}
 
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
@@ -172,9 +171,11 @@ public class ExamFillBean implements Serializable {
 			try {
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			selectedOption = null;
 		}
 	}
 
