@@ -11,33 +11,34 @@
 		<h:form id="treeTableForm">
 			<p:treeTable value="#{themeServiceBean.root}" var="theme"
 				id="treeTable" selectionMode="single"
-				selection="#{themeServiceBean.selectedNode}" liveResize="true">
+				selection="#{themeServiceBean.selectedNode}">
 				<f:facet name="header">
             Theme viewer
         </f:facet>
-				<p:column headerText="#{out.name}" priority="1" sortBy="#{theme.name}">
+				<p:column headerText="#{out.name}" priority="1"
+					sortBy="#{theme.name}">
 					<h:outputText value="#{theme.name}" />
 				</p:column>
-				<p:column headerText="#{out.duration}" priority="1">
+				<p:column headerText="#{out.duration}" priority="3">
 					<h:outputText value="#{theme.hours}" />
 				</p:column>
-				<p:column headerText="#{out.description}" priority="1">
+				<p:column headerText="#{out.description}" priority="3">
 					<h:outputText value="#{theme.description}" />
 				</p:column>
-				<p:column headerText="#{out.moduser}" priority="6"
-					filterBy="#{user.modUser}" filterMatchMode="contains">
+				<p:column headerText="#{out.moduser}" priority="8"
+					filterBy="#{theme.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{theme.modUser}" />
 				</p:column>
-				<p:column headerText="#{out.moddate}" priority="6"
+				<p:column headerText="#{out.moddate}" priority="8"
 					sortBy="#{theme.modDate}" filterBy="#{user.modDate}"
 					filterMatchMode="contains">
 					<h:outputText value="#{theme.modDate}" />
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="6"
+				<p:column headerText="#{out.recuser}" priority="5"
 					filterBy="#{user.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{theme.recUser}" />
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="6"
+				<p:column headerText="#{out.recdate}" priority="5"
 					sortBy="#{theme.recDate}" filterBy="#{user.recDate}"
 					filterMatchMode="contains">
 					<h:outputText value="#{theme.recDate}" />
@@ -115,8 +116,8 @@
 						</div>
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
-						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
-						action="#{themeServiceBean.createTheme}" icon="ui-icon-check"
+						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm2"
+						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
 						oncomplete="PF('createDialog').hide();" />
 				</p:panel>
 			</p:dialog>
@@ -156,7 +157,7 @@
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
 						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
-						action="#{themeServiceBean.createTheme}" icon="ui-icon-check"
+						action="#{themeServiceBean.createItemTheme}" icon="ui-icon-check"
 						oncomplete="PF('createItemDialog').hide();" />
 				</p:panel>
 			</p:dialog>

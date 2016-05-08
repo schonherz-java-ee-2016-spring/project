@@ -1,5 +1,6 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,19 +32,22 @@ public class ThemeServiceBean {
 	private String description;
 	private Double hours;
 	private Integer code = 0;
-	private boolean disabled;
-	private boolean mainSelected;
+	private boolean disabled = true;
+	private boolean mainSelected = true;
 	private ThemeVo testVo;
 	private Double lastHours;
 
 	private TreeNode root;
-	private TreeNode selectedNode;
+	private TreeNode selectedNode = null;
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
 
 	@PostConstruct
 	public void init() {
+		selectedNode = null;
+		testVo = null;
+		lastHours = null;
 		root = createThemes();
 		mainSelected = true;
 		disabled = true;
@@ -72,34 +76,43 @@ public class ThemeServiceBean {
 		return root;
 	}
 
-	public void createTheme() {
+	public void createMainTheme() {
 		ThemeVo newTheme = new ThemeVo();
 		newTheme.setName(name);
 		newTheme.setDescription(description);
+		newTheme.setType("main");
+		newTheme.setThemeCode(Integer.toString(code++));		
+		themeService.createTheme(newTheme);	
+		root = createThemes();
+		resetFields();
+		mainSelected = true;
+		disabled = true;
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
+		FacesContext.getCurrentInstance().addMessage(null, msgs);
+	}
+	
+	public void createItemTheme(){
+		ThemeVo newTheme = new ThemeVo();
+		newTheme.setName(name);
+		newTheme.setDescription(description);
+		newTheme.setType("item");
+		newTheme.setHours(hours);
 		if (selectedNode != null) {
 			testVo = themeService.getThemeByName(selectedNode.getData().toString());
-			if (testVo.getType().equals("main")) {
-				if (testVo.getHours() == null) {
-					testVo.setHours(hours);;
-				} else {
-					testVo.setHours(testVo.getHours() + hours);
-				}
-				themeService.createTheme(testVo);
-				newTheme.setType("item");
-				newTheme.setHours(hours);
-				newTheme.setThemeCode(testVo.getThemeCode());
+			newTheme.setThemeCode(testVo.getThemeCode());
+			if (testVo.getHours() == null) {
+				testVo.setHours(hours);
 			} else {
-				newTheme.setType("main");
-				newTheme.setThemeCode(Integer.toString(code++));
+				testVo.setHours(testVo.getHours() + hours);
 			}
-		} else {
-			newTheme.setType("main");
-			newTheme.setThemeCode(Integer.toString(code++));
 		}
+		themeService.createTheme(testVo);
 		themeService.createTheme(newTheme);
 		root = createThemes();
 		resetFields();
-		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Theme created!");
+		mainSelected = true;
+		disabled = true;
+		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Item theme created!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
 	}
 
@@ -111,10 +124,22 @@ public class ThemeServiceBean {
 			}
 			themeService.createTheme(parent);
 		}
+		if (testVo.getType().equals("main")) {
+			List<TreeNode> children = selectedNode.getChildren();
+			List<ThemeVo> voChildren = new ArrayList<>();
+			for (TreeNode child : children) {
+				voChildren.add(themeService.getThemeByName(child.getData().toString()));
+			}
+			for (ThemeVo themeVo : voChildren) {
+				themeService.deleteTheme(themeVo.getId());
+			}
+		}
 		themeService.deleteTheme(testVo.getId());
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes", "Theme deleted!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
 		root = createThemes();
+		disabled = true;
+		mainSelected = true;
 	}
 
 	public void editTheme() {
@@ -128,6 +153,8 @@ public class ThemeServiceBean {
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes", "Theme edited!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
 		root = createThemes();
+		disabled = true;
+		mainSelected = true;
 	}
 
 	public void onRowSelect(NodeSelectEvent event) {
@@ -187,7 +214,6 @@ public class ThemeServiceBean {
 		this.description = description;
 	}
 
-
 	public Integer getCode() {
 		return code;
 	}
@@ -235,7 +261,6 @@ public class ThemeServiceBean {
 	public void setTestVo(ThemeVo testVo) {
 		this.testVo = testVo;
 	}
-
 
 	public ResourceBundle getBundle() {
 		return bundle;
