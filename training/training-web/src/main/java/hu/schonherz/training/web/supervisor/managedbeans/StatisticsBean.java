@@ -86,15 +86,37 @@ public class StatisticsBean implements Serializable {
 		}
 	}
 
+	
 	private void fillTestCategoryModel() {
+		
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getExamResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
 			for (ExamResultVo examResultVo : user.getExamResults()) {
 				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getScore());
+				sum[++k] += examResultVo.getScore();
 			}
 			testCategoryModel.addSeries(userSerie);
 		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel("avg");
+		for(ExamResultVo examResultVo:training.getUserResults().get(0).getExamResults()){
+			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k]/size);
+		}
+		testCategoryModel.addSeries(avgSerie);
 	}
 
 	
