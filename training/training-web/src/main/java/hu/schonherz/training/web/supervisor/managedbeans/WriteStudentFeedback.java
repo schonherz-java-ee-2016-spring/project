@@ -18,6 +18,7 @@ import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.RoleGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
+import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
@@ -49,6 +50,7 @@ public class WriteStudentFeedback implements Serializable {
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	private List<EventVo> eventsToInspect = new ArrayList<>();
 	private Set<UserVo> users = new HashSet<>();
+	private List<UserVo> usersToShow = new ArrayList<>();
 	private List<EventList> events = new ArrayList<>();
 	
 	// variables for send new feedback
@@ -66,7 +68,13 @@ public class WriteStudentFeedback implements Serializable {
 				events.add(new EventList(event.getId(), event.getName(), event.getType(), event.getDate()));
 				users.addAll(event.getUsers());
 			}
-			users.remove(loggedInUser);
+			for (UserVo user : users) {
+				for (RoleGroupVo roleGroupVo : user.getRoleGroups()) {
+					if (roleGroupVo.getName().contentEquals("Instructor Role Group")) {
+						usersToShow.add(user);
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -240,6 +248,20 @@ public class WriteStudentFeedback implements Serializable {
 	 */
 	public void setInstructorUsername(String instructorUsername) {
 		this.instructorUsername = instructorUsername;
+	}
+
+	/**
+	 * @return the usersToShow
+	 */
+	public List<UserVo> getUsersToShow() {
+		return usersToShow;
+	}
+
+	/**
+	 * @param usersToShow the usersToShow to set
+	 */
+	public void setUsersToShow(List<UserVo> usersToShow) {
+		this.usersToShow = usersToShow;
 	}
 
 
