@@ -17,8 +17,6 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
 	Theme findByName( String themeName );
 	
 	List<Theme> findByType( String type );
-	
-	Theme findByThemeCode( String themeCode );
 
 	@Query("SELECT t FROM Theme t WHERE t.themeCode=?1 AND type='item'")
 	List<Theme> findItemThemesByThemeCode(String themeCode);

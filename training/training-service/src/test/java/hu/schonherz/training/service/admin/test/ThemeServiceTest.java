@@ -99,17 +99,4 @@ public class ThemeServiceTest {
 			Assert.fail();
 		}
 	}
-	
-	@Test
-	public void test4getThemeByThemeCode(){
-		ThemeVo back = null;
-		try {
-			back = serviceLocal.getThemeByThemeCode("1");
-			Assert.assertEquals(true, (back == null ? false : true));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			Assert.fail();
-		}
-	}
 }
