@@ -112,7 +112,7 @@ public class StatisticsBean implements Serializable {
 		Integer k = -1;
 		Integer size = training.getUserResults().size();
 		LineChartSeries avgSerie = new LineChartSeries();
-		avgSerie.setLabel("avg");
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
 		for(ExamResultVo examResultVo:training.getUserResults().get(0).getExamResults()){
 			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k]/size);
 		}
@@ -171,7 +171,7 @@ public class StatisticsBean implements Serializable {
 		Integer k = -1;
 		Integer size = training.getUserResults().size();
 		LineChartSeries avgSerie = new LineChartSeries();
-		avgSerie.setLabel("avg");
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
 		for(HomeworkResultVo homeworkResultVo:training.getUserResults().get(0).getHomeworkResults()){
 			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k]/size);
 		}
