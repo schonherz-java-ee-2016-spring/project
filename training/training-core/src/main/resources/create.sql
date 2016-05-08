@@ -546,6 +546,12 @@ INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, use
 INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5552, current_timestamp, 'CREATE SQL', 4, 3216, 2102);
 INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5553, current_timestamp, 'CREATE SQL', 5, 3217, 2102);
 
+
+--User to training
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2100);
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2101);
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2102);
+
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
