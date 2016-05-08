@@ -5,6 +5,7 @@ import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.ThemeVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.supervisor.vo.LessonVo;
 
 public class Course implements Serializable {
 
@@ -18,6 +19,8 @@ public class Course implements Serializable {
 	private List<UserResults> userResults;
 
 	private List<ThemeVo> themes;
+
+	private List<LessonVo> lessons;
 
 	public Course() {
 		super();
@@ -45,6 +48,14 @@ public class Course implements Serializable {
 
 	public void setThemes(List<ThemeVo> themes) {
 		this.themes = themes;
+	}
+
+	public List<LessonVo> getLessons() {
+		return lessons;
+	}
+
+	public void setLessons(List<LessonVo> lessons) {
+		this.lessons = lessons;
 	}
 
 }

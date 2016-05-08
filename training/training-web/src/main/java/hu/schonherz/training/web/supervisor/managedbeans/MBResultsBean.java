@@ -11,14 +11,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import hu.schonherz.training.service.admin.ThemeService;
 import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
+import hu.schonherz.training.service.admin.vo.ThemeVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
 import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
-import hu.schonherz.training.service.supervisor.vo.LessonVo;
 import hu.schonherz.training.web.supervisor.accessories.Course;
 import hu.schonherz.training.web.supervisor.accessories.UserResults;
 
@@ -28,6 +29,9 @@ public class MBResultsBean implements Serializable {
 
 	@EJB
 	private UserGroupService userGroupService;
+
+	@EJB
+	private ThemeService themeService;
 
 	@EJB
 	private UserService userService;
@@ -60,19 +64,7 @@ public class MBResultsBean implements Serializable {
 		}
 
 		// Filling the Courses with Lessons
-		List<LessonVo> lessons = new ArrayList<>();
-		String[] lessonNames = { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
-				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
-		for (int i = 0; i < lessonNames.length; i++) {
-			lessons.add(new LessonVo());
-		}
-		int k = 0;
-		for (LessonVo lesson : lessons) {
-			lesson.setLessonName(lessonNames[k]);
-			k++;
-		}
-
+		List<ThemeVo> themes = themeService.findAllTheme();
 		// Filling the Courses with UserResults
 		List<UserResults> userResults = new ArrayList<>();
 		List<UserVo> users = new ArrayList<>();
@@ -83,7 +75,7 @@ public class MBResultsBean implements Serializable {
 			userResults.add(new UserResults());
 			users.add(new UserVo());
 		}
-		k = 0;
+		int k = 0;
 		for (UserVo user : users) {
 			user.setFullName(names[k]);
 			k++;
@@ -96,7 +88,7 @@ public class MBResultsBean implements Serializable {
 			}
 		}
 		for (Course course : courses) {
-			course.setLessons(lessons);
+			course.setThemes(themes);
 			course.setUserResults(userResults);
 		}
 
@@ -110,7 +102,7 @@ public class MBResultsBean implements Serializable {
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				Integer examSum = new Integer(0);
 				Integer homeworkSum = new Integer(0);
-				for (int i = 0; i < lessons.size(); i++) {
+				for (int i = 0; i < themes.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
 					examResult.setScore(rand.nextInt(10));
 					examSum += examResult.getScore();
