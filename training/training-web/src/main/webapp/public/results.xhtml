@@ -14,7 +14,7 @@
 
 			<p:accordionPanel id="userGroupAccordion" var="course"
 				value="#{resultsBean.courses}" activeIndex="true">
-				<p:tab title="#{course.userGroup.groupName}">
+				<p:tab title="#{course.training.name}">
 
 					<p:accordionPanel id="userAccordion" var="userResult"
 						value="#{course.userResults}" activeIndex="true">

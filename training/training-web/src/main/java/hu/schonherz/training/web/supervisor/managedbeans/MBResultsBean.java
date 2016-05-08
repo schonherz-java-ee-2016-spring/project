@@ -12,10 +12,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import hu.schonherz.training.service.admin.ThemeService;
+import hu.schonherz.training.service.admin.TrainingService;
 import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
-import hu.schonherz.training.service.admin.vo.ThemeVo;
-import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.admin.vo.TrainingVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
 import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
@@ -29,6 +29,9 @@ public class MBResultsBean implements Serializable {
 
 	@EJB
 	private UserGroupService userGroupService;
+
+	@EJB
+	private TrainingService trainingService;
 
 	@EJB
 	private ThemeService themeService;
@@ -46,50 +49,33 @@ public class MBResultsBean implements Serializable {
 	@PostConstruct
 	public void init() {
 
-		// Filling the Courses with userGroups
-		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
+		List<TrainingVo> trainings = new ArrayList<TrainingVo>();
 		try {
-			userGroups = userGroupService.getUserGroups();
+			trainings = trainingService.getAllTrainings();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i < userGroups.size(); i++) {
+		for (int i = 0; i < trainings.size(); i++) {
 			courses.add(new Course());
 		}
-		Iterator<UserGroupVo> userGroupIterator = userGroups.iterator();
+		Iterator<TrainingVo> trainingIterator = trainings.iterator();
 		for (Course course : courses) {
-			if (userGroupIterator.hasNext()) {
-				course.setUserGroup(userGroupIterator.next());
+			if (trainingIterator.hasNext()) {
+				course.setTraining(trainingIterator.next());
 			}
-		}
-
-		// Filling the Courses with Lessons
-		List<ThemeVo> themes = themeService.findAllTheme();
-		// Filling the Courses with UserResults
-		List<UserResults> userResults = new ArrayList<>();
-		List<UserVo> users = new ArrayList<>();
-		String[] names = { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
-				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám" };
-
-		for (int i = 0; i < names.length; i++) {
-			userResults.add(new UserResults());
-			users.add(new UserVo());
-		}
-		int k = 0;
-		for (UserVo user : users) {
-			user.setFullName(names[k]);
-			k++;
-		}
-		k = 0;
-		Iterator<UserVo> userIterator = users.iterator();
-		for (UserResults userResult : userResults) {
-			if (userIterator.hasNext()) {
-				userResult.setUser(userIterator.next());
+			List<UserResults> userResultsList = new ArrayList<>();
+			List<UserVo> userVos = course.getTraining().getUsers();
+			for (int i = 0; i < userVos.size(); i++) {
+				userResultsList.add(new UserResults());
 			}
-		}
-		for (Course course : courses) {
-			course.setThemes(themes);
-			course.setUserResults(userResults);
+			Iterator<UserVo> userVoIterator = userVos.iterator();
+			for (UserResults userResults : userResultsList) {
+				if (userVoIterator.hasNext()) {
+					userResults.setUser(userVoIterator.next());
+				}
+			}
+			course.setUserResults(userResultsList);
+			course.setThemes(course.getTraining().getThemes());
 		}
 
 		/// --------Works
@@ -102,7 +88,7 @@ public class MBResultsBean implements Serializable {
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				Integer examSum = new Integer(0);
 				Integer homeworkSum = new Integer(0);
-				for (int i = 0; i < themes.size(); i++) {
+				for (int i = 0; i < course.getThemes().size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
 					examResult.setScore(rand.nextInt(10));
 					examSum += examResult.getScore();
