@@ -53,6 +53,7 @@ public class WriteStudentFeedback implements Serializable {
 	
 	// variables for send new feedback
 	private String eventId;
+	private String instructorUsername;
 	private String isPublic;
 	private String feedbackMessage;
 
@@ -72,6 +73,7 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	public void sendEventFeedback() {
+		
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		FeedbackVo feedback = new FeedbackVo();
 		feedback.setEvent(eventService.findEventById(Long.parseLong(eventId)));
@@ -101,6 +103,46 @@ public class WriteStudentFeedback implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
 				"Feedback successfully sent");
 		currentInstance.addMessage("growl", facesMessage);
+		
+	}
+	
+	public void sendInstructorFeedback() {
+		
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		FeedbackVo feedback = new FeedbackVo();
+		List<UserVo> instructor = new ArrayList<>();
+		try {
+			instructor.add(userService.findUserByName(instructorUsername));
+			feedback.setRated(instructor);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		feedback.setFeedbackMessage(feedbackMessage);
+		if (feedbackMessage == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Feedback message is missing");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		if (isPublic.equalsIgnoreCase("true")) {
+			feedback.setPublic(true);
+		} else {
+			feedback.setPublic(false);
+		}
+		feedback.setSender(loggedInUser);
+		feedback.setRecDate(new Date());
+		try {
+			feedbackService.giveFeedback(feedback);
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback could not be sent");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
+				"Feedback successfully sent");
+		currentInstance.addMessage("growl", facesMessage);
+		
 	}
 	/**
 	 * @return the eventsToInspect
@@ -184,6 +226,20 @@ public class WriteStudentFeedback implements Serializable {
 	 */
 	public void setFeedbackMessage(String feedbackMessage) {
 		this.feedbackMessage = feedbackMessage;
+	}
+
+	/**
+	 * @return the instructorUsername
+	 */
+	public String getInstructorUsername() {
+		return instructorUsername;
+	}
+
+	/**
+	 * @param instructorUsername the instructorUsername to set
+	 */
+	public void setInstructorUsername(String instructorUsername) {
+		this.instructorUsername = instructorUsername;
 	}
 
 
