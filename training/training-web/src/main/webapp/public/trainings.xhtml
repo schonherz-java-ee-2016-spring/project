@@ -87,7 +87,7 @@
 					<f:facet name="sourceCaption">#{out.notintrainingusers}</f:facet>
 					<f:facet name="targetCaption">#{out.trainingusers}</f:facet>
 				</p:pickList>
-				<p:commandButton styleClass="btn" id="userSubmit" action="#{trainingBean.saveUsers()}" value="#{out.save}"
+				<p:commandButton styleClass="btn"  icon="ui-icon-check"  id="userSubmit" action="#{trainingBean.saveUsers()}" value="#{out.save}"
 					update=":trainingform:ttable,growl" oncomplete="PF('pickdialog').hide();" />
 			</h:form>
 		</p:dialog>
@@ -100,7 +100,7 @@
 					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
 				</p:pickList>
-				<p:commandButton styleClass="btn"  id="userSubmit" action="#{trainingBean.saveGroups()}" value="#{out.save}"
+				<p:commandButton styleClass="btn"  icon="ui-icon-check"  id="userSubmit" action="#{trainingBean.saveGroups()}" value="#{out.save}"
 					update=":trainingform:ttable,growl" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('pickdialog2').hide();" />
 			</h:form>
 		</p:dialog>
@@ -173,7 +173,7 @@
 						</p:tree>
 					</div> 
 				</div>
-				<p:commandButton styleClass="btn" id="trSubmit" action="#{trainingBean.saveThemes()}" value="#{out.save}"
+				<p:commandButton styleClass="btn"  icon="ui-icon-check"  id="trSubmit" action="#{trainingBean.saveThemes()}" value="#{out.save}"
 					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();" />
 
 			</h:form>
