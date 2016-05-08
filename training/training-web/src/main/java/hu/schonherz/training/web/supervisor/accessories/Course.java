@@ -3,8 +3,8 @@ package hu.schonherz.training.web.supervisor.accessories;
 import java.io.Serializable;
 import java.util.List;
 
+import hu.schonherz.training.service.admin.vo.ThemeVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
-import hu.schonherz.training.service.supervisor.vo.LessonVo;
 
 public class Course implements Serializable {
 
@@ -17,7 +17,7 @@ public class Course implements Serializable {
 
 	private List<UserResults> userResults;
 
-	private List<LessonVo> lessons;
+	private List<ThemeVo> themes;
 
 	public Course() {
 		super();
@@ -39,12 +39,12 @@ public class Course implements Serializable {
 		this.userResults = userResults;
 	}
 
-	public List<LessonVo> getLessons() {
-		return lessons;
+	public List<ThemeVo> getThemes() {
+		return themes;
 	}
 
-	public void setLessons(List<LessonVo> lessons) {
-		this.lessons = lessons;
+	public void setThemes(List<ThemeVo> themes) {
+		this.themes = themes;
 	}
 
 }
