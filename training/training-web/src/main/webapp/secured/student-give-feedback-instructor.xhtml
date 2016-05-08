@@ -37,7 +37,7 @@
 						<div class="controls">
 							<h:selectOneMenu id="instructor"
 								value="#{writeStudentFeedback.instructorUsername}">
-								<f:selectItems value="#{writeStudentFeedback.users}"
+								<f:selectItems value="#{writeStudentFeedback.usersToShow}"
 									var="user"
 									itemLabel="#{user.fullName}"
 									itemValue="#{user.userName}" />
