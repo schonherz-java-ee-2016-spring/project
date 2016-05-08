@@ -147,14 +147,35 @@ public class StatisticsBean implements Serializable {
 	}
 
 	private void fillHomeworkCategoryModel() {
+
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getHomeworkResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
 			for (HomeworkResultVo homeworkResultVo : user.getHomeworkResults()) {
 				userSerie.set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
+				sum[++k] += homeworkResultVo.getScore();
 			}
 			homeworkCategoryModel.addSeries(userSerie);
 		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel("avg");
+		for(HomeworkResultVo homeworkResultVo:training.getUserResults().get(0).getHomeworkResults()){
+			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k]/size);
+		}
+		homeworkCategoryModel.addSeries(avgSerie);
 	}
 
 	private void initHomeworkCategoryModel() {
