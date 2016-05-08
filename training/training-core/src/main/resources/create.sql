@@ -527,6 +527,24 @@ INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, use
 INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5535, current_timestamp, 'CREATE SQL', 6, 3217, 2101);
 
 --Bohan
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5536, current_timestamp, 'CREATE SQL', 6, 3200, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5537, current_timestamp, 'CREATE SQL', 10, 3201, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5538, current_timestamp, 'CREATE SQL', 10, 3202, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5539, current_timestamp, 'CREATE SQL', 8, 3203, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5540, current_timestamp, 'CREATE SQL', 7, 3204, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5541, current_timestamp, 'CREATE SQL', 8, 3205, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5542, current_timestamp, 'CREATE SQL', 10, 3206, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5543, current_timestamp, 'CREATE SQL', 9, 3207, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5544, current_timestamp, 'CREATE SQL', 8, 3208, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5545, current_timestamp, 'CREATE SQL', 5, 3209, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5546, current_timestamp, 'CREATE SQL', 9, 3210, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5547, current_timestamp, 'CREATE SQL', 10, 3211, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5548, current_timestamp, 'CREATE SQL', 10, 3212, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5549, current_timestamp, 'CREATE SQL', 7, 3213, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5550, current_timestamp, 'CREATE SQL', 8, 3214, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5551, current_timestamp, 'CREATE SQL', 10, 3215, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5552, current_timestamp, 'CREATE SQL', 4, 3216, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5553, current_timestamp, 'CREATE SQL', 5, 3217, 2102);
 
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
