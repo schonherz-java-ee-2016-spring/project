@@ -18,14 +18,11 @@
 				<p:column headerText="#{out.name}" priority="1" sortBy="#{theme.name}">
 					<h:outputText value="#{theme.name}" />
 				</p:column>
-				<p:column headerText="#{out.hours}" priority="1">
+				<p:column headerText="#{out.duration}" priority="1">
 					<h:outputText value="#{theme.hours}" />
 				</p:column>
 				<p:column headerText="#{out.description}" priority="1">
 					<h:outputText value="#{theme.description}" />
-				</p:column>
-				<p:column headerText="#{out.type}" priority="1">
-					<h:outputText value="#{theme.type}" />
 				</p:column>
 				<p:column headerText="#{out.moduser}" priority="6"
 					filterBy="#{user.modUser}" filterMatchMode="contains">
@@ -49,13 +46,13 @@
 
 					<!-- 				Create Main Theme Button -->
 					<p:commandButton type="button" onclick="PF('createDialog').show();"
-						value="#{out.create}" icon="ui-icon-plusthick"
+						value="#{out.mainTheme}" icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"></p:commandButton>
 
 					<!-- 						Create Item Theme Button -->
 					<p:commandButton type="button"
-						onclick="PF('createItemDialog').show();" value="#{out.create}"
+						onclick="PF('createItemDialog').show();" value="#{out.itemTheme}"
 						icon="ui-icon-plusthick"
 						update=":treeTableForm:treeTable, treeTableForm"
 						oncomplete="PF('createDialog').hide()"
@@ -99,7 +96,7 @@
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<div class="form-group">
-							<label for="themename" class="col-sm-4">themename</label>
+							<label for="themename" class="col-sm-4">#{out.name}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="themename"
 									value="#{themeServiceBean.name}" required="true"
@@ -108,7 +105,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="description" class="col-sm-4">Description</label>
+							<label for="description" class="col-sm-4">#{out.description}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="description"
 									value="#{themeServiceBean.description}" required="true"
@@ -131,7 +128,7 @@
 					<p:messages id="msgs2" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<div class="form-group">
-							<label for="themename" class="col-sm-4">themename</label>
+							<label for="themename" class="col-sm-4">#{out.name}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="themename2"
 									value="#{themeServiceBean.name}" required="true"
@@ -140,7 +137,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="description" class="col-sm-4">Description</label>
+							<label for="description" class="col-sm-4">#{out.description}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="description2"
 									value="#{themeServiceBean.description}" required="true"
@@ -149,7 +146,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="description" class="col-sm-4">Hours</label>
+							<label for="description" class="col-sm-4">#{out.duration}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="hours2"
 									value="#{themeServiceBean.hours}" required="true" label="hours">
@@ -171,7 +168,7 @@
 				modal="true" resizable="false">
 				<p:panel id="panel">
 					<div class="form-group">
-						<label for="name" class="col-sm-4">Theme Name: </label>
+						<label for="name" class="col-sm-4">#{out.name}</label>
 						<div class="col-sm-8">
 							<p:inputText styleClass="form-control" id="username"
 								value="#{themeServiceBean.testVo.name}" required="true"
@@ -181,7 +178,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="description" class="col-sm-4">Description</label>
+						<label for="description" class="col-sm-4">#{out.description}</label>
 						<div class="col-sm-8">
 							<p:inputText styleClass="form-control" id="description"
 								value="#{themeServiceBean.testVo.description}" required="true"
@@ -190,20 +187,10 @@
 							</p:inputText>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="themecode" class="col-sm-4">Themecode</label>
-						<div class="col-sm-8">
-							<p:inputText styleClass="form-control" id="themecode"
-								value="#{themeServiceBean.testVo.themeCode}" required="true"
-								label="themecode">
-								<f:validateRequired />
-							</p:inputText>
-						</div>
-					</div>
 					<!-- 					Feltétel ha nem main -->
 					<c:if test="#{themeServiceBean.mainSelected == true}">
 						<div class="form-group">
-							<label for="hours" class="col-sm-4">Hours</label>
+							<label for="hours" class="col-sm-4">#{out.duration}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="hours"
 									value="#{themeServiceBean.testVo.hours}" required="true"

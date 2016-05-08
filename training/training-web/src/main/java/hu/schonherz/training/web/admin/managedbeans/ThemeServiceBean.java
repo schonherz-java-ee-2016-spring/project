@@ -121,10 +121,10 @@ public class ThemeServiceBean {
 		themeService.createTheme(testVo);
 		ThemeVo testVo2 = themeService.getThemeByName(testVo.getName());
 		ThemeVo parent = themeService.getThemeByName(selectedNode.getParent().getData().toString());
-		if (parent.getHours() != null) {
+		if (parent != null) {
 			parent.setHours(parent.getHours() + (testVo2.getHours() - lastHours));
+			themeService.createTheme(parent);
 		}
-		themeService.createTheme(parent);
 		FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes", "Theme edited!");
 		FacesContext.getCurrentInstance().addMessage(null, msgs);
 		root = createThemes();
