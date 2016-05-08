@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.findAll() == null) {
 			vos = new ArrayList<>();
 		} else {
-			vos = UserMapper.toVo(userRepository.findAll());
+			vos = UserMapper.toVo(userRepository.findAllByOrderByFullNameAsc());
 		}
 		return vos;
 	}

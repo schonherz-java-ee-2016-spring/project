@@ -1,5 +1,7 @@
 package hu.schonherz.training.core.admin.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,4 +16,5 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 
 	UserGroup findUserGroupByGroupName(String groupName);
 	
+	List<UserGroup> findAllByOrderByGroupNameAsc();
 }

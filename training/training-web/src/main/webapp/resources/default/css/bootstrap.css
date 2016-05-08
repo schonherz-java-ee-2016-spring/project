@@ -2722,7 +2722,6 @@ select[multiple].input-lg {
 }
 .btn {
   display: inline-block;
-  padding: 6px 12px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -2745,11 +2744,13 @@ select[multiple].input-lg {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+  
 }
 .btn:hover,
 .btn:focus {
   color: #333;
   text-decoration: none;
+  background-position: 0px !important;
 }
 .btn:active,
 .btn.active {

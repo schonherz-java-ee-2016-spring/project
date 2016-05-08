@@ -8,11 +8,11 @@
 			<p:dataTable id="ttable" var="tr" value="#{trainingBean.trainings}" selectionMode="single"
 				selection="#{trainingBean.selected}" rowKey="#{tr.id}" paginator="true" rows="12"
 				rowsPerPageTemplate="4,8,12">
-				<p:column headerText="#{out.trainingname}" priority="1">
+				<p:column headerText="#{out.trainingname}" priority="1"  filterBy="#{tr.name}" filterMatchMode="contains">
 					<h:outputText value="#{tr.name}">
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.description}" priority="2">
+				<p:column headerText="#{out.description}" priority="2"  filterBy="#{tr.description}" filterMatchMode="contains">
 					<h:outputText value="#{tr.description}">
 					</h:outputText>
 				</p:column>
@@ -21,17 +21,17 @@
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.trainingend}" priority="2">
+				<p:column headerText="#{out.trainingend}" priority="2" >
 					<h:outputText value="#{tr.endDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="3">
+				<p:column headerText="#{out.recdate}" priority="3" >
 					<h:outputText value="#{tr.recDate}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="4">
+				<p:column headerText="#{out.recuser}" priority="4"  filterBy="#{tr.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.recUser}">
 					</h:outputText>
 				</p:column>
@@ -40,7 +40,7 @@
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="#{out.moduser}" priority="4">
+				<p:column headerText="#{out.moduser}" priority="4"  filterBy="#{tr.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{tr.modUser}">
 					</h:outputText>
 				</p:column>
@@ -48,31 +48,62 @@
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick" update="msgs,form"
 						action="#{trainingBean.createAction()}" value="#{out.createtraining}"
 						onclick="PF('dialog').show();" />
-					<p:commandButton id="editButton" process="ttable" icon="ui-icon-pencil"
+					<p:commandButton styleClass="btn" id="editButton" process="ttable" icon="ui-icon-pencil"
 						disabled="#{trainingBean.isDisabled}" value="#{out.edit}" update="msgs,form"
 						onclick="PF('dialog').show();" />
-					<p:commandButton id="treeButton" process="ttable" icon="ui-icon-pencil"
+					<p:commandButton styleClass="btn" id="treeButton" process="ttable" icon="ui-icon-pencil"
 						disabled="#{trainingBean.isDisabled}" value="#{out.managetraining}" update="msgs,treeform"
 						action="#{trainingBean.treeAction()}" onclick="PF('treedialog').show();" />
-					<p:commandButton id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
+					<p:commandButton styleClass="btn" id="userManageButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
+						action="#{trainingBean.userManageAction()}" onclick="PF('pickdialog').show();" />
+						<p:commandButton styleClass="btn"  id="groupManageButton" process="ttable" icon="ui-icon-pencil"
+						disabled="#{trainingBean.isDisabled}" value="#{out.usergroups}" update="msgs,pickform2"
+						action="#{trainingBean.groupManageAction()}" onclick="PF('pickdialog2').show();" />
+					<p:commandButton styleClass="btn" id="deleteButton" process="ttable" update="msgs,:trainingform:ttable"
 						icon="ui-icon-trash" value="#{out.delete}" disabled="#{trainingBean.isDisabled}"
 						action="#{trainingBean.deleteTraining()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton,treeButton"
+				<p:ajax event="rowSelect" update="deleteButton,editButton,userManageButton,groupManageButton,treeButton"
 					listener="#{trainingBean.selectTrainingListener}" />
 				<p:ajax process="ttable" event="rowDblselect"
-					update="deleteButton,editButton,treeButton,msgs,form"
-					listener="#{trainingBean.selectTrainingListener}"
-					oncomplete="PF('dialog').show();" />
+					update="deleteButton,editButton,groupManageButton,userManageButton,treeButton,msgs,form"
+					listener="#{trainingBean.selectTrainingListener}" oncomplete="PF('dialog').show();" />
 			</p:dataTable>
 		</h:form>
 
 		<p:confirmDialog global="true" responsive="true" showEffect="clip">
-			<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-			<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			<p:commandButton value="Yes" type="button" styleClass="btn ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="No" type="button" styleClass="btn ui-confirmdialog-no" icon="ui-icon-close" />
 		</p:confirmDialog>
+
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog" modal="true"
+			resizable="false">
+			<h:form id="pickform">
+				<p:pickList id="pickList" value="#{trainingBean.users}" var="user"
+					itemLabel="#{user.fullName} (#{user.userName})" itemValue="#{user}" converter="UserConverter">
+					<f:facet name="sourceCaption">#{out.notintrainingusers}</f:facet>
+					<f:facet name="targetCaption">#{out.trainingusers}</f:facet>
+				</p:pickList>
+				<p:commandButton styleClass="btn" id="userSubmit" action="#{trainingBean.saveUsers()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" oncomplete="PF('pickdialog').hide();" />
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog2" modal="true"
+			resizable="false">
+			<h:form id="pickform2">
+			<p:pickList id="pickList2" value="#{trainingBean.uGroups}" var="group"
+					itemLabel="#{group.name}" itemValue="#{group}" converter="UserGroupConverter">
+					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
+					<f:facet name="targetCaption">#{out.assigned}</f:facet>
+				</p:pickList>
+				<p:commandButton styleClass="btn"  id="userSubmit" action="#{trainingBean.saveGroups()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('pickdialog2').hide();" />
+			</h:form>
+		</p:dialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
 			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
@@ -100,18 +131,18 @@
 				<div class="form-group">
 					<label for="begin" class="col-sm-3">#{out.trainingstart}</label>
 					<div class="col-sm-9">
-						<p:calendar id="begin" value="#{trainingBean.selected.beginning}" />
+						<p:calendar id="begin" value="#{trainingBean.selected.beginning}" showOn="button" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="endDate" class="col-sm-3">#{out.trainingend}</label>
 					<div class="col-sm-9">
-						<p:calendar id="endDate" value="#{trainingBean.selected.endDate}" />
+						<p:calendar id="endDate" value="#{trainingBean.selected.endDate}" showOn="button" />
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}"
 					update="form,msgs,growl,:trainingform:ttable" action="#{trainingBean.save()}"
-					icon="ui-icon-check" oncomplete="PF('dialog').hide();"/>
+					icon="ui-icon-check" oncomplete="PF('dialog').hide();" />
 			</h:form>
 		</p:dialog>
 
@@ -140,10 +171,10 @@
 								<h:outputText value="#{node}" />
 							</p:treeNode>
 						</p:tree>
-					</div>
+					</div> 
 				</div>
-				<p:commandButton id="trSubmit" action="#{trainingBean.saveTraining()}" value="#{out.save}"
-					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();"/>
+				<p:commandButton styleClass="btn" id="trSubmit" action="#{trainingBean.saveThemes()}" value="#{out.save}"
+					update=":trainingform:ttable,growl" oncomplete="PF('treedialog').hide();" />
 
 			</h:form>
 		</p:dialog>

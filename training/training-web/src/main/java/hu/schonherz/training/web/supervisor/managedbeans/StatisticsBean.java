@@ -7,11 +7,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.LegendPlacement;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
@@ -39,119 +48,115 @@ public class StatisticsBean implements Serializable {
 	@EJB
 	private HomeworkResultService homeworkResultService;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+
 	private List<Course> courses = new ArrayList<>();
 
 	private Long trainingId;
 
 	private Course training;
 
-	private Map<String, Long> trainingList;
+	private HashMap<String, Long> trainingList;
+
+	private LineChartModel testCategoryModel;
+	private LineChartModel homeworkCategoryModel;
+
+	private String[] lessonNames;
+
+	private String[] names;
 
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
-			training = courses.stream().filter(a -> {
-				return a.getUserGroup().getId() == trainingId;
-			}).findFirst().get();
+			// training = courses.parallelStream()
+			// .filter(a -> {
+			// return a.getUserGroup().getId() == trainingId;
+			// }).findFirst().get();
+			// ;
+			for (Course course : courses) {
+				if (course.getUserGroup().getId().equals(trainingId)) {
+					training = course;
+					break;
+				}
+			}
+			if (training != null) {
+				initTestCategoryModel();
+				initHomeworkCategoryModel();
+			}
 		}
 	}
 
-	public String testColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['tests', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-//						get(0).getExamResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
+	private void fillTestCategoryModel() {
+		for (UserResults user : training.getUserResults()) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user.getUser().getFullName());
+			for (ExamResultVo examResultVo : user.getExamResults()) {
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getScore());
 			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String testDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getExamResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getExamResults().get(k).getExam().getTitle());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getExamResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getExamResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
+			testCategoryModel.addSeries(userSerie);
 		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
 	}
 
-	public String homeworkColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['homeworks', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
-			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String homeworkDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getHomeworkResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getHomeworkResults().get(k).getHomework().getName());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getHomeworkResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getHomeworkResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
-		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
 	
-	@PostConstruct
-	public void init() {
+	
+	
+	
+	
+	private void initTestCategoryModel() {
+		testCategoryModel = new LineChartModel();
+		fillTestCategoryModel();
 
-		// Filling the Courses with userGroups
+		
+		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
+		testCategoryModel.setAnimate(true);
+		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		testCategoryModel.setLegendPosition("e");
+		testCategoryModel.setExtender("extFn");
+		testCategoryModel.setShowDatatip(true);
+		testCategoryModel.setShowPointLabels(false);
+		testCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = testCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+
+	private void fillHomeworkCategoryModel() {
+		for (UserResults user : training.getUserResults()) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user.getUser().getFullName());
+			for (HomeworkResultVo homeworkResultVo : user.getHomeworkResults()) {
+				userSerie.set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
+			}
+			homeworkCategoryModel.addSeries(userSerie);
+		}
+	}
+
+	private void initHomeworkCategoryModel() {
+		homeworkCategoryModel = new LineChartModel();
+
+		fillHomeworkCategoryModel();
+		homeworkCategoryModel.setTitle(bundle.getString("statisticshomework"));
+		homeworkCategoryModel.setAnimate(true);
+		homeworkCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		homeworkCategoryModel.setLegendPosition("e");
+		homeworkCategoryModel.setExtender("extFn");
+		homeworkCategoryModel.setShowDatatip(true);
+		homeworkCategoryModel.setShowPointLabels(false);
+		homeworkCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = homeworkCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = homeworkCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+
+	private void mock() {
 		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
 		try {
 			userGroups = userGroupService.getUserGroups();
@@ -168,12 +173,10 @@ public class StatisticsBean implements Serializable {
 			}
 		}
 
-		// Filling the Courses with Lessons
 		List<LessonVo> lessons = new ArrayList<>();
-		String[] lessonNames = { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
+		lessonNames = new String[] { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
 				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok",
-				"Átlag" };
+				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
 		for (int i = 0; i < lessonNames.length; i++) {
 			lessons.add(new LessonVo());
 		}
@@ -183,29 +186,28 @@ public class StatisticsBean implements Serializable {
 			k++;
 		}
 
-		// Filling the Courses with UserResults
-		List<UserResults> userResults = new ArrayList<>();
-		List<UserVo> users = new ArrayList<>();
-		String[] names = { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
-				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám", "Átlag" };
+		names = new String[] { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
+				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám" };
 
-		for (int i = 0; i < names.length; i++) {
-			userResults.add(new UserResults());
-			users.add(new UserVo());
-		}
-		k = 0;
-		for (UserVo user : users) {
-			user.setFullName(names[k]);
-			k++;
-		}
-		k = 0;
-		Iterator<UserVo> userIterator = users.iterator();
-		for (UserResults userResult : userResults) {
-			if (userIterator.hasNext()) {
-				userResult.setUser(userIterator.next());
-			}
-		}
 		for (Course course : courses) {
+			List<UserResults> userResults = new ArrayList<>();
+			List<UserVo> users = new ArrayList<>();
+			for (int i = 0; i < names.length; i++) {
+				userResults.add(new UserResults());
+				users.add(new UserVo());
+			}
+			k = 0;
+			for (UserVo user : users) {
+				user.setFullName(names[k]);
+				k++;
+			}
+			k = 0;
+			Iterator<UserVo> userIterator = users.iterator();
+			for (UserResults userResult : userResults) {
+				if (userIterator.hasNext()) {
+					userResult.setUser(userIterator.next());
+				}
+			}
 			course.setLessons(lessons);
 			course.setUserResults(userResults);
 		}
@@ -237,7 +239,12 @@ public class StatisticsBean implements Serializable {
 				userResult.setHomeworkResults(homeworkResults);
 			}
 		}
+	}
 
+	@PostConstruct
+	public void init() {
+
+		mock();
 		trainingList = new HashMap<>();
 		for (Course course : courses) {
 			trainingList.put(course.getUserGroup().getName(), course.getUserGroup().getId());
@@ -275,13 +282,29 @@ public class StatisticsBean implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-	//
-	// public LineChartModel getExamModel() {
-	// return examModel;
-	// }
-	//
-	// public LineChartModel getHomeworkModel() {
-	// return homeworkModel;
-	// }
+
+	public LineChartModel getTestCategoryModel() {
+		return testCategoryModel;
+	}
+
+	public void setTestCategoryModel(LineChartModel testCategoryModel) {
+		this.testCategoryModel = testCategoryModel;
+	}
+
+	public LineChartModel getHomeworkCategoryModel() {
+		return homeworkCategoryModel;
+	}
+
+	public void setHomeworkCategoryModel(LineChartModel homeworkCategoryModel) {
+		this.homeworkCategoryModel = homeworkCategoryModel;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
 
 }
