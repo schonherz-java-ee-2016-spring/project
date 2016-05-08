@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.ThemeVo;
+import hu.schonherz.training.service.admin.vo.TrainingVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.supervisor.vo.LessonVo;
 
@@ -15,6 +16,8 @@ public class Course implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private UserGroupVo userGroup;
+
+	private TrainingVo training;
 
 	private List<UserResults> userResults;
 
@@ -56,6 +59,14 @@ public class Course implements Serializable {
 
 	public void setLessons(List<LessonVo> lessons) {
 		this.lessons = lessons;
+	}
+
+	public TrainingVo getTraining() {
+		return training;
+	}
+
+	public void setTraining(TrainingVo training) {
+		this.training = training;
 	}
 
 }
