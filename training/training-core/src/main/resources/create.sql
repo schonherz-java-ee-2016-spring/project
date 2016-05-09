@@ -306,70 +306,70 @@ INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(104, 2006, 20
 -- ExamResults
 
 -- Namenyi
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5000, current_timestamp, 'CREATE SQL', 9, 2001, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5001, current_timestamp, 'CREATE SQL', 6, 2002, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5002, current_timestamp, 'CREATE SQL', 11, 2003, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5003, current_timestamp, 'CREATE SQL', 10, 2004, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5004, current_timestamp, 'CREATE SQL', 7, 2005, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5005, current_timestamp, 'CREATE SQL', 6, 2006, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5000, current_timestamp, 'CREATE SQL', 9, 2001, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5001, current_timestamp, 'CREATE SQL', 6, 2002, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5002, current_timestamp, 'CREATE SQL', 11, 2003, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5003, current_timestamp, 'CREATE SQL', 10, 2004, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5004, current_timestamp, 'CREATE SQL', 7, 2005, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5005, current_timestamp, 'CREATE SQL', 6, 2006, 2100);
 -------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5006, current_timestamp, 'CREATE SQL', 3, 2007, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5007, current_timestamp, 'CREATE SQL', 4, 2008, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5008, current_timestamp, 'CREATE SQL', 10, 2009, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5009, current_timestamp, 'CREATE SQL', 7, 2010, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5010, current_timestamp, 'CREATE SQL', 6, 2011, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5011, current_timestamp, 'CREATE SQL', 4, 2012, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5006, current_timestamp, 'CREATE SQL', 3, 2007, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5007, current_timestamp, 'CREATE SQL', 4, 2008, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5008, current_timestamp, 'CREATE SQL', 10, 2009, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5009, current_timestamp, 'CREATE SQL', 7, 2010, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5010, current_timestamp, 'CREATE SQL', 6, 2011, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5011, current_timestamp, 'CREATE SQL', 4, 2012, 2100);
 ------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5012, current_timestamp, 'CREATE SQL', 9, 2013, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5013, current_timestamp, 'CREATE SQL', 8, 2014, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5014, current_timestamp, 'CREATE SQL', 5, 2015, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5015, current_timestamp, 'CREATE SQL', 8, 2016, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5016, current_timestamp, 'CREATE SQL', 6, 2017, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5017, current_timestamp, 'CREATE SQL', 10, 2018, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5012, current_timestamp, 'CREATE SQL', 9, 2013, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5013, current_timestamp, 'CREATE SQL', 8, 2014, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5014, current_timestamp, 'CREATE SQL', 5, 2015, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5015, current_timestamp, 'CREATE SQL', 8, 2016, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5016, current_timestamp, 'CREATE SQL', 6, 2017, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5017, current_timestamp, 'CREATE SQL', 10, 2018, 2100);
 
 --Preznyak
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5018, current_timestamp, 'CREATE SQL', 9, 2001, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5019, current_timestamp, 'CREATE SQL', 5, 2002, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5020, current_timestamp, 'CREATE SQL', 12, 2003, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5021, current_timestamp, 'CREATE SQL', 10, 2004, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5022, current_timestamp, 'CREATE SQL', 5, 2005, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5023, current_timestamp, 'CREATE SQL', 5, 2006, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5018, current_timestamp, 'CREATE SQL', 9, 2001, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5019, current_timestamp, 'CREATE SQL', 5, 2002, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5020, current_timestamp, 'CREATE SQL', 12, 2003, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5021, current_timestamp, 'CREATE SQL', 10, 2004, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5022, current_timestamp, 'CREATE SQL', 5, 2005, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5023, current_timestamp, 'CREATE SQL', 5, 2006, 2101);
 -------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5024, current_timestamp, 'CREATE SQL', 9, 2007, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5025, current_timestamp, 'CREATE SQL', 7, 2008, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5026, current_timestamp, 'CREATE SQL', 7, 2009, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5027, current_timestamp, 'CREATE SQL', 7, 2010, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5028, current_timestamp, 'CREATE SQL', 2, 2011, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5029, current_timestamp, 'CREATE SQL', 4, 2012, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5024, current_timestamp, 'CREATE SQL', 9, 2007, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5025, current_timestamp, 'CREATE SQL', 7, 2008, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5026, current_timestamp, 'CREATE SQL', 7, 2009, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5027, current_timestamp, 'CREATE SQL', 7, 2010, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5028, current_timestamp, 'CREATE SQL', 2, 2011, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5029, current_timestamp, 'CREATE SQL', 4, 2012, 2101);
 ------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5030, current_timestamp, 'CREATE SQL', 9, 2013, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5031, current_timestamp, 'CREATE SQL', 8, 2014, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5032, current_timestamp, 'CREATE SQL', 5, 2015, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5033, current_timestamp, 'CREATE SQL', 8, 2016, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5034, current_timestamp, 'CREATE SQL', 6, 2017, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5035, current_timestamp, 'CREATE SQL', 10, 2018, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5030, current_timestamp, 'CREATE SQL', 9, 2013, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5031, current_timestamp, 'CREATE SQL', 8, 2014, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5032, current_timestamp, 'CREATE SQL', 5, 2015, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5033, current_timestamp, 'CREATE SQL', 8, 2016, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5034, current_timestamp, 'CREATE SQL', 6, 2017, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5035, current_timestamp, 'CREATE SQL', 10, 2018, 2101);
 
 --Bohan
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5036, current_timestamp, 'CREATE SQL', 10, 2001, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5037, current_timestamp, 'CREATE SQL', 9, 2002, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5038, current_timestamp, 'CREATE SQL', 13, 2003, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5039, current_timestamp, 'CREATE SQL', 6, 2004, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5040, current_timestamp, 'CREATE SQL', 7, 2005, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5041, current_timestamp, 'CREATE SQL', 6, 2006, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5036, current_timestamp, 'CREATE SQL', 10, 2001, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5037, current_timestamp, 'CREATE SQL', 9, 2002, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5038, current_timestamp, 'CREATE SQL', 13, 2003, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5039, current_timestamp, 'CREATE SQL', 6, 2004, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5040, current_timestamp, 'CREATE SQL', 7, 2005, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5041, current_timestamp, 'CREATE SQL', 6, 2006, 2102);
 -------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5042, current_timestamp, 'CREATE SQL', 9, 2007, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5043, current_timestamp, 'CREATE SQL', 9, 2008, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5044, current_timestamp, 'CREATE SQL', 10, 2009, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5045, current_timestamp, 'CREATE SQL', 2, 2010, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5046, current_timestamp, 'CREATE SQL', 6, 2011, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5047, current_timestamp, 'CREATE SQL', 4, 2012, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5042, current_timestamp, 'CREATE SQL', 9, 2007, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5043, current_timestamp, 'CREATE SQL', 9, 2008, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5044, current_timestamp, 'CREATE SQL', 10, 2009, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5045, current_timestamp, 'CREATE SQL', 2, 2010, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5046, current_timestamp, 'CREATE SQL', 6, 2011, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5047, current_timestamp, 'CREATE SQL', 4, 2012, 2102);
 ------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5048, current_timestamp, 'CREATE SQL', 9, 2013, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5049, current_timestamp, 'CREATE SQL', 8, 2014, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5050, current_timestamp, 'CREATE SQL', 5, 2015, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5051, current_timestamp, 'CREATE SQL', 8, 2016, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5052, current_timestamp, 'CREATE SQL', 6, 2017, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, score, exam_id, user_id) VALUES (5053, current_timestamp, 'CREATE SQL', 10, 2018, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5048, current_timestamp, 'CREATE SQL', 9, 2013, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5049, current_timestamp, 'CREATE SQL', 8, 2014, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5050, current_timestamp, 'CREATE SQL', 5, 2015, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5051, current_timestamp, 'CREATE SQL', 8, 2016, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5052, current_timestamp, 'CREATE SQL', 6, 2017, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5053, current_timestamp, 'CREATE SQL', 10, 2018, 2102);
 
 --Trainings
 

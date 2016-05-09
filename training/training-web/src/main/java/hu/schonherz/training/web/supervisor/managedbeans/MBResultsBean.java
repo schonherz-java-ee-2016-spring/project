@@ -85,7 +85,6 @@ public class MBResultsBean implements Serializable {
 		/// --------Works
 		// Filling the Results
 
-		Random rand = new Random();
 		for (Course course : courses) {
 			for (UserResults userResult : course.getUserResults()) {
 				List<ExamResultVo> examResults = new ArrayList<>();

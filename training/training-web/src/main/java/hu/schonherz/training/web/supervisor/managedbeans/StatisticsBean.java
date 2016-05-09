@@ -27,6 +27,7 @@ import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
 import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
@@ -90,7 +91,7 @@ public class StatisticsBean implements Serializable {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
 			for (ExamResultVo examResultVo : user.getExamResults()) {
-				userSerie.set(examResultVo.getExam().getName(), examResultVo.getPoints());
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getPoints());
 			}
 			testCategoryModel.addSeries(userSerie);
 		}
@@ -216,8 +217,8 @@ public class StatisticsBean implements Serializable {
 				for (int i = 0; i < lessons.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
 					examResult.setPoints(rand.nextInt(11));
-					EventVo exam = new EventVo();
-					exam.setName(lessonNames[i]);
+					ExamVo exam = new ExamVo();
+					exam.setTitle(lessonNames[i]);
 					examResult.setExam(exam);
 					examResults.add(examResult);
 					HomeworkResultVo homeworkResult = new HomeworkResultVo();

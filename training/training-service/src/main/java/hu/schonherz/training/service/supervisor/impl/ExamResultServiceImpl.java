@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.training.core.supervisor.repository.ExamResultRepository;
-import hu.schonherz.training.service.admin.mapper.EventMapper;
 import hu.schonherz.training.service.admin.mapper.UserMapper;
-import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.exam.impl.ExamServiceImpl;
 import hu.schonherz.training.service.exam.mapper.ExamMapper;
@@ -47,8 +45,8 @@ public class ExamResultServiceImpl implements ExamResultService {
 	}
 
 	@Override
-	public List<ExamResultVo> getExamResultByExam(EventVo examVo) throws Exception {
-		return ExamResultMapper.toVo(examResultRepository.findExamResultsByExam(EventMapper.toDto(examVo)));
+	public List<ExamResultVo> getExamResultByExam(ExamVo examVo) throws Exception {
+		return ExamResultMapper.toVo(examResultRepository.findExamResultsByExam(ExamMapper.toDto(examVo)));
 	}
 
 	@Override

@@ -208,7 +208,7 @@ public class ExamFillBean implements Serializable {
 			ExamVo examVo = examService.getById(examId);
 			examResultVo.setExam(examVo);
 			examResultVo.setUser(userVo);
-			examResultVo.setScore(score);
+			examResultVo.setPoints(score);
 			examResultService.add(examResultVo);
 		} catch (Exception e) {
 			e.printStackTrace();

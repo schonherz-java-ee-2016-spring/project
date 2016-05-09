@@ -7,7 +7,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
-import hu.schonherz.training.core.admin.entity.Event;
 import hu.schonherz.training.core.admin.entity.User;
 
 /**
@@ -24,8 +23,8 @@ public class ExamResult extends BaseEntity {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "event_id", referencedColumnName = "id")
-	private Event exam;
+	@JoinColumn(name = "exam_id", referencedColumnName = "id")
+	private Exam exam;
 
 	@Column(name = "points", nullable = false)
 	private Integer points;
@@ -42,11 +41,11 @@ public class ExamResult extends BaseEntity {
 		this.user = user;
 	}
 
-	public Event getExam() {
+	public Exam getExam() {
 		return exam;
 	}
 
-	public void setExam(Event exam) {
+	public void setExam(Exam exam) {
 		this.exam = exam;
 	}
 

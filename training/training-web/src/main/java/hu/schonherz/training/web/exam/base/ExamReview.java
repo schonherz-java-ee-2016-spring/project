@@ -52,14 +52,13 @@ public abstract class ExamReview implements Serializable {
 
 	public abstract void loadContent();
 
-
 	protected void calculateExamScore() throws Exception {
 		if (questionList.isEmpty()) {
 			score = null;
 		} else {
 			Long examId = Long.parseLong(selectedExamIdAsString);
 			Long userId = user.getId();
-			score = examResultService.getByExamIdAndUserId(examId, userId).getScore();
+			score = examResultService.getByExamIdAndUserId(examId, userId).getPoints();
 			maxScore = questionList.size();
 		}
 	}

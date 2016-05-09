@@ -136,7 +136,7 @@ public class ExamEvaluatorBean implements Serializable {
 	private void addScoreToTextBasedScore() throws Exception {
 		Long examId = Long.parseLong(selectedExamIdAsString);
 		Long userId = Long.parseLong(selectedUserIdAsString);
-		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getScore();
+		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getPoints();
 		score += ((int) evalRecordList.stream().filter(e -> e.getAnswer().getGood()).count());
 		examResultService.modifyScore(examId, userId, score);
 	}
@@ -242,6 +242,5 @@ public class ExamEvaluatorBean implements Serializable {
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
 	}
-	
-	
+
 }

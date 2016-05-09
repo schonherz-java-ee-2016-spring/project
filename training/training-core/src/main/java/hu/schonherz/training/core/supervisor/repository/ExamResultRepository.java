@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import hu.schonherz.training.core.admin.entity.Event;
 import hu.schonherz.training.core.admin.entity.User;
+import hu.schonherz.training.core.exam.entity.Exam;
 import hu.schonherz.training.core.exam.entity.ExamResult;
 
 @Repository
@@ -19,7 +19,7 @@ public interface ExamResultRepository extends JpaRepository<ExamResult, Long> {
 
 	public List<ExamResult> findExamResultsByUser(User user);
 
-	public List<ExamResult> findExamResultsByExam(Event exam);
+	public List<ExamResult> findExamResultsByExam(Exam exam);
 
 	public ExamResult findByExamIdAndUserId(Long examId, Long userId) throws Exception;
 
