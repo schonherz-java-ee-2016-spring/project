@@ -17,6 +17,9 @@
 			<sec:authorize access="hasRole('WRITE_STUDENT_FEEDBACK')">
 					<a href="student-give-feedback.xhtml" style="float: right;">#{out.writenewfeedback}</a>
 			</sec:authorize>
+			<sec:authorize access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')">
+					<a href="instructor-give-feedback.xhtml" style="float: right;">#{out.writenewfeedback}</a>
+			</sec:authorize>
 			<h1>#{out.feedbacks}</h1>
 			
 			<ui:include src="feedback-list.xhtml"></ui:include>

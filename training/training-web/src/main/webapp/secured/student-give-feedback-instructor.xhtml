@@ -23,7 +23,9 @@
 				<legend>
 					#{out.writenewfeedbackinstructor}
 					<div class="text-right" style="font-size: medium; float: right;">
-						<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
+						<sec:authorize access="hasRole('WRITE_STUDENT_FEEDBACK')">
+							<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
+						</sec:authorize>
 					</div>
 					<div style="font-size: medium; text-align: center;">
 						<a href="student-give-feedback.xhtml">#{out.writenewfeedbackevent}</a>
@@ -38,8 +40,7 @@
 							<h:selectOneMenu id="instructor"
 								value="#{writeStudentFeedback.instructorUsername}">
 								<f:selectItems value="#{writeStudentFeedback.usersToShow}"
-									var="user"
-									itemLabel="#{user.fullName}"
+									var="user" itemLabel="#{user.fullName}"
 									itemValue="#{user.userName}" />
 							</h:selectOneMenu>
 						</div>
