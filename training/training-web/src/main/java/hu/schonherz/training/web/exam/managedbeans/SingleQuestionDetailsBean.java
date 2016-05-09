@@ -44,16 +44,15 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void saveImage() {
 		try (InputStream input = image.getInputStream()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-			String folder = ec.getRealPath("/") + "/questionimages/"
-					+ questionIdAsString + "/";
+			String folder = ec.getRealPath("/") + "/questionimages/";
 			String filename = image.getSubmittedFileName();
 			if (!Files.exists(Paths.get(folder))) {
 				Files.createDirectories(Paths.get(folder));
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			usableImageLink = "Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
-					+ ec.getRequestServerPort() + "/training-web/questionimages/" + questionIdAsString + "/" + filename;
+			usableImageLink = "???LINK???: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
 			RequestContext.getCurrentInstance().update("usableImageLinkForm");
 		} catch (IOException e) {
 			e.printStackTrace();

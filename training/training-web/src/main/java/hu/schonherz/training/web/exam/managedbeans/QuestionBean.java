@@ -36,6 +36,21 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
+	
+	private String questionIdAsString;
+	private String questionText;
+	
+	public void renameQuestion() throws Exception{
+		QuestionVo renamedQuestion = questionService.getById(Long.parseLong(questionIdAsString));
+		renamedQuestion.setText(questionText);
+		questionService.modifyText(renamedQuestion);
+		RequestContext.getCurrentInstance().update("questionTable");
+	}
+	
+	public void setUpEditQuestion(ActionEvent event) {
+		questionIdAsString = event.getComponent().getAttributes().get("questionId").toString();
+		questionText = event.getComponent().getAttributes().get("questionName").toString();
+	}
 
 	public void addSingleQuestion() {
 		try {
@@ -164,6 +179,22 @@ public class QuestionBean implements Serializable {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
+	}
+
+	public String getQuestionText() {
+		return questionText;
+	}
+
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
+	}
+
+	public String getQuestionIdAsString() {
+		return questionIdAsString;
+	}
+
+	public void setQuestionIdAsString(String questionIdAsString) {
+		this.questionIdAsString = questionIdAsString;
 	}
 	
 }
