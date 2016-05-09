@@ -12,9 +12,10 @@
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<h:outputText value="#{singleQuestionDetailsBean.questionText}"/>
+			<h:outputText value="#{singleQuestionDetailsBean.questionText}"
+				escape="false" />
 		</h:form>
-		
+
 		<h:form id="questionNoteForm">
 			<h3>#{out.questionnote}</h3>
 			<p:inplace editor="true">

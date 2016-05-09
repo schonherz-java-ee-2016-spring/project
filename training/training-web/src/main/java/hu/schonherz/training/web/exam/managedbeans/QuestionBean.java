@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -45,13 +46,34 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
-	
+
 	private String questionIdAsString;
 	private String questionText;
-	
+
 	private String usableImageLink;
 	private Part image;
-	
+	private List<String> filenames;
+
+	@PostConstruct
+	public void init() {
+		setFilenames(new ArrayList<>());
+	}
+
+	private void getFiles() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String folder = ec.getRealPath("/") + "/questionimages/";
+		filenames.clear();
+		File folderfile = new File(folder);
+		File[] listOfFiles = folderfile.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				filenames.add(new String(ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+						+ ec.getRequestServerPort() + "/training-web/questionimages/" + listOfFiles[i].getName()));
+			}
+		}
+	}
+
 	public void saveImage() {
 		try (InputStream input = image.getInputStream()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -64,19 +86,22 @@ public class QuestionBean implements Serializable {
 
 			usableImageLink = "???LINK???: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
+
+			getFiles();
 			RequestContext.getCurrentInstance().update("imageForm");
+			RequestContext.getCurrentInstance().update("imageListForm");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void renameQuestion() throws Exception{
+
+	public void renameQuestion() throws Exception {
 		QuestionVo renamedQuestion = questionService.getById(Long.parseLong(questionIdAsString));
 		renamedQuestion.setText(questionText);
 		questionService.modifyText(renamedQuestion);
 		RequestContext.getCurrentInstance().update("questionTable");
 	}
-	
+
 	public void setUpEditQuestion(ActionEvent event) {
 		questionIdAsString = event.getComponent().getAttributes().get("questionId").toString();
 		questionText = event.getComponent().getAttributes().get("questionName").toString();
@@ -242,5 +267,12 @@ public class QuestionBean implements Serializable {
 	public void setImage(Part image) {
 		this.image = image;
 	}
-	
+
+	public List<String> getFilenames() {
+		return filenames;
+	}
+
+	public void setFilenames(List<String> filenames) {
+		this.filenames = filenames;
+	}
 }

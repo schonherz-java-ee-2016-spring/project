@@ -12,7 +12,8 @@
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<h:outputText value="#{multipleQuestionDetailsBean.questionText}"/>
+			<h:outputText value="#{multipleQuestionDetailsBean.questionText}"
+				escape="false" />
 		</h:form>
 
 		<h:form id="questionNoteForm">
