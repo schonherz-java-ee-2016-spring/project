@@ -19,6 +19,8 @@ import org.junit.runners.MethodSorters;
 
 import hu.schonherz.training.service.admin.RoleService;
 import hu.schonherz.training.service.admin.TrainingService;
+import hu.schonherz.training.service.admin.UserGroupService;
+import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.RoleVo;
 import hu.schonherz.training.service.admin.vo.TrainingVo;
 import hu.schonherz.training.service.admin.vo.UserGroupVo;
@@ -31,6 +33,12 @@ public class TrainingServiceTest {
 
 	@EJB
 	TrainingService serviceLocal;
+
+	@EJB
+	UserService userService;
+
+	@EJB
+	UserGroupService groupService;
 
 	@Before
 	public void startTheContainer() throws Exception {
@@ -47,14 +55,26 @@ public class TrainingServiceTest {
 		Date date = new Timestamp(946684800);
 		tv.setBeginning(date);
 		tv.setEndDate(date);
+
 		List<UserVo> users = new ArrayList<>();
-		List<UserGroupVo> userGroups = new ArrayList<>();
 		UserVo user = new UserVo();
+		user.setFullName("UserTrainingTest");
+		user.setEmail("trainingemail@trainingemail.trainingemail");
+		user.setUserName("UserTrainingTest");
+		user.setPassword("pass");
+		userService.registrationUser(user);
+		user = userService.findUserByName("UserTrainingTest");
+		users.add(user);
+		tv.setUsers(users);
+
+		List<UserGroupVo> userGroups = new ArrayList<>();
 		UserGroupVo ug = new UserGroupVo();
 		ug.setGroupName("Group");
-		user.setFullName("User");
-		users.add(user);
-		userGroups.add(ug);
+		ug.setDescription("DESC_TEST");
+		groupService.saveUserGroup(ug);
+		userGroups.add(groupService.findGroupByName(ug.getGroupName()));
+		tv.setUserGroups(userGroups);
+
 		tv.setDescription("Test_Desc");
 		serviceLocal.saveTraining(tv);
 	}
@@ -63,8 +83,13 @@ public class TrainingServiceTest {
 	public void tearDown(){
 		try {
 			TrainingVo tv = serviceLocal.getTrainingByName("Test_Training");
-			if( tv != null )
+			UserVo u = userService.findUserByName("UserTrainingTest");
+			UserGroupVo ug = groupService.findGroupByName("Group");
+			if (tv != null) {
 				serviceLocal.deleteTraining(tv.getId());
+			}
+			userService.deleteUserById(u.getId());
+			groupService.deleteUserGroup(ug.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -123,7 +148,7 @@ public class TrainingServiceTest {
 	}
 	
 	@Test
-	public void test6getTrainingById() {
+	public void test5getTrainingById() {
 		TrainingVo vo = null;
 		TrainingVo vo2 = null;
 		try {
@@ -137,13 +162,15 @@ public class TrainingServiceTest {
 	}
 	
 	@Test
-	public void test8UpdateTraining() {
+	public void test6UpdateTraining() {
 		try {
 			TrainingVo tv = serviceLocal.getTrainingByName("Test_Training");
 			tv.setName("Another Training Name");
 			serviceLocal.saveTraining(tv);
 			TrainingVo test = serviceLocal.getTrainingByName("Another Training Name");
 			Assert.assertEquals("Another Training Name", test.getName());
+			tv.setName("Test_Training");
+			serviceLocal.saveTraining(tv);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -151,10 +178,10 @@ public class TrainingServiceTest {
 	}
 
 	@Test
-	public void test9GetUsers() {
+	public void test7GetUsers() {
 		try {
 			List<UserVo> users = serviceLocal.getAllUsers(serviceLocal.getTrainingByName("Test_Training").getId());
-			Assert.assertEquals("User", users.get(0).getFullName());
+			Assert.assertEquals("UserTrainingTest", users.get(0).getFullName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail();
@@ -162,7 +189,7 @@ public class TrainingServiceTest {
 	}
 
 	@Test
-	public void test9GetUserGroups() {
+	public void test8GetUserGroups() {
 		try {
 			List<UserGroupVo> ugs = serviceLocal
 					.getAllUserGroups(serviceLocal.getTrainingByName("Test_Training").getId());
