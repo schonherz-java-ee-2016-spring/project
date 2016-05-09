@@ -7,6 +7,8 @@ INSERT INTO public."role"( id, name, roleCode)VALUES(2004, 'Student','ROLE_STUDE
 INSERT INTO public."role"( id, name, roleCode)VALUES(2005, 'Instructor','ROLE_INSTRUCTOR');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2006, 'Observer Feedbacks','ROLE_WRITE_OBS_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2009, 'Student Feedbacks','ROLE_WRITE_STUDENT_FEEDBACK');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Themes','ROLE_THEMEMANAGEMENT');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2011, 'Trainings','ROLE_TRAININGS');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
@@ -19,6 +21,8 @@ INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2007, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2008, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2010, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2011, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2004, 2003);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2006, 2004);

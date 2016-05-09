@@ -11,6 +11,11 @@
 		<security:intercept-url pattern="/secured/users.xhtml"
 			access="hasRole('USERS')" />
 		<security:intercept-url pattern="/secured/rolegroups.xhtml"
+		<security:intercept-url pattern="/secured/themeTable.xhtml"
+			access="hasRole('THEMEMANAGEMENT')" />
+		<security:intercept-url pattern="/secured/trainings.xhtml"
+			access="hasRole('TRAININGS')" />
+		<security:intercept-url pattern="/secured/rolegroups.xhtml"
 			access="hasRole('RGS')" />
 		<security:intercept-url pattern="/secured/roles.xhtml"
 			access="hasRole('ROLES')" />
