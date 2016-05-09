@@ -86,6 +86,7 @@ public class MBResultsBean implements Serializable {
 			for (UserResults userResult : course.getUserResults()) {
 				List<ExamResultVo> examResults = new ArrayList<>();
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
+				homeworkResults = homeworkResultService.getHomeworkResultsByUser(userResult.getUser());
 				Integer examSum = new Integer(0);
 				Integer homeworkSum = new Integer(0);
 				for (int i = 0; i < course.getThemes().size(); i++) {
@@ -93,10 +94,9 @@ public class MBResultsBean implements Serializable {
 					examResult.setScore(rand.nextInt(10));
 					examSum += examResult.getScore();
 					examResults.add(examResult);
-					HomeworkResultVo homeworkResult = new HomeworkResultVo();
-					homeworkResult.setScore(rand.nextInt(10));
-					homeworkSum += homeworkResult.getScore();
-					homeworkResults.add(homeworkResult);
+				}
+				for (HomeworkResultVo homeworkResultVo : homeworkResults) {
+					homeworkSum += homeworkResultVo.getScore();
 				}
 
 				userResult.setExamResults(examResults);
