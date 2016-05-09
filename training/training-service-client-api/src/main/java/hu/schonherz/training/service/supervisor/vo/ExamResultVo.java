@@ -2,8 +2,8 @@ package hu.schonherz.training.service.supervisor.vo;
 
 import java.io.Serializable;
 
+import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
-import hu.schonherz.training.service.exam.vo.ExamVo;
 
 public class ExamResultVo implements Serializable {
 
@@ -12,8 +12,8 @@ public class ExamResultVo implements Serializable {
 	 */
 	private static final long serialVersionUID = -752392944337556510L;
 	private UserVo user;
-	private ExamVo exam;
-	private Integer score;
+	private EventVo exam;
+	private Integer points;
 
 	public ExamResultVo() {
 		super();
@@ -27,20 +27,20 @@ public class ExamResultVo implements Serializable {
 		this.user = user;
 	}
 
-	public ExamVo getExam() {
+	public EventVo getExam() {
 		return exam;
 	}
 
-	public void setExam(ExamVo exam) {
+	public void setExam(EventVo exam) {
 		this.exam = exam;
 	}
 
-	public Integer getScore() {
-		return score;
+	public Integer getPoints() {
+		return points;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
 }

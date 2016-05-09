@@ -2,12 +2,12 @@ package hu.schonherz.training.core.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import hu.schonherz.training.core.admin.entity.BaseEntity;
+import hu.schonherz.training.core.admin.entity.Event;
 import hu.schonherz.training.core.admin.entity.User;
 
 /**
@@ -19,14 +19,14 @@ public class ExamResult extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
-	
 	@ManyToOne
-	@JoinColumn(name = "exam_id")
-	private Exam exam;
-	
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "event_id", referencedColumnName = "id")
+	private Event exam;
+
 	@Column(name = "points", nullable = false)
 	private Integer points;
 
@@ -42,11 +42,11 @@ public class ExamResult extends BaseEntity {
 		this.user = user;
 	}
 
-	public Exam getExam() {
+	public Event getExam() {
 		return exam;
 	}
 
-	public void setExam(Exam exam) {
+	public void setExam(Event exam) {
 		this.exam = exam;
 	}
 
@@ -58,8 +58,4 @@ public class ExamResult extends BaseEntity {
 		this.points = points;
 	}
 
-
-		
-	
-	
 }

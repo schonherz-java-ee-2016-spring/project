@@ -17,6 +17,7 @@ import hu.schonherz.training.service.admin.UserGroupService;
 import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.TrainingVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
+import hu.schonherz.training.service.supervisor.ExamResultService;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
 import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
@@ -41,6 +42,9 @@ public class MBResultsBean implements Serializable {
 
 	@EJB
 	private HomeworkResultService homeworkResultService;
+
+	@EJB
+	private ExamResultService examResultService;
 
 	// List of Courses
 	private List<Course> courses = new ArrayList<>();
@@ -87,13 +91,15 @@ public class MBResultsBean implements Serializable {
 				List<ExamResultVo> examResults = new ArrayList<>();
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				homeworkResults = homeworkResultService.getHomeworkResultsByUser(userResult.getUser());
+				try {
+					examResults = examResultService.getExamResultByUser(userResult.getUser());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				Integer examSum = new Integer(0);
 				Integer homeworkSum = new Integer(0);
-				for (int i = 0; i < course.getThemes().size(); i++) {
-					ExamResultVo examResult = new ExamResultVo();
-					examResult.setScore(rand.nextInt(10));
-					examSum += examResult.getScore();
-					examResults.add(examResult);
+				for (ExamResultVo examResultVo : examResults) {
+					examSum += examResultVo.getPoints();
 				}
 				for (HomeworkResultVo homeworkResultVo : homeworkResults) {
 					homeworkSum += homeworkResultVo.getScore();
