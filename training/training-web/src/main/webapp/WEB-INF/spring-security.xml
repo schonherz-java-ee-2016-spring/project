@@ -31,6 +31,8 @@
 			pattern="/secured/student-give-feedbacks-instructor.xhtml" access="hasRole('WRITE_STUDENT_FEEDBACK')" />
 		<security:intercept-url pattern="/secured/instructor-give-feedbacks.xhtml"
 			access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')" />
+		<security:intercept-url
+			pattern="/secured/instructor-give-feedbacks-student.xhtml" access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')" />
 
 		<security:intercept-url pattern="/testfeatures/exams.xhtml"
 			access="hasRole('INSTRUCTOR')" />
