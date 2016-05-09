@@ -102,6 +102,7 @@
 
 					<p:editor id="editor" widgetVar="editorWidget"
 						value="#{questionBean.questionText}" width="600" />
+						
 					<f:facet name="footer">
 						<p:commandButton value="???RENAME???" update="message,grid"
 							actionListener="#{questionBean.renameQuestion}">
@@ -110,5 +111,13 @@
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
+		
+		<h:form id="imageForm" enctype="multipart/form-data">
+			<h:inputFile value="#{questionBean.image}">
+				<f:ajax listener="#{questionBean.saveImage}" />
+			</h:inputFile>
+			<h:outputLabel value="#{questionBean.usableImageLink}" />
+		</h:form>
+		
 	</ui:define>
 </ui:composition>
