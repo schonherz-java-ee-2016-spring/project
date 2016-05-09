@@ -6,8 +6,9 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-
+<ui:define name="pageTitle">#{out.themes}</ui:define>
 	<ui:define name="content">
+			<h1>#{out.themes}:</h1>
 		<h:form id="treeTableForm">
 			<p:treeTable value="#{themeServiceBean.root}" var="theme"
 				id="treeTable" selectionMode="single"
