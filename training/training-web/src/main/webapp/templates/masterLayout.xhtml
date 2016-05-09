@@ -140,6 +140,12 @@
 						</sec:authorize>
 
 
+						<sec:authorize access="hasRole('INSTRUCTOR')">
+							<li><a href="#{request.contextPath}/secured/statistics.xhtml">#{out.statisticssatistics}<span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-area-chart"></span></a></li>
+
+						</sec:authorize>
+
 						<sec:authorize access="hasAnyRole('INSTRUCTOR','STUDENT')">
 							<li><a href="#" data-toggle="dropdown">#{out.exam}<span class="caret"></span><span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-pencil-square"></span></a>

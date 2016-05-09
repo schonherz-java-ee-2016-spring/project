@@ -96,7 +96,13 @@ public class WriteStudentFeedback implements Serializable {
 		} else {
 			feedback.setPublic(false);
 		}
-		feedback.setRated(feedback.getEvent().getUsers());
+		List<UserVo> usrs = new ArrayList<>();
+		for (UserVo user : feedback.getEvent().getUsers()) {
+			if (user.getUserName().contentEquals(username) == false) {
+				usrs.add(user);
+			}
+		}
+		feedback.setRated(usrs);
 		feedback.setSender(loggedInUser);
 		feedback.setRecDate(new Date());
 		try {
