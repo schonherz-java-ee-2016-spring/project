@@ -8,6 +8,7 @@ INSERT INTO public."role"( id, name, roleCode)VALUES(2005, 'Instructor','ROLE_IN
 INSERT INTO public."role"( id, name, roleCode)VALUES(2006, 'Observer Feedbacks','ROLE_WRITE_OBS_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2009, 'Student Feedbacks','ROLE_WRITE_STUDENT_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Themes','ROLE_THEMEMANAGEMENT');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Instructor Feedbacks','ROLE_WRITE_INSTRUCTOR_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2011, 'Trainings','ROLE_TRAININGS');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
@@ -28,6 +29,8 @@ INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2006, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2009, 2003);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2010, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2002);
 
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
@@ -122,6 +125,9 @@ INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2100);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2101);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2102);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2202);
+
+INSERT INTO user_to_event(event_id, user_id) VALUES (3203, 2201);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3203, 2100);
 
 -- job interview PL
 INSERT INTO feedback(id, recdate, recuser, feedback_message, is_public) VALUES (4100, current_timestamp, 'CREATE SQL', 'Kedves Preznyák László! Köszönöm, hogy a 2016.06.19-ei interjún  (Java EE Junior Developer pozíció) megjelentél. Az alábbiakban néhány észrevételt írok le, hogy visszajelzést kaphass az interjún való szerepléseddel kapcsolatban. Szakmai tudásod elbeszélgetésünk alapján megfelelőnek bizonyult a legtöbb témakörben. Kérdéseimre a beszélgetés során érintett témákban kielégítő válaszokat adtál a legtöbb esetben, és helytelen válasz esetén sem hibáztal nagyot. A rövid angol nyelvű elbeszélgetés alapján szóbeli angol nyelvtudásodat középszintűnek ítéltem meg, írásbeli nyelvtudásod a bemeneti teszt alapján felső-középszintű. Életrajzod és az interjún nyújtott teljesítményed alapján megfelesz a pozíció betöltésére, jelentkezésedet továbbítottuk a Neuron Software felé. A Neuron Software-től előreláthatólag egy héten belül kapsz értesítést. Üdvözlettel, Schönherz Iskolaszövetkezet csapata!', TRUE);
