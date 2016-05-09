@@ -12,13 +12,7 @@
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<p:editor id="editor" widgetVar="editorWidget"
-				value="#{textbasedQuestionDetailsBean.questionText}" width="600" />
-
-			<h:panelGrid columns="2" style="margin-top: 10px">
-				<p:commandButton value="Save name" update="message"
-					action="#{textbasedQuestionDetailsBean.saveQuestion}" />
-			</h:panelGrid>
+			<h:outputText value="#{textbasedQuestionDetailsBean.questionText}"/>
 		</h:form>
 
 		<h:form id="questionNoteRename">
