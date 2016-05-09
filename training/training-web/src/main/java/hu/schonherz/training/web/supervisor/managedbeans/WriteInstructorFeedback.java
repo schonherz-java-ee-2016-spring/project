@@ -96,7 +96,7 @@ public class WriteInstructorFeedback implements Serializable {
 			events.add(new EventList(event.getId(), event.getName(), event.getType(), event.getDate()));
 		}
 	}
-	
+
 	public void eventChanged(ValueChangeEvent e) {
 		eventId = e.getNewValue().toString();
 		EventVo event = new EventVo();
@@ -147,6 +147,46 @@ public class WriteInstructorFeedback implements Serializable {
 			usrs.add(usr);
 		}
 		feedback.setRated(usrs);
+		feedback.setSender(loggedInUser);
+		feedback.setRecDate(new Date());
+		try {
+			feedbackService.giveFeedback(feedback);
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback could not be sent");
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
+		}
+
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
+				"Feedback successfully sent");
+		currentInstance.addMessage("growl", facesMessage);
+
+	}
+
+	public void sendStudentFeedback() {
+
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		FeedbackVo feedback = new FeedbackVo();
+		List<UserVo> student = new ArrayList<>();
+		try {
+			student.add(userService.findUserByName(studentUsername));
+			feedback.setRated(student);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		feedback.setFeedbackMessage(feedbackMessage);
+		if (feedbackMessage == null) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback message is missing");
+			currentInstance.addMessage(null, facesMessage);
+			return;
+		}
+		if (isPublic.equalsIgnoreCase("true")) {
+			feedback.setPublic(true);
+		} else {
+			feedback.setPublic(false);
+		}
 		feedback.setSender(loggedInUser);
 		feedback.setRecDate(new Date());
 		try {

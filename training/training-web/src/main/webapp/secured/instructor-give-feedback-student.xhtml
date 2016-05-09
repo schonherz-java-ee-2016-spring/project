@@ -21,13 +21,13 @@
 
 				<!-- Form Name -->
 				<legend>
-					#{out.writenewfeedbackevent}
+					#{out.writenewfeedbackstudent}
 					<div class="text-right" style="font-size: medium; float: right;">
 						<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
 					</div>
 					<div style="font-size: medium; text-align: center;">
 						<sec:authorize access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')">
-							<a href="instructor-give-feedback-student.xhtml">#{out.writenewfeedbackstudent}</a>
+							<a href="instructor-give-feedback.xhtml">#{out.writenewfeedbackevent}</a>
 						</sec:authorize>
 					</div>
 				</legend>
@@ -35,31 +35,10 @@
 				<div class="well">
 
 					<div class="control-group">
-						<label class="control-label" for="event">#{out.eventtorate}</label>
-						<div class="controls">
-							<h:selectOneMenu id="event"
-								value="#{writeInstructorFeedback.eventId}" onchange="submit()"
-								valueChangeListener="#{writeInstructorFeedback.eventChanged}">
-								<f:selectItem itemLabel="#{out.chooseevent}"></f:selectItem>
-								<f:selectItems value="#{writeInstructorFeedback.events}"
-									var="event"
-									itemLabel="#{event.eventType} #{event.eventName} (#{event.eventDate})"
-									itemValue="#{event.eventId}" />
-							</h:selectOneMenu>
-						</div>
-					</div>
-
-					<div class="control-group">
 						<label class="control-label" for="student">#{out.whotorate}</label>
 						<div class="controls">
 							<h:selectOneMenu id="student"
-								value="#{writeInstructorFeedback.studentUsername}"
-								onchange="submit()"
-								valueChangeListener="#{writeInstructorFeedback.studentChanged}">
-								<f:selectItem itemLabel="#{out.selectstudent}"
-									itemDisabled="true"></f:selectItem>
-								<f:selectItem itemLabel="#{out.allstudents}"
-									itemValue="ALL_OF_THEM"></f:selectItem>
+								value="#{writeInstructorFeedback.studentUsername}">
 								<f:selectItems value="#{writeInstructorFeedback.usersToShow}"
 									var="user" itemLabel="#{user.fullName}"
 									itemValue="#{user.userName}" />
@@ -86,7 +65,7 @@
 
 					<div class="control-group" style="float: right;">
 						<p:commandButton value="#{out.sendfeedback}" update="form,growl"
-							action="#{writeInstructorFeedback.sendEventFeedback}"
+							action="#{writeInstructorFeedback.sendStudentFeedback}"
 							icon="ui-icon-check"></p:commandButton>
 					</div>
 				</div>
