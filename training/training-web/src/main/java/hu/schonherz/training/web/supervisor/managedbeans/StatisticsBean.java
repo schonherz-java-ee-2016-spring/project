@@ -86,21 +86,49 @@ public class StatisticsBean implements Serializable {
 		}
 	}
 
+	
 	private void fillTestCategoryModel() {
+		
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getExamResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
 			for (ExamResultVo examResultVo : user.getExamResults()) {
-				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getPoints());
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getScore());
+				sum[++k] += examResultVo.getScore();
 			}
 			testCategoryModel.addSeries(userSerie);
 		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
+		for(ExamResultVo examResultVo:training.getUserResults().get(0).getExamResults()){
+			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k]/size);
+		}
+		testCategoryModel.addSeries(avgSerie);
 	}
 
+	
+	
+	
+	
+	
 	private void initTestCategoryModel() {
 		testCategoryModel = new LineChartModel();
 		fillTestCategoryModel();
 
+		
 		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
 		testCategoryModel.setAnimate(true);
 		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
@@ -119,14 +147,35 @@ public class StatisticsBean implements Serializable {
 	}
 
 	private void fillHomeworkCategoryModel() {
+
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getHomeworkResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
 			for (HomeworkResultVo homeworkResultVo : user.getHomeworkResults()) {
 				userSerie.set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
+				sum[++k] += homeworkResultVo.getScore();
 			}
 			homeworkCategoryModel.addSeries(userSerie);
 		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
+		for(HomeworkResultVo homeworkResultVo:training.getUserResults().get(0).getHomeworkResults()){
+			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k]/size);
+		}
+		homeworkCategoryModel.addSeries(avgSerie);
 	}
 
 	private void initHomeworkCategoryModel() {
@@ -216,7 +265,7 @@ public class StatisticsBean implements Serializable {
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				for (int i = 0; i < lessons.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
-					examResult.setPoints(rand.nextInt(11));
+					examResult.setScore(rand.nextInt(11));
 					ExamVo exam = new ExamVo();
 					exam.setTitle(lessonNames[i]);
 					examResult.setExam(exam);
