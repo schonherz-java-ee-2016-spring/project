@@ -92,8 +92,14 @@ public class WriteInstructorFeedback implements Serializable {
 			e1.printStackTrace();
 		}
 		events.removeAll(events);
-		for (EventVo event : eventService.findEventsByUserOrderedByDate(user.getId())) {
-			events.add(new EventList(event.getId(), event.getName(), event.getType(), event.getDate()));
+		List<EventVo> evnts = new ArrayList<>();
+		evnts.addAll(eventService.findEventsByUserOrderedByDate(user.getId()));
+		for (EventVo event : evnts) {
+			for (UserVo usr : event.getUsers()) {
+				if (usr.getUserName().contentEquals(username)) {
+					events.add(new EventList(event.getId(), event.getName(), event.getType(), event.getDate()));
+				}
+			}
 		}
 	}
 
