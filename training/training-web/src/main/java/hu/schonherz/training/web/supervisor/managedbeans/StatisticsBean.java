@@ -102,8 +102,8 @@ public class StatisticsBean implements Serializable {
 			userSerie.setLabel(user.getUser().getFullName());
 			Integer k = -1;
 			for (ExamResultVo examResultVo : user.getExamResults()) {
-				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getScore());
-				sum[++k] += examResultVo.getScore();
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getPoints());
+				sum[++k] += examResultVo.getPoints();
 			}
 			testCategoryModel.addSeries(userSerie);
 		}
@@ -265,7 +265,7 @@ public class StatisticsBean implements Serializable {
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				for (int i = 0; i < lessons.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
-					examResult.setScore(rand.nextInt(11));
+					examResult.setPoints(rand.nextInt(11));
 					ExamVo exam = new ExamVo();
 					exam.setTitle(lessonNames[i]);
 					examResult.setExam(exam);
