@@ -138,6 +138,7 @@ public class EventsBean implements Serializable {
 		newEventType = null;
 		newEventPlace = null;
 		newEventDate = null;
+		newEventDescription = null;
 	}
 	
 	// ha kiválasztunk egy sort a táblázatban, akkor fut le

@@ -115,6 +115,18 @@
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
+						
+						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
+							<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.themesmanagement}<span
+									class="caret"></span><span style="font-size: 16px;"
+									class="pull-right showopacity fa fa-users"></span>
+							</a>
+								<ul class="dropdown-menu forAnimate" role="menu">
+									<sec:authorize access="hasRole('USERS')">
+										<li><a href="#{request.contextPath}/public/themeTable.xhtml">#{out.themes}</a></li>
+									</sec:authorize>
+								</ul></li>
+						</sec:authorize>
 
 						<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.trainingmanagement}<span
 								class="caret"></span><span style="font-size: 16px;"
