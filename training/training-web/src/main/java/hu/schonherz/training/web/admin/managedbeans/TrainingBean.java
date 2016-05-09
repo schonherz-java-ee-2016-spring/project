@@ -205,13 +205,24 @@ public class TrainingBean implements Serializable {
 		for (TreeNode treeNode : nodes) {
 			if (treeNode.getData() != null) {
 				ThemeVo pTheme = themeService.getThemeByName(treeNode.getData().toString());
-				for (TreeNode tc : treeNode.getChildren()) {
-					ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
-					theme.setThemeCode(pTheme.getThemeCode());
-					themeService.createTheme(theme);
-					vos.add(theme);
+				if (pTheme.getType().equals("main")) {
+					for (TreeNode tc : treeNode.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
+						if (theme.getType().equals("item")) {
+							theme.setThemeCode(pTheme.getThemeCode());
+							themeService.createTheme(theme);
+							vos.add(theme);
+						}
+					}
+					vos.add(pTheme);
+				} else if (pTheme.getType().equals("item")) {
+					for (TreeNode tnd : root1.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tnd.getData().toString());
+						if (theme.getType().equals("main") && theme.getThemeCode().equals(pTheme.getThemeCode())) {
+							vos.add(pTheme);
+						}
+					}
 				}
-				vos.add(pTheme);
 			}
 		}
 		selected.setThemes(vos);
@@ -220,10 +231,23 @@ public class TrainingBean implements Serializable {
 		for (TreeNode treeNode : nodes) {
 			if (treeNode.getData() != null) {
 				ThemeVo pTheme = themeService.getThemeByName(treeNode.getData().toString());
-				for (TreeNode tc : treeNode.getChildren()) {
-					ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
-					theme.setThemeCode(pTheme.getThemeCode());
-					themeService.createTheme(theme);
+				if (pTheme.getType().equals("main")) {
+					for (TreeNode tc : treeNode.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
+						if (theme.getType().equals("item")) {
+							theme.setThemeCode(pTheme.getThemeCode());
+							themeService.createTheme(theme);
+						}
+					}
+				} else if (pTheme.getType().equals("item")) {
+					for (TreeNode tnd : root1.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tnd.getData().toString());
+						if (theme.getType().equals("main") && theme.getThemeCode().equals(pTheme.getThemeCode())) {
+							vos.add(pTheme);
+							selected.setThemes(vos);
+							trainingService.saveTraining(selected);
+						}
+					}
 				}
 			}
 		}
