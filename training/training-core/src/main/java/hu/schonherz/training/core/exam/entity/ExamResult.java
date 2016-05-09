@@ -22,13 +22,13 @@ public class ExamResult extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "exam_id")
 	private Exam exam;
-	
-	@Column(name = "points", nullable = false)
-	private Integer points;
+
+	@Column(name = "score", nullable = false)
+	private Integer score;
 
 	public ExamResult() {
 		super();
@@ -50,16 +50,12 @@ public class ExamResult extends BaseEntity {
 		this.exam = exam;
 	}
 
-	public Integer getPoints() {
-		return points;
+	public Integer getScore() {
+		return score;
 	}
 
-	public void setPoints(Integer points) {
-		this.points = points;
+	public void setScore(Integer score) {
+		this.score = score;
 	}
 
-
-		
-	
-	
 }

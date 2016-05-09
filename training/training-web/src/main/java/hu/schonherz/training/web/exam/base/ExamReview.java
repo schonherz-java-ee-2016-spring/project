@@ -19,6 +19,7 @@ import hu.schonherz.training.service.exam.vo.AnswerVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
+import hu.schonherz.training.service.supervisor.ExamResultService;
 
 public abstract class ExamReview implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -30,6 +31,9 @@ public abstract class ExamReview implements Serializable {
 	protected List<QuestionVo> questionList;
 	protected List<AnswerVo> answerList;
 	protected List<Long> selectedOptionIdList;
+
+	protected Integer score;
+	protected Integer maxScore;
 
 	@EJB
 	protected ExamService examService;
@@ -43,8 +47,22 @@ public abstract class ExamReview implements Serializable {
 	protected ExamUserRelationService examUserRelationService;
 	@EJB
 	protected AnswerTextService answerTextService;
-	
+	@EJB
+	protected ExamResultService examResultService;
+
 	public abstract void loadContent();
+
+
+	protected void calculateExamScore() throws Exception {
+		if (questionList.isEmpty()) {
+			score = null;
+		} else {
+			Long examId = Long.parseLong(selectedExamIdAsString);
+			Long userId = user.getId();
+			score = examResultService.getByExamIdAndUserId(examId, userId).getScore();
+			maxScore = questionList.size();
+		}
+	}
 
 	protected void updateQuestionList() throws Exception {
 		for (QuestionVo question : questionList) {
@@ -188,6 +206,30 @@ public abstract class ExamReview implements Serializable {
 
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
+	}
+
+	public ExamResultService getExamResultService() {
+		return examResultService;
+	}
+
+	public void setExamResultService(ExamResultService examResultService) {
+		this.examResultService = examResultService;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
+	public Integer getMaxScore() {
+		return maxScore;
+	}
+
+	public void setMaxScore(Integer maxScore) {
+		this.maxScore = maxScore;
 	}
 
 }

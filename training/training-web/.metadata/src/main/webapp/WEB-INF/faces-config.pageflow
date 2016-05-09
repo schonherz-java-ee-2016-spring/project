@@ -8,10 +8,10 @@
   <nodes xsi:type="pageflow:PFPage" name="testfeatures/singleQuestionDetails.xhtml" x="122" y="1714" id="pf14613998905576" referenceLink="//@navigationRule.5/@fromViewId|" outlinks="pf14613998905573" inlinks="pf14613998905570" path="/testfeatures/singleQuestionDetails.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="testfeatures/multipleQuestionDetails.xhtml" x="122" y="2098" id="pf14613998905577" referenceLink="//@navigationRule.6/@fromViewId|" outlinks="pf14613998905574" inlinks="pf14613998905571" path="/testfeatures/multipleQuestionDetails.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="testfeatures/textbasedQuestionDetails.xhtml" x="122" y="2482" id="pf14613998905578" referenceLink="//@navigationRule.7/@fromViewId|" outlinks="pf14613998905575" inlinks="pf14613998905572" path="/testfeatures/textbasedQuestionDetails.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examChoose.xhtml" x="122" y="2866" id="pf14618293824610" referenceLink="//@navigationRule.8/@fromViewId|" outlinks="pf14618293824611" path="/testfeatures/examChoose.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examFill.xhtml" x="338" y="2866" id="pf14618293824613" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf14618293824611" path="/testfeatures/examFill.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examChooseReview.xhtml" id="pf14618294380086" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf14618294380087" path="/testfeatures/examChooseReview.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examReview.xhtml" id="pf14618294380088" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" inlinks="pf14618294380087" path="/testfeatures/examReview.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examChoose.xhtml" x="122" y="3250" id="pf14618293824610" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" outlinks="pf14618293824611" inlinks="pf14625562489151" path="/testfeatures/examChoose.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examFill.xhtml" x="338" y="3250" id="pf14618293824613" referenceLink="//@navigationRule.9/@fromViewId|" outlinks="pf14625562489151" inlinks="pf14618293824611" path="/testfeatures/examFill.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examChooseReview.xhtml" x="122" y="2866" id="pf14618294380086" referenceLink="//@navigationRule.9/@fromViewId|" path="/testfeatures/examChooseReview.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="testfeatures/examReview.xhtml" x="122" y="3634" id="pf14618294380088" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" path="/testfeatures/examReview.xhtml"/>
   <links id="pf14609651689101" target="pf14609651689112" source="pf14609651688840" outcome="goToExamQuestionsPage" redirect="true"/>
   <links id="pf14609651689113" target="pf14609651689116" source="pf14609651689112" outcome="goToSingleQuestionPage" redirect="true"/>
   <links id="pf14609651689114" target="pf14609651689117" source="pf14609651689112" outcome="goToMultipleQuestionPage" redirect="true"/>
@@ -26,5 +26,5 @@
   <links id="pf14613998905574" target="pf14609651689112" source="pf14613998905577" outcome="goToExamQuestionsPage" redirect="true"/>
   <links id="pf14613998905575" target="pf14609651689112" source="pf14613998905578" outcome="goToExamQuestionsPage" redirect="true"/>
   <links id="pf14618293824611" target="pf14618293824613" source="pf14618293824610" outcome="goToExamFill" redirect="true"/>
-  <links id="pf14618294380087" target="pf14618294380088" source="pf14618294380086" outcome="goToExamReview" redirect="true"/>
+  <links id="pf14625562489151" target="pf14618293824610" source="pf14618293824613" outcome="goToExamChoose" redirect="true"/>
 </pageflow:Pageflow>

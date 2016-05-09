@@ -139,6 +139,14 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
-
+	
+	<navigation-rule>
+		<from-view-id>/testfeatures/examFill.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>goToExamChoose</from-outcome>
+			<to-view-id>/testfeatures/examChoose.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 
 </faces-config>

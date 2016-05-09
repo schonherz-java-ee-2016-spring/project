@@ -34,7 +34,7 @@ public class Question extends BaseEntity {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
-	@OrderBy("id asc")
+	@OrderBy("id")
 	private Collection<Option> options;
 
 	public Question() {

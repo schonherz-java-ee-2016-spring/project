@@ -8,7 +8,7 @@ public interface QuestionService extends BaseService<QuestionVo> {
 	
 	public void add(QuestionVo vo, Long examId) throws Exception;
 	
-	public void modifyNote(QuestionVo vo) throws Exception ;
+	public void modifyNote(QuestionVo vo) throws Exception;
 	
 	public void modifyText(QuestionVo vo) throws Exception;
 	

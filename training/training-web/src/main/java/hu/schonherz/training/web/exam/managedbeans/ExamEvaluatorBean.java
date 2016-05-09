@@ -3,12 +3,16 @@ package hu.schonherz.training.web.exam.managedbeans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -24,11 +28,15 @@ import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
 import hu.schonherz.training.service.exam.vo.eval.EvalRecord;
+import hu.schonherz.training.service.supervisor.ExamResultService;
 
 @ManagedBean(name = "examEvaluatorBean")
 @ViewScoped
 public class ExamEvaluatorBean implements Serializable {
 	private static final long serialVersionUID = 1L;
+
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
 
 	@EJB
 	private UserService userService;
@@ -40,6 +48,8 @@ public class ExamEvaluatorBean implements Serializable {
 	private AnswerService answerService;
 	@EJB
 	private AnswerTextService answerTextService;
+	@EJB
+	private ExamResultService examResultService;
 
 	private List<ExamVo> examList;
 	private String selectedExamIdAsString;
@@ -64,8 +74,9 @@ public class ExamEvaluatorBean implements Serializable {
 		try {
 			evalRecordList.clear();
 
-			List<QuestionVo> textBasedQuestionList = questionService.getAllByExamId(Long.parseLong(selectedExamIdAsString))
-					.stream().filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
+			List<QuestionVo> textBasedQuestionList = questionService
+					.getAllByExamId(Long.parseLong(selectedExamIdAsString)).stream()
+					.filter(q -> q.getQuestionType().getId() == 3).collect(Collectors.toList());
 
 			List<OptionVo> optionList = textBasedQuestionList.stream().flatMap(q -> q.getOptions().stream())
 					.collect(Collectors.toList());
@@ -86,7 +97,8 @@ public class ExamEvaluatorBean implements Serializable {
 
 				QuestionVo question = questionService.getAllByExamId(Long.parseLong(selectedExamIdAsString))
 						.stream().filter(q -> q.getQuestionType().getId() == 3).filter(q -> q.getOptions().get(0)
-								.getId().longValue() == answer.getOption().getId().longValue()).findFirst().orElse(null);
+								.getId().longValue() == answer.getOption().getId().longValue())
+						.findFirst().orElse(null);
 
 				record.setQuestion(question);
 				record.setOption(question.getOptions().get(0));
@@ -101,9 +113,32 @@ public class ExamEvaluatorBean implements Serializable {
 	}
 
 	public void applyEvaluation() throws Exception {
-		for (EvalRecord evalRecord : evalRecordList) {
-			answerService.modifyGood(evalRecord.getAnswer());
+
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
+		try {
+
+			for (EvalRecord evalRecord : evalRecordList) {
+				answerService.modifyGood(evalRecord.getAnswer());
+
+			}
+			addScoreToTextBasedScore();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("evaluated"));
+			currentInstance.addMessage(null, facesMessage);
+		} catch (Exception e) {
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("alreadyevaulated"));
+			currentInstance.addMessage(null, facesMessage);
+			e.printStackTrace();
 		}
+	}
+
+	private void addScoreToTextBasedScore() throws Exception {
+		Long examId = Long.parseLong(selectedExamIdAsString);
+		Long userId = Long.parseLong(selectedUserIdAsString);
+		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getScore();
+		score += ((int) evalRecordList.stream().filter(e -> e.getAnswer().getGood()).count());
+		examResultService.modifyScore(examId, userId, score);
 	}
 
 	/**
@@ -199,4 +234,14 @@ public class ExamEvaluatorBean implements Serializable {
 	public void setEvalRecordList(List<EvalRecord> evalRecordList) {
 		this.evalRecordList = evalRecordList;
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+	
+	
 }

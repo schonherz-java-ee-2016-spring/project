@@ -26,7 +26,7 @@ public class Exam extends BaseEntity {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "exam_id")
-	@OrderBy("text asc")
+	@OrderBy("id")
 	private Collection<Question> questions;
 	
 	@Column(columnDefinition = "boolean default false" )
