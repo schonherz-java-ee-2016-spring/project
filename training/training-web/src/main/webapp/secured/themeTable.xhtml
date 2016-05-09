@@ -13,7 +13,7 @@
 				id="treeTable" selectionMode="single"
 				selection="#{themeServiceBean.selectedNode}">
 				<f:facet name="header">
-            Theme viewer
+            #{out.themes}
         </f:facet>
 				<p:column headerText="#{out.name}" priority="1"
 					sortBy="#{theme.name}">
@@ -25,20 +25,20 @@
 				<p:column headerText="#{out.description}" priority="3">
 					<h:outputText value="#{theme.description}" />
 				</p:column>
-				<p:column headerText="#{out.moduser}" priority="8"
+				<p:column headerText="#{out.moduser}" priority="6"
 					filterBy="#{theme.modUser}" filterMatchMode="contains">
 					<h:outputText value="#{theme.modUser}" />
 				</p:column>
-				<p:column headerText="#{out.moddate}" priority="8"
+				<p:column headerText="#{out.moddate}" priority="6"
 					sortBy="#{theme.modDate}" filterBy="#{user.modDate}"
 					filterMatchMode="contains">
 					<h:outputText value="#{theme.modDate}" />
 				</p:column>
-				<p:column headerText="#{out.recuser}" priority="5"
+				<p:column headerText="#{out.recuser}" priority="4"
 					filterBy="#{user.recUser}" filterMatchMode="contains">
 					<h:outputText value="#{theme.recUser}" />
 				</p:column>
-				<p:column headerText="#{out.recdate}" priority="5"
+				<p:column headerText="#{out.recdate}" priority="4"
 					sortBy="#{theme.recDate}" filterBy="#{user.recDate}"
 					filterMatchMode="contains">
 					<h:outputText value="#{theme.recDate}" />
