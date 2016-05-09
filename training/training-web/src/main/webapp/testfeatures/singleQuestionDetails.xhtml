@@ -12,25 +12,9 @@
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<p:editor id="editor" widgetVar="editorWidget"
-				value="#{singleQuestionDetailsBean.questionText}" width="600" />
-
-			<h:panelGrid columns="2" style="margin-top: 10px">
-				<p:commandButton value="Save name" update="message"
-					action="#{singleQuestionDetailsBean.tryToSaveQuestion}" />
-			</h:panelGrid>
-		</h:form>
-
-		<h:form enctype="multipart/form-data">
-			<h:inputFile value="#{singleQuestionDetailsBean.image}">
-				<f:ajax listener="#{singleQuestionDetailsBean.saveImage}" />
-			</h:inputFile>
+			<h:outputText value="#{singleQuestionDetailsBean.questionText}"/>
 		</h:form>
 		
-		<h:form id="usableImageLinkForm">
-			<h:outputLabel value="#{singleQuestionDetailsBean.usableImageLink}" />
-		</h:form>
-
 		<h:form id="questionNoteForm">
 			<h3>#{out.questionnote}</h3>
 			<p:inplace editor="true">
