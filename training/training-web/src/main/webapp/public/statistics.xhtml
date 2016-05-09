@@ -7,66 +7,90 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 	<ui:define name="head-extra">
-		<script type="text/javascript"
-			src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
-			google.charts.load('current', {
-				'packages' : [ 'line' ]
-			});
-			google.charts.setOnLoadCallback(drawChart);
-
-			function drawChart() {
-
-				var data = new google.visualization.DataTable();
-// 				data.addColumn('number', 'Day');
-// 				data.addColumn('number', 'Guardians of the Galaxy');
-// 				data.addColumn('number', 'The Avengers');
-// 				data.addColumn('number', 'Transformers: Age of Extinction');
-
-				var first = true;
-				#{statisticsBean.columnsToJsArray()}.forEach(function(event){
-					if(first){
-						data.addColumn('string', '#{out.statisticsexam}');
-						
-						first = false;
-					}else
-						data.addColumn('number', event);
-				})
-				
-				data.addRows(#{statisticsBean.testDataForChart()});
-
-				var options = {
-					chart : {
-						title : '#{out.statisticsexam}'
-					},
-					width : 900,
-					height : 500
-				};
-
-				var chart = new google.charts.Line(document
-						.getElementById('testChart'));
-
-				chart.draw(data, options);
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisLabelRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisTickRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasOverlay.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasTextRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.categoryAxisRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.highlighter.min.js" />
+		<h:outputStylesheet>
+			.chart {
+				width: 80%; height: 400pt;
 			}
-		</script>
+		</h:outputStylesheet>
 	</ui:define>
 	<ui:define name="content">
-
 		<h:panelGroup layout="block" styleClass="container">
+			<h:form>
+				<h:selectOneMenu id="training" value="#{statisticsBean.trainingId}"
+					immediate="false">
 
-			<p:selectOneMenu id="training" value="#{statisticsBean.trainingId}">
-				<p:ajax update="" />
-				<f:selectItems value="#{statisticsBean.trainingList}" />
-			</p:selectOneMenu>
-
+					<f:selectItems value="#{statisticsBean.trainingList}" />
+					<f:ajax event="change"
+						listener="#{statisticsBean.onTrainingIdChange}" render="testChart homeworkChart" />
+				</h:selectOneMenu>
+			</h:form>
 		</h:panelGroup>
-		<h:panelGroup id="linear" layout="block" styleClass="container">
 
-
-			<h:panelGroup id="testChart" layout="block">
-			</h:panelGroup>
-			<h:panelGroup id="homeworkChart" layout="block"></h:panelGroup>
-		</h:panelGroup>
+		<p:chart id="testChart" type="line"
+			model="#{statisticsBean.testCategoryModel}" styleClass="chart"
+			responsive="true" />
+		<p:chart id="homeworkChart" type="line"
+			model="#{statisticsBean.homeworkCategoryModel}" styleClass="chart"
+			responsive="true" />
+		<script type="text/javascript">
+			/*$(document).ready(function(){
+				$.jqplot.config.enablePlugins = true;
+			});*/
+			function extFn() {
+				this.cfg.seriesDefaults = {
+					rendererOptions : {
+						smooth : true
+					}
+				}, this.cfg.canvasOverlay = {
+					show : true,
+					objects : [ {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(255,0,0)",
+							"y" : 3
+						}
+					}, {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(0,255,0)",
+							"y" : 7
+						}
+					} ]
+				}, this.cfg.highlighter = {
+					show : true,
+					showMarker : false,
+					tooltipContentEditor : tooltipContentEditor
+				};
+			}
+			function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
+				var tooltip = "<table><thead><th>"
+						+ plot.axes.xaxis.ticks[pointIndex]
+						+ "</th></thead><tbody>";
+				$.each(plot.data,
+						function(index, value) {
+							tooltip += "<tr><td>" + plot.series[index]["label"]
+									+ "</td><td>" + value[pointIndex][1]
+									+ "</td></tr>";
+						});
+				tooltip += "</tbody></table>";
+				return tooltip;
+				//return plot.series[seriesIndex]["label"] + ": " + plot.axes.xaxis.ticks[pointIndex] + ", " + plot.data[seriesIndex][pointIndex];
+			}
+		</script>
 	</ui:define>
 
 </ui:composition>

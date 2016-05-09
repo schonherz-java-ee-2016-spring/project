@@ -139,6 +139,7 @@ public class UsersBean implements Serializable {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		String uuid = (UUID.randomUUID().toString());
 		uuid = uuid.substring(0, 8);
+		
 		UserVo userVo = new UserVo();
 		userVo.setFullName(fullname);
 		userVo.setUserName(username);
@@ -153,17 +154,35 @@ public class UsersBean implements Serializable {
 					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
 			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
 			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
+			users.add(userService.findUserByName(userVo.getUserName()));
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("succesCreate"));
+			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failCreate"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
-
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-				bundle.getString("succesCreate"));
-		currentInstance.addMessage(null, facesMessage);
-		userVo = new UserVo();
+//		try {
+//			users.add(userService.findUserByName(userVo.getUserName()));
+//		} catch (Exception e) {
+//			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+//					bundle.getString("failCreate"));
+//			currentInstance.addMessage(null, facesMessage);
+//			e.printStackTrace();
+//		}
+//		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+//				bundle.getString("succesCreate"));
+//		currentInstance.addMessage(null, facesMessage);
+//		userVo = new UserVo();
+		clearUserForm();
+	}
+	
+	public void clearUserForm() {
+		username = null;
+		fullname = null;
+		email = null;
 	}
 
 	public void deleteUser() {
@@ -206,22 +225,17 @@ public class UsersBean implements Serializable {
 			userVo.setFullName(fullname);
 			userVo.setEmail(email);
 			userService.modifyUser(selectedUser);
+			users = userService.findAllUser();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("succesUpdate"));
+			currentInstance.addMessage(null, facesMessage);
+			selectedUser = null;
+			selected = true;
+			userVo = new UserVo();
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("updateFail"));
 			currentInstance.addMessage(null, facesMessage);
-			e.printStackTrace();
-		}
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-				bundle.getString("succesUpdate"));
-		currentInstance.addMessage(null, facesMessage);
-		selectedUser = null;
-		selected = true;
-		userVo = new UserVo();
-		try {
-			users = userService.findAllUser();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

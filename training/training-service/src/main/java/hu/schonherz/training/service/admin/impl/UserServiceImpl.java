@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		if (userRepository.findAll() == null) {
 			vos = new ArrayList<>();
 		} else {
-			vos = UserMapper.toVo(userRepository.findAll());
+			vos = UserMapper.toVo(userRepository.findAllByOrderByFullNameAsc());
 		}
 		return vos;
 	}
@@ -122,10 +122,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUser(UserVo userVo) {
-		String email = userVo.getEmail();
-		userVo.setEmail(email + "asd");
-		userRepository.save(UserMapper.toDto(userVo));
-		userVo.setEmail(email);
+//		String email = userVo.getEmail();
+//		userVo.setEmail(email + "asd");
+//		userRepository.save(UserMapper.toDto(userVo));
+//		userVo.setEmail(email);
 		userRepository.save(UserMapper.toDto(userVo));
 	}
 
