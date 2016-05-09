@@ -10,16 +10,18 @@
 			access="hasRole('UGS')" />
 		<security:intercept-url pattern="/secured/users.xhtml"
 			access="hasRole('USERS')" />
-			<security:intercept-url pattern="/secured/rolegroups.xhtml"
+		<security:intercept-url pattern="/secured/themeTable.xhtml"
+			access="hasRole('THEMEMANAGEMENT')" />
+		<security:intercept-url pattern="/secured/rolegroups.xhtml"
 			access="hasRole('RGS')" />
 		<security:intercept-url pattern="/secured/roles.xhtml"
 			access="hasRole('ROLES')" />
-			
+
 		<security:intercept-url pattern="/secured/feedbacks.xhtml"
 			access="hasRole('FEEDBACKS')" />
 		<security:intercept-url pattern="/secured/obs-give-feedbacks.xhtml"
 			access="hasRole('WRITE_OBS_FEEDBACK')" />
-			<security:intercept-url pattern="/secured/student-give-feedbacks.xhtml"
+		<security:intercept-url pattern="/secured/student-give-feedbacks.xhtml"
 			access="hasRole('WRITE_STUDENT_FEEDBACK')" />
 
 		<security:form-login login-page="/public/login.xhtml"
