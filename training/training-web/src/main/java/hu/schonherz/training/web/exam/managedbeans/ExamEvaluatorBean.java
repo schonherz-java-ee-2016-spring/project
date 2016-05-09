@@ -234,4 +234,14 @@ public class ExamEvaluatorBean implements Serializable {
 	public void setEvalRecordList(List<EvalRecord> evalRecordList) {
 		this.evalRecordList = evalRecordList;
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+	
+	
 }
