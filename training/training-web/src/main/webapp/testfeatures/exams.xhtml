@@ -8,8 +8,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.exams}</ui:define>
 	<ui:define name="content">
-		<p:messages id="msg" showDetail="true" />
-		<p:growl id="message" />
+		<p:growl id="message" showDetail="true"/>
 		<p:dataTable reflow="true" style="width:100%;" id="examTable"
 			var="exam" value="#{examBean.examList}" rows="10" paginator="true"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -42,21 +41,21 @@
 									target="#{questionBean.examIdAsString}" value="#{exam.id}" />
 							</p:commandButton>
 
-							<p:commandButton value="Delete" update="msg"
+							<p:commandButton value="Delete" update="message"
 								title="#{out.delete}" icon="ui-icon-trash"
 								actionListener="#{examBean.removeExam}" ajax="false">
 								<f:attribute name="examIdAsString" value="#{exam.id}" />
 							</p:commandButton>
 
 							<p:commandButton rendered="#{exam.status eq false}" value="Start"
-								update="msg" icon="ui-icon-play"
+								update="message" icon="ui-icon-play"
 								actionListener="#{examBean.setStatusToTrue}">
 								<f:attribute name="booleanChangeExamIdAsString"
 									value="#{exam.id}" />
 							</p:commandButton>
 
 							<p:commandButton rendered="#{exam.status eq true}" value="Stop"
-								update="msg" icon="ui-icon-stop"
+								update="message" icon="ui-icon-stop"
 								actionListener="#{examBean.setStatusToFalse}">
 								<f:attribute name="booleanChangeExamIdAsString"
 									value="#{exam.id}" />
@@ -78,13 +77,12 @@
 						value="#{examBean.newExamTitle}" required="true"
 						label="newExamTitle">
 						<f:validateLength minimum="3" />
-						<p:ajax update="growl" event="keyup" />
+						<p:ajax update="message" event="keyup" />
 					</p:inputText>
-					<p:growl id="growl" />
 
 
 				</h:panelGrid>
-				<p:commandButton value="#{out.create}" update="panel,msg"
+				<p:commandButton value="#{out.create}" update="panel,message"
 					actionListener="#{examBean.registerNewExam}" icon="ui-icon-check" />
 			</p:panel>
 		</h:form>
