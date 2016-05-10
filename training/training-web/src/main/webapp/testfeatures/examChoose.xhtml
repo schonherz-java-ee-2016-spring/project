@@ -19,10 +19,10 @@
 			<p:column headerText="#{out.exams}" style="text-align: center;">
 				<h:outputText value="#{exam.title}" />
 			</p:column>
-			<p:column headerText="" style="text-align:right">
+			<p:column headerText="" style="text-align:center">
 				<h:form id="form">
 					<p:commandButton rendered="#{exam.status eq true}"
-						action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
+						action="goToExamFill" icon="ui-icon-pencil"
 						value="#{out.takeexam}">
 						<f:setPropertyActionListener
 							target="#{examFillBean.examIdAsString}" value="#{exam.id}" />
@@ -33,7 +33,7 @@
 							value="#{0}" />
 					</p:commandButton>
 					<p:commandButton rendered="#{exam.status eq false}" disabled="true"
-						action="goToExamFill" style="width:20%;" icon="ui-icon-pencil"
+						action="goToExamFill" icon="ui-icon-pencil"
 						value="#{out.takeexam}" />
 					<!-- 					SZAGLIK REFACTOR INC -->
 				</h:form>

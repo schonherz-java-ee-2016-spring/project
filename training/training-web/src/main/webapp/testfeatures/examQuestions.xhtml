@@ -30,7 +30,7 @@
 
 					<p:toolbar>
 						<f:facet name="left">
-							<p:commandButton value="???RENAME???"
+							<p:commandButton value="#{out.rename}"
 								actionListener="#{questionBean.setUpEditQuestion}"
 								update="renameForm" icon="ui-icon-wrench"
 								oncomplete="PF('edit').show();">
@@ -95,15 +95,15 @@
 		</h:form>
 
 		<h:form id="renameForm">
-			<p:dialog closeOnEscape="true" header="???RENAME???" widgetVar="edit"
+			<p:dialog width="800" hideEffect="puff" style="width:100%" closeOnEscape="true" header="#{out.rename}" widgetVar="edit"
 				resizable="false" modal="true">
 				<h:panelGrid id="grid" columns="2" cellpadding="5">
 
-					<p:editor id="editor" widgetVar="editorWidget"
-						value="#{questionBean.questionText}" width="600" />
+					<p:editor id="editor"  widgetVar="editorWidget"
+						value="#{questionBean.questionText}" width="700" />
 
 					<f:facet name="footer">
-						<p:commandButton value="???RENAME???" update="message,grid"
+						<p:commandButton value="#{out.rename}" update="message,grid"
 							actionListener="#{questionBean.renameQuestion}">
 						</p:commandButton>
 					</f:facet>

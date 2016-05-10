@@ -84,7 +84,7 @@ public class QuestionBean implements Serializable {
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-			usableImageLink = "???LINK???: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+			usableImageLink = "Link: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
 
 			getFiles();

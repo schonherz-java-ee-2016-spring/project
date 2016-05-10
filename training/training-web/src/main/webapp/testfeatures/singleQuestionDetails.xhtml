@@ -16,10 +16,10 @@
 				escape="false" />
 		</h:form>
 
-		<h:form id="questionNoteForm">
+		<h:form  id="questionNoteForm">
 			<h3>#{out.questionnote}</h3>
-			<p:inplace editor="true">
-				<p:inputTextarea cols="100" rows="3"
+			<p:inplace style="width:100%" editor="true">
+				<p:inputTextarea style="width:100%" cols="100" rows="3"
 					value="#{singleQuestionDetailsBean.questionNoteText}" />
 			</p:inplace>
 		</h:form>
@@ -69,7 +69,7 @@
 			<p:dialog closeOnEscape="true" header="#{out.newoption}"
 				widgetVar="dlg" resizable="false" modal="true">
 				<h:panelGrid id="optionPanelGrid" columns="2" cellpadding="5">
-					<p:inputTextarea cols="100" rows="3" id="newOptionText"
+					<p:inputTextarea style="width:100%" cols="100" rows="3" id="newOptionText"
 						value="#{singleQuestionDetailsBean.optionText}" required="true">
 						<f:validateLength minimum="1" />
 					</p:inputTextarea>
@@ -92,7 +92,7 @@
 				widgetVar="edit" resizable="false" modal="true">
 				<h:panelGrid id="optionEditPanelGrid" columns="2" cellpadding="5">
 
-					<p:inputTextarea cols="100" rows="3" id="newOptionText"
+					<p:inputTextarea style="width:100%" cols="100" rows="3" id="newOptionText"
 						value="#{singleQuestionDetailsBean.editOptionText}"
 						required="true">
 						<f:validateLength minimum="1" />
