@@ -525,3 +525,31 @@ INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2102);
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
+
+-- Answers
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (9, 2003, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2011, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2013, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2014, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2017, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2019, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (17, 2003, 2020, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (18, 2003, 2022, false);
+
+
+
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (20, 2003, 2025, null);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (21, 2003, 2026, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (22, 2003, 2027, false);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 20, 'Nincs még javitva');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 21, 'Kiétkelve true');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (204, 22, 'Kiértékelve False');
+
+
+INSERT INTO public.exam_result(id, points, exam_id, user_id) VALUES (501222, 5, 2005, 2003);
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES (2000000000, 2005, 2003)
+
