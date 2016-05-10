@@ -59,19 +59,20 @@ public class QuestionBean implements Serializable {
 		setFilenames(new ArrayList<>());
 	}
 
-	private void getFiles() {
+	public void getFiles() {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		String folder = ec.getRealPath("/") + "/questionimages/";
 		filenames.clear();
 		File folderfile = new File(folder);
 		File[] listOfFiles = folderfile.listFiles();
-
+		// comment
 		for (int i = 0; i < listOfFiles.length; i++) {
 			if (listOfFiles[i].isFile()) {
 				filenames.add(new String(ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 						+ ec.getRequestServerPort() + "/training-web/questionimages/" + listOfFiles[i].getName()));
 			}
 		}
+		System.out.println("lefut");
 	}
 
 	public void saveImage() {
@@ -86,10 +87,7 @@ public class QuestionBean implements Serializable {
 
 			usableImageLink = "Link: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
-
-			getFiles();
 			RequestContext.getCurrentInstance().update("imageForm");
-			RequestContext.getCurrentInstance().update("imageListForm");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

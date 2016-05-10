@@ -110,7 +110,7 @@
 				</h:panelGrid>
 			</p:dialog>
 		</h:form>
-
+		<p:separator style="width:100%" />
 		<h:form id="imageForm" enctype="multipart/form-data">
 			<h:inputFile value="#{questionBean.image}">
 				<f:ajax listener="#{questionBean.saveImage}" />
@@ -120,10 +120,16 @@
 
 		<h:form id="imageListForm">
 			<h2>#{out.uploadedimageslabel}</h2>
+			<p:commandButton
+				value="#{out.refreshuploadedimageslabelbuttonforfilti}"
+				actionListener="#{questionBean.getFiles}"
+				update="imageListForm"/>
+			<br />
 			<ui:repeat value="#{questionBean.filenames}" var="file">
 				<h:outputLink value="#{file}">#{file}</h:outputLink>
 				<br />
 			</ui:repeat>
 		</h:form>
+		<p:separator style="width:100%" />
 	</ui:define>
 </ui:composition>
