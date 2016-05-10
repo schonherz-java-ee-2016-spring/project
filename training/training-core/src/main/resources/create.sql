@@ -388,27 +388,6 @@ INSERT INTO public.training(id, recdate, recuser, beginning, description, enddat
 INSERT INTO public.training(id, recdate, recuser, beginning, description, enddate, name) VALUES (7002, current_timestamp, 'CREATE SQL', to_date('2016 09 22', 'yyyy MM dd'), 'Java Training for students', to_date('2016 12 22', 'yyyy MM dd'), 'Schönherz Java EE Training 2016 Autumn');
 
 
--- Homeworks
-
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5100, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Tortoise Git funkciók kipróbálása.', 10, 'Verzió kezelés');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5101, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Eclipse testreszabása, Gyorsgombok beállítása.', 10, 'Fejesztői eszközök');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5102, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Ismétlés. Java kódok készítése.', 10, 'Java alapok');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5103, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Példaprogramok írása.', 10, 'Objektum orientált design');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5104, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Egy saját maven projekt elkészítése.', 10, 'Maven');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5105, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'HTML&CSS átnézése, használatuk a gyakorlatban', 10, 'Web Előismeretek');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5106, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Saját servlet létrehozása.', 10, 'Servlet API');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5107, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'SQL ismétlés. Tölts fel egy adatbázist egy autóalkatrész kereskedő cég számára szükséges táblákkal, adatokkal.', 10, 'SQL');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5108, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JDBC használata az órán vett kódban.', 10, 'JDBC');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5109, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Készítsd el a saját többrétegű architektúrával ellátott projektedet.', 10, 'Multitier architecture');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5110, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Az órai feladat befejezése.', 10, 'Spring');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5111, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'RSA kulcs generálás.', 10, 'Security');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5112, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JPQL használata gyakorlatban.', 10, 'JPA');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5113, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), '', 10, 'JEE Alapismeretek');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5114, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JSF login képernyő elkészítése.', 10, 'JSF');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5115, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), '', 10, 'EJB');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5116, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Description', 10, 'Webservice');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5117, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Projekt vázának elkészítése.', 10, 'Fejlesztési módszertanok');
-
 --Themes
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7100, current_timestamp, 'CREATE SQL', 4, 'Verziókezelés');
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7101, current_timestamp, 'CREATE SQL', 4, 'Fejesztői eszközök');
