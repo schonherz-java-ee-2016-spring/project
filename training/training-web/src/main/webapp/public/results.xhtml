@@ -13,11 +13,11 @@
 		<body>
 
 			<p:accordionPanel id="userGroupAccordion" var="course"
-				value="#{resultsBean.courses}" activeIndex="true">
+				value="#{resultsBean.courses}" activeIndex="true" styleClass="customAccordion">
 				<p:tab title="#{course.training.name}">
 
 					<p:accordionPanel id="userAccordion" var="userResult"
-						value="#{course.userResults}" activeIndex="true">
+						value="#{course.userResults}" activeIndex="true" styleClass="customAccordion">
 						<p:tab title="#{userResult.user.fullName}">
 							<div class="well">
 								<table id="resultTable" class="table-header-rotated">
