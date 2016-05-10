@@ -8,6 +8,11 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
+		<h:head>
+			<link rel="stylesheet"
+				href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
+		</h:head>
 
 		<h:form id="scoreTextForm">
 			<p:outputLabel rendered="#{examReviewForStudentBean.score != null}"
@@ -54,12 +59,15 @@
 						<h:outputText value="#{option.text}" />
 					</p:column>
 
-					<p:column headerText="#{out.selected}"
-						style="width:10%; align:center;">
-						<p:outputLabel rendered="#{option.correct == true}"
-							styleClass="ui-icon ui-icon-check" />
-						<p:outputLabel rendered="#{option.correct == false}"
-							styleClass="ui-icon ui-icon-closethick" />
+					<p:column headerText="#{out.selected}" style="width:10%;">
+						<p:outputLabel rendered="#{option.correct == true}">
+							<span class="glyphicon glyphicon-ok" style="color: #006600" />
+						</p:outputLabel>
+						<p:outputLabel rendered="#{option.correct == false}">
+
+							<span class="glyphicon glyphicon-remove" style="color: #990000" />
+
+						</p:outputLabel>
 					</p:column>
 
 

@@ -66,16 +66,13 @@ public abstract class ExamReview implements Serializable {
 		questionList.forEach(q -> {
 
 			if (q.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
-				System.out.println(q.getOptions().get(0).getText());
 				OptionVo optionVo = q.getOptions().get(0);
 				AnswerVo currentAnswer = answerList.stream().filter(a -> a.getOption().getId().equals(optionVo.getId()))
 						.findFirst().get();
 				AnswerTextVo answerText = null;
-				System.out.println(q.getOptions().get(0).getText());
 				try {
 					answerText = answerTextService.getByAnswerId(currentAnswer.getId());
 					q.getOptions().get(0).setText(answerText.getText());
-					System.out.println(q.getOptions().get(0).getText());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
