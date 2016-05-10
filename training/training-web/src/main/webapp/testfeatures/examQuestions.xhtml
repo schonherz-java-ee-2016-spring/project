@@ -18,7 +18,7 @@
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
 			var="question">
-			<p:column headerText="Questions">
+			<p:column headerText="#{out.questions}">
 				<h:outputText value="#{question.text}" escape="false" />
 			</p:column>
 			<p:column headerText="#{out.questiontype}">
@@ -119,9 +119,9 @@
 		</h:form>
 
 		<h:form id="imageListForm">
-			<h2>#{out.uploadedimageslabel}</h2>
+			<h2>#{out.uploadedimages}</h2>
 			<p:commandButton
-				value="#{out.refreshuploadedimageslabelbuttonforfilti}"
+				value="#{out.refresh}"
 				actionListener="#{questionBean.getFiles}"
 				update="imageListForm"/>
 			<br />
