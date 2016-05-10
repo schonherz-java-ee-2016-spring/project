@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -50,7 +51,6 @@ public class QuestionBean implements Serializable {
 	private String questionIdAsString;
 	private String questionText;
 
-	private String usableImageLink;
 	private Part image;
 	private List<String> filenames;
 
@@ -76,6 +76,7 @@ public class QuestionBean implements Serializable {
 	}
 
 	public void saveImage() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try (InputStream input = image.getInputStream()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			String folder = ec.getRealPath("/") + "/questionimages/";
@@ -84,12 +85,15 @@ public class QuestionBean implements Serializable {
 				Files.createDirectories(Paths.get(folder));
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-			usableImageLink = "Link: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
-					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("fileuploadsuccess"));
+			currentInstance.addMessage(null, facesMessage);
 			RequestContext.getCurrentInstance().update("imageForm");
 		} catch (IOException e) {
 			e.printStackTrace();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("fileuploadfail"));
+			currentInstance.addMessage(null, facesMessage);
 		}
 	}
 
@@ -248,14 +252,6 @@ public class QuestionBean implements Serializable {
 
 	public void setQuestionIdAsString(String questionIdAsString) {
 		this.questionIdAsString = questionIdAsString;
-	}
-
-	public String getUsableImageLink() {
-		return usableImageLink;
-	}
-
-	public void setUsableImageLink(String usableImageLink) {
-		this.usableImageLink = usableImageLink;
 	}
 
 	public Part getImage() {

@@ -95,11 +95,12 @@
 		</h:form>
 
 		<h:form id="renameForm">
-			<p:dialog width="800" hideEffect="puff" style="width:100%" closeOnEscape="true" header="#{out.rename}" widgetVar="edit"
+			<p:dialog width="800" hideEffect="puff" style="width:100%"
+				closeOnEscape="true" header="#{out.rename}" widgetVar="edit"
 				resizable="false" modal="true">
 				<h:panelGrid id="grid" columns="2" cellpadding="5">
 
-					<p:editor id="editor"  widgetVar="editorWidget"
+					<p:editor id="editor" widgetVar="editorWidget"
 						value="#{questionBean.questionText}" width="700" />
 
 					<f:facet name="footer">
@@ -112,18 +113,15 @@
 		</h:form>
 		<p:separator style="width:100%" />
 		<h:form id="imageForm" enctype="multipart/form-data">
-			<h:inputFile value="#{questionBean.image}">
+			<h:inputFile value="#{questionBean.image}" update="message">
 				<f:ajax listener="#{questionBean.saveImage}" />
 			</h:inputFile>
-			<h:outputLabel value="#{questionBean.usableImageLink}" />
 		</h:form>
 
 		<h:form id="imageListForm">
-			<h2>#{out.uploadedimageslabel}</h2>
-			<p:commandButton
-				value="#{out.refresh}"
-				actionListener="#{questionBean.getFiles}"
-				update="imageListForm"/>
+			<h2>#{out.uploadedimageslist}</h2>
+			<p:commandButton value="#{out.refresh}"
+				actionListener="#{questionBean.getFiles}" update="imageListForm" />
 			<br />
 			<ui:repeat value="#{questionBean.filenames}" var="file">
 				<h:outputLink value="#{file}">#{file}</h:outputLink>
