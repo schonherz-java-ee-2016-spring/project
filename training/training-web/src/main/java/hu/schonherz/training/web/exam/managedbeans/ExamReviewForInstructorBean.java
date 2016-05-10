@@ -53,7 +53,7 @@ public class ExamReviewForInstructorBean extends ExamReview {
 							.filter(qq -> qq.getId().equals(a.getOption().getId())).count() > 0)
 					.collect(Collectors.toList());
 			setUpselectedOptionIdList();
-			updateQuestionList();
+			updateTextBasedOptions();
 			calculateExamScore();
 
 		} catch (Exception e) {
