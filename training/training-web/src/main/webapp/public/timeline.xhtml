@@ -11,25 +11,31 @@
 	<ui:define name="content">
 		<h:outputStylesheet library="default" name="css/timeline.css"
 			rel="stylesheet" />
-		<h2 class="text-muted"><h:outputText value="#{out.timeline}" /></h2>
-		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty()}">
-			<h5><h:outputText  value="#{out.emptytimeline}" /> </h5>
+		<h2 class="text-muted">
+			<h:outputText value="#{out.timeline}" />
+		</h2>
+		<h:panelGroup layout="block" styleClass="container"
+			rendered="#{timelineBean.events.isEmpty()}">
+			<h5>
+				<h:outputText value="#{out.emptytimeline}" />
+			</h5>
 		</h:panelGroup>
-		
-		
-		<h:panelGroup layout="block" styleClass="container" rendered="#{timelineBean.events.isEmpty() == false}">
+
+
+		<h:panelGroup layout="block" styleClass="container"
+			rendered="#{timelineBean.events.isEmpty() == false}">
 			<ul class="timeline">
 				<ui:repeat var="event" value="#{timelineBean.events}">
-					<li id="timeline_#{event.id}">
-					<h:panelGroup layout="block"
+					<li id="timeline_#{event.id}"><h:panelGroup layout="block"
 							styleClass="timeline-badge #{event.type == 'Homework' ? 'timeline-homework' : ''}"
 							rendered="#{event.type == 'Homework'}">
 							<i class="glyphicon glyphicon-home"></i>
-						</h:panelGroup> 
-						<h:panelGroup layout="block" styleClass="timeline-badge #{event.type == 'Job Interview' ? 'timeline-interview' : ''}"
+						</h:panelGroup> <h:panelGroup layout="block"
+							styleClass="timeline-badge #{event.type == 'Job Interview' ? 'timeline-interview' : ''}"
 							rendered="#{event.type == 'Job Interview'}">
 							<i class="glyphicon glyphicon-user"></i>
-						</h:panelGroup> <h:panelGroup layout="block" styleClass="timeline-badge #{event.type == 'Test' ? 'timeline-test' : ''}"
+						</h:panelGroup> <h:panelGroup layout="block"
+							styleClass="timeline-badge #{event.type == 'Test' ? 'timeline-test' : ''}"
 							rendered="#{event.type == 'Test'}">
 							<i class="glyphicon glyphicon-tasks"></i>
 						</h:panelGroup>
@@ -58,10 +64,12 @@
 				</ui:repeat>
 			</ul>
 			<h:inputHidden id="next" value="timeline_#{timelineBean.nextId}" />
+			<h:panelGroup layout="block" style="display:none;"
+				rendered="#{timelineBean.nextId == -1}" id="timeline_-1"></h:panelGroup>
 		</h:panelGroup>
 		<script type="text/javascript">
 			$('.timeline-panel').on('click', function(e) {
-			
+
 				var tlBody = $('.timeline-body', this);
 				if (tlBody.is(':visible')) {
 					tlBody.slideUp();
@@ -70,14 +78,14 @@
 				}
 			});
 			$('.timeline-body').on('click', function(e) {
-			
- 				e.stopPropagation();
+
+				e.stopPropagation();
 			});
-			
+
 			$('html,body').animate({
 				scrollTop : $("#" + $('#next').val()).offset().top
 			}, 'slow');
-        		
+
 			$("#" + $('#next').val()).prevAll().find('.timeline-panel')
 					.addClass('past');
 		</script>

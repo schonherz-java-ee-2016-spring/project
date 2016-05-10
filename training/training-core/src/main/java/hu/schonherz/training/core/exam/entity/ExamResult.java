@@ -2,7 +2,6 @@ package hu.schonherz.training.core.exam.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,16 +18,16 @@ public class ExamResult extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "exam_id")
+	@JoinColumn(name = "exam_id", referencedColumnName = "id")
 	private Exam exam;
 
-	@Column(name = "score", nullable = false)
-	private Integer score;
+	@Column(name = "points", nullable = false)
+	private Integer points;
 
 	public ExamResult() {
 		super();
@@ -50,12 +49,12 @@ public class ExamResult extends BaseEntity {
 		this.exam = exam;
 	}
 
-	public Integer getScore() {
-		return score;
+	public Integer getPoints() {
+		return points;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
 }

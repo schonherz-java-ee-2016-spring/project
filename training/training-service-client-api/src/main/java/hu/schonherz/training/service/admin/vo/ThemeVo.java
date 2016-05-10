@@ -16,7 +16,7 @@ public class ThemeVo implements Serializable {
 	private String recUser;
 	private String modUser;
 	private String description;
-	private Integer hours;
+	private Double hours;
 	
 	public ThemeVo(){
 	}
@@ -81,28 +81,12 @@ public class ThemeVo implements Serializable {
 		this.description = description;
 	}
 
-	/**
-	 * @return the hours
-	 */
-	public Integer getHours() {
-		return hours;
-	}
-
-	/**
-	 * @param hours
-	 *            the hours to set
-	 */
-	public void setHours(Integer hours) {
-		this.hours = hours;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "ThemeVo [name=" + name + ", type=" + type + ", themeCode=" + themeCode + ", description=" + description
-				+ ", hours=" + hours + "]";
+		return name;
 	}
 
 	public Date getRecDate() {
@@ -143,6 +127,20 @@ public class ThemeVo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the hours
+	 */
+	public Double getHours() {
+		return hours;
+	}
+
+	/**
+	 * @param hours the hours to set
+	 */
+	public void setHours(Double hours) {
+		this.hours = hours;
 	}
 
 }

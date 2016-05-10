@@ -76,7 +76,8 @@
 				<!-- Create -->
 					<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
 									value="#{out.ujesemeny}"
-									onclick="PF('createDialog').show();" />
+									onclick="PF('createDialog').show();" 
+									update="newEventForm"/>
 				<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
 									process="eventstable" 
@@ -242,7 +243,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
-					action="#{editBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+					action="#{eventsBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeEditDialog() {

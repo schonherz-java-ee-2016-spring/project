@@ -41,7 +41,7 @@ public class TestTematics {
 		
 		theme.setName("Tematika1");
 		theme.setDescription("Tematika1 leírása");
-		theme.setHours(5);
+		theme.setHours(5.0);
 		theme.setThemeCode("TKOD1");
 		theme.setType("Theme1 Type");
 		

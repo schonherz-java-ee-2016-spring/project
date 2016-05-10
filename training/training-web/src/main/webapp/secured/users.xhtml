@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
+	<ui:define name="pageTitle">#{out.users}</ui:define>
 	<ui:define name="content">
 		<h1>#{out.users}:</h1>
 		<h:form id="createUserForm">
@@ -109,7 +109,7 @@
 		<!-- 			A felhasználó létrehozás dialok -->
 		<h:form styleClass="form-horizontal" id="form">
 			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
-				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}">
+				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}" modal="true">
 				<p:panel id="panel2">
 					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">

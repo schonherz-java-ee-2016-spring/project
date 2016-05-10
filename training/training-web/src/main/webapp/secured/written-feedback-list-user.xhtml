@@ -9,14 +9,14 @@
 
 	<ui:define name="feedback-list">
 		<ui:component>
-			<h4>#{out.feedbacksbyme}</h4>
+			
 			<p:accordionPanel multiple="true" var="feedback"
 				styleClass="customAccordion"
-				value="#{feedbacksBean.writtenFeedbacks}" activeIndex="true">
+				value="#{feedbacksBean.userWrittenFeedback}" activeIndex="true">
 				<p:tab>
 					<f:facet name="title">
 						<h:outputText
-							value="#{feedback.event.getType()}: #{feedback.event.getName()}"></h:outputText>
+							value="#{feedbacksBean.ratedName}"></h:outputText>
 						<h:outputText value="#{feedback.recDate}" style="float:right;">
 							<f:convertDateTime pattern="yyyy.MM.dd hh:mm" />
 						</h:outputText>
@@ -24,11 +24,6 @@
 					<div class="well">
 						<div class="media">
 							<div class="media-body">
-								<h:outputText value="#{out.feedbackisabout}"></h:outputText>
-								<p:dataGrid value="#{feedback.rated}" var="rated">
-									<h:outputText value="#{rated.fullName}"></h:outputText>
-								</p:dataGrid>
-								<br />
 								<h:outputText escape="false" value="#{feedback.feedbackMessage}"></h:outputText>
 							</div>
 						</div>

@@ -100,27 +100,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
-	public ThemeVo getThemeByThemeCode(String themeCode) {
-		// nem volt findByThemeCode a repository-ban, raktam!! BA
-		
-		ThemeVo theme = null;
-		try {
-			theme = ThemeMapper.toVo(themeRepository.findByThemeCode(themeCode));
-		} catch (Exception e) {
-			logger.error("Nem sikerült megtalálni a " + themeCode + " kódú tematikát!", e);
-			e.printStackTrace();
-		}
-		if( theme == null ){
-			logger.error("ThemeServiceImpl: nem található a " + themeCode + " kódú tematika!");
-		} else {
-			logger.info("ThemeServiceImpl: a " + themeCode + " kódú tematika sikeresen lekérdezve!");
-		}
-		return theme;
-		
-	}
-
-	@Override
-	public List<ThemeVo> getThemesByThemeCode(String code) {
-		return ThemeMapper.toVo(themeRepository.findThemesByThemeCode(code));
+	public List<ThemeVo> getItemThemesByThemeCode(String themeCode) {
+		return ThemeMapper.toVo(themeRepository.findItemThemesByThemeCode(themeCode));
 	}
 }
