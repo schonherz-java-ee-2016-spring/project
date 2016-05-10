@@ -13,7 +13,7 @@
 		<p:panel id="panelId" style="text-align: center;"
 			rendered="#{examFillBean.isFilled eq false}">
 
-			<h:outputText
+			<h:outputText 
 				value="#{examFillBean.questionList.get(examFillBean.counter).text}"
 				escape="false" />
 
@@ -85,7 +85,7 @@
 			<p:outputLabel value="#{out.alreadyfilled}">
 			</p:outputLabel>
 			<br />
-			<p:commandButton value="Back" action="goToExamChoose"></p:commandButton>
+			<p:commandButton value="#{out.back}" action="goToExamChoose"></p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>
