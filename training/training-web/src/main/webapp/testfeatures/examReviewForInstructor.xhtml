@@ -73,7 +73,7 @@
 					rendered="#{examReviewForInstructorBean.showTable == true}">
 					<ui:repeat var="question"
 						value="#{examReviewForInstructorBean.questionList}">
-						<p:dataTable var="option" value="#{question.options}"
+						<p:dataTable var="option" value="#{question.options}" reflow="true"
 							rowStyleClass="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id) ? 'selected_blue' : null}">
 							<f:facet name="header">
 								<h:outputText value="#{question.text}" escape="false" />
@@ -83,7 +83,7 @@
 								<h:outputText value="#{option.text}" />
 							</p:column>
 
-							<p:column headerText="#{out.selected}" style="width:10%;">
+							<p:column headerText="#{out.isitcorrect}">
 								<p:outputLabel rendered="#{option.correct == true}">
 									<span class="glyphicon glyphicon-ok" style="color: #006600" />
 								</p:outputLabel>

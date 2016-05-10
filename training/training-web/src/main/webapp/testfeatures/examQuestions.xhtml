@@ -17,7 +17,7 @@
 		</h:form>
 
 		<p:dataTable id="questionTable" value="#{questionBean.questionList}"
-			var="question">
+			var="question" reflow="true">
 			<p:column headerText="#{out.questions}">
 				<h:outputText value="#{question.text}" escape="false" />
 			</p:column>
@@ -95,11 +95,12 @@
 		</h:form>
 
 		<h:form id="renameForm">
-			<p:dialog width="800" hideEffect="puff" style="width:100%" closeOnEscape="true" header="#{out.rename}" widgetVar="edit"
+			<p:dialog width="800" hideEffect="puff" style="width:100%"
+				closeOnEscape="true" header="#{out.rename}" widgetVar="edit"
 				resizable="false" modal="true">
 				<h:panelGrid id="grid" columns="2" cellpadding="5">
 
-					<p:editor id="editor"  widgetVar="editorWidget"
+					<p:editor id="editor" widgetVar="editorWidget"
 						value="#{questionBean.questionText}" width="700" />
 
 					<f:facet name="footer">
@@ -119,11 +120,9 @@
 		</h:form>
 
 		<h:form id="imageListForm">
-			<h2>#{out.uploadedimageslabel}</h2>
-			<p:commandButton
-				value="#{out.refresh}"
-				actionListener="#{questionBean.getFiles}"
-				update="imageListForm"/>
+			<h2>#{out.uploadedimages}</h2>
+			<p:commandButton value="#{out.refresh}"
+				actionListener="#{questionBean.getFiles}" update="imageListForm" />
 			<br />
 			<ui:repeat value="#{questionBean.filenames}" var="file">
 				<h:outputLink value="#{file}">#{file}</h:outputLink>
