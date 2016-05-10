@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.RoleGroupService;
@@ -24,14 +25,14 @@ import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
 import hu.schonherz.training.web.supervisor.accessories.EventList;
 
-@ManagedBean(name = "writeStudentFeedback")
+@ManagedBean(name = "writeInstructorFeedback")
 @ViewScoped
-public class WriteStudentFeedback implements Serializable {
+public class WriteInstructorFeedback implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 903264090835225598L;
+	private static final long serialVersionUID = 8136431120864657961L;
 
 	@EJB
 	EventService eventService;
@@ -45,17 +46,15 @@ public class WriteStudentFeedback implements Serializable {
 	@EJB
 	RoleGroupService roleGroupService;
 
-	// variables for list events related to the logged in student
 	private UserVo loggedInUser = new UserVo();
 	private String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	private List<EventVo> eventsToInspect = new ArrayList<>();
 	private Set<UserVo> users = new HashSet<>();
 	private List<UserVo> usersToShow = new ArrayList<>();
 	private List<EventList> events = new ArrayList<>();
-	
-	// variables for send new feedback
+
 	private String eventId;
-	private String instructorUsername;
+	private String studentUsername;
 	private String isPublic;
 	private String feedbackMessage;
 
@@ -70,7 +69,7 @@ public class WriteStudentFeedback implements Serializable {
 			}
 			for (UserVo user : users) {
 				for (RoleGroupVo roleGroupVo : user.getRoleGroups()) {
-					if (roleGroupVo.getName().contentEquals("Instructor Role Group")) {
+					if (roleGroupVo.getName().contentEquals("Student Role Group")) {
 						usersToShow.add(user);
 					}
 				}
@@ -80,14 +79,53 @@ public class WriteStudentFeedback implements Serializable {
 		}
 	}
 
+	public void studentChanged(ValueChangeEvent e) {
+		studentUsername = e.getNewValue().toString();
+		if (studentUsername.contentEquals("ALL_OF_THEM")) {
+			return;
+		}
+		UserVo user = new UserVo();
+		try {
+			user = userService.findUserByName(studentUsername);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		events.removeAll(events);
+		List<EventVo> evnts = new ArrayList<>();
+		evnts.addAll(eventService.findEventsByUserOrderedByDate(user.getId()));
+		for (EventVo event : evnts) {
+			for (UserVo usr : event.getUsers()) {
+				if (usr.getUserName().contentEquals(username)) {
+					events.add(new EventList(event.getId(), event.getName(), event.getType(), event.getDate()));
+				}
+			}
+		}
+	}
+
+	public void eventChanged(ValueChangeEvent e) {
+		eventId = e.getNewValue().toString();
+		EventVo event = new EventVo();
+		event = eventService.findEventById(Long.parseLong(eventId));
+		usersToShow.removeAll(usersToShow);
+		for (UserVo user : event.getUsers()) {
+			for (RoleGroupVo roleGroupVo : user.getRoleGroups()) {
+				if (roleGroupVo.getName().contentEquals("Student Role Group")) {
+					usersToShow.add(user);
+				}
+			}
+		}
+	}
+
 	public void sendEventFeedback() {
-		
+
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		FeedbackVo feedback = new FeedbackVo();
 		feedback.setEvent(eventService.findEventById(Long.parseLong(eventId)));
 		feedback.setFeedbackMessage(feedbackMessage);
 		if (feedbackMessage == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Feedback message is missing");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback message is missing");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
@@ -97,10 +135,22 @@ public class WriteStudentFeedback implements Serializable {
 			feedback.setPublic(false);
 		}
 		List<UserVo> usrs = new ArrayList<>();
-		for (UserVo user : feedback.getEvent().getUsers()) {
-			if (user.getUserName().contentEquals(username) == false) {
-				usrs.add(user);
+		usrs.removeAll(usrs);
+		if (studentUsername.contentEquals("ALL_OF_THEM")) {
+			for (UserVo usr : feedback.getEvent().getUsers()) {
+				if (usr.getUserName().contentEquals(username) == false) {
+					usrs.add(usr);
+				}
 			}
+		} else {
+			UserVo usr = new UserVo();
+			try {
+				usr = userService.findUserByName(studentUsername);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			usrs.add(usr);
 		}
 		feedback.setRated(usrs);
 		feedback.setSender(loggedInUser);
@@ -117,23 +167,24 @@ public class WriteStudentFeedback implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
 				"Feedback successfully sent");
 		currentInstance.addMessage("growl", facesMessage);
-		
+
 	}
-	
-	public void sendInstructorFeedback() {
-		
+
+	public void sendStudentFeedback() {
+
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		FeedbackVo feedback = new FeedbackVo();
-		List<UserVo> instructor = new ArrayList<>();
+		List<UserVo> student = new ArrayList<>();
 		try {
-			instructor.add(userService.findUserByName(instructorUsername));
-			feedback.setRated(instructor);
+			student.add(userService.findUserByName(studentUsername));
+			feedback.setRated(student);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		feedback.setFeedbackMessage(feedbackMessage);
 		if (feedbackMessage == null) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Feedback message is missing");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+					"Feedback message is missing");
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
@@ -156,8 +207,9 @@ public class WriteStudentFeedback implements Serializable {
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!",
 				"Feedback successfully sent");
 		currentInstance.addMessage("growl", facesMessage);
-		
+
 	}
+
 	/**
 	 * @return the eventsToInspect
 	 */
@@ -166,7 +218,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param eventsToInspect the eventsToInspect to set
+	 * @param eventsToInspect
+	 *            the eventsToInspect to set
 	 */
 	public void setEventsToInspect(List<EventVo> eventsToInspect) {
 		this.eventsToInspect = eventsToInspect;
@@ -180,10 +233,26 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param users the users to set
+	 * @param users
+	 *            the users to set
 	 */
 	public void setUsers(Set<UserVo> users) {
 		this.users = users;
+	}
+
+	/**
+	 * @return the usersToShow
+	 */
+	public List<UserVo> getUsersToShow() {
+		return usersToShow;
+	}
+
+	/**
+	 * @param usersToShow
+	 *            the usersToShow to set
+	 */
+	public void setUsersToShow(List<UserVo> usersToShow) {
+		this.usersToShow = usersToShow;
 	}
 
 	/**
@@ -194,7 +263,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param events the events to set
+	 * @param events
+	 *            the events to set
 	 */
 	public void setEvents(List<EventList> events) {
 		this.events = events;
@@ -208,10 +278,26 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param eventId the eventId to set
+	 * @param eventId
+	 *            the eventId to set
 	 */
 	public void setEventId(String eventId) {
 		this.eventId = eventId;
+	}
+
+	/**
+	 * @return the studentUsername
+	 */
+	public String getStudentUsername() {
+		return studentUsername;
+	}
+
+	/**
+	 * @param studentUsername
+	 *            the studentUsername to set
+	 */
+	public void setStudentUsername(String studentUsername) {
+		this.studentUsername = studentUsername;
 	}
 
 	/**
@@ -222,7 +308,8 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param isPublic the isPublic to set
+	 * @param isPublic
+	 *            the isPublic to set
 	 */
 	public void setIsPublic(String isPublic) {
 		this.isPublic = isPublic;
@@ -236,39 +323,10 @@ public class WriteStudentFeedback implements Serializable {
 	}
 
 	/**
-	 * @param feedbackMessage the feedbackMessage to set
+	 * @param feedbackMessage
+	 *            the feedbackMessage to set
 	 */
 	public void setFeedbackMessage(String feedbackMessage) {
 		this.feedbackMessage = feedbackMessage;
 	}
-
-	/**
-	 * @return the instructorUsername
-	 */
-	public String getInstructorUsername() {
-		return instructorUsername;
-	}
-
-	/**
-	 * @param instructorUsername the instructorUsername to set
-	 */
-	public void setInstructorUsername(String instructorUsername) {
-		this.instructorUsername = instructorUsername;
-	}
-
-	/**
-	 * @return the usersToShow
-	 */
-	public List<UserVo> getUsersToShow() {
-		return usersToShow;
-	}
-
-	/**
-	 * @param usersToShow the usersToShow to set
-	 */
-	public void setUsersToShow(List<UserVo> usersToShow) {
-		this.usersToShow = usersToShow;
-	}
-
-
 }
