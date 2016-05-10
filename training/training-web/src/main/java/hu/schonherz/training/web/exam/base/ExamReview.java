@@ -73,6 +73,7 @@ public abstract class ExamReview implements Serializable {
 				try {
 					answerText = answerTextService.getByAnswerId(currentAnswer.getId());
 					q.getOptions().get(0).setText(answerText.getText());
+					q.getOptions().get(0).setCorrect(currentAnswer.getGood());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
