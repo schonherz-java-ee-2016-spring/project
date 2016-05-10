@@ -117,6 +117,7 @@ public class ExamEvaluatorBean implements Serializable {
 		try {
 
 			for (EvalRecord evalRecord : evalRecordList) {
+				//KRISZ EZ MI???
 				if (answerService.getById((evalRecord.getAnswer().getId())).getGood() != null) {
 					Exception e = new Exception();
 					throw e;
@@ -144,7 +145,7 @@ public class ExamEvaluatorBean implements Serializable {
 		Long userId = Long.parseLong(selectedUserIdAsString);
 		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getPoints();
 		score += ((int) evalRecordList.stream().filter(e -> e.getAnswer().getGood()).count());
-		examResultService.modifyScore(examId, userId, score);
+		examResultService.modifyPoints(examId, userId, score);
 	}
 
 	/**

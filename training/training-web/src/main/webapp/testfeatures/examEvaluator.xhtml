@@ -30,7 +30,8 @@
 						itemLabel="#{user.userName}" itemValue="#{user.id}" />
 				</p:selectOneMenu>
 				<f:facet name="footer">
-					<p:commandButton update="answerTextEvaluatorForm" value="#{out.loadcontent}"
+					<p:commandButton update="answerTextEvaluatorForm"
+						value="#{out.loadcontent}"
 						actionListener="#{examEvaluatorBean.loadContent}"
 						icon="ui-icon-check" />
 				</f:facet>
@@ -41,11 +42,8 @@
 		<h:form id="answerTextEvaluatorForm">
 			<p:dataTable reflow="true" id="answerTable"
 				value="#{examEvaluatorBean.evalRecordList}" var="evalRecord">
-				<p:column headerText="#{out.studentname}">
-				#{evalRecord.user.userName}
-				</p:column>
 				<p:column headerText="#{out.question}">
-				#{evalRecord.question.text}
+					<h:outputText value="#{evalRecord.question.text}" escape="false"></h:outputText>
 				</p:column>
 				<p:column headerText="#{out.answertext}">
 				#{evalRecord.answerText.text}
@@ -55,7 +53,7 @@
 						rendered="#{evalRecord.answer.good ne null}" disabled="true"
 						value="#{evalRecord.answer.good}" />
 
-						<p:selectBooleanCheckbox
+					<p:selectBooleanCheckbox
 						rendered="#{evalRecord.answer.good eq null}"
 						value="#{evalRecord.answer.good}" />
 				</p:column>

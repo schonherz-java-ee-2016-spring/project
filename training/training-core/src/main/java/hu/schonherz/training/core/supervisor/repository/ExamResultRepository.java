@@ -24,6 +24,6 @@ public interface ExamResultRepository extends JpaRepository<ExamResult, Long> {
 	public ExamResult findByExamIdAndUserId(Long examId, Long userId) throws Exception;
 
 	@Modifying
-	@Query(value = "UPDATE exam_result SET score = ?3 WHERE exam_id = ?1 and user_id = ?2", nativeQuery = true)
-	public void updateScoreByExamIdAndUserId(Long examId, Long userId, Integer score) throws Exception;
+	@Query(value = "UPDATE exam_result SET points = ?3 WHERE exam_id = ?1 and user_id = ?2", nativeQuery = true)
+	public void updatePointsByExamIdAndUserId(Long examId, Long userId, Integer points) throws Exception;
 }

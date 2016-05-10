@@ -18,5 +18,5 @@ public interface ExamResultService {
 
 	public ExamResultVo getByExamIdAndUserId(Long examId, Long userId) throws Exception;
 
-	public void modifyScore(Long examId, Long userId, Integer score) throws Exception;
+	public void modifyPoints(Long examId, Long userId, Integer points) throws Exception;
 }
