@@ -3,7 +3,6 @@ package hu.schonherz.training.web.exam.base;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.ejb.EJB;
 
@@ -63,47 +62,25 @@ public abstract class ExamReview implements Serializable {
 		}
 	}
 
-	protected void updateQuestionList() throws Exception {
-		for (QuestionVo question : questionList) {
-			if (question.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
-				OptionVo option = question.getOptions().get(0);
-				setUpOptionByTextBased(option);
-			} else {
-				for (OptionVo option : question.getOptions()) {
-					setUpOptionByNonTextBased(option);
+	protected void updateTextBasedOptions() {
+		questionList.forEach(q -> {
+
+			if (q.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
+				System.out.println(q.getOptions().get(0).getText());
+				OptionVo optionVo = q.getOptions().get(0);
+				AnswerVo currentAnswer = answerList.stream().filter(a -> a.getOption().getId().equals(optionVo.getId()))
+						.findFirst().get();
+				AnswerTextVo answerText = null;
+				System.out.println(q.getOptions().get(0).getText());
+				try {
+					answerText = answerTextService.getByAnswerId(currentAnswer.getId());
+					q.getOptions().get(0).setText(answerText.getText());
+					System.out.println(q.getOptions().get(0).getText());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-		}
-	}
-
-	protected void setUpOptionByTextBased(OptionVo option) throws Exception {
-		AnswerTextVo answerText = answerTextService.getByAnswerId(answerList.stream().filter(a -> {
-			if (a.getOption().getId().equals(option.getId())) {
-				option.setCorrect(a.getGood());
-				return true;
-			}
-			return false;
-		}).findFirst().get().getId());
-		option.setText(answerText.getText());
-	}
-
-	protected void setUpOptionByNonTextBased(OptionVo option) throws Exception {
-		List<AnswerVo> list = answerList.stream().filter(a -> a.getOption().getId().equals(option.getId()))
-				.collect(Collectors.toList());
-
-		if (list.isEmpty()) {
-			if (option.getCorrect() == false) {
-				option.setCorrect(null);
-			}
-			return;
-		}
-
-		AnswerVo answer = list.get(0);
-		if (answer.getGood() == true && option.getCorrect() == true) {
-			option.setCorrect(true);
-		} else {
-			option.setCorrect(false);
-		}
+		});
 	}
 
 	protected void setUpselectedOptionIdList() {
