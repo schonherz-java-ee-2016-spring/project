@@ -13,7 +13,7 @@
 		<p:panel id="panelId" style="text-align: center;"
 			rendered="#{examFillBean.isFilled eq false}">
 
-			<h:outputText 
+			<h:outputText
 				value="#{examFillBean.questionList.get(examFillBean.counter).text}"
 				escape="false" />
 
@@ -59,7 +59,7 @@
 					</p:column>
 				</p:dataTable>
 				<p />
-				<p:commandButton value="#{out.next}" update="panelId,optionTable" 
+				<p:commandButton value="#{out.next}" update="panelId,optionTable"
 					actionListener="#{examFillBean.toTheNextQuestionMulti()}">
 				</p:commandButton>
 			</h:form>
@@ -73,15 +73,14 @@
 
 				<p:inputTextarea autoResize="true" cols="100" rows="3" widgetVar="100%"
 					placeholder="#{out.textbasedanswerpalceholder}"
-					value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
+					value="#{examFillBean.textbasedOptionAnswer}" style="width:100%"></p:inputTextarea>
 				<p />
 				<p:commandButton value="#{out.next}" update="panelId"
 					actionListener="#{examFillBean.toTheNextQuestionText()}">
 				</p:commandButton>
 			</h:form>
 		</p:panel>
-		<h:form
-			rendered="#{examFillBean.isFilled eq true}">
+		<h:form rendered="#{examFillBean.isFilled eq true}">
 			<p:outputLabel value="#{out.alreadyfilled}">
 			</p:outputLabel>
 			<br />
