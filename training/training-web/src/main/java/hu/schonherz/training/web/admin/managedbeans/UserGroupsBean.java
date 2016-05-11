@@ -131,6 +131,7 @@ public class UserGroupsBean implements Serializable {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 						bundle.getString("userGroupNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesContext.getCurrentInstance().validationFailed();
 			} else {
 				userGroupService.saveUserGroup(selected);
 				userGroups.remove(selected);
