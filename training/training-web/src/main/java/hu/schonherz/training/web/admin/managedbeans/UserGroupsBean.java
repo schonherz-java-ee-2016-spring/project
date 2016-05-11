@@ -213,6 +213,7 @@ public class UserGroupsBean implements Serializable {
 		try {
 			userGroupService.deleteUserGroup(selected.getId());
 			userGroups.remove(selected);
+			isDisabled = true;
 		} catch (Exception e) {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("nooption"),
 					bundle.getString("nooptiontext"));

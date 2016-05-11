@@ -321,6 +321,7 @@ public class TrainingBean implements Serializable {
 		try {
 			trainingService.deleteTraining(selected.getId());
 			trainings.remove(selected);
+			isDisabled = true;
 		} catch (Exception e) {
 			logger.error(e);
 		}
