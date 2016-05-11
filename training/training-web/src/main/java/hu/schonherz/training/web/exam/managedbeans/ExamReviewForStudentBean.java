@@ -16,6 +16,7 @@ import hu.schonherz.training.web.exam.base.ExamReview;
 public class ExamReviewForStudentBean extends ExamReview {
 	private static final long serialVersionUID = 1L;
 
+
 	@PostConstruct
 	public void initBean() {
 		try {
@@ -37,10 +38,11 @@ public class ExamReviewForStudentBean extends ExamReview {
 					.collect(Collectors.toList());
 			setUpselectedOptionIdList();
 			updateQuestionList();
+			calculateExamScore();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		RequestContext.getCurrentInstance().update("optionTableForm");
-	}
 
+	}
 }

@@ -8,6 +8,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.questions}</ui:define>
 	<ui:define name="content">
+		<p:growl id="message" />
 
 		<h:form styleClass="h1" id="examTitleRename">
 			<p:inplace editor="true">
@@ -30,7 +31,13 @@
 
 					<p:toolbar>
 						<f:facet name="left">
-
+							<p:commandButton value="???RENAME???"
+								actionListener="#{questionBean.setUpEditQuestion}"
+								update="renameForm" icon="ui-icon-wrench"
+								oncomplete="PF('edit').show();">
+								<f:attribute name="questionId" value="#{question.id}" />
+								<f:attribute name="questionName" value="#{question.text}" />
+							</p:commandButton>
 							<p:commandButton action="goToSingleQuestionDetailsPage"
 								value="#{out.edit} " icon="ui-icon-wrench"
 								rendered="#{question.questionType.getId() eq 1}">
@@ -64,7 +71,6 @@
 									target="#{textbasedQuestionDetailsBean.questionIdAsString}"
 									value="#{question.id}" />
 							</p:commandButton>
-
 							<p:commandButton value="#{out.delete} " title="Delete"
 								icon="ui-icon-trash"
 								actionListener="#{questionBean.removeQuestion}" ajax="false">
@@ -88,5 +94,30 @@
 			<p:commandButton value="#{out.addnewtextbasedq}"
 				action="#{questionBean.addTextBasedQuestion}" />
 		</h:form>
+
+		<h:form id="renameForm">
+			<p:dialog closeOnEscape="true" header="???RENAME???" widgetVar="edit"
+				resizable="false" modal="true">
+				<h:panelGrid id="grid" columns="2" cellpadding="5">
+
+					<p:editor id="editor" widgetVar="editorWidget"
+						value="#{questionBean.questionText}" width="600" />
+						
+					<f:facet name="footer">
+						<p:commandButton value="???RENAME???" update="message,grid"
+							actionListener="#{questionBean.renameQuestion}">
+						</p:commandButton>
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+		<h:form id="imageForm" enctype="multipart/form-data">
+			<h:inputFile value="#{questionBean.image}">
+				<f:ajax listener="#{questionBean.saveImage}" />
+			</h:inputFile>
+			<h:outputLabel value="#{questionBean.usableImageLink}" />
+		</h:form>
+		
 	</ui:define>
 </ui:composition>

@@ -3,6 +3,7 @@ package hu.schonherz.training.web.exam.managedbeans;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ import hu.schonherz.training.service.exam.vo.ExamUserRelationVo;
 import hu.schonherz.training.service.exam.vo.ExamVo;
 import hu.schonherz.training.service.exam.vo.OptionVo;
 import hu.schonherz.training.service.exam.vo.QuestionVo;
+import hu.schonherz.training.service.supervisor.ExamResultService;
+import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 
 //godbean already
 @ManagedBean(name = "examFillBean")
@@ -54,7 +57,10 @@ public class ExamFillBean implements Serializable {
 	private AnswerTextService answerTextService;
 	@EJB
 	private ExamUserRelationService examUserRelationService;
+	@EJB
+	private ExamResultService examResultService;
 
+	private Boolean isFilled;
 	private List<QuestionVo> questionList;
 	private String examIdAsString;
 	private String questionIdAsString;
@@ -66,7 +72,7 @@ public class ExamFillBean implements Serializable {
 	private List<OptionVo> selectedOptionList;
 	private OptionVo selectedOption;
 	private UserVo userVo;
-	
+
 	@PostConstruct
 	public void initBean() {
 		try {
@@ -134,20 +140,19 @@ public class ExamFillBean implements Serializable {
 	}
 
 	private void toTheNextQuestionMultiSave() {
-
 		for (int i = 0; i < selectedOptionList.size(); i++) {
-
 			AnswerVo answerVo = new AnswerVo();
 			answerVo.setGood(selectedOptionList.get(i).getCorrect());
-			answerVo.setOption(optionList.get(i));
-			
+			answerVo.setOption(selectedOptionList.get(i));
 			try {
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		}
+		selectedOptionList.clear();
 	}
 
 	private void toTheNextQuestionSingleSave(FacesContext currentInstance) {
@@ -166,14 +171,17 @@ public class ExamFillBean implements Serializable {
 			try {
 				answerVo.setUser(userVo);
 				answerService.add(answerVo);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			selectedOption = null;
 		}
 	}
 
 	private void finishedExam(FacesContext currentInstance) {
 		registerExamUserRelation();
+		registerExamScoreWithoutTextBased();
 		FacesContext.getCurrentInstance().getApplication().getNavigationHandler()
 				.handleNavigation(FacesContext.getCurrentInstance(), null, "examChoose.xhtml?faces-redirect=true");
 	}
@@ -189,6 +197,42 @@ public class ExamFillBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void registerExamScoreWithoutTextBased() {
+		ExamResultVo examResultVo = new ExamResultVo();
+		Integer score;
+		try {
+			score = calculateExamScoreWithoutTextBased();
+			Long examId = Long.parseLong(examIdAsString);
+			ExamVo examVo = examService.getById(examId);
+			examResultVo.setExam(examVo);
+			examResultVo.setUser(userVo);
+			examResultVo.setPoints(score);
+			examResultService.add(examResultVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private Integer calculateExamScoreWithoutTextBased() throws Exception {
+		Integer score = 0;
+		List<AnswerVo> answerList = answerService.getAllByUserId(userVo.getId());
+		for (QuestionVo questionVo : questionList) {
+			if (!questionVo.getQuestionType().getName().equalsIgnoreCase("TEXT")) {
+				List<AnswerVo> actualAnswerList = answerList.stream().filter(
+						a -> questionVo.getOptions().stream().anyMatch(o -> o.getId().equals(a.getOption().getId())))
+						.collect(Collectors.toList());
+				Boolean isEqualCorrectAnswersSize = actualAnswerList.stream().filter(a -> a.getGood())
+						.count() == questionVo.getOptions().stream().filter(o -> o.getCorrect()).count();
+				if (isEqualCorrectAnswersSize && actualAnswerList.stream().allMatch(a -> a.getGood())) {
+					score += 1;
+				}
+
+			}
+		}
+		return score;
 	}
 
 	public List<QuestionVo> getQuestionList() {
@@ -344,6 +388,34 @@ public class ExamFillBean implements Serializable {
 
 	public void setAnswerTextService(AnswerTextService answerTextService) {
 		this.answerTextService = answerTextService;
+	}
+
+	public Boolean getIsFilled() {
+		try {
+			Long examId = Long.parseLong(getExamIdAsString());
+			UserVo userVo = userService
+					.findUserByName(FacesContext.getCurrentInstance().getExternalContext().getRemoteUser());
+			if (examUserRelationService.getByExamIdAndUserId(examId, userVo.getId()) == null)
+				isFilled = false;
+			else
+				isFilled = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isFilled;
+	}
+
+	public void setIsFilled(Boolean isFilled) {
+		this.isFilled = isFilled;
+	}
+
+	public ExamUserRelationService getExamUserRelationService() {
+		return examUserRelationService;
+	}
+
+	public void setExamUserRelationService(ExamUserRelationService examUserRelationService) {
+		this.examUserRelationService = examUserRelationService;
 	}
 
 }

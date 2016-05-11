@@ -2,8 +2,9 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
+<ui:define name="pageTitle">#{out.usergroups}</ui:define>
 	<ui:define name="content">
+			<h1>#{out.usergroups}:</h1>
 		<h:form id="groupform">
 			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
 				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"

@@ -13,7 +13,7 @@ public class ExamResultVo implements Serializable {
 	private static final long serialVersionUID = -752392944337556510L;
 	private UserVo user;
 	private ExamVo exam;
-	private Integer score;
+	private Integer points;
 
 	public ExamResultVo() {
 		super();
@@ -35,12 +35,12 @@ public class ExamResultVo implements Serializable {
 		this.exam = exam;
 	}
 
-	public Integer getScore() {
-		return score;
+	public Integer getPoints() {
+		return points;
 	}
 
-	public void setScore(Integer score) {
-		this.score = score;
+	public void setPoints(Integer points) {
+		this.points = points;
 	}
 
 }

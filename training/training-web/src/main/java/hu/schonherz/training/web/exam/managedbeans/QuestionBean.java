@@ -1,6 +1,12 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,7 +15,10 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.Part;
 
 import org.primefaces.context.RequestContext;
 
@@ -36,6 +45,42 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
+	
+	private String questionIdAsString;
+	private String questionText;
+	
+	private String usableImageLink;
+	private Part image;
+	
+	public void saveImage() {
+		try (InputStream input = image.getInputStream()) {
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			String folder = ec.getRealPath("/") + "/questionimages/";
+			String filename = image.getSubmittedFileName();
+			if (!Files.exists(Paths.get(folder))) {
+				Files.createDirectories(Paths.get(folder));
+			}
+			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+			usableImageLink = "???LINK???: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
+			RequestContext.getCurrentInstance().update("imageForm");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void renameQuestion() throws Exception{
+		QuestionVo renamedQuestion = questionService.getById(Long.parseLong(questionIdAsString));
+		renamedQuestion.setText(questionText);
+		questionService.modifyText(renamedQuestion);
+		RequestContext.getCurrentInstance().update("questionTable");
+	}
+	
+	public void setUpEditQuestion(ActionEvent event) {
+		questionIdAsString = event.getComponent().getAttributes().get("questionId").toString();
+		questionText = event.getComponent().getAttributes().get("questionName").toString();
+	}
 
 	public void addSingleQuestion() {
 		try {
@@ -164,6 +209,38 @@ public class QuestionBean implements Serializable {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
+	}
+
+	public String getQuestionText() {
+		return questionText;
+	}
+
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
+	}
+
+	public String getQuestionIdAsString() {
+		return questionIdAsString;
+	}
+
+	public void setQuestionIdAsString(String questionIdAsString) {
+		this.questionIdAsString = questionIdAsString;
+	}
+
+	public String getUsableImageLink() {
+		return usableImageLink;
+	}
+
+	public void setUsableImageLink(String usableImageLink) {
+		this.usableImageLink = usableImageLink;
+	}
+
+	public Part getImage() {
+		return image;
+	}
+
+	public void setImage(Part image) {
+		this.image = image;
 	}
 	
 }
