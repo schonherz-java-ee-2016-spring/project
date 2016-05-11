@@ -141,18 +141,20 @@
 				<div class="form-group">
 					<label for="begin" class="col-sm-3">#{out.trainingstart}</label>
 					<div class="col-sm-9">
-						<p:calendar id="begin" value="#{trainingBean.selected.beginning}" showOn="button" />
+						<p:calendar required="true" id="begin" value="#{trainingBean.selected.beginning}" showOn="button" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="endDate" class="col-sm-3">#{out.trainingend}</label>
 					<div class="col-sm-9">
-						<p:calendar id="endDate" value="#{trainingBean.selected.endDate}" showOn="button" />
+						<p:calendar required="true" id="endDate" value="#{trainingBean.selected.endDate}" showOn="button" >
+							<f:validateLength minimum="#{trainingBean.selected.beginning}" />
+						</p:calendar>
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}"
 					update="form,msgs,growl,:trainingform:ttable" action="#{trainingBean.save()}"
-					icon="ui-icon-check" oncomplete="PF('dialog').hide();" />
+					icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialog').hide();" />
 			</h:form>
 		</p:dialog>
 
