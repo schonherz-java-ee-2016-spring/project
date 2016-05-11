@@ -1,5 +1,6 @@
 package hu.schonherz.training.service.supervisor.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -44,8 +45,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	@Override
-	public void modifyPhoneNumberAndAddress(Long userId, String phoneNumber, String address) throws Exception {
-		userDetailsRepository.updateUserDetailsByUserId(userId, phoneNumber, address);
+	public void modifyUserDetails(Long userId, String phoneNumber, String address, String placeOfBirth,
+			Date dateOfBirth, String nationality) throws Exception {
+		userDetailsRepository.updateUserDetailsByUserId(userId, phoneNumber, address, placeOfBirth, dateOfBirth,
+				nationality);
 
 	}
 

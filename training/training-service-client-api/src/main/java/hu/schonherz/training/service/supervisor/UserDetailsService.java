@@ -1,5 +1,6 @@
 package hu.schonherz.training.service.supervisor;
 
+import java.util.Date;
 import java.util.List;
 
 import hu.schonherz.training.service.admin.vo.UserVo;
@@ -13,6 +14,7 @@ public interface UserDetailsService {
 
 	public UserDetailsVo getUserDetailsByUser(UserVo userVo) throws Exception;
 
-	public void modifyPhoneNumberAndAddress(Long userId, String phoneNumber, String address) throws Exception;
+	public void modifyUserDetails(Long userId, String phoneNumber, String address, String placeOfBirth,
+			Date dateOfBirth, String nationality) throws Exception;
 
 }

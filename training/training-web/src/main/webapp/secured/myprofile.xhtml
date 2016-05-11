@@ -50,7 +50,16 @@
 							<p:tab title="#{out.profilepersonaldata}">
 								<div class="well">
 									<ul style="list-style-type: disc">
-										<li>E-mail: #{profileBean.user.email}</li>
+										<li>#{out.address}: #{profileBean.userDetailsVo.address}</li>
+										<li>#{out.email}: #{profileBean.user.email}</li>
+										<li>#{out.phonenumber}:
+											#{profileBean.userDetailsVo.phoneNumber}</li>
+										<li>#{out.placeofbirth}:
+											#{profileBean.userDetailsVo.placeOfBirth}</li>
+										<li>#{out.dateofbirth}:
+											#{profileBean.userDetailsVo.dateOfBirth}</li>
+										<li>#{out.nationality}:
+											#{profileBean.userDetailsVo.nationality}</li>
 									</ul>
 								</div>
 							</p:tab>
@@ -60,54 +69,31 @@
 										<thead>
 											<tr>
 												<th></th>
+												<ui:repeat var="theme" value="#{profileBean.themes}">
+													<th class="rotate"><div>
+															<span>#{theme.name}</span>
+														</div></th>
+												</ui:repeat>
 												<th class="rotate"><div>
-														<span>Lesson1</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson2</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson3</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson4</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson5</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson6</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson7</span>
-													</div></th>
-												<th class="rotate"><div>
-														<span>Lesson8</span>
+														<span>#{out.sum}</span>
 													</div></th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												<td class="row-header">Tesztek</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
+												<ui:repeat var="examResult"
+													value="#{profileBean.userResults.examResults}">
+													<td>#{examResult.points}</td>
+												</ui:repeat>
+													<td>#{profileBean.examSum}</td>
 											</tr>
 											<tr>
 												<td class="row-header">Házik</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
-												<td>10</td>
+												<ui:repeat var="homeworkResult" value="#{profileBean.userResults.homeworkResults}">
+													<td>#{homeworkResult.score}</td>
+												</ui:repeat>
+													<td>#{profileBean.homeworkSum}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -123,9 +109,19 @@
 						<h4>#{out.profilechangedata}</h4>
 						<h:form>
 							<h:panelGrid columns="2" cellpadding="5">
-								<p:outputLabel value="#{out.newemail}: "></p:outputLabel>
+								<p:outputLabel value="#{out.email}: "></p:outputLabel>
 								<p:inputText value="#{profileBean.email}"></p:inputText>
-								<p:commandButton value="#{out.submit}"
+								<p:outputLabel value="#{out.placeofbirth}: "></p:outputLabel>
+								<p:inputText value="#{profileBean.placeOfBirth}"></p:inputText>
+								<p:outputLabel value="#{out.dateofbirth}: "></p:outputLabel>
+								<p:inputMask value="#{profileBean.dateOfBirth}" mask="99/99/9999"></p:inputMask>
+								<p:outputLabel value="#{out.phonenumber}: "></p:outputLabel>
+								<p:inputText value="#{profileBean.phoneNumber}"></p:inputText>
+								<p:outputLabel value="#{out.address}: "></p:outputLabel>
+								<p:inputText value="#{profileBean.address}"></p:inputText>
+								<p:outputLabel value="#{out.nationality}: "></p:outputLabel>
+								<p:inputText value="#{profileBean.nationality}"></p:inputText>
+								<p:commandButton value="#{out.submit}" ajax="false"
 									actionListener="#{profileBean.changeData}" />
 							</h:panelGrid>
 						</h:form>
