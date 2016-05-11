@@ -184,6 +184,7 @@ public class TrainingBean implements Serializable {
 						bundle.getString("trainingNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				FacesContext.getCurrentInstance().validationFailed();
+				return;
 			} else {
 				trainingService.saveTraining(selected);
 				trainings.remove(selected);

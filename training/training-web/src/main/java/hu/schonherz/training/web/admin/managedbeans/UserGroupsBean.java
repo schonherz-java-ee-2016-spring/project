@@ -132,6 +132,7 @@ public class UserGroupsBean implements Serializable {
 						bundle.getString("userGroupNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				FacesContext.getCurrentInstance().validationFailed();
+				return;
 			} else {
 				userGroupService.saveUserGroup(selected);
 				userGroups.remove(selected);
