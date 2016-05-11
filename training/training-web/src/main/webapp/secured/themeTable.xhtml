@@ -43,6 +43,12 @@
 					filterMatchMode="contains">
 					<h:outputText value="#{theme.recDate}" />
 				</p:column>
+				<p:column style="width:24px">
+					<p:commandLink
+						oncomplete="PF('saveDialog').show()" title="View Detail"
+						styleClass="ui-icon ui-icon-search">
+					</p:commandLink>
+				</p:column>
 				<f:facet name="footer">
 
 					<!-- 				Create Main Theme Button -->
@@ -80,13 +86,27 @@
 					<p:commandButton process="treeTable" type="button"
 						onclick="PF('modifyTheme').show();" id="modifyButton"
 						value="#{out.edit}" disabled="#{(themeServiceBean.disabled)}"
-						update="modifyTheme,:themeForm2:modifyTheme" icon="ui-icon-pencil"></p:commandButton>
+						update="modifyTheme,:themeForm2:modifyTheme"></p:commandButton>
+					<p:commandButton type="button" id="saveButton"
+						disabled="#{(themeServiceBean.disabled)}"
+						onclick="PF('saveDialog').show();"></p:commandButton>
+
 				</f:facet>
 				<p:ajax process="treeTable" event="select"
 					update="growl,createItem,deleteButton,modifyButton,themeForm2"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
+		<p:dialog widgetVar="saveDialog">
+			<h:form enctype="multipart/form-data" id="fileForm">
+				<h:inputFile value="#{themeServiceBean.file}">
+					<f:ajax listener="#{themeServiceBean.saveFile}" />
+				</h:inputFile>
+			</h:form>
+			<h:form id="usableImageLinkForm">
+				<h:outputLabel value="#{themeServiceBean.usableImageLink}" />
+			</h:form>
+		</p:dialog>
 
 		<h:form styleClass="form-horizontal" id="themeForm">
 
