@@ -111,12 +111,14 @@ public class UsersBean implements Serializable {
 
 		// Username confirmation
 		if (username == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (user != null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameExists"));
 			currentInstance.addMessage(null, facesMessage);
@@ -125,12 +127,14 @@ public class UsersBean implements Serializable {
 
 		// Email confirm
 		if (email == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (useremail != null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailExists"));
 			currentInstance.addMessage(null, facesMessage);
@@ -162,6 +166,7 @@ public class UsersBean implements Serializable {
 			currentInstance.addMessage(null, facesMessage);
 			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failCreate"));
 			currentInstance.addMessage(null, facesMessage);
@@ -188,6 +193,7 @@ public class UsersBean implements Serializable {
 			selected = true;
 			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failDelete"));
 			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
@@ -201,6 +207,7 @@ public class UsersBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		// Confirm username
 		if (selectedUser.getUserName() == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
@@ -208,6 +215,7 @@ public class UsersBean implements Serializable {
 		}
 		// Confirm email
 		if (selectedUser.getEmail() == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
@@ -227,6 +235,7 @@ public class UsersBean implements Serializable {
 			userVo = new UserVo();
 			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("updateFail"));
 			currentInstance.addMessage(null, facesMessage);
@@ -248,6 +257,7 @@ public class UsersBean implements Serializable {
 					bundle.getString("userRoleGroupsSaved"));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("error"),
 					bundle.getString("userRoleGroupsFailed"));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -353,7 +363,7 @@ public class UsersBean implements Serializable {
 		this.mailSessionSeznam = mailSessionSeznam;
 	}
 
-	public boolean isSuccess() {
+	public boolean getSuccess() {
 		return success;
 	}
 
