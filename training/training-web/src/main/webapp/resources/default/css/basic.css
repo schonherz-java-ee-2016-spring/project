@@ -432,3 +432,7 @@ section {
 	background-color:#008BE8;
 	border:1px solid #008BE8;
 }
+.treeButton{
+	float:right;
+	margin-top:10px;
+}

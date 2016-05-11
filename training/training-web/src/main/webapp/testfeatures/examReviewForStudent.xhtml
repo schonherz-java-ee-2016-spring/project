@@ -9,6 +9,10 @@
 	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
 
+		<h:form id="scoreTextForm">
+			<p:outputLabel rendered="#{examReviewForStudentBean.score != null}"
+				value="#{examReviewForStudentBean.score} / #{examReviewForStudentBean.maxScore}" />
+		</h:form>
 
 		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
@@ -17,30 +21,33 @@
 				<p:selectOneMenu id="examSelection"
 					value="#{examReviewForStudentBean.selectedExamIdAsString}"
 					style="width:125px">
-					<f:selectItems value="#{examReviewForStudentBean.examList}" var="exam"
-						itemLabel="#{exam.title}" itemValue="#{exam.id}" />
+					<f:selectItems value="#{examReviewForStudentBean.examList}"
+						var="exam" itemLabel="#{exam.title}" itemValue="#{exam.id}" />
 				</p:selectOneMenu>
 
 
 				<f:facet name="footer">
 					<p:commandButton value="#{out.loadcontent}"
 						actionListener="#{examReviewForStudentBean.loadContent}"
-						icon="ui-icon-check" />
+						icon="ui-icon-check" update="scoreTextForm" />
 				</f:facet>
 			</h:panelGrid>
 		</h:form>
 
-		<style>
+
+
+<style>
 .good {
-	background-color: rgb(0, 255, 0)
+	background-color: rgb(0, 102, 51)
 }
 
 .bad {
-	background-color: rgb(255, 0, 0)
+	background-color: rgb(102, 0, 0)
 }
 </style>
 		<h:form id="optionTableForm">
-			<ui:repeat var="question" value="#{examReviewForStudentBean.questionList}">
+			<ui:repeat var="question"
+				value="#{examReviewForStudentBean.questionList}">
 				<p:dataTable var="option" value="#{question.options}"
 					rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
 					<f:facet name="header">
@@ -54,11 +61,15 @@
 						<h:outputText value="#{option.text}" />
 					</p:column>
 
-					<p:column headerText="#{out.selected}">
-						<h:outputText
-							rendered="#{examReviewForStudentBean.selectedOptionIdList.contains(option.id)}"
-							value="Hát ezt bizony bejelölted:D"></h:outputText>
+					<p:column headerText="#{out.selected}"
+						style="width:10%; align:center;">
+						<p:outputLabel
+							rendered="#{examReviewForStudentBean.selectedOptionIdList.contains(option.id) and option.correct == true}"
+							styleClass="ui-icon ui-icon-check" />
+						<p:outputLabel rendered="#{option.correct == false}"
+							styleClass="ui-icon ui-icon-closethick" />
 					</p:column>
+
 
 
 				</p:dataTable>
@@ -68,7 +79,5 @@
 				<p:separator style="width:1000px;height:15px" />
 			</ui:repeat>
 		</h:form>
-
-
 	</ui:define>
 </ui:composition>

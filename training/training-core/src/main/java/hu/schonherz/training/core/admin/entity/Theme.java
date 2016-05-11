@@ -16,7 +16,7 @@ public class Theme extends BaseEntity{
 	//Ez "köti" majd össze a fő témát és az altémákat a hierarchia miatt.
 	private String themeCode;
 	private String description;
-	private Integer hours;
+	private Double hours;
 	
 	public String getName() {
 		return name;
@@ -37,13 +37,7 @@ public class Theme extends BaseEntity{
 		this.description = description;
 	}
 
-	public Integer getHours() {
-		return hours;
-	}
 
-	public void setHours(Integer hours) {
-		this.hours = hours;
-	}
 	@Override
 	public String toString() {
 		return "Theme [name=" + name + ", type=" + type + ", description=" + description + ", hours=" + hours + "]";
@@ -53,5 +47,11 @@ public class Theme extends BaseEntity{
 	}
 	public void setThemeCode(String themeCode) {
 		this.themeCode = themeCode;
+	}
+	public Double getHours() {
+		return hours;
+	}
+	public void setHours(Double hours) {
+		this.hours = hours;
 	}
 }

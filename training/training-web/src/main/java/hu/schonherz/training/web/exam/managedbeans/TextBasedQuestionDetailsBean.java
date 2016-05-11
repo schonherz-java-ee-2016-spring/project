@@ -25,9 +25,7 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 	private QuestionService questionService;
 
 	private String questionIdAsString;
-
 	private String questionText;
-
 	private String questionNoteText;
 
 	public void saveQuestion() {
@@ -113,6 +111,4 @@ public class TextBasedQuestionDetailsBean implements Serializable {
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
 	}
-	
-	
 }

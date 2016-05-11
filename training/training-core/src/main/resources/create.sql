@@ -7,6 +7,9 @@ INSERT INTO public."role"( id, name, roleCode)VALUES(2004, 'Student','ROLE_STUDE
 INSERT INTO public."role"( id, name, roleCode)VALUES(2005, 'Instructor','ROLE_INSTRUCTOR');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2006, 'Observer Feedbacks','ROLE_WRITE_OBS_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2009, 'Student Feedbacks','ROLE_WRITE_STUDENT_FEEDBACK');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Themes','ROLE_THEMEMANAGEMENT');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Instructor Feedbacks','ROLE_WRITE_INSTRUCTOR_FEEDBACK');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2011, 'Trainings','ROLE_TRAININGS');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
@@ -19,11 +22,15 @@ INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2002, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2007, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2008, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2010, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2011, 2001);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2004, 2003);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2006, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2009, 2003);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2010, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2002);
 
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
@@ -118,6 +125,9 @@ INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2100);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2101);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2102);
 INSERT INTO user_to_event(event_id, user_id) VALUES (3202, 2202);
+
+INSERT INTO user_to_event(event_id, user_id) VALUES (3203, 2201);
+INSERT INTO user_to_event(event_id, user_id) VALUES (3203, 2100);
 
 -- job interview PL
 INSERT INTO feedback(id, recdate, recuser, feedback_message, is_public) VALUES (4100, current_timestamp, 'CREATE SQL', 'Kedves Preznyák László! Köszönöm, hogy a 2016.06.19-ei interjún  (Java EE Junior Developer pozíció) megjelentél. Az alábbiakban néhány észrevételt írok le, hogy visszajelzést kaphass az interjún való szerepléseddel kapcsolatban. Szakmai tudásod elbeszélgetésünk alapján megfelelőnek bizonyult a legtöbb témakörben. Kérdéseimre a beszélgetés során érintett témákban kielégítő válaszokat adtál a legtöbb esetben, és helytelen válasz esetén sem hibáztal nagyot. A rövid angol nyelvű elbeszélgetés alapján szóbeli angol nyelvtudásodat középszintűnek ítéltem meg, írásbeli nyelvtudásod a bemeneti teszt alapján felső-középszintű. Életrajzod és az interjún nyújtott teljesítményed alapján megfelesz a pozíció betöltésére, jelentkezésedet továbbítottuk a Neuron Software felé. A Neuron Software-től előreláthatólag egy héten belül kapsz értesítést. Üdvözlettel, Schönherz Iskolaszövetkezet csapata!', TRUE);
@@ -263,9 +273,9 @@ INSERT INTO public.question(id, text, type_id, exam_id, note) VALUES(2022, 'Text
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2001, true, 'true1', 2007);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2002, false, 'false1', 2007);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, false, 'false', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2003, false, 'false1', 2008);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2004, true, 'true', 2008);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'false', 2008);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2005, false, 'false2', 2008);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2006, false, 'false1', 2009);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2007, false, 'false2', 2009);
@@ -275,18 +285,18 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (2010, false, '
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2011, true, 'true1', 2010);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2012, false, 'false1', 2010);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'tru2', 2010);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2013, true, 'true2', 2010);
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2014, true, 'true1', 2011);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2015, false, 'false1', 2011);
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2016, true, 'tru2', 2011);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2016, true, 'true2', 2011);
 
 
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2017, true, 'true1-bejelölt', 2012);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2018, false, 'false1', 2012);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2019, false, 'bejlelölt-false', 2012);
 
-INSERT INTO public.option(id, correct, text, question_id) VALUES (2020, false, 'true1-bejelölt', 2013);
+INSERT INTO public.option(id, correct, text, question_id) VALUES (2020, false, 'false-bejelölt', 2013);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2021, false, 'false1', 2013);
 INSERT INTO public.option(id, correct, text, question_id) VALUES (2022, false, 'bejlelölt-false', 2013);
 
@@ -297,54 +307,79 @@ INSERT INTO public.option(id, correct, question_id) VALUES (2025, null, 2020);
 INSERT INTO public.option(id, correct, question_id) VALUES (2026, true, 2021);
 INSERT INTO public.option(id, correct, question_id) VALUES (2027, false, 2022);
 
--- Answers
-
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (9, 2003, 2001, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2011, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2013, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2014, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2017, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2019, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (17, 2003, 2020, false);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (18, 2003, 2022, false);
-
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (20, 2003, 2025, null);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (21, 2003, 2026, true);
-INSERT INTO public.answer(id, user_id, option_id, good) VALUES (22, 2003, 2027, false);
-
-
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 20, 'Nincs még javitva');
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 21, 'Kiétkelve true');
-INSERT INTO public.answer_text(id, answer_id, text) VALUES (204, 22, 'Kiértékelve False');
 
 -- Exam - User - Relation
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(102, 2006, 2002)
-INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
+--INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(103, 2005, 2003)
 INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES(104, 2006, 2003)
 
 -- ExamResults
 
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5000, current_timestamp, 'CREATE SQL', 7, 2001, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5001, current_timestamp, 'CREATE SQL', 8, 2002, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5002, current_timestamp, 'CREATE SQL', 9, 2003, 2100);
+-- Namenyi
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5000, current_timestamp, 'CREATE SQL', 9, 2001, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5001, current_timestamp, 'CREATE SQL', 6, 2002, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5002, current_timestamp, 'CREATE SQL', 11, 2003, 2100);
 INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5003, current_timestamp, 'CREATE SQL', 10, 2004, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5004, current_timestamp, 'CREATE SQL', 8, 2005, 2100);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5005, current_timestamp, 'CREATE SQL', 7, 2006, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5004, current_timestamp, 'CREATE SQL', 7, 2005, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5005, current_timestamp, 'CREATE SQL', 6, 2006, 2100);
 -------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5006, current_timestamp, 'CREATE SQL', 7, 2001, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5007, current_timestamp, 'CREATE SQL', 9, 2002, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5008, current_timestamp, 'CREATE SQL', 8, 2003, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5009, current_timestamp, 'CREATE SQL', 7, 2004, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5010, current_timestamp, 'CREATE SQL', 10, 2005, 2101);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5011, current_timestamp, 'CREATE SQL', 4, 2006, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5006, current_timestamp, 'CREATE SQL', 3, 2007, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5007, current_timestamp, 'CREATE SQL', 4, 2008, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5008, current_timestamp, 'CREATE SQL', 10, 2009, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5009, current_timestamp, 'CREATE SQL', 7, 2010, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5010, current_timestamp, 'CREATE SQL', 6, 2011, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5011, current_timestamp, 'CREATE SQL', 4, 2012, 2100);
 ------------------------------------------------------------------
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5012, current_timestamp, 'CREATE SQL', 9, 2001, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5013, current_timestamp, 'CREATE SQL', 8, 2002, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5014, current_timestamp, 'CREATE SQL', 5, 2003, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5015, current_timestamp, 'CREATE SQL', 8, 2004, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5016, current_timestamp, 'CREATE SQL', 6, 2005, 2102);
-INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5017, current_timestamp, 'CREATE SQL', 10, 2006, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5012, current_timestamp, 'CREATE SQL', 9, 2013, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5013, current_timestamp, 'CREATE SQL', 8, 2014, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5014, current_timestamp, 'CREATE SQL', 5, 2015, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5015, current_timestamp, 'CREATE SQL', 8, 2016, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5016, current_timestamp, 'CREATE SQL', 6, 2017, 2100);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5017, current_timestamp, 'CREATE SQL', 10, 2018, 2100);
+
+--Preznyak
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5018, current_timestamp, 'CREATE SQL', 9, 2001, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5019, current_timestamp, 'CREATE SQL', 5, 2002, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5020, current_timestamp, 'CREATE SQL', 12, 2003, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5021, current_timestamp, 'CREATE SQL', 10, 2004, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5022, current_timestamp, 'CREATE SQL', 5, 2005, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5023, current_timestamp, 'CREATE SQL', 5, 2006, 2101);
+-------------------------------------------------------------------
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5024, current_timestamp, 'CREATE SQL', 9, 2007, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5025, current_timestamp, 'CREATE SQL', 7, 2008, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5026, current_timestamp, 'CREATE SQL', 7, 2009, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5027, current_timestamp, 'CREATE SQL', 7, 2010, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5028, current_timestamp, 'CREATE SQL', 2, 2011, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5029, current_timestamp, 'CREATE SQL', 4, 2012, 2101);
+------------------------------------------------------------------
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5030, current_timestamp, 'CREATE SQL', 9, 2013, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5031, current_timestamp, 'CREATE SQL', 8, 2014, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5032, current_timestamp, 'CREATE SQL', 5, 2015, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5033, current_timestamp, 'CREATE SQL', 8, 2016, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5034, current_timestamp, 'CREATE SQL', 6, 2017, 2101);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5035, current_timestamp, 'CREATE SQL', 10, 2018, 2101);
+
+--Bohan
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5036, current_timestamp, 'CREATE SQL', 10, 2001, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5037, current_timestamp, 'CREATE SQL', 9, 2002, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5038, current_timestamp, 'CREATE SQL', 13, 2003, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5039, current_timestamp, 'CREATE SQL', 6, 2004, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5040, current_timestamp, 'CREATE SQL', 7, 2005, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5041, current_timestamp, 'CREATE SQL', 6, 2006, 2102);
+-------------------------------------------------------------------
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5042, current_timestamp, 'CREATE SQL', 9, 2007, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5043, current_timestamp, 'CREATE SQL', 9, 2008, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5044, current_timestamp, 'CREATE SQL', 10, 2009, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5045, current_timestamp, 'CREATE SQL', 2, 2010, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5046, current_timestamp, 'CREATE SQL', 6, 2011, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5047, current_timestamp, 'CREATE SQL', 4, 2012, 2102);
+------------------------------------------------------------------
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5048, current_timestamp, 'CREATE SQL', 9, 2013, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5049, current_timestamp, 'CREATE SQL', 8, 2014, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5050, current_timestamp, 'CREATE SQL', 5, 2015, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5051, current_timestamp, 'CREATE SQL', 8, 2016, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5052, current_timestamp, 'CREATE SQL', 6, 2017, 2102);
+INSERT INTO public.exam_result(id, recdate, recuser, points, exam_id, user_id) VALUES (5053, current_timestamp, 'CREATE SQL', 10, 2018, 2102);
 
 --Trainings
 
@@ -437,6 +472,75 @@ INSERT INTO public.event(id, recdate, recuser, date, description, name, place, t
 INSERT INTO public.event(id, recdate, recuser, date, description, name, place, type) VALUES (3317, current_timestamp, 'CREATE SQL', to_date('2016 05 14', 'yyyy MM dd'), 'Teszt','Fejlesztési módszertanok','Debrecen, Böszörményi út 68. H-4032 - Hungary','Exam');
 
 
+
+--Homework results
+
+--Namenyi
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5500, current_timestamp, 'CREATE SQL', 8, 3200, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5501, current_timestamp, 'CREATE SQL', 6, 3201, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5502, current_timestamp, 'CREATE SQL', 9, 3202, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5503, current_timestamp, 'CREATE SQL', 5, 3203, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5504, current_timestamp, 'CREATE SQL', 4, 3204, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5505, current_timestamp, 'CREATE SQL', 10, 3205, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5506, current_timestamp, 'CREATE SQL', 10, 3206, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5507, current_timestamp, 'CREATE SQL', 8, 3207, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5508, current_timestamp, 'CREATE SQL', 7, 3208, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5509, current_timestamp, 'CREATE SQL', 7, 3209, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5510, current_timestamp, 'CREATE SQL', 5, 3210, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5511, current_timestamp, 'CREATE SQL', 7, 3211, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5512, current_timestamp, 'CREATE SQL', 9, 3212, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5513, current_timestamp, 'CREATE SQL', 10, 3213, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5514, current_timestamp, 'CREATE SQL', 8, 3214, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5515, current_timestamp, 'CREATE SQL', 10, 3215, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5516, current_timestamp, 'CREATE SQL', 9, 3216, 2100);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5517, current_timestamp, 'CREATE SQL', 6, 3217, 2100);
+
+--Preznyak
+
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5518, current_timestamp, 'CREATE SQL', 7, 3200, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5519, current_timestamp, 'CREATE SQL', 6, 3201, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5520, current_timestamp, 'CREATE SQL', 10, 3202, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5521, current_timestamp, 'CREATE SQL', 6, 3203, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5522, current_timestamp, 'CREATE SQL', 7, 3204, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5523, current_timestamp, 'CREATE SQL', 9, 3205, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5524, current_timestamp, 'CREATE SQL', 10, 3206, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5525, current_timestamp, 'CREATE SQL', 9, 3207, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5526, current_timestamp, 'CREATE SQL', 7, 3208, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5527, current_timestamp, 'CREATE SQL', 6, 3209, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5528, current_timestamp, 'CREATE SQL', 10, 3210, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5529, current_timestamp, 'CREATE SQL', 5, 3211, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5530, current_timestamp, 'CREATE SQL', 7, 3212, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5531, current_timestamp, 'CREATE SQL', 9, 3213, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5532, current_timestamp, 'CREATE SQL', 8, 3214, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5533, current_timestamp, 'CREATE SQL', 10, 3215, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5534, current_timestamp, 'CREATE SQL', 11, 3216, 2101);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5535, current_timestamp, 'CREATE SQL', 6, 3217, 2101);
+
+--Bohan
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5536, current_timestamp, 'CREATE SQL', 6, 3200, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5537, current_timestamp, 'CREATE SQL', 10, 3201, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5538, current_timestamp, 'CREATE SQL', 10, 3202, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5539, current_timestamp, 'CREATE SQL', 8, 3203, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5540, current_timestamp, 'CREATE SQL', 7, 3204, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5541, current_timestamp, 'CREATE SQL', 8, 3205, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5542, current_timestamp, 'CREATE SQL', 10, 3206, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5543, current_timestamp, 'CREATE SQL', 9, 3207, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5544, current_timestamp, 'CREATE SQL', 8, 3208, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5545, current_timestamp, 'CREATE SQL', 5, 3209, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5546, current_timestamp, 'CREATE SQL', 9, 3210, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5547, current_timestamp, 'CREATE SQL', 10, 3211, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5548, current_timestamp, 'CREATE SQL', 10, 3212, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5549, current_timestamp, 'CREATE SQL', 7, 3213, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5550, current_timestamp, 'CREATE SQL', 8, 3214, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5551, current_timestamp, 'CREATE SQL', 10, 3215, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5552, current_timestamp, 'CREATE SQL', 4, 3216, 2102);
+INSERT INTO public.homework_result(id, recdate, recuser, score, homework_id, user_id) VALUES (5553, current_timestamp, 'CREATE SQL', 5, 3217, 2102);
+
+
+--User to training
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2100);
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2101);
+INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2102);
 
 --Test Option for Text-based Question
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);

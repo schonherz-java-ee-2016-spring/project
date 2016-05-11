@@ -2,8 +2,9 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
+<ui:define name="pageTitle">#{out.usergroups}</ui:define>
 	<ui:define name="content">
+			<h1>#{out.usergroups}:</h1>
 		<h:form id="groupform">
 			<p:dataTable id="gtable" var="ug" value="#{userGroupsBean.userGroups}" selectionMode="single"
 				selection="#{userGroupsBean.selected}" rowKey="#{ug.id}" paginator="true" rows="12"
@@ -113,7 +114,7 @@
 					<f:facet name="sourceCaption">#{out.notingroupusers}</f:facet>
 					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
 				</p:pickList>
-				<p:commandButton styleClass="btn" id="userSubmit" action="#{userGroupsBean.saveUsers()}"
+				<p:commandButton styleClass="btn" id="userSubmit"  icon="ui-icon-check" action="#{userGroupsBean.saveUsers()}"
 					value="#{out.save}" update=":groupform:gtable,growl" oncomplete="PF('pickdialog').hide();" />
 			</h:form>
 		</p:dialog>
@@ -126,7 +127,7 @@
 					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
 				</p:pickList>
-				<p:commandButton styleClass="btn" id="roleSubmit" action="#{userGroupsBean.saveRoleGroups()}"
+				<p:commandButton styleClass="btn" id="roleSubmit"  icon="ui-icon-check" action="#{userGroupsBean.saveRoleGroups()}"
 					value="#{out.save}" update=":groupform:gtable,growl"
 					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('pickdialog2').hide();" />
 			</h:form>

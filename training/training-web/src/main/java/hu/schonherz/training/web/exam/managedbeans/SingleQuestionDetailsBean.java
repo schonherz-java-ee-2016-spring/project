@@ -1,11 +1,5 @@
 package hu.schonherz.training.web.exam.managedbeans;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -14,10 +8,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.Part;
 
 import org.primefaces.context.RequestContext;
 
@@ -35,30 +27,8 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	private String editOptionText;
 	private String oldOptionText;
 
-	private String usableImageLink;
-	private Part image;
-
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
-
-	public void saveImage() {
-		try (InputStream input = getImage().getInputStream()) {
-			String folder = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "/questionimages/"
-					+ questionIdAsString + "/";
-			String filename = image.getSubmittedFileName();
-			if (!Files.exists(Paths.get(folder))) {
-				Files.createDirectories(Paths.get(folder));
-			}
-			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-			usableImageLink = "Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
-					+ ec.getRequestServerPort() + "/training-web/questionimages/" + questionIdAsString + "/" + filename;
-			RequestContext.getCurrentInstance().update("usableImageLinkForm");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	protected void updatePageContent() {
@@ -133,7 +103,6 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 	public void tryToSaveQuestion() throws Exception {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (correctOption == null) {
-
 			FacesMessage facesMessage = new FacesMessage(bundle.getString("markcorrectoption"));
 			currentInstance.addMessage(null, facesMessage);
 		} else {
@@ -317,21 +286,5 @@ public class SingleQuestionDetailsBean extends SelectorQuestionBean {
 
 	public void setBundle(ResourceBundle bundle) {
 		this.bundle = bundle;
-	}
-
-	public Part getImage() {
-		return image;
-	}
-
-	public void setImage(Part image) {
-		this.image = image;
-	}
-
-	public String getUsableImageLink() {
-		return usableImageLink;
-	}
-
-	public void setUsableImageLink(String usableImageLink) {
-		this.usableImageLink = usableImageLink;
 	}
 }

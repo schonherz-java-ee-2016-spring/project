@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="head-extra">
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisLabelRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasAxisTickRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasOverlay.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.canvasTextRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.categoryAxisRenderer.min.js" />
+		<h:outputScript library="default"
+			name="js/charts/jqplot.highlighter.min.js" />
+		<h:outputStylesheet>
+			.chart {
+				width: 80%; height: 400pt;
+			}
+		</h:outputStylesheet>
+	</ui:define>
+	<ui:define name="content">
+		<h:panelGroup layout="block" styleClass="container">
+			<h:form>
+				<h:selectOneMenu id="training" value="#{statisticsBean.trainingId}"
+					immediate="false">
+
+					<f:selectItems value="#{statisticsBean.trainingList}" />
+					<f:ajax event="change"
+						listener="#{statisticsBean.onTrainingIdChange}" render="testChart homeworkChart" />
+				</h:selectOneMenu>
+			</h:form>
+		</h:panelGroup>
+
+		<p:chart id="testChart" type="line"
+			model="#{statisticsBean.testCategoryModel}" styleClass="chart"
+			responsive="true" />
+		<p:chart id="homeworkChart" type="line"
+			model="#{statisticsBean.homeworkCategoryModel}" styleClass="chart"
+			responsive="true" />
+		<script type="text/javascript">
+			/*$(document).ready(function(){
+				$.jqplot.config.enablePlugins = true;
+			});*/
+			function extFn() {
+				this.cfg.seriesDefaults = {
+					rendererOptions : {
+						smooth : true
+					}
+				}, this.cfg.canvasOverlay = {
+					show : true,
+					objects : [ {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(255,0,0)",
+							"y" : 3
+						}
+					}, {
+						horizontalLine : {
+							"shadow" : "false",
+							"lineWidth" : 2,
+							"color" : "rgb(0,255,0)",
+							"y" : 7
+						}
+					} ]
+				}, this.cfg.highlighter = {
+					show : true,
+					showMarker : false,
+					tooltipContentEditor : tooltipContentEditor
+				};
+			}
+			function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
+				var tooltip = "<table><thead><th>"
+						+ plot.axes.xaxis.ticks[pointIndex]
+						+ "</th></thead><tbody>";
+				$.each(plot.data,
+						function(index, value) {
+							tooltip += "<tr><td>" + plot.series[index]["label"]
+									+ "</td><td>" + value[pointIndex][1]
+									+ "</td></tr>";
+						});
+				tooltip += "</tbody></table>";
+				return tooltip;
+				//return plot.series[seriesIndex]["label"] + ": " + plot.axes.xaxis.ticks[pointIndex] + ", " + plot.data[seriesIndex][pointIndex];
+			}
+		</script>
+	</ui:define>
+
+</ui:composition>

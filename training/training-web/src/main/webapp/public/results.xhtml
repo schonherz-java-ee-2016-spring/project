@@ -14,7 +14,7 @@
 
 			<p:accordionPanel id="userGroupAccordion" var="course"
 				value="#{resultsBean.courses}" activeIndex="true">
-				<p:tab title="#{course.userGroup.groupName}">
+				<p:tab title="#{course.training.name}">
 
 					<p:accordionPanel id="userAccordion" var="userResult"
 						value="#{course.userResults}" activeIndex="true">
@@ -24,9 +24,9 @@
 									<thead>
 										<tr>
 											<th></th>
-											<ui:repeat var="lesson" value="#{course.lessons}">
+											<ui:repeat var="theme" value="#{course.themes}">
 												<th class="rotate"><div>
-														<span>#{lesson.lessonName}</span>
+														<span>#{theme.name}</span>
 													</div></th>
 											</ui:repeat>
 											<th class="rotate"><div>
@@ -38,7 +38,7 @@
 										<tr>
 											<td class="row-header">#{out.exams}</td>
 											<ui:repeat var="examResult" value="#{userResult.examResults}">
-												<td>#{examResult.score}</td>
+												<td>#{examResult.points}</td>
 											</ui:repeat>
 											<td class="row-header">#{userResult.examSum}</td>
 										</tr>

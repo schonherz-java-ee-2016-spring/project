@@ -21,36 +21,35 @@
 
 				<!-- Form Name -->
 				<legend>
-					#{out.writenewfeedbackevent}
+					#{out.writenewfeedbackinstructor}
 					<div class="text-right" style="font-size: medium; float: right;">
-						<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
+						<sec:authorize access="hasRole('WRITE_STUDENT_FEEDBACK')">
+							<a href="feedbacks.xhtml">#{out.backtofeedbacks}</a>
+						</sec:authorize>
 					</div>
 					<div style="font-size: medium; text-align: center;">
-						<sec:authorize access="hasRole('WRITE_STUDENT_FEEDBACK')">
-							<a href="student-give-feedback-instructor.xhtml">#{out.writenewfeedbackinstructor}</a>
-						</sec:authorize>
+						<a href="student-give-feedback.xhtml">#{out.writenewfeedbackevent}</a>
 					</div>
 				</legend>
 
 				<div class="well">
 
 					<div class="control-group">
-						<label class="control-label" for="event">#{out.eventtorate}</label>
+						<label class="control-label" for="instructor">#{out.whotorate}</label>
 						<div class="controls">
-							<h:selectOneMenu id="event"
-								value="#{writeStudentFeedback.eventId}">
-								<f:selectItems value="#{writeStudentFeedback.events}"
-									var="event"
-									itemLabel="#{event.eventType} #{event.eventName} (#{event.eventDate})"
-									itemValue="#{event.eventId}" />
+							<h:selectOneMenu id="instructor"
+								value="#{writeStudentFeedback.instructorUsername}">
+								<f:selectItems value="#{writeStudentFeedback.usersToShow}"
+									var="user" itemLabel="#{user.fullName}"
+									itemValue="#{user.userName}" />
 							</h:selectOneMenu>
 						</div>
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="isPublicEvent">#{out.ispublic}</label>
+						<label class="control-label" for="isPublic">#{out.ispublic}</label>
 						<div class="controls">
-							<h:selectOneMenu id="isPublicEvent"
+							<h:selectOneMenu id="isPublic"
 								value="#{writeStudentFeedback.isPublic}">
 								<f:selectItem itemLabel="#{out.no}" itemValue="no"></f:selectItem>
 								<f:selectItem itemLabel="#{out.yes}" itemValue="yes"></f:selectItem>
@@ -59,14 +58,14 @@
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="txtEditorEvent">#{out.feedbackmessage}</label>
-						<p:editor id="txtEditorEvent"
+						<label class="control-label" for="txtEditor">#{out.feedbackmessage}</label>
+						<p:editor id="txtEditor"
 							value="#{writeStudentFeedback.feedbackMessage}"></p:editor>
 					</div>
 
 					<div class="control-group" style="float: right;">
 						<p:commandButton value="#{out.sendfeedback}" update="form,growl"
-							action="#{writeStudentFeedback.sendEventFeedback}"
+							action="#{writeStudentFeedback.sendInstructorFeedback}"
 							icon="ui-icon-check"></p:commandButton>
 					</div>
 				</div>

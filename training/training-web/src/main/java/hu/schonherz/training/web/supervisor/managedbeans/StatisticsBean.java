@@ -7,10 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.Axis;
@@ -46,15 +48,19 @@ public class StatisticsBean implements Serializable {
 	@EJB
 	private HomeworkResultService homeworkResultService;
 
+	@ManagedProperty("#{out}")
+	private ResourceBundle bundle;
+
 	private List<Course> courses = new ArrayList<>();
 
 	private Long trainingId;
 
 	private Course training;
 
-	private Map<String, Long> trainingList;
+	private HashMap<String, Long> trainingList;
 
-	private LineChartModel categoryModel;
+	private LineChartModel testCategoryModel;
+	private LineChartModel homeworkCategoryModel;
 
 	private String[] lessonNames;
 
@@ -62,108 +68,138 @@ public class StatisticsBean implements Serializable {
 
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
-			training = courses.stream().filter(a -> {
-				return a.getUserGroup().getId() == trainingId;
-			}).findFirst().get();
+			// training = courses.parallelStream()
+			// .filter(a -> {
+			// return a.getUserGroup().getId() == trainingId;
+			// }).findFirst().get();
+			// ;
+			for (Course course : courses) {
+				if (course.getUserGroup().getId().equals(trainingId)) {
+					training = course;
+					break;
+				}
+			}
+			if (training != null) {
+				initTestCategoryModel();
+				initHomeworkCategoryModel();
+			}
 		}
 	}
 
-	public String testColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['tests', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-//						get(0).getExamResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
-			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String testDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getExamResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getExamResults().get(k).getExam().getTitle());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getExamResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getExamResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
-		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String homeworkColumnsToJsArray() {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		stringBuilder.append("['homeworks', ");
-		int k = 0;
-
-		if (training.getUserResults() != null)
-			for (UserResults userResults : training.getUserResults()) {
-				stringBuilder.append("'");
-				stringBuilder.append(userResults.getUser().getFullName());
-				if (++k < training.getUserResults().size())
-					stringBuilder.append("', ");
-				else
-					stringBuilder.append("'");
-			}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
-
-	public String homeworkDataForChart() {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[");
-
-		for (int k = 0; k < training.getUserResults().get(0).getHomeworkResults().size(); ++k) {
-
-			stringBuilder.append("['");
-			stringBuilder.append(training.getUserResults().get(0).getHomeworkResults().get(k).getHomework().getName());
-			stringBuilder.append("'");
-
-			for (UserResults userResults : training.getUserResults()) {
-
-				stringBuilder.append(", ");
-				stringBuilder.append(userResults.getHomeworkResults().get(k).getScore());
-			}
-			if (++k < training.getUserResults().get(0).getHomeworkResults().size())
-				stringBuilder.append("], ");
-			else
-				stringBuilder.append("]");
-
-		}
-
-		stringBuilder.append("]");
-		return stringBuilder.toString();
-	}
 	
-	@PostConstruct
-	public void init() {
-		// Filling the Courses with userGroups
+	private void fillTestCategoryModel() {
+		
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getExamResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
+		for (UserResults user : training.getUserResults()) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
+			for (ExamResultVo examResultVo : user.getExamResults()) {
+				userSerie.set(examResultVo.getExam().getTitle(), examResultVo.getPoints());
+				sum[++k] += examResultVo.getPoints();
+			}
+			testCategoryModel.addSeries(userSerie);
+		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
+		for(ExamResultVo examResultVo:training.getUserResults().get(0).getExamResults()){
+			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k]/size);
+		}
+		testCategoryModel.addSeries(avgSerie);
+	}
+
+	
+	
+	
+	
+	
+	private void initTestCategoryModel() {
+		testCategoryModel = new LineChartModel();
+		fillTestCategoryModel();
+
+		
+		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
+		testCategoryModel.setAnimate(true);
+		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		testCategoryModel.setLegendPosition("e");
+		testCategoryModel.setExtender("extFn");
+		testCategoryModel.setShowDatatip(true);
+		testCategoryModel.setShowPointLabels(false);
+		testCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = testCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+
+	private void fillHomeworkCategoryModel() {
+
+		if(training.getUserResults().isEmpty())
+			return;
+		Integer sum[] = new Integer[training.getUserResults().get(0).getHomeworkResults().size()];
+		for(Integer i = 0; i < sum.length; ++i){
+			sum[i] = new Integer(0);
+		}
+		
+		
+		for (UserResults user : training.getUserResults()) {
+			LineChartSeries userSerie = new LineChartSeries();
+			userSerie.setLabel(user.getUser().getFullName());
+			Integer k = -1;
+			for (HomeworkResultVo homeworkResultVo : user.getHomeworkResults()) {
+				userSerie.set(homeworkResultVo.getHomework().getName(), homeworkResultVo.getScore());
+				sum[++k] += homeworkResultVo.getScore();
+			}
+			homeworkCategoryModel.addSeries(userSerie);
+		}
+
+		//average
+		Integer k = -1;
+		Integer size = training.getUserResults().size();
+		LineChartSeries avgSerie = new LineChartSeries();
+		avgSerie.setLabel(bundle.getString("statisticsaverage"));
+		for(HomeworkResultVo homeworkResultVo:training.getUserResults().get(0).getHomeworkResults()){
+			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k]/size);
+		}
+		homeworkCategoryModel.addSeries(avgSerie);
+	}
+
+	private void initHomeworkCategoryModel() {
+		homeworkCategoryModel = new LineChartModel();
+
+		fillHomeworkCategoryModel();
+		homeworkCategoryModel.setTitle(bundle.getString("statisticshomework"));
+		homeworkCategoryModel.setAnimate(true);
+		homeworkCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
+		homeworkCategoryModel.setLegendPosition("e");
+		homeworkCategoryModel.setExtender("extFn");
+		homeworkCategoryModel.setShowDatatip(true);
+		homeworkCategoryModel.setShowPointLabels(false);
+		homeworkCategoryModel.getAxes().put(AxisType.X, new CategoryAxis(bundle.getString("statisticstopics")));
+		Axis xAxis = homeworkCategoryModel.getAxis(AxisType.X);
+		xAxis.setTickAngle(-30);
+		Axis yAxis = homeworkCategoryModel.getAxis(AxisType.Y);
+		yAxis.setLabel(bundle.getString("statisticsscore"));
+		yAxis.setMin(0);
+		yAxis.setMax(10);
+		yAxis.setTickFormat("%d");
+	}
+
+	private void mock() {
 		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
 		try {
 			userGroups = userGroupService.getUserGroups();
@@ -180,12 +216,10 @@ public class StatisticsBean implements Serializable {
 			}
 		}
 
-		// Filling the Courses with Lessons
 		List<LessonVo> lessons = new ArrayList<>();
 		lessonNames = new String[] { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
 				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok",
-				"Átlag" };
+				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
 		for (int i = 0; i < lessonNames.length; i++) {
 			lessons.add(new LessonVo());
 		}
@@ -195,29 +229,28 @@ public class StatisticsBean implements Serializable {
 			k++;
 		}
 
-		// Filling the Courses with UserResults
-		List<UserResults> userResults = new ArrayList<>();
-		List<UserVo> users = new ArrayList<>();
 		names = new String[] { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
-				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám", "Átlag" };
+				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám" };
 
-		for (int i = 0; i < names.length; i++) {
-			userResults.add(new UserResults());
-			users.add(new UserVo());
-		}
-		k = 0;
-		for (UserVo user : users) {
-			user.setFullName(names[k]);
-			k++;
-		}
-		k = 0;
-		Iterator<UserVo> userIterator = users.iterator();
-		for (UserResults userResult : userResults) {
-			if (userIterator.hasNext()) {
-				userResult.setUser(userIterator.next());
-			}
-		}
 		for (Course course : courses) {
+			List<UserResults> userResults = new ArrayList<>();
+			List<UserVo> users = new ArrayList<>();
+			for (int i = 0; i < names.length; i++) {
+				userResults.add(new UserResults());
+				users.add(new UserVo());
+			}
+			k = 0;
+			for (UserVo user : users) {
+				user.setFullName(names[k]);
+				k++;
+			}
+			k = 0;
+			Iterator<UserVo> userIterator = users.iterator();
+			for (UserResults userResult : userResults) {
+				if (userIterator.hasNext()) {
+					userResult.setUser(userIterator.next());
+				}
+			}
 			course.setLessons(lessons);
 			course.setUserResults(userResults);
 		}
@@ -232,7 +265,7 @@ public class StatisticsBean implements Serializable {
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
 				for (int i = 0; i < lessons.size(); i++) {
 					ExamResultVo examResult = new ExamResultVo();
-					examResult.setScore(rand.nextInt(11));
+					examResult.setPoints(rand.nextInt(11));
 					ExamVo exam = new ExamVo();
 					exam.setTitle(lessonNames[i]);
 					examResult.setExam(exam);
@@ -249,7 +282,12 @@ public class StatisticsBean implements Serializable {
 				userResult.setHomeworkResults(homeworkResults);
 			}
 		}
+	}
 
+	@PostConstruct
+	public void init() {
+
+		mock();
 		trainingList = new HashMap<>();
 		for (Course course : courses) {
 			trainingList.put(course.getUserGroup().getName(), course.getUserGroup().getId());
@@ -257,7 +295,6 @@ public class StatisticsBean implements Serializable {
 
 		trainingId = courses.get(0).getUserGroup().getId();
 		onTrainingIdChange();
-		initCategoryModel();
 	}
 
 	/**
@@ -288,52 +325,29 @@ public class StatisticsBean implements Serializable {
 	public void setTrainingId(Long trainingId) {
 		this.trainingId = trainingId;
 	}
-	//
-	// public LineChartModel getExamModel() {
-	// return examModel;
-	// }
-	//
-	// public LineChartModel getHomeworkModel() {
-	// return homeworkModel;
-	// }
 
-	private void initCategoryModel() {
-		categoryModel = new LineChartModel();
-
-		Random rand = new Random();
-		for (String user : names) {
-			LineChartSeries userSerie = new LineChartSeries();
-			userSerie.setLabel(user);
-			for (String lesson : lessonNames) {
-				userSerie.set(lesson, rand.nextInt(11));
-			}
-			categoryModel.addSeries(userSerie);
-		}
-		//i18n kéne
-		categoryModel.setTitle("Tesztek");
-		categoryModel.setAnimate(true);
-		categoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
-		categoryModel.setLegendPosition("e");
-		categoryModel.setExtender("extFn");
-		categoryModel.setShowDatatip(true);
-		categoryModel.setShowPointLabels(false);
-		//i18n kéne
-		categoryModel.getAxes().put(AxisType.X, new CategoryAxis("Témakörök"));
-		Axis xAxis = categoryModel.getAxis(AxisType.X);
-		xAxis.setTickAngle(-30);
-		Axis yAxis = categoryModel.getAxis(AxisType.Y);
-		yAxis.setLabel("Pontszám");
-		yAxis.setMin(0);
-		yAxis.setMax(10);
-		yAxis.setTickFormat("%d");
+	public LineChartModel getTestCategoryModel() {
+		return testCategoryModel;
 	}
 
-	public LineChartModel getCategoryModel() {
-		return categoryModel;
+	public void setTestCategoryModel(LineChartModel testCategoryModel) {
+		this.testCategoryModel = testCategoryModel;
 	}
 
-	public void setCategoryModel(LineChartModel categoryModel) {
-		this.categoryModel = categoryModel;
+	public LineChartModel getHomeworkCategoryModel() {
+		return homeworkCategoryModel;
+	}
+
+	public void setHomeworkCategoryModel(LineChartModel homeworkCategoryModel) {
+		this.homeworkCategoryModel = homeworkCategoryModel;
+	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
 	}
 
 }

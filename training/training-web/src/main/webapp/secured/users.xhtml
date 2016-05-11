@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-
+	<ui:define name="pageTitle">#{out.users}</ui:define>
 	<ui:define name="content">
 		<h1>#{out.users}:</h1>
 		<h:form id="createUserForm">

@@ -100,12 +100,12 @@ public class TrainingBean implements Serializable {
 		child.add(t1);
 		child2.add(t2);
 
-		List<ThemeVo> tvos = themeService.findAllTheme();
+		List<ThemeVo> tvos = themeService.getThemesByType("main");
 		List<ThemeVo> selectedThemes = trainingService.getTrainingById(selected.getId()).getThemes();
 		for (ThemeVo themeVo : tvos) {
 			TreeNode tp = new DefaultTreeNode(themeVo.getName());
 			List<TreeNode> tchild = new ArrayList<TreeNode>();
-			List<ThemeVo> childThemes = themeService.getThemesByThemeCode(themeVo.getId().toString());
+			List<ThemeVo> childThemes = themeService.getItemThemesByThemeCode(themeVo.getThemeCode());
 			for (ThemeVo themeVo2 : childThemes) {
 				tchild.add(new DefaultTreeNode(themeVo2.getName()));
 			}
@@ -151,7 +151,7 @@ public class TrainingBean implements Serializable {
 		}
 		users = new DualListModel<UserVo>(usersSource, usersTarget);
 	}
-	
+
 	public void groupManageAction() {
 		uGroupsSource = new ArrayList<>();
 		uGroupsTarget = new ArrayList<>();
@@ -204,11 +204,53 @@ public class TrainingBean implements Serializable {
 		List<ThemeVo> vos = new ArrayList<>();
 		for (TreeNode treeNode : nodes) {
 			if (treeNode.getData() != null) {
-				vos.add(themeService.getThemeByName(treeNode.getData().toString()));
+				ThemeVo pTheme = themeService.getThemeByName(treeNode.getData().toString());
+				if (pTheme.getType().equals("main")) {
+					for (TreeNode tc : treeNode.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
+						if (theme.getType().equals("item")) {
+							theme.setThemeCode(pTheme.getThemeCode());
+							themeService.createTheme(theme);
+							vos.add(theme);
+						}
+					}
+					vos.add(pTheme);
+				} else if (pTheme.getType().equals("item")) {
+					for (TreeNode tnd : root1.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tnd.getData().toString());
+						if (theme.getType().equals("main") && theme.getThemeCode().equals(pTheme.getThemeCode())) {
+							vos.add(pTheme);
+						}
+					}
+				}
 			}
 		}
 		selected.setThemes(vos);
 		trainingService.saveTraining(selected);
+		nodes = root2.getChildren();
+		for (TreeNode treeNode : nodes) {
+			if (treeNode.getData() != null) {
+				ThemeVo pTheme = themeService.getThemeByName(treeNode.getData().toString());
+				if (pTheme.getType().equals("main")) {
+					for (TreeNode tc : treeNode.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tc.getData().toString());
+						if (theme.getType().equals("item")) {
+							theme.setThemeCode(pTheme.getThemeCode());
+							themeService.createTheme(theme);
+						}
+					}
+				} else if (pTheme.getType().equals("item")) {
+					for (TreeNode tnd : root1.getChildren()) {
+						ThemeVo theme = themeService.getThemeByName(tnd.getData().toString());
+						if (theme.getType().equals("main") && theme.getThemeCode().equals(pTheme.getThemeCode())) {
+							vos.add(pTheme);
+							selected.setThemes(vos);
+							trainingService.saveTraining(selected);
+						}
+					}
+				}
+			}
+		}
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Training saved!");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}

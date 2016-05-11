@@ -91,7 +91,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	public List<QuestionVo> getAllByExamId(Long examId) throws Exception {
 		ExamVo examVo = ExamMapper.toVo(examRepository.findOne(examId));
-		return examVo.getQuestions().stream().distinct().collect(Collectors.toList());
+		return examVo.getQuestions().stream().distinct().sorted((q1, q2) -> q1.getId().compareTo(q2.getId())).collect(Collectors.toList());
 	}
 
 }

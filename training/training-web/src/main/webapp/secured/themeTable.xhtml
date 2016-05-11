@@ -1,0 +1,214 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/masterLayout.xhtml"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:define name="pageTitle">#{out.themes}</ui:define>
+	<ui:define name="content">
+			<h1>#{out.themes}:</h1>
+		<h:form id="treeTableForm">
+			<p:treeTable value="#{themeServiceBean.root}" var="theme"
+				id="treeTable" selectionMode="single"
+				selection="#{themeServiceBean.selectedNode}">
+				<f:facet name="header">
+            #{out.themes}
+        </f:facet>
+				<p:column headerText="#{out.name}" priority="1"
+					sortBy="#{theme.name}">
+					<h:outputText value="#{theme.name}" />
+				</p:column>
+				<p:column headerText="#{out.duration}" priority="3">
+					<h:outputText value="#{theme.hours}" />
+				</p:column>
+				<p:column headerText="#{out.description}" priority="3">
+					<h:outputText value="#{theme.description}" />
+				</p:column>
+				<p:column headerText="#{out.moduser}" priority="6"
+					filterBy="#{theme.modUser}" filterMatchMode="contains">
+					<h:outputText value="#{theme.modUser}" />
+				</p:column>
+				<p:column headerText="#{out.moddate}" priority="6"
+					sortBy="#{theme.modDate}" filterBy="#{user.modDate}"
+					filterMatchMode="contains">
+					<h:outputText value="#{theme.modDate}" />
+				</p:column>
+				<p:column headerText="#{out.recuser}" priority="4"
+					filterBy="#{user.recUser}" filterMatchMode="contains">
+					<h:outputText value="#{theme.recUser}" />
+				</p:column>
+				<p:column headerText="#{out.recdate}" priority="4"
+					sortBy="#{theme.recDate}" filterBy="#{user.recDate}"
+					filterMatchMode="contains">
+					<h:outputText value="#{theme.recDate}" />
+				</p:column>
+				<f:facet name="footer">
+
+					<!-- 				Create Main Theme Button -->
+					<p:commandButton type="button" onclick="PF('createDialog').show();"
+						value="#{out.mainTheme}" icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"></p:commandButton>
+
+					<!-- 						Create Item Theme Button -->
+					<p:commandButton type="button"
+						onclick="PF('createItemDialog').show();" value="#{out.itemTheme}"
+						icon="ui-icon-plusthick"
+						update=":treeTableForm:treeTable, treeTableForm"
+						oncomplete="PF('createDialog').hide()"
+						disabled="#{themeServiceBean.mainSelected}" id="createItem"></p:commandButton>
+
+					<!-- 						Delete Theme Button -->
+					<p:commandButton id="deleteButton" process="treeTable"
+						update=":treeTableForm:treeTable, treeTableForm"
+						icon="ui-icon-trash" value="#{out.delete}"
+						disabled="#{(themeServiceBean.disabled)}"
+						action="#{themeServiceBean.deleteTheme}">
+						<p:confirm header="#{out.confirmation}"
+							message="#{out.sureDelete}?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="#{out.yes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+							update="treeTableForm" />
+						<p:commandButton value="#{out.no}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+					<!-- 					Modify Theme Button -->
+					<p:commandButton process="treeTable" type="button"
+						onclick="PF('modifyTheme').show();" id="modifyButton"
+						value="#{out.edit}" disabled="#{(themeServiceBean.disabled)}"
+						update="modifyTheme,:themeForm2:modifyTheme" icon="ui-icon-pencil"></p:commandButton>
+				</f:facet>
+				<p:ajax process="treeTable" event="select"
+					update="growl,createItem,deleteButton,modifyButton,themeForm2"
+					listener="#{themeServiceBean.onRowSelect}" />
+			</p:treeTable>
+		</h:form>
+
+		<h:form styleClass="form-horizontal" id="themeForm">
+
+			<!-- 		Create Main Theme Dialog -->
+			<p:dialog header="Create Theme" widgetVar="createDialog"
+				dynamic="true" resizable="false" responsive="true">
+				<p:panel id="panel2">
+					<p:messages id="msgs" showDetail="true" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="themename" class="col-sm-4">#{out.name}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="themename"
+									value="#{themeServiceBean.name}" required="true"
+									label="themename">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">#{out.description}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="description"
+									value="#{themeServiceBean.description}" required="true"
+									label="description">
+								</p:inputText>
+							</div>
+						</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}"
+						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm2"
+						action="#{themeServiceBean.createMainTheme}" icon="ui-icon-check"
+						oncomplete="PF('createDialog').hide();" />
+				</p:panel>
+			</p:dialog>
+
+			<!-- 			Create Item dialog -->
+			<p:dialog header="Create Theme" widgetVar="createItemDialog"
+				dynamic="true" resizable="false" responsive="true">
+				<p:panel id="panel3">
+					<p:messages id="msgs2" showDetail="true" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<div class="form-group">
+							<label for="themename" class="col-sm-4">#{out.name}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="themename2"
+									value="#{themeServiceBean.name}" required="true"
+									label="themename">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">#{out.description}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="description2"
+									value="#{themeServiceBean.description}" required="true"
+									label="description">
+								</p:inputText>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="description" class="col-sm-4">#{out.duration}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="hours2"
+									value="#{themeServiceBean.hours}" required="true" label="hours">
+								</p:inputText>
+							</div>
+						</div>
+					</h:panelGrid>
+					<p:commandButton value="#{out.save}"
+						update="growl,:treeTableForm:treeTable,treeTableForm,themeForm"
+						action="#{themeServiceBean.createItemTheme}" icon="ui-icon-check"
+						oncomplete="PF('createItemDialog').hide();" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
+
+		<!-- 		Modify Theme -->
+		<h:form styleClass="form-horizontal" id="themeForm2">
+			<p:dialog responsive="true" showEffect="clip" widgetVar="modifyTheme"
+				modal="true" resizable="false">
+				<p:panel id="panel">
+					<div class="form-group">
+						<label for="name" class="col-sm-4">#{out.name}</label>
+						<div class="col-sm-8">
+							<p:inputText styleClass="form-control" id="username"
+								value="#{themeServiceBean.testVo.name}" required="true"
+								label="name">
+								<f:validateRequired />
+							</p:inputText>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="description" class="col-sm-4">#{out.description}</label>
+						<div class="col-sm-8">
+							<p:inputText styleClass="form-control" id="description"
+								value="#{themeServiceBean.testVo.description}" required="true"
+								label="description">
+								<f:validateRequired />
+							</p:inputText>
+						</div>
+					</div>
+					<!-- 					Feltétel ha nem main -->
+					<c:if test="#{themeServiceBean.mainSelected == true}">
+						<div class="form-group">
+							<label for="hours" class="col-sm-4">#{out.duration}</label>
+							<div class="col-sm-8">
+								<p:inputText styleClass="form-control" id="hours"
+									value="#{themeServiceBean.testVo.hours}" required="true"
+									label="hours">
+									<f:validateRequired />
+								</p:inputText>
+							</div>
+						</div>
+					</c:if>
+					<p:commandButton styleClass="btn" value="#{out.save}"
+						update="growl,treeTableForm,themeForm2"
+						oncomplete="PF('modifyTheme').hide()"
+						action="#{themeServiceBean.editTheme}" icon="ui-icon-check" />
+				</p:panel>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
