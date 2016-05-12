@@ -10,6 +10,7 @@ INSERT INTO public."role"( id, name, roleCode)VALUES(2009, 'Student Feedbacks','
 INSERT INTO public."role"( id, name, roleCode)VALUES(2010, 'Themes','ROLE_THEMEMANAGEMENT');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2200, 'Instructor Feedbacks','ROLE_WRITE_INSTRUCTOR_FEEDBACK');
 INSERT INTO public."role"( id, name, roleCode)VALUES(2011, 'Trainings','ROLE_TRAININGS');
+INSERT INTO public."role"( id, name, roleCode)VALUES(2012, 'Results','ROLE_RESULTS');
 
 INSERT INTO public.rolegroup( id, name)  VALUES (2001,'Admin Role Group');
 INSERT INTO public.rolegroup( id, name)  VALUES (2002,'Instructor Role Group');
@@ -31,6 +32,12 @@ INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2009, 2003);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2200, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2012, 2001);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2012, 2002);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2012, 2003);
+INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2012, 2004);
+
+
 
 
 INSERT INTO public."user"( id, email, fullname, isactive, password, username) VALUES (2001, 'email@localhost.com', 'Admin', 1, '$2a$10$I4X.U473il3rFqFcxl6UruK5TshrlXs/opqLM0hifX5Jelcm4InTG','admin');
