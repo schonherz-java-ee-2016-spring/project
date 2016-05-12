@@ -1,5 +1,6 @@
 package hu.schonherz.training.web.supervisor.managedbeans;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +11,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 
 import org.apache.commons.io.FileUtils;
+import org.primefaces.component.media.Media;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import hu.schonherz.training.service.admin.UserService;
@@ -35,28 +40,32 @@ public class MBFileUploadView implements Serializable {
 	private File destFile;
 	private File dir;
 	private String[] list;
+	private String pdfPath;
 	String baseDir = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir");
 	String avatarFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("avatarfilename");
 	String documentFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("documentfilename");
 	String pathSeparator = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("pathseparator");
-
+	String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+	UserVo loggedInUser = new UserVo();
+	
+	
 	@PostConstruct
 	public void init() {
-		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-		UserVo loggedInUser = new UserVo();
+		
 		try {
 			loggedInUser = userService.findUserByName(username);
 			dir = new File(baseDir + loggedInUser.getId().toString() + pathSeparator);
 			list = dir.list();
+			pdfPath = baseDir + loggedInUser.getId().toString()  + pathSeparator + documentFileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 
 	}
-
+	
 	public void actionAvatar(FileUploadEvent event) throws IOException, Exception {
-		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-		UserVo loggedInUser = new UserVo();
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
@@ -65,8 +74,6 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	public void actionDocument(FileUploadEvent event) throws IOException, Exception {
-		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-		UserVo loggedInUser = new UserVo();
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
@@ -147,6 +154,20 @@ public class MBFileUploadView implements Serializable {
 	 */
 	public void setList(String[] list) {
 		this.list = list;
+	}
+
+	/**
+	 * @return the pdfPath
+	 */
+	public String getPdfPath() {
+		return pdfPath;
+	}
+
+	/**
+	 * @param pdfPath the pdfPath to set
+	 */
+	public void setPdfPath(String pdfPath) {
+		this.pdfPath = pdfPath;
 	}
 
 }
