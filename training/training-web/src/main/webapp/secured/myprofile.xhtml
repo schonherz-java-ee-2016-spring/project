@@ -100,9 +100,13 @@
 								</div>
 							</p:tab>
 							<p:tab title="#{out.cv}">
-								<p:media value="#{fileUploadView.pdfPath}" width="100%" height="300px"
-									player="pdf">
-								</p:media>
+								<object type="application/pdf"
+									data="#{fileUploadView.pdfPath}"
+									height="300px" width="100%">
+									Your browser can't display pdf, <a
+										href="/resources/demo/media/guide.pdf">click</a> to download
+									pdf instead.
+								</object>
 							</p:tab>
 							<p:tab title="#{out.feedbacks}">
 								<ui:include src="feedback-list.xhtml"></ui:include>
