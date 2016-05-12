@@ -56,11 +56,10 @@ public class RoleBean implements Serializable {
 		try {
 			// ha már van ilyen, akkor hibaüzenet
 			if (roleService.getRoleByName(roleName) != null || roleService.getRoleByRoleCode(roleCode) != null) {
+				FacesContext.getCurrentInstance().validationFailed();
 				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR",
 						"Role/Rolecode already exists!");
 				FacesContext.getCurrentInstance().addMessage(null, msgs);
-				roleName = null;
-				roleCode = null;
 			} else {
 				RoleVo newR = new RoleVo();
 				newR.setName(roleName);
@@ -70,13 +69,16 @@ public class RoleBean implements Serializable {
 				roles.add(roleService.getRoleByName(roleName));
 				FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Role created!");
 				FacesContext.getCurrentInstance().addMessage(null, msgs);
-				roleName = null;
-				roleCode = null;
-
 			}
+			createForm();
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			e.printStackTrace();
 		}
+	}
+	public void createForm() {
+		roleName = null;
+		roleCode = null;
 	}
 
 	public void delete() {
@@ -99,6 +101,7 @@ public class RoleBean implements Serializable {
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "Role edited!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("error"),
 					"Couldn't edit the role!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);

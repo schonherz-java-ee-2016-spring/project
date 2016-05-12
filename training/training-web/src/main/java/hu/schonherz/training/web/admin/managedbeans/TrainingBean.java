@@ -180,6 +180,7 @@ public class TrainingBean implements Serializable {
 		try {
 			TrainingVo trainingVo = trainingService.getTrainingByName(selected.getName());
 			if ((trainingVo != null) && !trainingVo.getId().equals(selected.getId())) {
+				FacesContext.getCurrentInstance().validationFailed();
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
 						"Training name is already used!");
 				FacesContext.getCurrentInstance().addMessage(null, msg);

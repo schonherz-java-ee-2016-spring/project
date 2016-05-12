@@ -111,11 +111,12 @@
 							<p:inputText styleClass="form-control" id="rolegroupname"
 								value="#{roleGroupsBean.roleGroupName}" required="true"
 								label="rolegroupname">
+								<f:validateLength minimum="5" maximum="50" />
 							</p:inputText>
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update=":roleform:msgs,growl,:roleform:rolegrouptable"
-					action="#{roleGroupsBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
+					action="#{roleGroupsBean.create}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('createDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeCreateDialog() {
@@ -134,11 +135,12 @@
 							<p:inputText styleClass="form-control" id="rolegroupname"
 								value="#{roleGroupsBean.selectedRoleGroup.name}" required="true"
 								label="rolegroupname">
+								<f:validateLength minimum="5" maximum="50" />
 							</p:inputText>
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update=":roleform:msgs,growl,:roleform:rolegrouptable"
-					action="#{roleGroupsBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+					action="#{roleGroupsBean.edit}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeEditDialog() {
