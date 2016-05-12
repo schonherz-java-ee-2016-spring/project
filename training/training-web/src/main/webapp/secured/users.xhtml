@@ -33,11 +33,17 @@
 				</p:column>
 				<p:column headerText="#{out.userGroup}" priority="5"
 					filterBy="#{user.groups}" filterMatchMode="contains">
-					<h:outputText value="#{user.groups}" />
+<!-- 					<h:outputText value="#{user.groups}" /> -->
+					<ui:repeat value="#{user.groups}" var="group">
+    						#{group.name} <br/>
+					</ui:repeat>
 				</p:column>
 				<p:column headerText="#{out.roleGroup}" priority="5"
 					filterBy="#{user.roleGroups}" filterMatchMode="contains">
-					<h:outputText value="#{user.roleGroups}" />
+<!-- 					<h:outputText value="#{user.roleGroups}" /> -->
+					<ui:repeat value="#{user.roleGroups}" var="group">
+    						#{group.name} <br/>
+					</ui:repeat>
 				</p:column>
 				<p:column headerText="#{out.moduser}" priority="6"
 					filterBy="#{user.modUser}" filterMatchMode="contains">
@@ -55,28 +61,31 @@
 					filterBy="#{user.recDate}" filterMatchMode="contains">
 					<h:outputText value="#{user.recDate}" />
 				</p:column>
+
 				<!-- 					Db click opens edit dialog -->
 				<p:ajax process="dataTable" event="rowDblselect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
 					listener="#{usersBean.onSelect}"
 					oncomplete="PF('modify_user').show();" />
+
 				<!-- 				A kiválasztásra aktiválás  -->
 				<p:ajax process="dataTable" event="rowSelect"
 					update="pickform,manageRoles,deleteButton,modifyButton,form2"
-					listener="#{usersBean.onSelect}" resetValues="true"/>
+					listener="#{usersBean.onSelect}" resetValues="true" />
 				<f:facet name="footer">
+
 					<!-- 				A felhasználó létrehozás dialog gombja -->
 					<p:commandButton type="button" onclick="PF('dlg1').show();"
 						value="#{out.create_user}" icon="ui-icon-plusthick"
-						update=":createUserForm:dataTable, form"
-						></p:commandButton>
+						update=":createUserForm:dataTable, form"></p:commandButton>
 					<!-- 					form reset -->
 
 					<!-- 				a felhasználó módosítása dialog gomb -->
 					<p:commandButton type="button" onclick="PF('modify_user').show();"
 						id="modifyButton" value="#{out.edit}"
 						disabled="#{usersBean.selected}" update="modify_user"
-						oncomplete="PF('modify_user').hide();" icon="ui-icon-pencil"></p:commandButton>
+						icon="ui-icon-pencil"></p:commandButton>
+
 					<!-- 					A felhasználó törlése gomb -->
 					<p:growl id="message" showDetail="true" />
 					<p:commandButton id="deleteButton" process="dataTable"
@@ -93,6 +102,7 @@
 						<p:commandButton value="#{out.no}" type="button"
 							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 					</p:confirmDialog>
+
 					<!-- 				a felhasználó jogainak módosítása gomb -->
 					<p:commandButton id="manageRoles" icon="ui-icon-pencil"
 						process="dataTable"
@@ -102,25 +112,26 @@
 					</p:commandButton>
 				</f:facet>
 			</p:dataTable>
-
 		</h:form>
 		<br />
 
 		<!-- 			A felhasználó létrehozás dialok -->
-		<h:form styleClass="form-horizontal" id="form">
-			<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
-				resizable="false" responsive="true" onShow="#{usersBean.clearUserForm()}" modal="true">
+
+		<p:dialog header="#{out.create_user}" widgetVar="dlg1" dynamic="true"
+			resizable="false" responsive="true"
+			onShow="#{usersBean.clearUserForm()}" modal="true">
+			<h:form styleClass="form-horizontal" id="form">
 				<p:panel id="panel2">
-					<p:messages id="msgs" showDetail="true" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<div class="form-group">
 							<label for="fullname" class="col-sm-4">#{out.fullname}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="fullname"
 									value="#{usersBean.fullname}" required="true"
-									requiredMessage="#{out.fullname_required}" label="fullname" validatorMessage="#{out.incorrectFullname}">
+									requiredMessage="#{out.fullname_required}" label="fullname"
+									validatorMessage="#{out.incorrectFullname}">
 									<f:validateLength minimum="5" maximum="50" />
-<!-- 									<f:validateRegex pattern="[a-zA-Z*]" /> -->
+									<!-- 									<f:validateRegex pattern="[a-zA-Z*]" /> -->
 								</p:inputText>
 							</div>
 						</div>
@@ -128,19 +139,20 @@
 							<label for="username" class="col-sm-4">#{out.username}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="username"
-									value="#{usersBean.username}" required="true" label="username" validatorMessage="#{out.incorrectUsername}"> 
+									value="#{usersBean.username}" required="true" label="username"
+									validatorMessage="#{out.incorrectUsername}">
 									<f:validateLength minimum="5" maximum="25" />
-<!-- 									<f:validateRegex pattern="[a-zA-Z0-9*]" /> -->
+									<!-- 									<f:validateRegex pattern="[a-zA-Z0-9*]" /> -->
 								</p:inputText>
 							</div>
 						</div>
-						<p:message for="username" display="icon" id="usernameMsg" />
 
 						<div class="form-group">
 							<label for="email" class="col-sm-4">#{out.email}</label>
 							<div class="col-sm-8">
 								<p:inputText styleClass="form-control" id="email"
-									value="#{usersBean.email}" required="true" label="email" validatorMessage="#{out.incorrectEmail}">
+									value="#{usersBean.email}" required="true" label="email"
+									validatorMessage="#{out.incorrectEmail}">
 									<f:validateLength minimum="5" maximum="100" />
 									<f:validateRegex
 										pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
@@ -150,19 +162,25 @@
 					</h:panelGrid>
 					<p:commandButton value="#{out.save}"
 						update="panel2,growl,form,:createUserForm:dataTable"
-						action="#{usersBean.create}" icon="ui-icon-check"
-						 onsuccess="PF('dlg1').hide();">
-<!-- 						<p:ajax resetValues="true" /> -->
-						<f:ajax execute="@form" render="@form" />
-					</p:commandButton>
+						action="#{usersBean.create}" onclick="PF('statusDialog').show()"
+						icon="ui-icon-check"
+						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide();PF('statusDialog').hide();" />
 				</p:panel>
-			</p:dialog>
-		</h:form>
+			</h:form>
+		</p:dialog>
+
+		<!-- 		A mentés alatti töltőképernyő -->
+		<!-- 		<p:ajaxStatus onstart="PF('statusDialog').show()" -->
+		<!-- 			onsuccess="PF('statusDialog').hide()" /> -->
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
+			<h:graphicImage library="default" name="img/loading.gif"></h:graphicImage>
+		</p:dialog>
 
 		<!-- 			A felhasználó módosítása dialog -->
-		<h:form styleClass="form-horizontal" id="form2" >
-			<p:dialog responsive="true" showEffect="clip" widgetVar="modify_user"
-				modal="true" resizable="false">
+		<p:dialog responsive="true" showEffect="clip" widgetVar="modify_user"
+			modal="true" resizable="false">
+			<h:form styleClass="form-horizontal" id="form2">
 				<p:panel id="panel">
 					<div class="form-group">
 						<label for="username" class="col-sm-4">#{out.username}</label>
@@ -191,15 +209,21 @@
 								value="#{usersBean.selectedUser.email}" required="true"
 								label="email">
 								<f:validateRequired />
+								<f:validateRegex
+									pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
 							</p:inputText>
 						</div>
 					</div>
+
 					<p:commandButton styleClass="btn" value="#{out.save}"
-						update="panel,growl,form2,createUserForm" onsuccess="PF('modify_user').hide();"
+						update="panel,growl,form2,createUserForm"
+						oncomplete="if (args &amp;&amp; !args.validationFailed) PF('modify_user').hide();"
 						action="#{usersBean.modifyUser}" icon="ui-icon-check" />
 				</p:panel>
-			</p:dialog>
-		</h:form>
+			</h:form>
+		</p:dialog>
+
+
 		<!-- 				a felhasználó jogainak módosítása dialog -->
 		<p:dialog header="#{out.userRoleGroups}" widgetVar="manageDialog"
 			modal="true" resizable="false" draggable="false" responsive="true">
@@ -212,14 +236,8 @@
 				<p:commandButton styleClass="btn" value="#{out.save}"
 					update="growl,:createUserForm:dataTable"
 					action="#{usersBean.saveManaged}" icon="ui-icon-check"
-					oncomplete="closeManageDialog()" />
+					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('manageDialog').hide();" />
 			</h:form>
-
-			<script type="text/javascript">
-				function closeManageDialog() {
-					PF('manageDialog').hide();
-				}
-			</script>
 		</p:dialog>
 	</ui:define>
 </ui:composition>

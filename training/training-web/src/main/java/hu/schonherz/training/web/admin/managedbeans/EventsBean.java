@@ -127,6 +127,7 @@ public class EventsBean implements Serializable {
 					"Event created!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			System.out.println("Nem találom");
 			e.printStackTrace();
 		}
@@ -239,6 +240,7 @@ public class EventsBean implements Serializable {
 					"Event edited!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			e.printStackTrace();
 		}
 

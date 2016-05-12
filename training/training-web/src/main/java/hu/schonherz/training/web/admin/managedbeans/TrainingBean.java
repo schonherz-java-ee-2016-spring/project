@@ -184,12 +184,15 @@ public class TrainingBean implements Serializable {
 						bundle.getString("trainingNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				FacesContext.getCurrentInstance().validationFailed();
+				if (isCreateAction == null) {
+					isDisabled = true;
+				}
 				return;
 			} else {
 				trainingService.saveTraining(selected);
 				trainings.remove(selected);
 				selected = trainingService.getTrainingByName(selected.getName());
-				trainings.add(selected);
+				trainings.add(selected);;
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
 						bundle.getString("trainingSaved"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -199,6 +202,7 @@ public class TrainingBean implements Serializable {
 		}
 		if (isCreateAction == null) {
 			selected = new TrainingVo();
+			isDisabled = true;
 		}
 	}
 
