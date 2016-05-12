@@ -12,7 +12,23 @@
 	<context-param>
 		<param-name>basedir</param-name>
 		<param-value>c:\\wamp\\www\\fileUpload\\</param-value>
-		<!-- <param-value>/Users/namenyijanos/wamp/upload/</param-value> -->
+<!-- 		<param-value>/Users/namenyijanos/wamp/upload/</param-value> -->
+	</context-param>
+
+	<context-param>
+		<param-name>documentfilename</param-name>
+		<param-value>cv.pdf</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>avatarfilename</param-name>
+		<param-value>avatar.jpg</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>pathseparator</param-name>
+		<param-value>\\</param-value>
+<!-- 		<param-value>/</param-value> -->
 	</context-param>
 
 	<context-param>
