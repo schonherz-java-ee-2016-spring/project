@@ -56,8 +56,6 @@
 											#{profileBean.userDetailsVo.phoneNumber}</li>
 										<li>#{out.placeofbirth}:
 											#{profileBean.userDetailsVo.placeOfBirth}</li>
-										<li>#{out.dateofbirth}:
-											#{profileBean.userDetailsVo.dateOfBirth}</li>
 										<li>#{out.nationality}:
 											#{profileBean.userDetailsVo.nationality}</li>
 									</ul>
@@ -110,17 +108,15 @@
 						<h:form>
 							<h:panelGrid columns="2" cellpadding="5">
 								<p:outputLabel value="#{out.email}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.email}"></p:inputText>
+								<p:inputText value="#{profileBean.user.email}"></p:inputText>
 								<p:outputLabel value="#{out.placeofbirth}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.placeOfBirth}"></p:inputText>
-								<p:outputLabel value="#{out.dateofbirth}: "></p:outputLabel>
-								<p:inputMask value="#{profileBean.dateOfBirth}" mask="99/99/9999"></p:inputMask>
+								<p:inputText value="#{profileBean.userDetailsVo.placeOfBirth}"></p:inputText>
 								<p:outputLabel value="#{out.phonenumber}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.phoneNumber}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.phoneNumber}"></p:inputText>
 								<p:outputLabel value="#{out.address}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.address}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.address}"></p:inputText>
 								<p:outputLabel value="#{out.nationality}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.nationality}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.nationality}"></p:inputText>
 								<p:commandButton value="#{out.submit}" ajax="false"
 									actionListener="#{profileBean.changeData}" />
 							</h:panelGrid>
