@@ -26,7 +26,7 @@ public class MBFileUploadView implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@EJB
 	private UserService userService;
 
@@ -35,30 +35,32 @@ public class MBFileUploadView implements Serializable {
 	private File destFile;
 	private File dir;
 	private String[] list;
-	
+
 	@PostConstruct
 	public void init() {
 		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 		UserVo loggedInUser = new UserVo();
 		try {
 			loggedInUser = userService.findUserByName(username);
-			dir = new File("c:\\wamp\\www\\fileUpload\\" + loggedInUser.getId().toString() + "\\");
+			dir = new File(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir")
+					+ loggedInUser.getId().toString() + "\\");
 			list = dir.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void action(FileUploadEvent event) throws IOException, Exception {
 		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 		UserVo loggedInUser = new UserVo();
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File("c:\\wamp\\www\\fileUpload\\" + loggedInUser.getId().toString() + "\\" + uploadedFile.getFileName());
+		destFile = new File(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir")
+				+ loggedInUser.getId().toString() + "\\" + uploadedFile.getFileName());
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
-		
+
 	}
 
 	/**
@@ -69,7 +71,8 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param uploadedFile the uploadedFile to set
+	 * @param uploadedFile
+	 *            the uploadedFile to set
 	 */
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
@@ -83,7 +86,8 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param inputStream the inputStream to set
+	 * @param inputStream
+	 *            the inputStream to set
 	 */
 	public void setInputStream(InputStream inputStream) {
 		this.inputStream = inputStream;
@@ -97,7 +101,8 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param destFile the destFile to set
+	 * @param destFile
+	 *            the destFile to set
 	 */
 	public void setDestFile(File destFile) {
 		this.destFile = destFile;
@@ -111,7 +116,8 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param dir the dir to set
+	 * @param dir
+	 *            the dir to set
 	 */
 	public void setDir(File dir) {
 		this.dir = dir;
@@ -125,11 +131,11 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param list the list to set
+	 * @param list
+	 *            the list to set
 	 */
 	public void setList(String[] list) {
 		this.list = list;
 	}
 
-	
 }
