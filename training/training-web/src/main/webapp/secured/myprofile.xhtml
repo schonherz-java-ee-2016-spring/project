@@ -86,14 +86,15 @@
 													value="#{profileBean.userResults.examResults}">
 													<td>#{examResult.points}</td>
 												</ui:repeat>
-													<td>#{profileBean.examSum}</td>
+												<td>#{profileBean.examSum}</td>
 											</tr>
 											<tr>
 												<td class="row-header">Házik</td>
-												<ui:repeat var="homeworkResult" value="#{profileBean.userResults.homeworkResults}">
+												<ui:repeat var="homeworkResult"
+													value="#{profileBean.userResults.homeworkResults}">
 													<td>#{homeworkResult.score}</td>
 												</ui:repeat>
-													<td>#{profileBean.homeworkSum}</td>
+												<td>#{profileBean.homeworkSum}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -114,7 +115,8 @@
 								<p:outputLabel value="#{out.placeofbirth}: "></p:outputLabel>
 								<p:inputText value="#{profileBean.placeOfBirth}"></p:inputText>
 								<p:outputLabel value="#{out.dateofbirth}: "></p:outputLabel>
-								<p:inputMask value="#{profileBean.dateOfBirth}" mask="99/99/9999"></p:inputMask>
+								<p:inputMask value="#{profileBean.dateOfBirth}"
+									mask="99/99/9999"></p:inputMask>
 								<p:outputLabel value="#{out.phonenumber}: "></p:outputLabel>
 								<p:inputText value="#{profileBean.phoneNumber}"></p:inputText>
 								<p:outputLabel value="#{out.address}: "></p:outputLabel>
@@ -132,12 +134,15 @@
 						<h:form enctype="multipart/form-data">
 							<p:growl id="messages" showDetail="true" />
 
-							<p:fileUpload value="#{fileUploadView.file}" mode="simple"
+							<p:fileUpload value="#{fileUploadView.uploadedFile}"
+								fileUploadListener="#{fileUploadView.action}" mode="advanced"
 								skinSimple="true" />
 
-							<p:commandButton value="#{out.submit}" ajax="false"
-								actionListener="#{fileUploadView.upload}" />
 						</h:form>
+						<h3>#{out.uploadedfiles}</h3>
+						<ui:repeat var="list" value="#{fileUploadView.list}">
+							<p>#{list}</p>
+						</ui:repeat>
 					</div>
 				</div>
 			</div>
