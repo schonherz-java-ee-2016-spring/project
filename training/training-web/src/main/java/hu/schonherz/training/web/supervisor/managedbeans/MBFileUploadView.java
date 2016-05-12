@@ -35,6 +35,10 @@ public class MBFileUploadView implements Serializable {
 	private File destFile;
 	private File dir;
 	private String[] list;
+	String baseDir = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir");
+	String avatarFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("avatarfilename");
+	String documentFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("documentfilename");
+	String pathSeparator = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("pathseparator");
 
 	@PostConstruct
 	public void init() {
@@ -42,8 +46,7 @@ public class MBFileUploadView implements Serializable {
 		UserVo loggedInUser = new UserVo();
 		try {
 			loggedInUser = userService.findUserByName(username);
-			dir = new File(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir")
-					+ loggedInUser.getId().toString() + "\\");
+			dir = new File(baseDir + loggedInUser.getId().toString() + pathSeparator);
 			list = dir.list();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,16 +54,24 @@ public class MBFileUploadView implements Serializable {
 
 	}
 
-	public void action(FileUploadEvent event) throws IOException, Exception {
+	public void actionAvatar(FileUploadEvent event) throws IOException, Exception {
 		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 		UserVo loggedInUser = new UserVo();
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir")
-				+ loggedInUser.getId().toString() + "\\" + uploadedFile.getFileName());
+		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + avatarFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
+	}
 
+	public void actionDocument(FileUploadEvent event) throws IOException, Exception {
+		String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+		UserVo loggedInUser = new UserVo();
+		uploadedFile = (UploadedFile) event.getFile();
+		loggedInUser = userService.findUserByName(username);
+		inputStream = uploadedFile.getInputstream();
+		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + documentFileName);
+		FileUtils.copyInputStreamToFile(inputStream, destFile);
 	}
 
 	/**

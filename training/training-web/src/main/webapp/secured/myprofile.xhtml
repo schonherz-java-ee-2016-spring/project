@@ -124,12 +124,19 @@
 
 					</div>
 					<div class="tab-pane fade in" id="tab3">
-						<h3>#{out.uploadyourfiles}</h3>
+						<h3>#{out.uploaddocument}</h3>
 						<h:form enctype="multipart/form-data">
 							<p:growl id="messages" showDetail="true" />
 
-							<p:fileUpload value="#{fileUploadView.uploadedFile}" fileUploadListener="#{fileUploadView.action}" mode="advanced"
-								skinSimple="true" />
+							<p:fileUpload value="#{fileUploadView.uploadedFile}" fileUploadListener="#{fileUploadView.actionDocument}" mode="advanced"
+								skinSimple="true" allowTypes="/(\.|\/)(pdf)$/"/>
+						</h:form>
+						<h3>#{out.uploadavatar}</h3>
+						<h:form enctype="multipart/form-data">
+							<p:growl id="messages" showDetail="true" />
+
+							<p:fileUpload value="#{fileUploadView.uploadedFile}" fileUploadListener="#{fileUploadView.actionAvatar}" mode="advanced"
+								skinSimple="true" allowTypes="/(\.|\/)(png|jpe?g)$/"/>
 						</h:form>
 						<h3>#{out.uploadedfiles}</h3>
 						<ui:repeat var="list" value="#{fileUploadView.list}">
