@@ -184,12 +184,15 @@ public class TrainingBean implements Serializable {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "WARNING",
 						"Training name is already used!");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesContext.getCurrentInstance().validationFailed();
+				return;
 			} else {
 				trainingService.saveTraining(selected);
 				trainings.remove(selected);
 				selected = trainingService.getTrainingByName(selected.getName());
-				trainings.add(selected);
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Training saved!");
+				trainings.add(selected);;
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+						bundle.getString("trainingSaved"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		} catch (Exception e) {
@@ -252,7 +255,8 @@ public class TrainingBean implements Serializable {
 				}
 			}
 		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESS", "Training saved!");
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("trainingSaved"));
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
@@ -322,6 +326,7 @@ public class TrainingBean implements Serializable {
 		try {
 			trainingService.deleteTraining(selected.getId());
 			trainings.remove(selected);
+			isDisabled = true;
 		} catch (Exception e) {
 			logger.error(e);
 		}

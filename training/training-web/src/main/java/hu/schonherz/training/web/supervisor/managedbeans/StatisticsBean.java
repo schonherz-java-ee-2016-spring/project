@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -22,16 +21,13 @@ import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 
-import hu.schonherz.training.service.admin.UserGroupService;
-import hu.schonherz.training.service.admin.UserService;
-import hu.schonherz.training.service.admin.vo.EventVo;
-import hu.schonherz.training.service.admin.vo.UserGroupVo;
+import hu.schonherz.training.service.admin.TrainingService;
+import hu.schonherz.training.service.admin.vo.TrainingVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
-import hu.schonherz.training.service.exam.vo.ExamVo;
+import hu.schonherz.training.service.supervisor.ExamResultService;
 import hu.schonherz.training.service.supervisor.HomeworkResultService;
 import hu.schonherz.training.service.supervisor.vo.ExamResultVo;
 import hu.schonherz.training.service.supervisor.vo.HomeworkResultVo;
-import hu.schonherz.training.service.supervisor.vo.LessonVo;
 import hu.schonherz.training.web.supervisor.accessories.Course;
 import hu.schonherz.training.web.supervisor.accessories.UserResults;
 
@@ -39,14 +35,15 @@ import hu.schonherz.training.web.supervisor.accessories.UserResults;
 @ViewScoped
 public class StatisticsBean implements Serializable {
 
-	@EJB
-	private UserGroupService userGroupService;
 
 	@EJB
-	private UserService userService;
+	private TrainingService trainingService;
 
 	@EJB
 	private HomeworkResultService homeworkResultService;
+
+	@EJB
+	private ExamResultService examResultService;
 
 	@ManagedProperty("#{out}")
 	private ResourceBundle bundle;
@@ -62,19 +59,10 @@ public class StatisticsBean implements Serializable {
 	private LineChartModel testCategoryModel;
 	private LineChartModel homeworkCategoryModel;
 
-	private String[] lessonNames;
-
-	private String[] names;
-
 	public void onTrainingIdChange() {
 		if (trainingId != null) {
-			// training = courses.parallelStream()
-			// .filter(a -> {
-			// return a.getUserGroup().getId() == trainingId;
-			// }).findFirst().get();
-			// ;
 			for (Course course : courses) {
-				if (course.getUserGroup().getId().equals(trainingId)) {
+				if (course.getTraining().getId().equals(trainingId)) {
 					training = course;
 					break;
 				}
@@ -86,17 +74,15 @@ public class StatisticsBean implements Serializable {
 		}
 	}
 
-	
 	private void fillTestCategoryModel() {
-		
-		if(training.getUserResults().isEmpty())
+
+		if (training.getUserResults().isEmpty())
 			return;
 		Integer sum[] = new Integer[training.getUserResults().get(0).getExamResults().size()];
-		for(Integer i = 0; i < sum.length; ++i){
+		for (Integer i = 0; i < sum.length; ++i) {
 			sum[i] = new Integer(0);
 		}
-		
-		
+
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
@@ -108,27 +94,21 @@ public class StatisticsBean implements Serializable {
 			testCategoryModel.addSeries(userSerie);
 		}
 
-		//average
+		// average
 		Integer k = -1;
 		Integer size = training.getUserResults().size();
 		LineChartSeries avgSerie = new LineChartSeries();
 		avgSerie.setLabel(bundle.getString("statisticsaverage"));
-		for(ExamResultVo examResultVo:training.getUserResults().get(0).getExamResults()){
-			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k]/size);
+		for (ExamResultVo examResultVo : training.getUserResults().get(0).getExamResults()) {
+			avgSerie.set(examResultVo.getExam().getTitle(), (double) sum[++k] / size);
 		}
 		testCategoryModel.addSeries(avgSerie);
 	}
 
-	
-	
-	
-	
-	
 	private void initTestCategoryModel() {
 		testCategoryModel = new LineChartModel();
 		fillTestCategoryModel();
 
-		
 		testCategoryModel.setTitle(bundle.getString("statisticsexam"));
 		testCategoryModel.setAnimate(true);
 		testCategoryModel.setLegendPlacement(LegendPlacement.OUTSIDE);
@@ -148,14 +128,13 @@ public class StatisticsBean implements Serializable {
 
 	private void fillHomeworkCategoryModel() {
 
-		if(training.getUserResults().isEmpty())
+		if (training.getUserResults().isEmpty())
 			return;
 		Integer sum[] = new Integer[training.getUserResults().get(0).getHomeworkResults().size()];
-		for(Integer i = 0; i < sum.length; ++i){
+		for (Integer i = 0; i < sum.length; ++i) {
 			sum[i] = new Integer(0);
 		}
-		
-		
+
 		for (UserResults user : training.getUserResults()) {
 			LineChartSeries userSerie = new LineChartSeries();
 			userSerie.setLabel(user.getUser().getFullName());
@@ -167,13 +146,13 @@ public class StatisticsBean implements Serializable {
 			homeworkCategoryModel.addSeries(userSerie);
 		}
 
-		//average
+		// average
 		Integer k = -1;
 		Integer size = training.getUserResults().size();
 		LineChartSeries avgSerie = new LineChartSeries();
 		avgSerie.setLabel(bundle.getString("statisticsaverage"));
-		for(HomeworkResultVo homeworkResultVo:training.getUserResults().get(0).getHomeworkResults()){
-			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k]/size);
+		for (HomeworkResultVo homeworkResultVo : training.getUserResults().get(0).getHomeworkResults()) {
+			avgSerie.set(homeworkResultVo.getHomework().getName(), (double) sum[++k] / size);
 		}
 		homeworkCategoryModel.addSeries(avgSerie);
 	}
@@ -199,102 +178,67 @@ public class StatisticsBean implements Serializable {
 		yAxis.setTickFormat("%d");
 	}
 
-	private void mock() {
-		List<UserGroupVo> userGroups = new ArrayList<UserGroupVo>();
+	@PostConstruct
+	public void init() {
+
+		List<TrainingVo> trainings = new ArrayList<TrainingVo>();
 		try {
-			userGroups = userGroupService.getUserGroups();
+			trainings = trainingService.getAllTrainings();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for (int i = 0; i < userGroups.size(); i++) {
+		for (int i = 0; i < trainings.size(); i++) {
 			courses.add(new Course());
 		}
-		Iterator<UserGroupVo> userGroupIterator = userGroups.iterator();
+		Iterator<TrainingVo> trainingIterator = trainings.iterator();
 		for (Course course : courses) {
-			if (userGroupIterator.hasNext()) {
-				course.setUserGroup(userGroupIterator.next());
+			if (trainingIterator.hasNext()) {
+				course.setTraining(trainingIterator.next());
 			}
-		}
-
-		List<LessonVo> lessons = new ArrayList<>();
-		lessonNames = new String[] { "Verzió kezelés", "Fejesztői eszközök", "Java alapok", "Objektum orientált design",
-				"Maven", "Web Előismeretek", "Servlet API", "SQL", "JDBC", "Multitier architecture", "Spring",
-				"Security", "JPA", "JEE Alapismeretek", "JSF", "EJB", "Webservice", "Fejlesztési módszertanok" };
-		for (int i = 0; i < lessonNames.length; i++) {
-			lessons.add(new LessonVo());
-		}
-		int k = 0;
-		for (LessonVo lesson : lessons) {
-			lesson.setLessonName(lessonNames[k]);
-			k++;
-		}
-
-		names = new String[] { "Ölveti József", "Bohán Márk", "Kovács Szabolcs", "Naményi János", "Iványi-Nagy Gábor",
-				"Fekete Attila", "Erdei Krisztián", "Preznyák László", "Magyari Norbert", "Bertalan Ádám" };
-
-		for (Course course : courses) {
-			List<UserResults> userResults = new ArrayList<>();
-			List<UserVo> users = new ArrayList<>();
-			for (int i = 0; i < names.length; i++) {
-				userResults.add(new UserResults());
-				users.add(new UserVo());
+			List<UserResults> userResultsList = new ArrayList<>();
+			List<UserVo> userVos = course.getTraining().getUsers();
+			for (int i = 0; i < userVos.size(); i++) {
+				userResultsList.add(new UserResults());
 			}
-			k = 0;
-			for (UserVo user : users) {
-				user.setFullName(names[k]);
-				k++;
-			}
-			k = 0;
-			Iterator<UserVo> userIterator = users.iterator();
-			for (UserResults userResult : userResults) {
-				if (userIterator.hasNext()) {
-					userResult.setUser(userIterator.next());
+			Iterator<UserVo> userVoIterator = userVos.iterator();
+			for (UserResults userResults : userResultsList) {
+				if (userVoIterator.hasNext()) {
+					userResults.setUser(userVoIterator.next());
 				}
 			}
-			course.setLessons(lessons);
-			course.setUserResults(userResults);
+			course.setUserResults(userResultsList);
+			course.setThemes(course.getTraining().getThemes());
 		}
 
 		/// --------Works
 		// Filling the Results
 
-		Random rand = new Random();
 		for (Course course : courses) {
 			for (UserResults userResult : course.getUserResults()) {
 				List<ExamResultVo> examResults = new ArrayList<>();
 				List<HomeworkResultVo> homeworkResults = new ArrayList<>();
-				for (int i = 0; i < lessons.size(); i++) {
-					ExamResultVo examResult = new ExamResultVo();
-					examResult.setPoints(rand.nextInt(11));
-					ExamVo exam = new ExamVo();
-					exam.setTitle(lessonNames[i]);
-					examResult.setExam(exam);
-					examResults.add(examResult);
-					HomeworkResultVo homeworkResult = new HomeworkResultVo();
-					homeworkResult.setScore(rand.nextInt(11));
-					EventVo homework = new EventVo();
-					homework.setName(lessonNames[i]);
-					homeworkResult.setHomework(homework);
-					homeworkResults.add(homeworkResult);
+				homeworkResults = homeworkResultService.getHomeworkResultsByUser(userResult.getUser());
+				try {
+					examResults = examResultService.getExamResultByUser(userResult.getUser());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
 				userResult.setExamResults(examResults);
 				userResult.setHomeworkResults(homeworkResults);
 			}
 		}
-	}
 
-	@PostConstruct
-	public void init() {
-
-		mock();
 		trainingList = new HashMap<>();
 		for (Course course : courses) {
-			trainingList.put(course.getUserGroup().getName(), course.getUserGroup().getId());
+			trainingList.put(course.getTraining().getName(), course.getTraining().getId());
 		}
-
-		trainingId = courses.get(0).getUserGroup().getId();
-		onTrainingIdChange();
+		try {
+			trainingId = courses.get(0).getTraining().getId();
+			onTrainingIdChange();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

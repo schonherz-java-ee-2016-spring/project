@@ -34,7 +34,7 @@ public class ThemeServiceTest {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
-		
+
 		// minden teszt előtt beregisztrálunk valakit
 		ThemeVo theme = new ThemeVo();
 		theme.setName("ThemeName");
@@ -42,17 +42,19 @@ public class ThemeServiceTest {
 		theme.setType("MainTheme");
 		serviceLocal.createTheme(theme);
 	}
-	
+
 	@After
-	public void tearDown(){
+	public void tearDown() {
 		try {
 			ThemeVo theme = serviceLocal.getThemeByName("ThemeName");
-			serviceLocal.deleteTheme(theme.getId());
+			if (theme != null) {
+				serviceLocal.deleteTheme(theme.getId());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/* TESZTELNI:
 	 * findAllTheme 
 	 * createTheme kész
@@ -73,10 +75,10 @@ public class ThemeServiceTest {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	@Test
-	public void test2getThemeByName(){
-		
+	public void test2getThemeByName() {
+
 		ThemeVo back = null;
 		try {
 			back = serviceLocal.getThemeByName("ThemeName");
@@ -86,10 +88,10 @@ public class ThemeServiceTest {
 			Assert.fail();
 		}
 	}
-	
+
 	@Test
-	public void test3getThemesByType(){
-		
+	public void test3getThemesByType() {
+
 		List<ThemeVo> back = new ArrayList<>();
 		try {
 			back = serviceLocal.getThemesByType("MainTheme");
@@ -99,4 +101,72 @@ public class ThemeServiceTest {
 			Assert.fail();
 		}
 	}
+
+	@Test
+	public void test4getThemes() {
+
+		List<ThemeVo> back = new ArrayList<>();
+		try {
+			back = serviceLocal.findAllTheme();
+			for (ThemeVo themeVo : back) {
+				serviceLocal.deleteTheme(themeVo.getId());
+			}
+			back = null;
+			serviceLocal.findAllTheme();
+			Assert.assertEquals(true, (back == null ? true : false));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void test5getTheme() {
+
+		List<ThemeVo> back = new ArrayList<>();
+		try {
+			back = serviceLocal.findAllTheme();
+			for (ThemeVo themeVo : back) {
+				serviceLocal.deleteTheme(themeVo.getId());
+			}
+			ThemeVo theme = null;
+			theme = serviceLocal.getThemeByName("Theme");
+			Assert.assertEquals(true, (theme == null ? true : false));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void test6getTheme() {
+
+		List<ThemeVo> back = new ArrayList<>();
+		try {
+			back = serviceLocal.findAllTheme();
+			for (ThemeVo themeVo : back) {
+				serviceLocal.deleteTheme(themeVo.getId());
+			}
+			back = null;
+			serviceLocal.getThemesByType("item");
+			Assert.assertEquals(true, (back == null ? true : false));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void test7getItemThemesByThemeCode() {
+
+		List<ThemeVo> back = null;
+		try {
+			back = serviceLocal.getItemThemesByThemeCode("1");
+			Assert.assertEquals(true, (back == null ? false : true));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
+
 }

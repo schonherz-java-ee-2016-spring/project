@@ -66,7 +66,7 @@
 						disabled="#{trainingBean.isDisabled}" value="#{out.usergroups}" update="msgs,pickform2"
 						action="#{trainingBean.groupManageAction()}" onclick="PF('pickdialog2').show();" />
 					<p:commandButton styleClass="btn" id="deleteButton" process="ttable"
-						update="msgs,:trainingform:ttable" icon="ui-icon-trash" value="#{out.delete}"
+						update="msgs,:trainingform:ttable,growl" icon="ui-icon-trash" value="#{out.delete}"
 						disabled="#{trainingBean.isDisabled}" action="#{trainingBean.deleteTraining()}">
 						<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 					</p:commandButton>
@@ -134,6 +134,7 @@
 						<p:inputTextarea styleClass="form-control" id="desc"
 							value="#{trainingBean.selected.description}" required="true" label="desc">
 							<f:validateRequired />
+							<f:validateLength minimum="10" />
 							<f:validateLength maximum="1000" />
 						</p:inputTextarea>
 					</div>
@@ -141,18 +142,18 @@
 				<div class="form-group">
 					<label for="begin" class="col-sm-3">#{out.trainingstart}</label>
 					<div class="col-sm-9">
-						<p:calendar id="begin" value="#{trainingBean.selected.beginning}" showOn="button" />
+						<p:calendar required="true" id="begin" value="#{trainingBean.selected.beginning}" showOn="button" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="endDate" class="col-sm-3">#{out.trainingend}</label>
 					<div class="col-sm-9">
-						<p:calendar id="endDate" value="#{trainingBean.selected.endDate}" showOn="button" />
+						<p:calendar required="true" id="endDate" value="#{trainingBean.selected.endDate}" showOn="button" />
 					</div>
 				</div>
 				<p:commandButton styleClass="btn" value="#{out.save}"
 					update="form,msgs,growl,:trainingform:ttable" action="#{trainingBean.save()}"
-					icon="ui-icon-check" oncomplete="PF('dialog').hide();" />
+					icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialog').hide();" />
 			</h:form>
 		</p:dialog>
 

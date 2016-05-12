@@ -65,9 +65,9 @@ public class ExamResultServiceImpl implements ExamResultService {
 	}
 
 	@Override
-	public void modifyScore(Long examId, Long userId, Integer score) throws Exception {
+	public void modifyPoints(Long examId, Long userId, Integer points) throws Exception {
 		try {
-			examResultRepository.updateScoreByExamIdAndUserId(examId, userId, score);
+			examResultRepository.updatePointsByExamIdAndUserId(examId, userId, points);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 			throw ex;

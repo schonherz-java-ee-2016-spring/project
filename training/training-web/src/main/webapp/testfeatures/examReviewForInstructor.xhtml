@@ -8,14 +8,17 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.examreview}</ui:define>
 	<ui:define name="content">
+
+		<h:head>
+			<link rel="stylesheet"
+				href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
+		</h:head>
+		
 		<sec:authorize access="hasRole('INSTRUCTOR')">
 <style>
-.good {
-	background-color: rgb(0, 102, 51)
-}
-
-.bad {
-	background-color: rgb(102, 0, 0)
+.selected_blue {
+	background-color: rgb(70, 132, 153)
 }
 </style>
 
@@ -70,26 +73,25 @@
 					rendered="#{examReviewForInstructorBean.showTable == true}">
 					<ui:repeat var="question"
 						value="#{examReviewForInstructorBean.questionList}">
-						<p:dataTable var="option" value="#{question.options}"
-							rowStyleClass="#{option.correct ? 'good' : (option.correct == false ? 'bad' : null)}">
+						<p:dataTable var="option" value="#{question.options}" reflow="true"
+							rowStyleClass="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id) ? 'selected_blue' : null}">
 							<f:facet name="header">
-            			#{question.text}
-        			</f:facet>
-							<p:column headerText="Id">
-								<h:outputText value="#{option.id}" />
-							</p:column>
+								<h:outputText value="#{question.text}" escape="false" />
+							</f:facet>
 
 							<p:column headerText="#{out.content}">
 								<h:outputText value="#{option.text}" />
 							</p:column>
 
-							<p:column headerText="#{out.selected}"
-								style="width:10%; align:center;">
-								<p:outputLabel
-									rendered="#{examReviewForInstructorBean.selectedOptionIdList.contains(option.id) and option.correct == true}"
-									styleClass="ui-icon ui-icon-check" />
-								<p:outputLabel rendered="#{option.correct == false}"
-									styleClass="ui-icon ui-icon-closethick" />
+							<p:column headerText="#{out.isitcorrect}">
+								<p:outputLabel rendered="#{option.correct == true}">
+									<span class="glyphicon glyphicon-ok" style="color: #006600" />
+								</p:outputLabel>
+								<p:outputLabel rendered="#{option.correct == false}">
+
+									<span class="glyphicon glyphicon-remove" style="color: #990000" />
+
+								</p:outputLabel>
 							</p:column>
 
 
@@ -97,7 +99,7 @@
 						<h:outputText value="#{out.questionnote}:" />
 						<p />
 						<h:outputText value="#{question.note}" style="font-weight:bold" />
-						<p:separator style="width:1000px;height:15px" />
+						<p:separator style="width:100%" />
 					</ui:repeat>
 				</h:form>
 			</p:panel>

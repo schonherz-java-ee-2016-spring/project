@@ -113,21 +113,28 @@ public class ExamEvaluatorBean implements Serializable {
 	}
 
 	public void applyEvaluation() throws Exception {
-
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try {
+
+			for (EvalRecord evalRecord : evalRecordList) {
+				//KRISZ EZ MI???
+				if (answerService.getById((evalRecord.getAnswer().getId())).getGood() != null) {
+					Exception e = new Exception();
+					throw e;
+				}
+			}
 
 			for (EvalRecord evalRecord : evalRecordList) {
 				answerService.modifyGood(evalRecord.getAnswer());
 
 			}
 			addScoreToTextBasedScore();
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-					bundle.getString("evaluated"));
+			loadContent();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"), "");
 			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
-					bundle.getString("alreadyevaulated"));
+					bundle.getString("alreadyevaluated"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
 		}
@@ -138,7 +145,7 @@ public class ExamEvaluatorBean implements Serializable {
 		Long userId = Long.parseLong(selectedUserIdAsString);
 		Integer score = examResultService.getByExamIdAndUserId(examId, userId).getPoints();
 		score += ((int) evalRecordList.stream().filter(e -> e.getAnswer().getGood()).count());
-		examResultService.modifyScore(examId, userId, score);
+		examResultService.modifyPoints(examId, userId, score);
 	}
 
 	/**

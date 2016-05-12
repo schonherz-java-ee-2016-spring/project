@@ -32,7 +32,6 @@ INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2005, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2006, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2004);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2009, 2003);
-INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2010, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2013, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2012, 2002);
 INSERT INTO public.role_to_rolegroup(role_id, rolegroup_id) VALUES (2003, 2002);
@@ -393,27 +392,6 @@ INSERT INTO public.training(id, recdate, recuser, beginning, description, enddat
 INSERT INTO public.training(id, recdate, recuser, beginning, description, enddate, name) VALUES (7002, current_timestamp, 'CREATE SQL', to_date('2016 09 22', 'yyyy MM dd'), 'Java Training for students', to_date('2016 12 22', 'yyyy MM dd'), 'Schönherz Java EE Training 2016 Autumn');
 
 
--- Homeworks
-
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5100, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Tortoise Git funkciók kipróbálása.', 10, 'Verzió kezelés');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5101, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Eclipse testreszabása, Gyorsgombok beállítása.', 10, 'Fejesztői eszközök');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5102, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Ismétlés. Java kódok készítése.', 10, 'Java alapok');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5103, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Példaprogramok írása.', 10, 'Objektum orientált design');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5104, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Egy saját maven projekt elkészítése.', 10, 'Maven');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5105, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'HTML&CSS átnézése, használatuk a gyakorlatban', 10, 'Web Előismeretek');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5106, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Saját servlet létrehozása.', 10, 'Servlet API');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5107, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'SQL ismétlés. Tölts fel egy adatbázist egy autóalkatrész kereskedő cég számára szükséges táblákkal, adatokkal.', 10, 'SQL');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5108, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JDBC használata az órán vett kódban.', 10, 'JDBC');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5109, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Készítsd el a saját többrétegű architektúrával ellátott projektedet.', 10, 'Multitier architecture');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5110, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Az órai feladat befejezése.', 10, 'Spring');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5111, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'RSA kulcs generálás.', 10, 'Security');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5112, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JPQL használata gyakorlatban.', 10, 'JPA');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5113, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), '', 10, 'JEE Alapismeretek');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5114, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'JSF login képernyő elkészítése.', 10, 'JSF');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5115, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), '', 10, 'EJB');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5116, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Description', 10, 'Webservice');
-INSERT INTO public.homework(id, recdate, recuser, deadline_date, description, maximumscore, title) VALUES (5117, current_timestamp, 'CREATE SQL', to_date('2016 05 19','yyyy MM dd'), 'Projekt vázának elkészítése.', 10, 'Fejlesztési módszertanok');
-
 --Themes
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7100, current_timestamp, 'CREATE SQL', 4, 'Verziókezelés');
 INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7101, current_timestamp, 'CREATE SQL', 4, 'Fejesztői eszközök');
@@ -551,3 +529,31 @@ INSERT INTO public.user_to_training(training_id, user_id) VALUES (7000, 2102);
 -- INSERT INTO public.option(id, correct, question_id) VALUES (2012, false, 2011);
 
 ALTER SEQUENCE hibernate_sequence RESTART WITH 10000;
+
+-- Answers
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (9, 2003, 2001, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (11, 2003, 2004, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (12, 2003, 2011, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (13, 2003, 2013, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (14, 2003, 2014, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (15, 2003, 2017, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (16, 2003, 2019, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (17, 2003, 2020, false);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (18, 2003, 2022, false);
+
+
+
+
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (20, 2003, 2025, null);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (21, 2003, 2026, true);
+INSERT INTO public.answer(id, user_id, option_id, good) VALUES (22, 2003, 2027, false);
+
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (202, 20, 'Nincs még javitva');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (203, 21, 'Kiétkelve true');
+INSERT INTO public.answer_text(id, answer_id, text) VALUES (204, 22, 'Kiértékelve False');
+
+
+INSERT INTO public.exam_result(id, points, exam_id, user_id) VALUES (501222, 5, 2005, 2003);
+INSERT INTO public.exam_user_relation(id, exam_id, user_id) VALUES (2000000000, 2005, 2003)
+

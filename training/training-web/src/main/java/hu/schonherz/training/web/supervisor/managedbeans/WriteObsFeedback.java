@@ -6,11 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Session;
 
 import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.UserService;
@@ -18,6 +21,7 @@ import hu.schonherz.training.service.admin.vo.EventVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
+import hu.schonherz.training.web.admin.managedbeans.MailSenderBean;
 import hu.schonherz.training.web.supervisor.accessories.EventList;
 
 @ManagedBean(name = "writeObsFeedback")
@@ -37,6 +41,11 @@ public class WriteObsFeedback implements Serializable {
 
 	@EJB
 	FeedbackService feedbackService;
+	
+	@ManagedProperty(value = "#{mailSenderBean}")
+	private MailSenderBean mailSenderBean;
+	@Resource(mappedName = "java:jboss/mail/Default")
+	private Session mailSessionSeznam;
 
 //	variables for list events related to the logged in observer
 	private List<EventList> displayList = new ArrayList<>();
@@ -127,6 +136,13 @@ public class WriteObsFeedback implements Serializable {
 
 		try {
 			feedbackService.giveFeedback(feedback);
+			String mailMessage = "<h3 style='font-style: normal;'><span style='font-weight: bold;'>Kedves "
+					+ userService.findUserByName(ratedUsername).getFullName()
+					+ "!</span></h3><div style='font-style: normal; font-weight: normal;'><br></div><div><span style='font-style: normal; font-weight: bold;'>Új visszajelzést kaptál</span><span style='font-weight: normal;'> a következő felhasználótól: <span style='font-style: italic; text-decoration: underline;'>"
+					+ loggedInUser.getFullName()
+					+ "</span>.</span></div><div style='font-weight: normal;'>A visszajelzés üzenetét bejelentkezés után a <span style='font-style: italic;'>Visszajelzések</span> menüpont alatt olvashatod.</div><div style='font-style: normal; font-weight: normal;'><br></div><div style='font-style: normal; font-weight: normal;'>Üdvözlettel,</div><div style='font-style: normal; font-weight: normal;'>Schönherz Training Application</div>";
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining",
+					userService.findUserByName(ratedUsername).getEmail(), "Új visszajelzés", mailMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Feedback could not be sent");
@@ -309,5 +325,19 @@ public class WriteObsFeedback implements Serializable {
 	 */
 	public void setRatedUsername(String ratedUsername) {
 		this.ratedUsername = ratedUsername;
+	}
+
+	/**
+	 * @return the mailSenderBean
+	 */
+	public MailSenderBean getMailSenderBean() {
+		return mailSenderBean;
+	}
+
+	/**
+	 * @param mailSenderBean the mailSenderBean to set
+	 */
+	public void setMailSenderBean(MailSenderBean mailSenderBean) {
+		this.mailSenderBean = mailSenderBean;
 	}
 }

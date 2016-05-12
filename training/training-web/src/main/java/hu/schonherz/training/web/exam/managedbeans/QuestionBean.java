@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -45,14 +47,36 @@ public class QuestionBean implements Serializable {
 	private ExamService examService;
 	@EJB
 	private QuestionService questionService;
-	
+
 	private String questionIdAsString;
 	private String questionText;
-	
-	private String usableImageLink;
+
 	private Part image;
-	
+	private List<String> filenames;
+
+	@PostConstruct
+	public void init() {
+		setFilenames(new ArrayList<>());
+	}
+
+	public void getFiles() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		String folder = ec.getRealPath("/") + "/questionimages/";
+		filenames.clear();
+		File folderfile = new File(folder);
+		File[] listOfFiles = folderfile.listFiles();
+		// comment
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				filenames.add(new String(ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+						+ ec.getRequestServerPort() + "/training-web/questionimages/" + listOfFiles[i].getName()));
+			}
+		}
+		System.out.println("lefut");
+	}
+
 	public void saveImage() {
+		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		try (InputStream input = image.getInputStream()) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			String folder = ec.getRealPath("/") + "/questionimages/";
@@ -61,22 +85,25 @@ public class QuestionBean implements Serializable {
 				Files.createDirectories(Paths.get(folder));
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-			usableImageLink = "???LINK???: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
-					+ ec.getRequestServerPort() + "/training-web/questionimages/" + filename;
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("fileuploadsuccess"));
+			currentInstance.addMessage(null, facesMessage);
 			RequestContext.getCurrentInstance().update("imageForm");
 		} catch (IOException e) {
 			e.printStackTrace();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("fileuploadfail"));
+			currentInstance.addMessage(null, facesMessage);
 		}
 	}
-	
-	public void renameQuestion() throws Exception{
+
+	public void renameQuestion() throws Exception {
 		QuestionVo renamedQuestion = questionService.getById(Long.parseLong(questionIdAsString));
 		renamedQuestion.setText(questionText);
 		questionService.modifyText(renamedQuestion);
 		RequestContext.getCurrentInstance().update("questionTable");
 	}
-	
+
 	public void setUpEditQuestion(ActionEvent event) {
 		questionIdAsString = event.getComponent().getAttributes().get("questionId").toString();
 		questionText = event.getComponent().getAttributes().get("questionName").toString();
@@ -227,14 +254,6 @@ public class QuestionBean implements Serializable {
 		this.questionIdAsString = questionIdAsString;
 	}
 
-	public String getUsableImageLink() {
-		return usableImageLink;
-	}
-
-	public void setUsableImageLink(String usableImageLink) {
-		this.usableImageLink = usableImageLink;
-	}
-
 	public Part getImage() {
 		return image;
 	}
@@ -242,5 +261,12 @@ public class QuestionBean implements Serializable {
 	public void setImage(Part image) {
 		this.image = image;
 	}
-	
+
+	public List<String> getFilenames() {
+		return filenames;
+	}
+
+	public void setFilenames(List<String> filenames) {
+		this.filenames = filenames;
+	}
 }
