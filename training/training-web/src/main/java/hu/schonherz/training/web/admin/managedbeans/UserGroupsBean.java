@@ -132,6 +132,9 @@ public class UserGroupsBean implements Serializable {
 						bundle.getString("userGroupNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				FacesContext.getCurrentInstance().validationFailed();
+				if (isCreateAction == null) {
+					isDisabled = true;
+				}
 				return;
 			} else {
 				userGroupService.saveUserGroup(selected);
@@ -217,7 +220,7 @@ public class UserGroupsBean implements Serializable {
 			userGroups.remove(selected);
 			isDisabled = true;
 		} catch (Exception e) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("nooption"),
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("nooption"),
 					bundle.getString("nooptiontext"));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			logger.error(e);
