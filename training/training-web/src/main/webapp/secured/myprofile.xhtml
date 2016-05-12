@@ -100,7 +100,10 @@
 								</div>
 							</p:tab>
 							<p:tab title="#{out.cv}">
-								<a href="#{fileUploadView.pdfPath}">#{out.click4download}</a>
+								<p:media>
+									<object type="application/pdf" data="#{fileUploadView.pdfPath}"
+										height="300px" width="100%"> </object>
+								</p:media>
 							</p:tab>
 							<p:tab title="#{out.feedbacks}">
 								<ui:include src="feedback-list.xhtml"></ui:include>
