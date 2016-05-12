@@ -33,7 +33,8 @@
 
 					<f:selectItems value="#{statisticsBean.trainingList}" />
 					<f:ajax event="change"
-						listener="#{statisticsBean.onTrainingIdChange}" render="testChart homeworkChart" />
+						listener="#{statisticsBean.onTrainingIdChange}"
+						render="testChart homeworkChart" />
 				</h:selectOneMenu>
 			</h:form>
 		</h:panelGroup>
@@ -77,16 +78,17 @@
 				};
 			}
 			function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
-				var tooltip = "<table><thead><th>"
+				var tooltip = "<table ><thead><th>"
 						+ plot.axes.xaxis.ticks[pointIndex]
 						+ "</th></thead><tbody>";
 				$.each(plot.data,
 						function(index, value) {
 							tooltip += "<tr><td>" + plot.series[index]["label"]
-									+ "</td><td>" + value[pointIndex][1]
+									+ "</td><td>" + value[pointIndex][1].toFixed(2).replace(/\.?0*$/,'');
 									+ "</td></tr>";
 						});
 				tooltip += "</tbody></table>";
+				$(".jqplot-highlighter-tooltip").css("z-index", 9999);
 				return tooltip;
 				//return plot.series[seriesIndex]["label"] + ": " + plot.axes.xaxis.ticks[pointIndex] + ", " + plot.data[seriesIndex][pointIndex];
 			}
