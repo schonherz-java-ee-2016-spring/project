@@ -130,10 +130,10 @@
 						
 						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
-
-						<li><a href="#{request.contextPath}/public/events.xhtml">Events<span
+						<sec:authorize access="hasRole('EVENTS')">
+						<li><a href="#{request.contextPath}/secured/events.xhtml">Events<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
-
+						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-calendar"></span></a></li>
