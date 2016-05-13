@@ -77,11 +77,10 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}"
 								disabled="#{languageBean.disabledHU}">
-								<h:outputText value="Magyar" />
+								<h:graphicImage library="default" name="img/HU.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="Magyar" />
 							</p:commandLink></li>
 						<li><p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}"
-								disabled="#{languageBean.disabledEN}">
-								<h:outputText value="English" />
+								disabled="#{languageBean.disabledEN}"><h:graphicImage library="default" name="img/GB.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="English" />
 							</p:commandLink></li>
 
 						<sec:authorize access="isAnonymous()">
