@@ -6,18 +6,19 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags">
-	<ui:define name="pageTitle">Textbased Question Details</ui:define>
+	<ui:define name="pageTitle">#{out.textbasedquestiondetails}</ui:define>
 	<ui:define name="content">
 		<p:growl id="message" />
 
 		<h:form id="questionTitleForm">
 			<h3>#{out.questiontitle}</h3>
-			<h:outputText value="#{textbasedQuestionDetailsBean.questionText}"/>
+			<h:outputText value="#{textbasedQuestionDetailsBean.questionText}"
+				escape="false" />
 		</h:form>
 
 		<h:form id="questionNoteRename">
 			<h3>#{out.questionnote}</h3>
-			<p:inplace editor="true">
+			<p:inplace style="width:100%" editor="true">
 				<p:inputTextarea cols="100" rows="3"
 					value="#{textbasedQuestionDetailsBean.questionNoteText}" />
 			</p:inplace>

@@ -13,7 +13,7 @@
 		<p:panel id="panelId" style="text-align: center;"
 			rendered="#{examFillBean.isFilled eq false}">
 
-			<h:outputText
+			<h:outputText 
 				value="#{examFillBean.questionList.get(examFillBean.counter).text}"
 				escape="false" />
 
@@ -71,7 +71,7 @@
 				<!-- 			   Now the local questionlist will be called witch holds the current questionlist -->
 				<!-- 							!!! examFillBean.optionList !=null will set the current questions option for this text based q!!! -->
 
-				<p:inputTextarea autoResize="true" cols="100" rows="3"
+				<p:inputTextarea autoResize="true" cols="100" rows="3" widgetVar="100%"
 					placeholder="#{out.textbasedanswerpalceholder}"
 					value="#{examFillBean.textbasedOptionAnswer}"></p:inputTextarea>
 				<p />
@@ -85,7 +85,7 @@
 			<p:outputLabel value="#{out.alreadyfilled}">
 			</p:outputLabel>
 			<br />
-			<p:commandButton value="Back" action="goToExamChoose"></p:commandButton>
+			<p:commandButton value="#{out.back}" action="goToExamChoose"></p:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>

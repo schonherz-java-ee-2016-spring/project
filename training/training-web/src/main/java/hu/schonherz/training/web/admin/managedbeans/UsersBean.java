@@ -41,6 +41,7 @@ public class UsersBean implements Serializable {
 	private String fullname;
 	private String email;
 	private boolean selected;
+	private boolean success;
 	private String message;
 
 	@ManagedProperty("#{out}")
@@ -62,6 +63,7 @@ public class UsersBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		selected = true;
+		success = false;
 		try {
 			users = userService.findAllUser();
 			selectedUser = new UserVo();
@@ -109,12 +111,14 @@ public class UsersBean implements Serializable {
 
 		// Username confirmation
 		if (username == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (user != null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameExists"));
 			currentInstance.addMessage(null, facesMessage);
@@ -123,12 +127,14 @@ public class UsersBean implements Serializable {
 
 		// Email confirm
 		if (email == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
 			return;
 		}
 		if (useremail != null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailExists"));
 			currentInstance.addMessage(null, facesMessage);
@@ -158,24 +164,15 @@ public class UsersBean implements Serializable {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
 					bundle.getString("succesCreate"));
 			currentInstance.addMessage(null, facesMessage);
+			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failCreate"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
+			success = false;
 		}
-//		try {
-//			users.add(userService.findUserByName(userVo.getUserName()));
-//		} catch (Exception e) {
-//			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
-//					bundle.getString("failCreate"));
-//			currentInstance.addMessage(null, facesMessage);
-//			e.printStackTrace();
-//		}
-//		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-//				bundle.getString("succesCreate"));
-//		currentInstance.addMessage(null, facesMessage);
-//		userVo = new UserVo();
 		clearUserForm();
 	}
 	
@@ -189,18 +186,20 @@ public class UsersBean implements Serializable {
 		try {
 			userService.deleteUserById(selectedUser.getId());
 			users.remove(selectedUser);
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"),
+					getBundle().getString("succesDelete"));
+			FacesContext.getCurrentInstance().addMessage(null, message);
+			selectedUser = new UserVo();
+			selected = true;
+			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("failDelete"));
 			FacesContext.getCurrentInstance().addMessage(null, facesMessage);
 			e.printStackTrace();
-			return;
+ 			success = false;
 		}
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, getBundle().getString("succes"),
-				getBundle().getString("succesDelete"));
-		FacesContext.getCurrentInstance().addMessage(null, message);
-		selectedUser = new UserVo();
-		selected = true;
 	}
 
 	public void modifyUser() {
@@ -208,6 +207,7 @@ public class UsersBean implements Serializable {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		// Confirm username
 		if (selectedUser.getUserName() == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("usernameReq"));
 			currentInstance.addMessage(null, facesMessage);
@@ -215,6 +215,7 @@ public class UsersBean implements Serializable {
 		}
 		// Confirm email
 		if (selectedUser.getEmail() == null) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("emailReq"));
 			currentInstance.addMessage(null, facesMessage);
@@ -232,11 +233,14 @@ public class UsersBean implements Serializable {
 			selectedUser = null;
 			selected = true;
 			userVo = new UserVo();
+			success = true;
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("updateFail"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
+			success = false;
 		}
 	}
 
@@ -246,21 +250,21 @@ public class UsersBean implements Serializable {
 			users.get(users.indexOf(selectedUser)).setRoleGroups(selectedRoleGroups.getTarget());
 			userService.updateUser(users.get(users.indexOf(selectedUser)));
 			users.set(users.indexOf(selectedUser), userService.findUserByName(selectedUser.getUserName()));
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-				bundle.getString("userRoleGroupsSaved"));
-		FacesContext.getCurrentInstance().addMessage(null, msg);
-		try {
 			users = userService.findAllUser();
+			selected = true;
+			success = true;
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("userRoleGroupsSaved"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			FacesContext.getCurrentInstance().validationFailed();
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("error"),
+					bundle.getString("userRoleGroupsFailed"));
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 			e.printStackTrace();
+			success = false;
 		}
-		setSelected(true);
+
 	}
 
 	public String getUsername() {
@@ -357,6 +361,14 @@ public class UsersBean implements Serializable {
 
 	public void setMailSessionSeznam(Session mailSessionSeznam) {
 		this.mailSessionSeznam = mailSessionSeznam;
+	}
+
+	public boolean getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 }

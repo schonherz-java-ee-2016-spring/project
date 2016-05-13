@@ -89,6 +89,7 @@ public class RoleGroupsBean implements Serializable{
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			e.printStackTrace();
 		}
 		createRoleGroupForm();
@@ -129,6 +130,7 @@ public class RoleGroupsBean implements Serializable{
 					"Role Group edited!");
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 		} catch (Exception e) {
+			FacesContext.getCurrentInstance().validationFailed();
 			e.printStackTrace();
 		}
 	}

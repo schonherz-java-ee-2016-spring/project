@@ -10,7 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import hu.schonherz.training.service.admin.UserService;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
@@ -26,9 +25,12 @@ public class FeedbacksBean implements Serializable {
 
 	@EJB
 	FeedbackService feedbackService;
-	
-	List<FeedbackVo> feedbacks = new ArrayList<>();
-	List<FeedbackVo> writtenFeedbacks = new ArrayList<>();
+
+	private List<FeedbackVo> feedbacks = new ArrayList<>();
+	private List<FeedbackVo> userFeedbacks = new ArrayList<>();
+	private List<FeedbackVo> writtenFeedbacks = new ArrayList<>();
+	private List<FeedbackVo> userWrittenFeedback = new ArrayList<>();
+	private String ratedName;
 
 	@PostConstruct
 	public void init() {
@@ -38,13 +40,27 @@ public class FeedbacksBean implements Serializable {
 			for (FeedbackVo feedback : feedbacksTmp) {
 				List<UserVo> rateds = new ArrayList<>();
 				rateds.addAll(feedback.getRated());
-				for (UserVo rated: rateds) {
-					if (rated.getUserName().equals(username)) {
-						feedbacks.add(feedback);
+				if (feedback.getEvent() != null) {
+					for (UserVo rated : rateds) {
+						if (rated.getUserName().equals(username)) {
+							feedbacks.add(feedback);
+						}
 					}
-				}
-				if (feedback.getSender().getUserName().equals(username)) {
-					writtenFeedbacks.add(feedback);
+					if (feedback.getSender().getUserName().equals(username)) {
+						writtenFeedbacks.add(feedback);
+					}
+				} else {
+					for (UserVo rated : rateds) {
+						if (rated.getUserName().equals(username)) {
+							userFeedbacks.add(feedback);
+						}
+					}
+					if (feedback.getSender().getUserName().equals(username)) {
+						userWrittenFeedback.add(feedback);
+						for (UserVo user : feedback.getRated()) {
+							ratedName = user.getFullName();
+						}
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -80,9 +96,52 @@ public class FeedbacksBean implements Serializable {
 	}
 
 	/**
-	 * @param writtenFeedbacks the writtenFeedbacks to set
+	 * @param writtenFeedbacks
+	 *            the writtenFeedbacks to set
 	 */
 	public void setWrittenFeedbacks(List<FeedbackVo> writtenFeedbacks) {
 		this.writtenFeedbacks = writtenFeedbacks;
+	}
+
+	/**
+	 * @return the userFeedbacks
+	 */
+	public List<FeedbackVo> getUserFeedbacks() {
+		return userFeedbacks;
+	}
+
+	/**
+	 * @param userFeedbacks the userFeedbacks to set
+	 */
+	public void setUserFeedbacks(List<FeedbackVo> userFeedbacks) {
+		this.userFeedbacks = userFeedbacks;
+	}
+
+	/**
+	 * @return the userWrittenFeedback
+	 */
+	public List<FeedbackVo> getUserWrittenFeedback() {
+		return userWrittenFeedback;
+	}
+
+	/**
+	 * @param userWrittenFeedback the userWrittenFeedback to set
+	 */
+	public void setUserWrittenFeedback(List<FeedbackVo> userWrittenFeedback) {
+		this.userWrittenFeedback = userWrittenFeedback;
+	}
+
+	/**
+	 * @return the ratedName
+	 */
+	public String getRatedName() {
+		return ratedName;
+	}
+
+	/**
+	 * @param ratedName the ratedName to set
+	 */
+	public void setRatedName(String ratedName) {
+		this.ratedName = ratedName;
 	}
 }

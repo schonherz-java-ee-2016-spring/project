@@ -184,7 +184,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
-					action="#{eventsBean.create}" icon="ui-icon-check" oncomplete="closeCreateDialog()"/>
+					action="#{eventsBean.create}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('createDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeCreateDialog() {
@@ -243,7 +243,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update=":eventsform:msgs,growl,:eventsform:eventstable"
-					action="#{eventsBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+					action="#{eventsBean.edit}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeEditDialog() {

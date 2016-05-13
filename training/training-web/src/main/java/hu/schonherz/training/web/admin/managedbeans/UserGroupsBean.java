@@ -131,6 +131,11 @@ public class UserGroupsBean implements Serializable {
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 						bundle.getString("userGroupNameExists"));
 				FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesContext.getCurrentInstance().validationFailed();
+				if (isCreateAction == null) {
+					isDisabled = true;
+				}
+				return;
 			} else {
 				userGroupService.saveUserGroup(selected);
 				userGroups.remove(selected);
@@ -213,8 +218,9 @@ public class UserGroupsBean implements Serializable {
 		try {
 			userGroupService.deleteUserGroup(selected.getId());
 			userGroups.remove(selected);
+			isDisabled = true;
 		} catch (Exception e) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("nooption"),
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("nooption"),
 					bundle.getString("nooptiontext"));
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			logger.error(e);

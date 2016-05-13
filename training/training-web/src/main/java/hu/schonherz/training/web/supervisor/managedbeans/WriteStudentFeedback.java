@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.mail.Session;
 
 import hu.schonherz.training.service.admin.EventService;
 import hu.schonherz.training.service.admin.RoleGroupService;
@@ -22,6 +25,7 @@ import hu.schonherz.training.service.admin.vo.RoleGroupVo;
 import hu.schonherz.training.service.admin.vo.UserVo;
 import hu.schonherz.training.service.supervisor.FeedbackService;
 import hu.schonherz.training.service.supervisor.vo.FeedbackVo;
+import hu.schonherz.training.web.admin.managedbeans.MailSenderBean;
 import hu.schonherz.training.web.supervisor.accessories.EventList;
 
 @ManagedBean(name = "writeStudentFeedback")
@@ -44,6 +48,11 @@ public class WriteStudentFeedback implements Serializable {
 
 	@EJB
 	RoleGroupService roleGroupService;
+	
+	@ManagedProperty(value = "#{mailSenderBean}")
+	private MailSenderBean mailSenderBean;
+	@Resource(mappedName = "java:jboss/mail/Default")
+	private Session mailSessionSeznam;
 
 	// variables for list events related to the logged in student
 	private UserVo loggedInUser = new UserVo();
@@ -107,6 +116,15 @@ public class WriteStudentFeedback implements Serializable {
 		feedback.setRecDate(new Date());
 		try {
 			feedbackService.giveFeedback(feedback);
+			for (UserVo user : feedback.getRated()) {
+				String mailMessage = "<h3 style='font-style: normal;'><span style='font-weight: bold;'>Kedves "
+						+ user.getFullName()
+						+ "!</span></h3><div style='font-style: normal; font-weight: normal;'><br></div><div><span style='font-style: normal; font-weight: bold;'>Új visszajelzést kaptál</span><span style='font-weight: normal;'> a következő felhasználótól: <span style='font-style: italic; text-decoration: underline;'>"
+						+ loggedInUser.getFullName()
+						+ "</span>.</span></div><div style='font-weight: normal;'>A visszajelzés üzenetét bejelentkezés után a <span style='font-style: italic;'>Visszajelzések</span> menüpont alatt olvashatod.</div><div style='font-style: normal; font-weight: normal;'><br></div><div style='font-style: normal; font-weight: normal;'>Üdvözlettel,</div><div style='font-style: normal; font-weight: normal;'>Schönherz Training Application</div>";
+				mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", user.getEmail(), "Új visszajelzés",
+						mailMessage);
+			}
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Feedback could not be sent");
@@ -146,6 +164,13 @@ public class WriteStudentFeedback implements Serializable {
 		feedback.setRecDate(new Date());
 		try {
 			feedbackService.giveFeedback(feedback);
+			String mailMessage = "<h3 style='font-style: normal;'><span style='font-weight: bold;'>Kedves "
+					+ userService.findUserByName(instructorUsername).getFullName()
+					+ "!</span></h3><div style='font-style: normal; font-weight: normal;'><br></div><div><span style='font-style: normal; font-weight: bold;'>Új visszajelzést kaptál</span><span style='font-weight: normal;'> a következő felhasználótól: <span style='font-style: italic; text-decoration: underline;'>"
+					+ loggedInUser.getFullName()
+					+ "</span>.</span></div><div style='font-weight: normal;'>A visszajelzés üzenetét bejelentkezés után a <span style='font-style: italic;'>Visszajelzések</span> menüpont alatt olvashatod.</div><div style='font-style: normal; font-weight: normal;'><br></div><div style='font-style: normal; font-weight: normal;'>Üdvözlettel,</div><div style='font-style: normal; font-weight: normal;'>Schönherz Training Application</div>";
+			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining",
+					userService.findUserByName(instructorUsername).getEmail(), "Új visszajelzés", mailMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
 					"Feedback could not be sent");
@@ -268,6 +293,20 @@ public class WriteStudentFeedback implements Serializable {
 	 */
 	public void setUsersToShow(List<UserVo> usersToShow) {
 		this.usersToShow = usersToShow;
+	}
+
+	/**
+	 * @return the mailSenderBean
+	 */
+	public MailSenderBean getMailSenderBean() {
+		return mailSenderBean;
+	}
+
+	/**
+	 * @param mailSenderBean the mailSenderBean to set
+	 */
+	public void setMailSenderBean(MailSenderBean mailSenderBean) {
+		this.mailSenderBean = mailSenderBean;
 	}
 
 

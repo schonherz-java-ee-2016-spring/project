@@ -1,3 +1,4 @@
+
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:security="http://www.springframework.org/schema/security"
@@ -10,6 +11,8 @@
 			access="hasRole('UGS')" />
 		<security:intercept-url pattern="/secured/users.xhtml"
 			access="hasRole('USERS')" />
+		<security:intercept-url pattern="/secured/events.xhtml"
+			access="hasRole('EVENTS')" />
 		<security:intercept-url pattern="/secured/rolegroups.xhtml"
 			access="hasRole('RGS')" />
 		<security:intercept-url pattern="/secured/themeTable.xhtml"
@@ -31,6 +34,8 @@
 			pattern="/secured/student-give-feedbacks-instructor.xhtml" access="hasRole('WRITE_STUDENT_FEEDBACK')" />
 		<security:intercept-url pattern="/secured/instructor-give-feedbacks.xhtml"
 			access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')" />
+		<security:intercept-url
+			pattern="/secured/instructor-give-feedbacks-student.xhtml" access="hasRole('WRITE_INSTRUCTOR_FEEDBACK')" />
 
 		<security:intercept-url pattern="/testfeatures/exams.xhtml"
 			access="hasRole('INSTRUCTOR')" />

@@ -44,7 +44,7 @@
 					<!-- 				Create -->
 					<p:commandButton type="createButton"
 						onclick="PF('createDialog').show();" value="#{out.createRole}"
-						update=":roleForm:roleTable,growl" />
+						update=":roleForm:roleTable,growl,newrole" />
 						
 											<!-- Edit -->
 					<p:commandButton id="editButton" icon="ui-icon-pencil"
@@ -88,6 +88,7 @@
 							<p:inputText styleClass="form-control" id="rolename"
 								value="#{roleBean.roleName}" required="true"
 								label="rolename">
+								<f:validateLength minimum="5" maximum="50" />
 							</p:inputText>
 						</div>
 						<label for="rolecode" class="col-sm-3">#{out.roleCode}</label>
@@ -95,11 +96,12 @@
 							<p:inputText styleClass="form-control" id="rolecode"
 								value="#{roleBean.roleCode}" required="true"
 								label="rolecode">
+								<f:validateLength minimum="5" maximum="50" />
 							</p:inputText>
 						</div>
 					</div>
-					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
-					action="#{roleBean.create}" icon="ui-icon-check" onsuccess="closeCreateDialog()"/>
+					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable,newrole"
+					action="#{roleBean.create}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('createDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeCreateDialog() {
@@ -128,7 +130,7 @@
 						</div>
 					</div>
 					<p:commandButton styleClass="btn" value="#{out.save}" update="growl,:roleForm:roleTable"
-					action="#{roleBean.edit}" icon="ui-icon-check" oncomplete="closeEditDialog()"/>
+					action="#{roleBean.edit}" icon="ui-icon-check" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('editDialog').hide();"/>
     			</h:form>
     			<script type="text/javascript">
     				function closeEditDialog() {

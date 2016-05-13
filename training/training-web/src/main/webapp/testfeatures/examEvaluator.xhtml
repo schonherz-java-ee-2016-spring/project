@@ -8,6 +8,8 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	<ui:define name="pageTitle">#{out.examevaluator}</ui:define>
 	<ui:define name="content">
+		<p:messages id="msg" showDetail="true" />
+
 
 		<!-- The dropdown menu to select the exam -->
 		<h:form id="selectionForm">
@@ -28,7 +30,8 @@
 						itemLabel="#{user.userName}" itemValue="#{user.id}" />
 				</p:selectOneMenu>
 				<f:facet name="footer">
-					<p:commandButton value="#{out.loadcontent}"
+					<p:commandButton update="answerTextEvaluatorForm"
+						value="#{out.loadcontent}"
 						actionListener="#{examEvaluatorBean.loadContent}"
 						icon="ui-icon-check" />
 				</f:facet>
@@ -39,22 +42,25 @@
 		<h:form id="answerTextEvaluatorForm">
 			<p:dataTable reflow="true" id="answerTable"
 				value="#{examEvaluatorBean.evalRecordList}" var="evalRecord">
-				<p:column headerText="#{out.studentname}">
-				#{evalRecord.user.userName}
-				</p:column>
 				<p:column headerText="#{out.question}">
-				#{evalRecord.question.text}
+					<h:outputText value="#{evalRecord.question.text}" escape="false"></h:outputText>
 				</p:column>
 				<p:column headerText="#{out.answertext}">
 				#{evalRecord.answerText.text}
 				</p:column>
 				<p:column headerText="#{out.acceptable}">
-					<p:selectBooleanCheckbox value="#{evalRecord.answer.good}" />
+					<p:selectBooleanCheckbox
+						rendered="#{evalRecord.answer.good ne null}" disabled="true"
+						value="#{evalRecord.answer.good}" />
+
+					<p:selectBooleanCheckbox
+						rendered="#{evalRecord.answer.good eq null}"
+						value="#{evalRecord.answer.good}" />
 				</p:column>
 				<f:facet name="footer">
 					<p:commandButton value="#{out.apply}"
 						actionListener="#{examEvaluatorBean.applyEvaluation}"
-						icon="ui-icon-check" />
+						icon="ui-icon-check" update="msg,selectionForm" />
 				</f:facet>
 			</p:dataTable>
 		</h:form>

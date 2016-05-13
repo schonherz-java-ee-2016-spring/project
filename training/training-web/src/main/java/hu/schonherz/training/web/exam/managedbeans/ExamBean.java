@@ -44,10 +44,10 @@ public class ExamBean implements Serializable {
 		String examIdAsString = event.getComponent().getAttributes().get("examIdAsString").toString();
 		Long examId = Long.parseLong(examIdAsString);
 		try {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
-					bundle.getString("examstopped"));
-			currentInstance.addMessage(null, facesMessage);
 			examService.removeById(examId);
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+					bundle.getString("examdeleted"));
+			currentInstance.addMessage(null, facesMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
 					bundle.getString("erralreadyfilledout"));

@@ -42,28 +42,28 @@
 				<f:facet name="footer">
 					<div class="">
 						<p:commandButton styleClass="btn" icon="ui-icon-plusthick"
-							update="msgs,form,:groupform:gtable" action="#{userGroupsBean.createAction()}"
+							update="growl,form,:groupform:gtable" action="#{userGroupsBean.createAction()}"
 							value="#{out.creategroup}" onclick="PF('dialog').show();" />
 						<p:commandButton styleClass="btn" id="editButton" process="gtable" icon="ui-icon-pencil"
-							disabled="#{userGroupsBean.isDisabled}" value="#{out.edit}" update="msgs,form"
+							disabled="#{userGroupsBean.isDisabled}" value="#{out.edit}" update="growl,form"
 							onclick="PF('dialog').show();" />
 						<p:commandButton styleClass="btn" id="manageButton" process="gtable" icon="ui-icon-pencil"
-							disabled="#{userGroupsBean.isDisabled}" value="#{out.users}" update="msgs,pickform"
+							disabled="#{userGroupsBean.isDisabled}" value="#{out.users}" update="growl,pickform"
 							action="#{userGroupsBean.userManageAction()}" onclick="PF('pickdialog').show();" />
 						<p:commandButton styleClass="btn" id="roleManageButton" process="gtable" icon="ui-icon-pencil"
-							disabled="#{userGroupsBean.isDisabled}" value="#{out.roleGroups}" update="msgs,pickform2"
+							disabled="#{userGroupsBean.isDisabled}" value="#{out.roleGroups}" update="growl,pickform2"
 							action="#{userGroupsBean.roleManageAction()}" onclick="PF('pickdialog2').show();" />
 						<p:commandButton styleClass="btn" id="deleteButton" process="gtable"
-							update="msgs,:groupform:gtable,growl" icon="ui-icon-trash" value="#{out.delete}"
+							update=":groupform:gtable,growl" icon="ui-icon-trash" value="#{out.delete}"
 							disabled="#{userGroupsBean.isDisabled}" action="#{userGroupsBean.deleteGroup()}">
 							<p:confirm header="#{out.delete}" message="#{out.delete_sure}" icon="ui-icon-alert" />
 						</p:commandButton>
 					</div>
 				</f:facet>
-				<p:ajax event="rowSelect" update="deleteButton,editButton,manageButton,roleManageButton"
+				<p:ajax event="rowSelect" update="growl,deleteButton,editButton,manageButton,roleManageButton"
 					listener="#{userGroupsBean.selectGroupListener}" />
 				<p:ajax event="rowDblselect"
-					update="deleteButton,editButton,manageButton,roleManageButton,form,pickform,pickform2"
+					update="growl,deleteButton,editButton,manageButton,roleManageButton,form,pickform,pickform2"
 					listener="#{userGroupsBean.selectGroupListener}" oncomplete="PF('dialog').show();" />
 			</p:dataTable>
 		</h:form>
@@ -76,13 +76,12 @@
 		</p:confirmDialog>
 
 		<p:dialog responsive="true" showEffect="clip" widgetVar="dialog" modal="true" resizable="false">
-			<p:messages id="msgs" showSummary="false" showDetail="true" severity="error,fatal,warn" />
 			<h:form styleClass="form-horizontal" id="form">
 				<div class="form-group">
 					<label for="groupname" class="col-sm-4">#{out.groupname}</label>
 					<div class="col-sm-8">
 						<p:inputText styleClass="form-control" id="groupname"
-							value="#{userGroupsBean.selected.groupName}" required="true" label="groupname">
+							value="#{userGroupsBean.selected.groupName}" requiredMessage="#{out.namerequired}" validatorMessage="#{out.namevalidator}" required="true" label="groupname">
 							<f:validateRequired />
 							<f:validateLength minimum="8" />
 							<f:validateLength maximum="30" />
@@ -93,14 +92,14 @@
 					<label for="desc" class="col-sm-4">#{out.description}</label>
 					<div class="col-sm-8">
 						<p:inputTextarea styleClass="form-control" id="desc"
-							value="#{userGroupsBean.selected.description}" required="true" label="desc">
+							value="#{userGroupsBean.selected.description}" requiredMessage="#{out.descrequired}" validatorMessage="#{out.descvalidator}" required="true" label="desc">
 							<f:validateRequired />
 							<f:validateLength minimum="10" />
 							<f:validateLength maximum="1000" />
 						</p:inputTextarea>
 					</div>
 				</div>
-				<p:commandButton styleClass="btn" value="#{out.save}" update="form,msgs,growl,:groupform:gtable"
+				<p:commandButton styleClass="btn" value="#{out.save}" update="form,growl,:groupform:gtable"
 					action="#{userGroupsBean.save()}" icon="ui-icon-check"
 					oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dialog').hide();" />
 			</h:form>

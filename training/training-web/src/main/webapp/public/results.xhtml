@@ -13,11 +13,19 @@
 		<body>
 
 			<p:accordionPanel id="userGroupAccordion" var="course"
-				value="#{resultsBean.courses}" activeIndex="true">
-				<p:tab title="#{course.training.name}">
-
+				value="#{resultsBean.courses}" activeIndex="true" styleClass="customAccordion">
+				<p:tab>
+					<f:facet name="title">
+						<h:outputText value="#{course.training.name}"></h:outputText> 
+						<h:outputText value="#{course.training.beginning}" style="float:right;">
+							<f:convertDateTime pattern="yyyy.MM.dd hh:mm"/>
+						</h:outputText>
+						<h:outputText value="#{out.trainingstart}: " style="float:right;"></h:outputText>
+					
+					</f:facet>
+					
 					<p:accordionPanel id="userAccordion" var="userResult"
-						value="#{course.userResults}" activeIndex="true">
+						value="#{course.userResults}" activeIndex="true" styleClass="customAccordion">
 						<p:tab title="#{userResult.user.fullName}">
 							<div class="well">
 								<table id="resultTable" class="table-header-rotated">
