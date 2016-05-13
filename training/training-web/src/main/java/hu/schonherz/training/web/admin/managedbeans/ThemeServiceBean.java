@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -45,6 +46,7 @@ public class ThemeServiceBean {
 	private boolean mainSelected = true;
 	private ThemeVo testVo;
 	private Double lastHours;
+	private boolean fileUploaded = true;
 	
 	private String usableImageLink;
 	private Part file;
@@ -74,12 +76,25 @@ public class ThemeServiceBean {
 				Files.createDirectories(Paths.get(folder));
 			}
 			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+			testVo = themeService.getThemeByName(selectedNode.getData().toString());
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-			setUsableImageLink("Kép linkje: " + ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+			setUsableImageLink(ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
 					+ ec.getRequestServerPort() + "/training-web/themefiles/" + selectedNode.getData().toString() + "/" + filename);
 			RequestContext.getCurrentInstance().update("usableImageLinkForm");
+			testVo.setFileLink(usableImageLink);
+			themeService.createTheme(testVo);
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void downloadFile() {
+		testVo = themeService.getThemeByName(selectedNode.getData().toString());
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(testVo.getFileLink());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +118,8 @@ public class ThemeServiceBean {
 				}
 			}
 		}
-
+		resetFields();
+		selectedNode = null;
 		return root;
 	}
 
@@ -196,6 +212,11 @@ public class ThemeServiceBean {
 			mainSelected = false;
 		else
 			mainSelected = true;
+		if(testVo.getFileLink() != null)
+			fileUploaded = false;
+		else
+			fileUploaded = true;
+
 	}
 
 	public void resetFields() {
@@ -343,6 +364,20 @@ public class ThemeServiceBean {
 	 */
 	public void setUsableImageLink(String usableImageLink) {
 		this.usableImageLink = usableImageLink;
+	}
+
+	/**
+	 * @return the fileUploaded
+	 */
+	public boolean isFileUploaded() {
+		return fileUploaded;
+	}
+
+	/**
+	 * @param fileUploaded the fileUploaded to set
+	 */
+	public void setFileUploaded(boolean fileUploaded) {
+		this.fileUploaded = fileUploaded;
 	}
 
 }

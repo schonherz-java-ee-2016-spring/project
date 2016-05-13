@@ -17,6 +17,7 @@ public class Theme extends BaseEntity{
 	private String themeCode;
 	private String description;
 	private Double hours;
+	private String fileLink;
 	
 	public String getName() {
 		return name;
@@ -53,5 +54,17 @@ public class Theme extends BaseEntity{
 	}
 	public void setHours(Double hours) {
 		this.hours = hours;
+	}
+	/**
+	 * @return the fileLink
+	 */
+	public String getFileLink() {
+		return fileLink;
+	}
+	/**
+	 * @param fileLink the fileLink to set
+	 */
+	public void setFileLink(String fileLink) {
+		this.fileLink = fileLink;
 	}
 }

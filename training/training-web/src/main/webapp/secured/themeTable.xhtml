@@ -6,48 +6,52 @@
 	template="/templates/masterLayout.xhtml"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-<ui:define name="pageTitle">#{out.themes}</ui:define>
+	<ui:define name="pageTitle">#{out.themes}</ui:define>
 	<ui:define name="content">
-			<h1>#{out.themes}:</h1>
+		<h1>#{out.themes}:</h1>
 		<h:form id="treeTableForm">
 			<p:treeTable value="#{themeServiceBean.root}" var="theme"
 				id="treeTable" selectionMode="single"
-				selection="#{themeServiceBean.selectedNode}" style="width:100%">
+				selection="#{themeServiceBean.selectedNode}" liveResize="true"
+				style="word-wrap:break-word;">
 				<f:facet name="header">
             #{out.themes}
         </f:facet>
 				<p:column headerText="#{out.name}" priority="1"
-					sortBy="#{theme.name}">
+					sortBy="#{theme.name}" style="width:10%">
 					<h:outputText value="#{theme.name}" />
 				</p:column>
-				<p:column headerText="#{out.duration}" priority="3">
+				<p:column headerText="#{out.duration}" priority="3"
+					style="width:10%;center">
 					<h:outputText value="#{theme.hours}" />
 				</p:column>
-				<p:column headerText="#{out.description}" priority="3">
+				<p:column headerText="#{out.description}" priority="3"
+					style="width:17%">
 					<h:outputText value="#{theme.description}" />
 				</p:column>
 				<p:column headerText="#{out.moduser}" priority="6"
-					filterBy="#{theme.modUser}" filterMatchMode="contains" style="width:16%">
+					filterBy="#{theme.modUser}" filterMatchMode="contains"
+					style="width:17%">
 					<h:outputText value="#{theme.modUser}" />
 				</p:column>
 				<p:column headerText="#{out.moddate}" priority="6"
 					sortBy="#{theme.modDate}" filterBy="#{user.modDate}"
-					filterMatchMode="contains">
+					filterMatchMode="contains" style="width:17%">
 					<h:outputText value="#{theme.modDate}" />
 				</p:column>
 				<p:column headerText="#{out.recuser}" priority="4"
-					filterBy="#{user.recUser}" filterMatchMode="contains">
+					filterBy="#{user.recUser}" filterMatchMode="contains"
+					style="width:17%">
 					<h:outputText value="#{theme.recUser}" />
 				</p:column>
 				<p:column headerText="#{out.recdate}" priority="4"
 					sortBy="#{theme.recDate}" filterBy="#{user.recDate}"
-					filterMatchMode="contains">
+					filterMatchMode="contains" style="width:17%">
 					<h:outputText value="#{theme.recDate}" />
 				</p:column>
-				<p:column style="width:24px">
-					<p:commandLink
-						oncomplete="PF('saveDialog').show()" title="View Detail"
-						styleClass="ui-icon ui-icon-search">
+				<p:column style="width:24px" priority="6">
+					<p:commandLink oncomplete="PF('saveDialog').show()"
+						title="View Detail" styleClass="ui-icon ui-icon-arrow-1-n">
 					</p:commandLink>
 				</p:column>
 				<f:facet name="footer">
@@ -88,24 +92,23 @@
 						onclick="PF('modifyTheme').show();" id="modifyButton"
 						value="#{out.edit}" disabled="#{(themeServiceBean.disabled)}"
 						update="modifyTheme,:themeForm2:modifyTheme"></p:commandButton>
-					<p:commandButton type="button" id="saveButton"
-						disabled="#{(themeServiceBean.disabled)}"
-						onclick="PF('saveDialog').show();"></p:commandButton>
 
+					<p:commandButton action="#{themeServiceBean.downloadFile}"
+						disabled="#{themeServiceBean.fileUploaded}" id="saveFileButton"
+						value="#{out.download}">
+					</p:commandButton>
 				</f:facet>
 				<p:ajax process="treeTable" event="select"
-					update="growl,createItem,deleteButton,modifyButton,themeForm2"
+					update="growl,createItem,deleteButton,modifyButton,themeForm2,saveFileButton"
 					listener="#{themeServiceBean.onRowSelect}" />
 			</p:treeTable>
 		</h:form>
-		<p:dialog widgetVar="saveDialog">
+		<p:dialog widgetVar="saveDialog" draggable="false" resizable="false"
+			responsive="true">
 			<h:form enctype="multipart/form-data" id="fileForm">
 				<h:inputFile value="#{themeServiceBean.file}">
 					<f:ajax listener="#{themeServiceBean.saveFile}" />
 				</h:inputFile>
-			</h:form>
-			<h:form id="usableImageLinkForm">
-				<h:outputLabel value="#{themeServiceBean.usableImageLink}" />
 			</h:form>
 		</p:dialog>
 
