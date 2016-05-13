@@ -41,6 +41,10 @@
 				value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
 			<property name="hibernate.ejb.entitymanager_factory_name"
 				value="EntityManagerJNDI" />
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+			<property name="hibernate.connection.charSet" value="UTF-8" />
 		</properties>
 
 	</persistence-unit>
