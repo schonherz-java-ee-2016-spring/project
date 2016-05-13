@@ -411,7 +411,13 @@ section {
 		display: none;
 	}
 }
-
+@media ( max-width : 350px) {
+	.navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 130px;
+		font-size: 14px;
+		height: 70px;
+	}
+}
 .ui-tree-container{
 	min-height: 100px;
 }
