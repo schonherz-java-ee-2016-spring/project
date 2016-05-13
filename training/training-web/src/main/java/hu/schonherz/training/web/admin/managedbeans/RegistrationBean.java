@@ -71,6 +71,7 @@ public class RegistrationBean implements Serializable {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
+			return;
 		}
 
 		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
