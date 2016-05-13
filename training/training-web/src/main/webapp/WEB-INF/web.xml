@@ -11,14 +11,7 @@
 
 	<context-param>
 		<param-name>basedir</param-name>
-<!-- 		<param-value>c:\wamp\www\fileUpload\</param-value> -->
-		<param-value>/Users/namenyijanos/wamp/www/fileUpload/</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>basedirtwo</param-name>
-<!-- 		<param-value>c:\wamp\www\fileUpload\</param-value> -->
-		<param-value>/wamp/www/fileUpload/</param-value>
+		<param-value>c:\wamp\www\fileUpload\</param-value>
 	</context-param>
 
 	<context-param>

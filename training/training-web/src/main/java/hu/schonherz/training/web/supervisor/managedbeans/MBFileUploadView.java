@@ -37,7 +37,6 @@ public class MBFileUploadView implements Serializable {
 	private String[] list;
 	private String pdfPath;
 	String baseDir = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir");
-	String baseDirTwo = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedirtwo");
 	String avatarFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("avatarfilename");
 	String documentFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("documentfilename");
 	String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
@@ -48,9 +47,9 @@ public class MBFileUploadView implements Serializable {
 	public void init() {	
 		try {
 			loggedInUser = userService.findUserByName(username);
-			dir = new File(baseDir + loggedInUser.getId().toString() + "/");
+			dir = new File(baseDir + loggedInUser.getId().toString() + "\\");
 			list = dir.list();
-			pdfPath = baseDirTwo + loggedInUser.getId().toString()  + "/" + documentFileName;
+			pdfPath = baseDir + loggedInUser.getId().toString()  + "\\" + documentFileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +59,7 @@ public class MBFileUploadView implements Serializable {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + "/" + avatarFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "\\" + avatarFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
 	}
 
@@ -68,7 +67,7 @@ public class MBFileUploadView implements Serializable {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + "/" + documentFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "\\" + documentFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
 	}
 	
