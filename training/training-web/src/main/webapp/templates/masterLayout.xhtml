@@ -1,97 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:sec="http://www.springframework.org/security/tags"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:sec="http://www.springframework.org/security/tags" xmlns:p="http://primefaces.org/ui">
 
 <f:view locale="#{languageBean.locale}">
 
 	<h:head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 		<title><ui:insert name="pageTitle"></ui:insert></title>
 		<ui:insert name="head-extra" />
 
 
 		<h:outputStylesheet library="default" name="css/bootstrap.css"></h:outputStylesheet>
-		<h:outputStylesheet library="default" name="css/font-awesome.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/basic.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/custom.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/feedbac-overview.css"
-			rel="stylesheet" />
-		<h:outputStylesheet library="default" name="css/bootstrap-social.css"
-			rel="stylesheet" />
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans'
-			rel='stylesheet' type='text/css' />
+		<h:outputStylesheet library="default" name="css/font-awesome.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/basic.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/custom.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/feedbac-overview.css" rel="stylesheet" />
+		<h:outputStylesheet library="default" name="css/bootstrap-social.css" rel="stylesheet" />
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
-		<h:outputScript library="primefaces" name="jquery/jquery.js"
-			target="head" />
-		<h:outputScript library="primefaces" name="jquery/jquery-plugins.js"
-			target="head" />
+		<h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+		<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
 		<!-- BOOTSTRAP SCRIPTS -->
 		<h:outputScript library="default" name="js/bootstrap.js"></h:outputScript>
 		<!-- METISMENU SCRIPTS -->
 		<h:outputScript library="default" name="js/jquery.metisMenu.js"></h:outputScript>
 		<!-- CUSTOM SCRIPTS -->
-		<h:outputScript library="default"
-			name="js/wizard/modernizr-2.6.2.min.js"></h:outputScript>
-		<h:outputScript library="default"
-			name="js/wizard/jquery.cookie-1.3.1.js"></h:outputScript>
+		<h:outputScript library="default" name="js/wizard/modernizr-2.6.2.min.js"></h:outputScript>
+		<h:outputScript library="default" name="js/wizard/jquery.cookie-1.3.1.js"></h:outputScript>
 		<h:outputScript library="default" name="js/wizard/jquery.steps.js"></h:outputScript>
 		<h:outputScript library="default" name="js/custom.js"></h:outputScript>
-		<link href="#{resource['default:img/favicon.ico']}"
-			rel="shortcut icon" type="image/x-icon" />
+		<link href="#{resource['default:img/favicon.ico']}" rel="shortcut icon" type="image/x-icon" />
 	</h:head>
 
 	<h:body>
 		<p:growl id="growl" showDetail="true" life="4000" />
 		<div id="wrapper">
-			<nav class="navbar navbar-default navbar-cls-top " role="navigation"
-				style="margin-bottom: 0">
+			<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-sidebar-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
+					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<h:graphicImage library="default" name="img/logo.png"
-					class="navbar-brand"></h:graphicImage>
+				<h:form>
+				<sec:authorize access="isAnonymous()">
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/public/signup.xhtml"><i
+								style="font-size: 24px;" class="fa fa-pencil"></i></a></li>
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/public/login.xhtml"><i
+								style="font-size: 24px;" class="fa fa-sign-in"></i></a></li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/logout"><i
+								style="font-size: 24px;" class="fa fa-sign-out"></i></a></li>
+					</sec:authorize>
+					<li class="navbar-toggle-2"><p:commandLink id="lang_hu" update="@all"
+							actionListener="#{languageBean.setToHun}" disabled="#{languageBean.disabledHU}">
+							<h:graphicImage library="default" name="img/HU.png"></h:graphicImage>
+						</p:commandLink></li>
+					<li class="navbar-toggle-2"><p:commandLink id="lang_en" update="@all"
+							actionListener="#{languageBean.setToEn}" disabled="#{languageBean.disabledEN}">
+							<h:graphicImage library="default" name="img/GB.png"></h:graphicImage>
+						</p:commandLink></li>
+					
+				</h:form>
+				<h:graphicImage library="default" name="img/logo.png" class="navbar-brand"></h:graphicImage>
 			</div>
 
 			<h:form>
 				<div class="header-right">
 					<ul class="nav navbar-nav navbar-right">
-						<li><p:commandLink id="lang_hu" update="@all"
-								actionListener="#{languageBean.setToHun}"
+						<li><p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}"
 								disabled="#{languageBean.disabledHU}">
 								<h:outputText value="Magyar" />
 							</p:commandLink></li>
-						<li><p:commandLink id="lang_en" update="@all"
-								actionListener="#{languageBean.setToEn}"
+						<li><p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}"
 								disabled="#{languageBean.disabledEN}">
 								<h:outputText value="English" />
 							</p:commandLink></li>
 
 						<sec:authorize access="isAnonymous()">
-							<li><a href="#{request.contextPath}/public/signup.xhtml"><i
-									class="fa fa-pencil "></i>#{out.signup}</a></li>
-							<li><a href="#{request.contextPath}/public/login.xhtml"><i
-									class="fa fa-sign-in "></i>#{out.login}</a></li>
+							<li><a href="#{request.contextPath}/public/signup.xhtml"><i class="fa fa-pencil "></i>#{out.signup}</a></li>
+							<li><a href="#{request.contextPath}/public/login.xhtml"><i class="fa fa-sign-in "></i>#{out.login}</a></li>
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
-							<li><a href="#{request.contextPath}/logout"><i
-									class="fa fa-sign-out "></i>#{out.logout}</a></li>
+							<li><a href="#{request.contextPath}/logout"><i class="fa fa-sign-out "></i>#{out.logout}</a></li>
 						</sec:authorize>
 
 					</ul>
@@ -101,16 +99,13 @@
 
 			<nav class=" navbar-default sidebar" role="navigation">
 			<div class="container-fluid">
-				<div class="collapse navbar-collapse"
-					id="bs-sidebar-navbar-collapse-1">
+				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span
-								style="font-size: 16px;"
-								class="pull-right showopacity fa fa-home"></span></a></li>
+								style="font-size: 16px;" class="pull-right showopacity fa fa-home"></span></a></li>
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-user"></span>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
 							</a></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
@@ -123,93 +118,78 @@
 										<li><a href="#{request.contextPath}/secured/users.xhtml">#{out.users}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('UGS')">
-										<li><a
-											href="#{request.contextPath}/secured/usergroups.xhtml">#{out.usergroups}</a></li>
+										<li><a href="#{request.contextPath}/secured/usergroups.xhtml">#{out.usergroups}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 
 						<sec:authorize access="hasRole('RGS') or hasRole('ROLES')">
-							<li><a href="#" data-toggle="dropdown">#{out.rolemanagement}<span
-									class="caret"></span><span style="font-size: 16px;"
-									class="pull-right showopacity fa fa-lock"></span></a>
+							<li><a href="#" data-toggle="dropdown">#{out.rolemanagement}<span class="caret"></span><span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-lock"></span></a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('ROLES')">
 										<li><a href="#{request.contextPath}/secured/roles.xhtml">#{out.roles}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('RGS')">
-										<li><a
-											href="#{request.contextPath}/secured/rolegroups.xhtml">#{out.roleGroups}</a></li>
+										<li><a href="#{request.contextPath}/secured/rolegroups.xhtml">#{out.roleGroups}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 
-						<sec:authorize
-							access="hasRole('TRAININGS') or hasRole('THEMEMANAGEMENT')">
+						<sec:authorize access="hasRole('TRAININGS') or hasRole('THEMEMANAGEMENT')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.trainingmanagement}<span
 									class="caret"></span><span style="font-size: 16px;"
 									class="pull-right showopacity fa fa-laptop"></span>
 							</a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('THEMEMANAGEMENT')">
-										<li><a
-											href="#{request.contextPath}/secured/themeTable.xhtml">#{out.themes}</a></li>
+										<li><a href="#{request.contextPath}/secured/themeTable.xhtml">#{out.themes}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('TRAININGS')">
-										<li><a
-											href="#{request.contextPath}/secured/trainings.xhtml">#{out.trainings}</a></li>
+										<li><a href="#{request.contextPath}/secured/trainings.xhtml">#{out.trainings}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('EVENTS')">
-						<li><a href="#{request.contextPath}/secured/events.xhtml">Events<span
-								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
+							<li><a href="#{request.contextPath}/secured/events.xhtml">Events<span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
 
 						</sec:authorize>
 						<sec:authorize access="hasRole('RESULTS')">
 							<li><a href="#{request.contextPath}/secured/results.xhtml">#{out.results}<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-trophy"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/secured/statistics.xhtml">#{out.statisticssatistics}<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-trophy"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
 						</sec:authorize>
-						
+
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-calendar"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-calendar"></span></a></li>
 						</sec:authorize>
 
 
 						<sec:authorize access="hasAnyRole('INSTRUCTOR','STUDENT')">
-							<li><a href="#" data-toggle="dropdown">#{out.exam}<span
-									class="caret"></span><span style="font-size: 16px;"
-									class="pull-right showopacity fa fa-pencil-square"></span></a>
+							<li><a href="#" data-toggle="dropdown">#{out.exam}<span class="caret"></span><span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-pencil-square"></span></a>
 								<ul class="dropdown-menu forAnimate" role="menu">
 									<sec:authorize access="hasRole('INSTRUCTOR')">
-										<li><a
-											href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
+										<li><a href="#{request.contextPath}/testfeatures/exams.xhtml">#{out.examlist}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('STUDENT')">
-										<li><a
-											href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
+										<li><a href="#{request.contextPath}/testfeatures/examChoose.xhtml">#{out.takeatest}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('INSTRUCTOR')">
-										<li><a
-											href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
+										<li><a href="#{request.contextPath}/testfeatures/examEvaluator.xhtml">#{out.evaluatetest}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('STUDENT')">
-										<li><a
-											href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
+										<li><a href="#{request.contextPath}/testfeatures/examReviewForStudent.xhtml">#{out.review}
 										</a></li>
 									</sec:authorize>
 
 									<sec:authorize access="hasRole('INSTRUCTOR')">
-										<li><a
-											href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}
+										<li><a href="#{request.contextPath}/testfeatures/examReviewForInstructor.xhtml">#{out.review}
 										</a></li>
 									</sec:authorize>
 
@@ -217,8 +197,7 @@
 						</sec:authorize>
 						<sec:authorize access="hasRole('FEEDBACKS')">
 							<li><a href="#{request.contextPath}/secured/feedbacks.xhtml">#{out.feedbacks}<span
-									style="font-size: 16px;"
-									class="pull-right showopacity fa fa-comments-o"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-comments-o"></span></a></li>
 						</sec:authorize>
 					</ul>
 				</div>
@@ -251,8 +230,7 @@
 		</div>
 		<!-- /. WRAPPER  -->
 		<div id="footer-sec">
-			&copy; 2016 Schönherz | Design By : <a
-				href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
+			&copy; 2016 Schönherz | Design By : <a href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
 		</div>
 	</h:body>
 </f:view>
