@@ -318,6 +318,12 @@ section {
 	h1 {
 		font-size: 20px;
 	}
+	h2 {
+		font-size: 18px;
+	}
+	h3 {
+		font-size: 17px;
+	}
 	span.pull-right {
 		float: left !important;
 		padding-right: 10px;
@@ -336,6 +342,12 @@ section {
 @media ( min-width : 768px) {
 	h1 {
 		font-size: 24px;
+	}
+	h2 {
+		font-size: 20px;
+	}
+	h3 {
+		font-size: 18px;
 	}
 	#page-wrapper {
 		margin: 0 0 0 50px;

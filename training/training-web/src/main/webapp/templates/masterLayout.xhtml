@@ -99,9 +99,10 @@
 			<nav class=" navbar-default sidebar" role="navigation">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav" >
 						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-home"></span></a></li>
+								
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
