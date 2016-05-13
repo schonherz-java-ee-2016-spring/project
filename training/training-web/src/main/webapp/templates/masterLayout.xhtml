@@ -48,6 +48,27 @@
 					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
+				<h:form>
+				<sec:authorize access="isAnonymous()">
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/public/signup.xhtml"><i
+								style="font-size: 24px;" class="fa fa-pencil"></i></a></li>
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/public/login.xhtml"><i
+								style="font-size: 24px;" class="fa fa-sign-in"></i></a></li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+						<li class="navbar-toggle-2"><a href="#{request.contextPath}/logout"><i
+								style="font-size: 24px;" class="fa fa-sign-out"></i></a></li>
+					</sec:authorize>
+					<li class="navbar-toggle-2"><p:commandLink id="lang_hu" update="@all"
+							actionListener="#{languageBean.setToHun}" disabled="#{languageBean.disabledHU}">
+							<h:graphicImage library="default" name="img/HU.png"></h:graphicImage>
+						</p:commandLink></li>
+					<li class="navbar-toggle-2"><p:commandLink id="lang_en" update="@all"
+							actionListener="#{languageBean.setToEn}" disabled="#{languageBean.disabledEN}">
+							<h:graphicImage library="default" name="img/GB.png"></h:graphicImage>
+						</p:commandLink></li>
+					
+				</h:form>
 				<h:graphicImage library="default" name="img/logo.png" class="navbar-brand"></h:graphicImage>
 			</div>
 
@@ -56,11 +77,10 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}"
 								disabled="#{languageBean.disabledHU}">
-								<h:outputText value="Magyar" />
+								<h:graphicImage library="default" name="img/HU.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="Magyar" />
 							</p:commandLink></li>
 						<li><p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}"
-								disabled="#{languageBean.disabledEN}">
-								<h:outputText value="English" />
+								disabled="#{languageBean.disabledEN}"><h:graphicImage library="default" name="img/GB.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="English" />
 							</p:commandLink></li>
 
 						<sec:authorize access="isAnonymous()">
@@ -79,12 +99,15 @@
 			<nav class=" navbar-default sidebar" role="navigation">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav" >
 						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-home"></span></a></li>
-						<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span
-								style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
-						</a></li>
+								
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
+							</a></li>
+						</sec:authorize>
 						<sec:authorize access="hasRole('UGS') or hasRole('USERS')">
 							<li class="dropdown"><a href="#" data-toggle="dropdown">#{out.usermanagement}<span
 									class="caret"></span><span style="font-size: 16px;"
@@ -119,32 +142,33 @@
 									class="pull-right showopacity fa fa-laptop"></span>
 							</a>
 								<ul class="dropdown-menu forAnimate" role="menu">
-								<sec:authorize access="hasRole('THEMEMANAGEMENT')">
+									<sec:authorize access="hasRole('THEMEMANAGEMENT')">
 										<li><a href="#{request.contextPath}/secured/themeTable.xhtml">#{out.themes}</a></li>
 									</sec:authorize>
 									<sec:authorize access="hasRole('TRAININGS')">
-									<li><a href="#{request.contextPath}/secured/trainings.xhtml">#{out.trainings}</a></li>
+										<li><a href="#{request.contextPath}/secured/trainings.xhtml">#{out.trainings}</a></li>
 									</sec:authorize>
 								</ul></li>
 						</sec:authorize>
-						
-						<li><a href="#{request.contextPath}/public/results.xhtml">#{out.results}<span
-								style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
 						<sec:authorize access="hasRole('EVENTS')">
-						<li><a href="#{request.contextPath}/secured/events.xhtml">Events<span
+						<li><a href="#{request.contextPath}/secured/events.xhtml">#{out.events}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
+
 						</sec:authorize>
+						<sec:authorize access="hasRole('RESULTS')">
+							<li><a href="#{request.contextPath}/secured/results.xhtml">#{out.results}<span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
+						</sec:authorize>
+						<sec:authorize access="isAuthenticated()">
+							<li><a href="#{request.contextPath}/secured/statistics.xhtml">#{out.statisticssatistics}<span
+									style="font-size: 16px;" class="pull-right showopacity fa fa-line-chart"></span></a></li>
+						</sec:authorize>
+
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/public/timeline.xhtml">#{out.timeline}<span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-calendar"></span></a></li>
 						</sec:authorize>
 
-
-						<sec:authorize access="hasRole('INSTRUCTOR')">
-							<li><a href="#{request.contextPath}/secured/statistics.xhtml">#{out.statisticssatistics}<span
-									style="font-size: 16px;" class="pull-right showopacity fa fa-area-chart"></span></a></li>
-
-						</sec:authorize>
 
 						<sec:authorize access="hasAnyRole('INSTRUCTOR','STUDENT')">
 							<li><a href="#" data-toggle="dropdown">#{out.exam}<span class="caret"></span><span
@@ -206,7 +230,7 @@
 		</div>
 		<!-- /. WRAPPER  -->
 		<div id="footer-sec">
-			&copy; 2016 Schönherz | Design By : <a href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
+			&copy; 2016 Schönherz akadémia.
 		</div>
 	</h:body>
 </f:view>

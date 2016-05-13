@@ -20,7 +20,8 @@
 			<div class="btn-pref btn-group btn-group-justified btn-group-lg"
 				role="group" aria-label="...">
 				<div class="btn-group" role="group">
-					<button type="button" id="stars" class="btn btn-primary"
+					<button type="button" id="stars"
+						class="btn btn-default btn-primary" onclick="setActiveTab(this);"
 						href="#tab1" data-toggle="tab">
 						<span class="fa fa-eye" aria-hidden="true"></span>
 						<div class="hidden-xs">#{out.profileoverview}</div>
@@ -28,14 +29,14 @@
 				</div>
 				<div class="btn-group" role="group">
 					<button type="button" id="favorites" class="btn btn-default"
-						href="#tab2" data-toggle="tab">
+						onclick="setActiveTab(this);" href="#tab2" data-toggle="tab">
 						<span class="fa fa-file-archive-o" aria-hidden="true"></span>
 						<div class="hidden-xs">#{out.profilechangedata}</div>
 					</button>
 				</div>
 				<div class="btn-group" role="group">
 					<button type="button" id="following" class="btn btn-default"
-						href="#tab3" data-toggle="tab">
+						onclick="setActiveTab(this);" href="#tab3" data-toggle="tab">
 						<span class="fa fa-pencil-square-o" aria-hidden="true"></span>
 						<div class="hidden-xs">#{out.profilefileupload}</div>
 					</button>
@@ -56,8 +57,6 @@
 											#{profileBean.userDetailsVo.phoneNumber}</li>
 										<li>#{out.placeofbirth}:
 											#{profileBean.userDetailsVo.placeOfBirth}</li>
-										<li>#{out.dateofbirth}:
-											#{profileBean.userDetailsVo.dateOfBirth}</li>
 										<li>#{out.nationality}:
 											#{profileBean.userDetailsVo.nationality}</li>
 									</ul>
@@ -86,19 +85,28 @@
 													value="#{profileBean.userResults.examResults}">
 													<td>#{examResult.points}</td>
 												</ui:repeat>
-													<td>#{profileBean.examSum}</td>
+												<td>#{profileBean.examSum}</td>
 											</tr>
 											<tr>
 												<td class="row-header">Házik</td>
-												<ui:repeat var="homeworkResult" value="#{profileBean.userResults.homeworkResults}">
+												<ui:repeat var="homeworkResult"
+													value="#{profileBean.userResults.homeworkResults}">
 													<td>#{homeworkResult.score}</td>
 												</ui:repeat>
-													<td>#{profileBean.homeworkSum}</td>
+												<td>#{profileBean.homeworkSum}</td>
 											</tr>
 										</tbody>
 									</table>
 
 								</div>
+							</p:tab>
+							<p:tab title="#{out.cv}">
+								<ui:fragment rendered="#{not empty fileUploadView.pdfPath}">
+									<p:media value="/cv.pdf?pdfPath=#{fileUploadView.pdfPath}"
+										width="100%" height="800px" player="pdf">
+										<f:param name="pdfPath" value="#{fileUploadView.pdfPath}" />
+									</p:media>
+								</ui:fragment>
 							</p:tab>
 							<p:tab title="#{out.feedbacks}">
 								<ui:include src="feedback-list.xhtml"></ui:include>
@@ -108,19 +116,18 @@
 					<div class="tab-pane fade in" id="tab2">
 						<h4>#{out.profilechangedata}</h4>
 						<h:form>
-							<h:panelGrid columns="2" cellpadding="5">
+							<h:panelGrid columns="2" cellpadding="5"
+								styleClass="profileDataTable">
 								<p:outputLabel value="#{out.email}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.email}"></p:inputText>
+								<p:inputText value="#{profileBean.user.email}"></p:inputText>
 								<p:outputLabel value="#{out.placeofbirth}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.placeOfBirth}"></p:inputText>
-								<p:outputLabel value="#{out.dateofbirth}: "></p:outputLabel>
-								<p:inputMask value="#{profileBean.dateOfBirth}" mask="99/99/9999"></p:inputMask>
+								<p:inputText value="#{profileBean.userDetailsVo.placeOfBirth}"></p:inputText>
 								<p:outputLabel value="#{out.phonenumber}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.phoneNumber}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.phoneNumber}"></p:inputText>
 								<p:outputLabel value="#{out.address}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.address}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.address}"></p:inputText>
 								<p:outputLabel value="#{out.nationality}: "></p:outputLabel>
-								<p:inputText value="#{profileBean.nationality}"></p:inputText>
+								<p:inputText value="#{profileBean.userDetailsVo.nationality}"></p:inputText>
 								<p:commandButton value="#{out.submit}" ajax="false"
 									actionListener="#{profileBean.changeData}" />
 							</h:panelGrid>
@@ -128,21 +135,44 @@
 
 					</div>
 					<div class="tab-pane fade in" id="tab3">
-						<h3>#{out.uploadyourfiles}</h3>
+						<h3>#{out.uploaddocument}</h3>
 						<h:form enctype="multipart/form-data">
 							<p:growl id="messages" showDetail="true" />
 
-							<p:fileUpload value="#{fileUploadView.file}" mode="simple"
-								skinSimple="true" />
-
-							<p:commandButton value="#{out.submit}" ajax="false"
-								actionListener="#{fileUploadView.upload}" />
+							<p:fileUpload value="#{fileUploadView.uploadedFile}"
+								fileUploadListener="#{fileUploadView.actionDocument}"
+								update="@(.customAccordion, .listOfFiles)" label="#{out.browse}"
+								uploadLabel="#{out.upload}" cancelLabel="#{out.cancel}"
+								mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(pdf)$/" />
 						</h:form>
+						<h3>#{out.uploadavatar}</h3>
+						<h:form enctype="multipart/form-data">
+							<p:growl id="messages" showDetail="true" />
+
+							<p:fileUpload value="#{fileUploadView.uploadedFile}"
+								fileUploadListener="#{fileUploadView.actionAvatar}"
+								label="#{out.browse}" uploadLabel="#{out.upload}"
+								update="@(.customAccordion, .listOfFiles)"
+								cancelLabel="#{out.cancel}" mode="advanced" skinSimple="true"
+								allowTypes="/(\.|\/)(png|jpe?g)$/" />
+						</h:form>
+						<h3>#{out.uploadedfiles}</h3>
+						<p:outputPanel layout="block" styleClass="listOfFiles">
+							<ui:repeat var="list" value="#{fileUploadView.list}">
+								<p>#{list}</p>
+							</ui:repeat>
+						</p:outputPanel>
 					</div>
 				</div>
 			</div>
 
 		</div>
+		<script type="text/javascript">
+			function setActiveTab(button) {
+				$('.btn-group button').removeClass('btn-primary');
+				$(button).addClass('btn-primary');
+			}
+		</script>
 	</ui:define>
 
 </ui:composition>

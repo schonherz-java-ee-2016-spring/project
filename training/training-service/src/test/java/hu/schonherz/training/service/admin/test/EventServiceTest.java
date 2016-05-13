@@ -137,4 +137,15 @@ public class EventServiceTest {
 			Assert.fail();
 		}
 	}
+
+	@Test
+	public void test7Event() {
+		try {
+			List<EventVo> events = serviceLocal.findEventsByUserOrderedByDate(1L);
+			Assert.assertEquals(true, (events == null ? false : true));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+	}
 }

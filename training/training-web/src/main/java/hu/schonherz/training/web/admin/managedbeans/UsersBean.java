@@ -158,7 +158,7 @@ public class UsersBean implements Serializable {
 					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
 					+ currentInstance.getExternalContext().getRequestContextPath()
 					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
+			mailSenderBean.sendMail(mailSessionSeznam, "noreply@javatraining.hu", email, "password", message);
 			//mailSender.sendMail(mailSessionSeznam, "norberto44@vipmail.hu", email, "password", uuid);
 			users.add(userService.findUserByName(userVo.getUserName()));
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),

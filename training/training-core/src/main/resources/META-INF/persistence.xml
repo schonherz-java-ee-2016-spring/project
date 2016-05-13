@@ -31,8 +31,8 @@
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.default_schema" value="public" />
@@ -41,6 +41,10 @@
 				value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
 			<property name="hibernate.ejb.entitymanager_factory_name"
 				value="EntityManagerJNDI" />
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding"
+				value="UTF-8" />
+			<property name="hibernate.connection.charSet" value="UTF-8" />
 		</properties>
 
 	</persistence-unit>

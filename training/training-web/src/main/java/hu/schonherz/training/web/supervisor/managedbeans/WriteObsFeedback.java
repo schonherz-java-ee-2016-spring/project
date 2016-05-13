@@ -141,7 +141,7 @@ public class WriteObsFeedback implements Serializable {
 					+ "!</span></h3><div style='font-style: normal; font-weight: normal;'><br></div><div><span style='font-style: normal; font-weight: bold;'>Új visszajelzést kaptál</span><span style='font-weight: normal;'> a következő felhasználótól: <span style='font-style: italic; text-decoration: underline;'>"
 					+ loggedInUser.getFullName()
 					+ "</span>.</span></div><div style='font-weight: normal;'>A visszajelzés üzenetét bejelentkezés után a <span style='font-style: italic;'>Visszajelzések</span> menüpont alatt olvashatod.</div><div style='font-style: normal; font-weight: normal;'><br></div><div style='font-style: normal; font-weight: normal;'>Üdvözlettel,</div><div style='font-style: normal; font-weight: normal;'>Schönherz Training Application</div>";
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining",
+			mailSenderBean.sendMail(mailSessionSeznam, "noreply@javatraining.hu",
 					userService.findUserByName(ratedUsername).getEmail(), "Új visszajelzés", mailMessage);
 		} catch (Exception e) {
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",

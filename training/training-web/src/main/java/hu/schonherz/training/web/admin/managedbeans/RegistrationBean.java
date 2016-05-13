@@ -66,14 +66,17 @@ public class RegistrationBean implements Serializable {
 					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
 					+ currentInstance.getExternalContext().getRequestContextPath()
 					+ "/public/setupPassword.xhtml?code=" + userVo.getHashCode();
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", email, "password", message);
+			mailSenderBean.sendMail(mailSessionSeznam, "noreply@javatraining.hu", email, "password", message);
 		} catch (Exception e) {
-			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Error in creating new user!");
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle.getString("error"),
+					bundle.getString("errorreg"));
 			currentInstance.addMessage(null, facesMessage);
 			e.printStackTrace();
+			return;
 		}
 
-		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Succes!", "Succes registration!");
+		FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, bundle.getString("succes"),
+				bundle.getString("sucreg"));
 		currentInstance.addMessage("growl", facesMessage);
 	}
 
