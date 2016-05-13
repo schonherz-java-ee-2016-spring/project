@@ -4482,7 +4482,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus
 	{
-	color: red;
+	color: black;
 	background-color: transparent;
 }
 
