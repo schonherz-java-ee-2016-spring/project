@@ -229,27 +229,6 @@ body {
 /*==============================================
     MEDIA QUERIES     
     =============================================*/
-@media ( min-width :768px) {
-	#page-wrapper {
-		margin: 0 0 0 50px;
-		padding: 15px 30px;
-		min-height: 600px;
-	}
-	.navbar-side {
-		z-index: 1;
-		position: absolute;
-		width: 180px;
-	}
-	.navbar {
-		border-radius: 0px;
-	}
-	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
-		width: 220px;
-		font-size: 14px;
-		height: 80px;
-	}
-}
-
 @media ( min-width :1400px) {
 	#page-wrapper {
 		margin: 0 0 0 260px;
@@ -295,14 +274,6 @@ table.leaderboard   td:last-child {
 /*==============================================
    MENU
     =============================================*/
-@media ( max-width :764px) {
-	.navbar-brand, .navbar-cls-top .navbar-brand {
-		width: 160px;
-		font-size: 14px;
-		height: 80px;
-	}
-}
-
 nav.sidebar, .main {
 	-webkit-transition: margin 200ms ease-out;
 	-moz-transition: margin 200ms ease-out;
@@ -314,7 +285,25 @@ nav.sidebar .navbar-nav .open .dropdown-menu li {
 	padding: 8px;
 }
 
-@media ( min-width : 765px) {
+@media ( min-width : 768px) {
+	#page-wrapper {
+		margin: 0 0 0 50px;
+		padding: 15px 30px;
+		min-height: 600px;
+	}
+	.navbar-side {
+		z-index: 1;
+		position: absolute;
+		width: 180px;
+	}
+	.navbar {
+		border-radius: 0px;
+	}
+	.navbar-header, .navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 220px;
+		font-size: 14px;
+		height: 80px;
+	}
 	nav.sidebar:hover+.main {
 		margin-left: 200px;
 	}
@@ -406,10 +395,20 @@ section {
 	padding-left: 15px;
 }
 
-@media ( max-width : 765px) {
+@media ( max-width : 768px) {
 	span.pull-right {
 		float: left !important;
 		padding-right: 10px;
+	}
+	
+	.navbar-brand, .navbar-cls-top .navbar-brand {
+		width: 160px;
+		font-size: 14px;
+		height: 80px;
+	}
+	.header-right{
+		visibility: hidden;
+		display: none;
 	}
 }
 
