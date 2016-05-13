@@ -37,34 +37,30 @@ public class MBFileUploadView implements Serializable {
 	private String[] list;
 	private String pdfPath;
 	String baseDir = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir");
+	String baseDirTwo = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedirtwo");
 	String avatarFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("avatarfilename");
 	String documentFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("documentfilename");
-	String pathSeparator = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("pathseparator");
 	String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	UserVo loggedInUser = new UserVo();
 	
 	
 	@PostConstruct
-	public void init() {
-		
+	public void init() {	
 		try {
 			loggedInUser = userService.findUserByName(username);
-			dir = new File(baseDir + loggedInUser.getId().toString() + pathSeparator);
+			dir = new File(baseDir + loggedInUser.getId().toString() + "/");
 			list = dir.list();
-			pdfPath = baseDir + loggedInUser.getId().toString()  + pathSeparator + documentFileName;
+			pdfPath = baseDirTwo + loggedInUser.getId().toString()  + "/" + documentFileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-
 	}
 	
 	public void actionAvatar(FileUploadEvent event) throws IOException, Exception {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + avatarFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "/" + avatarFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
 	}
 
@@ -72,9 +68,11 @@ public class MBFileUploadView implements Serializable {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + documentFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "/" + documentFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
 	}
+	
+	
 
 	/**
 	 * @return the uploadedFile

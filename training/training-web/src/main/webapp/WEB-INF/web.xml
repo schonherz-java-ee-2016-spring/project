@@ -11,8 +11,14 @@
 
 	<context-param>
 		<param-name>basedir</param-name>
-		<param-value>c:\wamp\www\fileUpload\</param-value>
-<!-- 		<param-value>/Users/namenyijanos/wamp/upload/</param-value> -->
+<!-- 		<param-value>c:\wamp\www\fileUpload\</param-value> -->
+		<param-value>/Users/namenyijanos/wamp/www/fileUpload/</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>basedirtwo</param-name>
+<!-- 		<param-value>c:\wamp\www\fileUpload\</param-value> -->
+		<param-value>/wamp/www/fileUpload/</param-value>
 	</context-param>
 
 	<context-param>
@@ -25,12 +31,6 @@
 		<param-value>avatar.jpg</param-value>
 	</context-param>
 	
-	<context-param>
-		<param-name>pathseparator</param-name>
-		<param-value>\</param-value>
-<!-- 		<param-value>/</param-value> -->
-	</context-param>
-
 	<context-param>
 		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
 		<param-value>.xhtml</param-value>
