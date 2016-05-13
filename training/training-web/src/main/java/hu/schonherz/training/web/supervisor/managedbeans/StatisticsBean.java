@@ -122,7 +122,6 @@ public class StatisticsBean implements Serializable {
 		Axis yAxis = testCategoryModel.getAxis(AxisType.Y);
 		yAxis.setLabel(bundle.getString("statisticsscore"));
 		yAxis.setMin(0);
-		yAxis.setMax(10);
 		yAxis.setTickFormat("%d");
 	}
 
@@ -174,7 +173,6 @@ public class StatisticsBean implements Serializable {
 		Axis yAxis = homeworkCategoryModel.getAxis(AxisType.Y);
 		yAxis.setLabel(bundle.getString("statisticsscore"));
 		yAxis.setMin(0);
-		yAxis.setMax(10);
 		yAxis.setTickFormat("%d");
 	}
 
@@ -209,9 +207,6 @@ public class StatisticsBean implements Serializable {
 			course.setUserResults(userResultsList);
 			course.setThemes(course.getTraining().getThemes());
 		}
-
-		/// --------Works
-		// Filling the Results
 
 		for (Course course : courses) {
 			for (UserResults userResult : course.getUserResults()) {

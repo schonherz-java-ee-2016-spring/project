@@ -22,31 +22,31 @@ public class MailSenderBean {
 	
 	  public void sendMail( Session mailSessionSeznam, String mailFrom, String sMailTo, String sSubject, String sMailText) throws MessagingException {
 	       
-		  Properties props = System.getProperties();
-		  props.put("mail.smtp.host", "smtp.gmail.com");
-		  props.put("mail.smtp.auth", "true");
-		  props.put("mail.smtp.port", "465");
-		  props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		  props.put("mail.smtp.socketFactory.port", "465");
-		  props.put("mail.smtp.socketFactory.fallback", "false");	  
-		  Session session = Session.getDefaultInstance(props, null);
+//		  Properties props = System.getProperties();
+//		  props.put("mail.smtp.host", "smtp.gmail.com");
+//		  props.put("mail.smtp.auth", "true");
+//		  props.put("mail.smtp.port", "465");
+//		  props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//		  props.put("mail.smtp.socketFactory.port", "465");
+//		  props.put("mail.smtp.socketFactory.fallback", "false");	  
+//		  Session session = Session.getDefaultInstance(props, null);
+//		  
+//		  MimeMessage message2 = new MimeMessage( session );
+//		  message2.setFrom( new InternetAddress( mailFrom ) );
+//		  message2.addRecipient( Message.RecipientType.TO, new InternetAddress( sMailTo ) );
+//		  message2.setSubject( sSubject );
+//		  message2.setContent(sMailText, "text/html; charset=utf-8");	  
+//		  
+//		  Transport transport = session.getTransport("smtp");
+//		  transport.connect("smtp.gmail.com", "tesztu70", "dummypassword" ); 
+//		  transport.sendMessage( message2, message2.getAllRecipients() ); 
 		  
-		  MimeMessage message2 = new MimeMessage( session );
-		  message2.setFrom( new InternetAddress( mailFrom ) );
-		  message2.addRecipient( Message.RecipientType.TO, new InternetAddress( sMailTo ) );
-		  message2.setSubject( sSubject );
-		  message2.setContent(sMailText, "text/html; charset=utf-8");	  
-		  
-		  Transport transport = session.getTransport("smtp");
-		  transport.connect("smtp.gmail.com", "tesztu70", "dummypassword" ); 
-		  transport.sendMessage( message2, message2.getAllRecipients() ); 
-		  
-//		  MimeMessage message = new MimeMessage( mailSessionSeznam );     
-//	       message.setFrom( new InternetAddress( mailFrom ) );
-//	       message.addRecipient( Message.RecipientType.TO, new InternetAddress( sMailTo ) );
-//	       message.setContent(sMailText, "text/html; charset=utf-8");
-//	       message.setSubject( sSubject );
-//	       Transport.send( message ); 
+		  MimeMessage message = new MimeMessage( mailSessionSeznam );     
+	       message.setFrom( new InternetAddress( mailFrom ) );
+	       message.addRecipient( Message.RecipientType.TO, new InternetAddress( sMailTo ) );
+	       message.setContent(sMailText, "text/html; charset=utf-8");
+	       message.setSubject( sSubject );
+	       Transport.send( message ); 
 	       }
 
 	public Session getMailSessionSeznam() {

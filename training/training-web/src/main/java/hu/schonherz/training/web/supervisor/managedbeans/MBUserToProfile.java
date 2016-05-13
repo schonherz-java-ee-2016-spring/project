@@ -1,9 +1,6 @@
 package hu.schonherz.training.web.supervisor.managedbeans;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,12 +39,6 @@ public class MBUserToProfile implements Serializable {
 	private UserResults userResults;
 
 	private UserVo user;
-	private String email;
-	private String placeOfBirth;
-	private String dateOfBirth;
-	private String phoneNumber;
-	private String address;
-	private String nationality;
 	private Integer examSum;
 	private Integer homeworkSum;
 
@@ -84,17 +75,28 @@ public class MBUserToProfile implements Serializable {
 			e.printStackTrace();
 		}
 		List<TrainingVo> trainingVos = trainingService.getAllTrainings();
-		for (TrainingVo trainingVo : trainingVos) {
-			List<UserVo> userVos = trainingVo.getUsers();
-			if (userVos.contains(user)) {
-				themes.addAll(trainingVo.getThemes());
-			}
-		}
+		themes = themeService.findAllTheme();
 		try {
-			userDetailsVo = userDetailsService.getUserDetailsByUser(user);
-		} catch (Exception e) {
-			e.printStackTrace();
+			if (userDetailsService.getUserDetailsByUser(user) == null) {
+				userDetailsVo.setUser(user);
+				try {
+					userDetailsService.add(userDetailsVo);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				userDetailsVo = userDetailsService.getUserDetailsByUser(user);
+			}
+		} catch (Exception e1) {
+
+			e1.printStackTrace();
 		}
+
+		// try {
+		// userDetailsVo = userDetailsService.getUserDetailsByUser(user);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 		userResults.setUser(user);
 		List<ExamResultVo> examResults = new ArrayList<>();
 		try {
@@ -115,22 +117,10 @@ public class MBUserToProfile implements Serializable {
 
 	public void changeData() {
 		userService.updateUser(user);
-		userResults.setUser(user);
-		userDetailsVo.setAddress(address);
-		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-		Date dateOfBirthDate = new Date();
 		try {
-			dateOfBirthDate = df.parse(dateOfBirth);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		userDetailsVo.setDateOfBirth(dateOfBirthDate);
-		userDetailsVo.setNationality(nationality);
-		userDetailsVo.setPhoneNumber(phoneNumber);
-		userDetailsVo.setPlaceOfBirth(placeOfBirth);
-		try {
-			userDetailsService.modifyUserDetails(user.getId(), phoneNumber, address, placeOfBirth, dateOfBirthDate,
-					nationality);
+			userDetailsService.modifyUserDetails(user.getId(), userDetailsVo.getPhoneNumber(),
+					userDetailsVo.getAddress(), userDetailsVo.getPlaceOfBirth(), new Date(),
+					userDetailsVo.getNationality());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -182,54 +172,6 @@ public class MBUserToProfile implements Serializable {
 
 	public void setHomeworkSum(Integer homeworkSum) {
 		this.homeworkSum = homeworkSum;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPlaceOfBirth() {
-		return placeOfBirth;
-	}
-
-	public void setPlaceOfBirth(String placeOfBirth) {
-		this.placeOfBirth = placeOfBirth;
-	}
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getNationality() {
-		return nationality;
-	}
-
-	public void setNationality(String nationality) {
-		this.nationality = nationality;
 	}
 
 }

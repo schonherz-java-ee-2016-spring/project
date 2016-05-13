@@ -68,7 +68,7 @@ public class ForgotPasswordBean {
 					+ ":" + currentInstance.getExternalContext().getRequestServerPort() 
 					+ currentInstance.getExternalContext().getRequestContextPath()
 					+ "/public/setupPassword.xhtml?code=" + testUser.getHashCode();
-			mailSenderBean.sendMail(mailSessionSeznam, "SCHTraining", forgotPasswordEmail, "password", message);
+			mailSenderBean.sendMail(mailSessionSeznam, "noreply@javatraining.hu", forgotPasswordEmail, "password", message);
 		} catch (Exception e) {
 			FacesMessage msgs = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Setting up hashCode!");
 			currentInstance.addMessage(null, msgs);
