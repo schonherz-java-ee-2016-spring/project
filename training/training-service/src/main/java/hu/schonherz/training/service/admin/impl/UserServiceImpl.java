@@ -99,7 +99,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserVo findUserByHashCode(String hashCode) {
-		UserVo vo = UserMapper.toVo(userRepository.findUserByHashCode(hashCode));
-		return vo;
+		return UserMapper.toVo(userRepository.findUserByHashCode(hashCode));
 	}
 }
