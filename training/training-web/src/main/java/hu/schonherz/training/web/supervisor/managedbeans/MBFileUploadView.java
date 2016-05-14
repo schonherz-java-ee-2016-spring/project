@@ -4,13 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
 import org.apache.commons.io.FileUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -38,42 +40,55 @@ public class MBFileUploadView implements Serializable {
 	private String pdfPath;
 	String baseDir = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("basedir");
 	String avatarFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("avatarfilename");
-	String documentFileName = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("documentfilename");
-	String pathSeparator = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("pathseparator");
+	String documentFileName = FacesContext.getCurrentInstance().getExternalContext()
+			.getInitParameter("documentfilename");
 	String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 	UserVo loggedInUser = new UserVo();
-	
-	
+
 	@PostConstruct
 	public void init() {
-		
 		try {
 			loggedInUser = userService.findUserByName(username);
-			dir = new File(baseDir + loggedInUser.getId().toString() + pathSeparator);
-			list = dir.list();
-			pdfPath = baseDir + loggedInUser.getId().toString()  + pathSeparator + documentFileName;
+			dir = new File(baseDir + loggedInUser.getId().toString() + "\\");
+			updateDir();
+			initPdfPath();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
-
 	}
-	
+
+	private void initPdfPath() {
+		this.pdfPath = baseDir + loggedInUser.getId().toString() + "\\" + documentFileName;
+		Path pdfPath = Paths.get(this.pdfPath);
+		try {
+			Files.readAllBytes(pdfPath);
+		} catch (Exception e) {
+			this.pdfPath = null;
+		}
+		System.out.println("pdfPath: " + pdfPath);
+	}
+
+	private void updateDir() {
+		list = dir.list();
+	}
+
 	public void actionAvatar(FileUploadEvent event) throws IOException, Exception {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + avatarFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "\\" + avatarFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
+		updateDir();
 	}
 
 	public void actionDocument(FileUploadEvent event) throws IOException, Exception {
 		uploadedFile = (UploadedFile) event.getFile();
 		loggedInUser = userService.findUserByName(username);
 		inputStream = uploadedFile.getInputstream();
-		destFile = new File(baseDir + loggedInUser.getId().toString() + pathSeparator + documentFileName);
+		destFile = new File(baseDir + loggedInUser.getId().toString() + "\\" + documentFileName);
 		FileUtils.copyInputStreamToFile(inputStream, destFile);
+		updateDir();
+		initPdfPath();
 	}
 
 	/**
@@ -159,10 +174,10 @@ public class MBFileUploadView implements Serializable {
 	}
 
 	/**
-	 * @param pdfPath the pdfPath to set
+	 * @param pdfPath
+	 *            the pdfPath to set
 	 */
 	public void setPdfPath(String pdfPath) {
 		this.pdfPath = pdfPath;
 	}
-
 }

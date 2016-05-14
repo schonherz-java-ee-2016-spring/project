@@ -1,5 +1,11 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -7,11 +13,15 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.NavigationHandler;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -36,6 +46,10 @@ public class ThemeServiceBean {
 	private boolean mainSelected = true;
 	private ThemeVo testVo;
 	private Double lastHours;
+	private boolean fileUploaded = true;
+	
+	private String usableImageLink;
+	private Part file;
 
 	private TreeNode root;
 	private TreeNode selectedNode = null;
@@ -51,6 +65,38 @@ public class ThemeServiceBean {
 		root = createThemes();
 		mainSelected = true;
 		disabled = true;
+	}
+	
+	public void saveFile() {
+		try (InputStream input = getFile().getInputStream()) {
+			String folder = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/") + "/themefiles/"
+					+ selectedNode.getData().toString() + "/";
+			String filename = file.getSubmittedFileName();
+			if (!Files.exists(Paths.get(folder))) {
+				Files.createDirectories(Paths.get(folder));
+			}
+			Files.copy(input, new File(folder, filename).toPath(), StandardCopyOption.REPLACE_EXISTING);
+			testVo = themeService.getThemeByName(selectedNode.getData().toString());
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			setUsableImageLink(ec.getRequestScheme() + "://" + ec.getRequestServerName() + ":"
+					+ ec.getRequestServerPort() + "/training-web/themefiles/" + selectedNode.getData().toString() + "/" + filename);
+			RequestContext.getCurrentInstance().update("usableImageLinkForm");
+			testVo.setFileLink(usableImageLink);
+			themeService.createTheme(testVo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void downloadFile() {
+		testVo = themeService.getThemeByName(selectedNode.getData().toString());
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(testVo.getFileLink());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public TreeNode createThemes() {
@@ -72,7 +118,8 @@ public class ThemeServiceBean {
 				}
 			}
 		}
-
+		resetFields();
+		selectedNode = null;
 		return root;
 	}
 
@@ -165,6 +212,11 @@ public class ThemeServiceBean {
 			mainSelected = false;
 		else
 			mainSelected = true;
+		if(testVo.getFileLink() != null)
+			fileUploaded = false;
+		else
+			fileUploaded = true;
+
 	}
 
 	public void resetFields() {
@@ -284,6 +336,48 @@ public class ThemeServiceBean {
 
 	public void setLastHours(Double lastHours) {
 		this.lastHours = lastHours;
+	}
+
+	/**
+	 * @return the file
+	 */
+	public Part getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(Part file) {
+		this.file = file;
+	}
+
+	/**
+	 * @return the usableImageLink
+	 */
+	public String getUsableImageLink() {
+		return usableImageLink;
+	}
+
+	/**
+	 * @param usableImageLink the usableImageLink to set
+	 */
+	public void setUsableImageLink(String usableImageLink) {
+		this.usableImageLink = usableImageLink;
+	}
+
+	/**
+	 * @return the fileUploaded
+	 */
+	public boolean isFileUploaded() {
+		return fileUploaded;
+	}
+
+	/**
+	 * @param fileUploaded the fileUploaded to set
+	 */
+	public void setFileUploaded(boolean fileUploaded) {
+		this.fileUploaded = fileUploaded;
 	}
 
 }
