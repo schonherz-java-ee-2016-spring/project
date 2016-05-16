@@ -12,7 +12,7 @@ import hu.schonherz.training.core.admin.entity.RoleGroup;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface RoleGroupRepository extends JpaRepository<RoleGroup, Long> {
 
-	RoleGroup findByName(String name) throws Exception;
+	RoleGroup findByName(String name) ;
 	
 //	@Modifying
 //	@Query("update RoleGroup rg set rg.name = ?2, rg.roles = ?3 where rg.id = ?1")

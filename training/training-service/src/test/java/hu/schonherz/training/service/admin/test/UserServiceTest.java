@@ -64,6 +64,7 @@ public class UserServiceTest {
 	 * modifyUser kész
 	 * findUserById kész
 	 * updateUser kész
+	 * findUserByHashCode kész
 	 * */
 
 	@Test
@@ -77,19 +78,6 @@ public class UserServiceTest {
 			throw new RuntimeException(e);
 		}
 	}
-	
-//	@Test
-//	public void test1FindAllUser2() {
-//		List<UserVo> user = ;
-//		
-//		try {
-//			users = serviceLocal.findAllUser();
-//			Assert.assertEquals(true, (users == null ? false : true));
-//		} catch (Exception e) {
-//			logger.error(e.getMessage(), e);
-//			throw new RuntimeException(e);
-//		}
-//	}
 	
 	@Test
 	public void test2FindByUsername(){
@@ -175,6 +163,19 @@ public class UserServiceTest {
 		try {
 			user = serviceLocal.findUserByName("IWantToLogin");
 			user2 = serviceLocal.findUserById(user.getId());
+		Assert.assertEquals(true, (user2 == null ? false : true));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test8FindUserByHashCode(){
+		UserVo user;
+		UserVo user2;
+		try {
+			user = serviceLocal.findUserByName("IWantToLogin");
+			user2 = serviceLocal.findUserByHashCode(user.getHashCode());
 		Assert.assertEquals(true, (user2 == null ? false : true));
 		} catch (Exception e) {
 			e.printStackTrace();

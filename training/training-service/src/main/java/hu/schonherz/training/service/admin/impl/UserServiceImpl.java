@@ -44,13 +44,8 @@ public class UserServiceImpl implements UserService {
 	public UserServiceImpl() {
 	}
 
-	private RoleGroup getGuestRoleGroup() throws Exception {
+	private RoleGroup getGuestRoleGroup() {
 		RoleGroup roleGroup = roleGroupRepository.findByName("Guest Role Group");
-//		if (roleGroup == null) {
-//			roleGroup = new RoleGroup();
-//			roleGroup.setName("Guest Role Group");
-//			roleGroup = roleGroupRepository.save(roleGroup);
-//		}
 		return roleGroup;
 	}
 
@@ -68,29 +63,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserVo> findAllUser() throws Exception {
-		List<UserVo> vos;
-		if (userRepository.findAll() == null) {
-			vos = new ArrayList<>();
-		} else {
-			vos = UserMapper.toVo(userRepository.findAllByOrderByFullNameAsc());
-		}
-		return vos;
+		return UserMapper.toVo(userRepository.findAllByOrderByFullNameAsc());
 	}
 
 	@Override
 	public void registrationUser(UserVo userVo) {
 		User user = UserMapper.toDto(userVo);
 		Collection<RoleGroup> roles = new ArrayList<>();
-//		if (roles == null) {
-//			roles = new ArrayList<>();
-//		}
 		RoleGroup roleGroup = null;
-		try {
-			roleGroup = getGuestRoleGroup();
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			e.printStackTrace();
-		}
+		roleGroup = getGuestRoleGroup();
 		roles.add(roleGroup);
 		user.setRoleGroups(roles);
 		user = userRepository.save(user);
@@ -103,35 +84,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void modifyUser(UserVo selectedUser) throws Exception {
-//		userRepository.updateUser(selectedUser.getUserName(), selectedUser.getFullName(), selectedUser.getEmail(),
-//				selectedUser.getId());
 		userRepository.save(UserMapper.toDto(selectedUser));
 	}
 
 	@Override
 	public UserVo findUserById(Long id) {
-		User user = null;
-		try {
-			user = userRepository.findUserById(id);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			e.printStackTrace();
-		}
-		return UserMapper.toVo(user);
+		return UserMapper.toVo(userRepository.findUserById(id));
 	}
 
 	@Override
 	public void updateUser(UserVo userVo) {
-//		String email = userVo.getEmail();
-//		userVo.setEmail(email + "asd");
-//		userRepository.save(UserMapper.toDto(userVo));
-//		userVo.setEmail(email);
 		userRepository.save(UserMapper.toDto(userVo));
 	}
 
 	@Override
 	public UserVo findUserByHashCode(String hashCode) {
-		UserVo vo = UserMapper.toVo(userRepository.findUserByHashCode(hashCode));
-		return vo;
+		return UserMapper.toVo(userRepository.findUserByHashCode(hashCode));
 	}
 }

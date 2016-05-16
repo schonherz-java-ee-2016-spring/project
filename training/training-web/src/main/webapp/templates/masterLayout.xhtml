@@ -77,11 +77,10 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li><p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}"
 								disabled="#{languageBean.disabledHU}">
-								<h:outputText value="Magyar" />
+								<h:graphicImage library="default" name="img/HU.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="Magyar" />
 							</p:commandLink></li>
 						<li><p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}"
-								disabled="#{languageBean.disabledEN}">
-								<h:outputText value="English" />
+								disabled="#{languageBean.disabledEN}"><h:graphicImage library="default" name="img/GB.png"></h:graphicImage>-<h:outputText style="vertical-align:middle;" value="English" />
 							</p:commandLink></li>
 
 						<sec:authorize access="isAnonymous()">
@@ -100,9 +99,10 @@
 			<nav class=" navbar-default sidebar" role="navigation">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav" >
 						<li><a href="#{request.contextPath}/index.xhtml">#{out.home}<span
 								style="font-size: 16px;" class="pull-right showopacity fa fa-home"></span></a></li>
+								
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/secured/myprofile.xhtml">#{out.myprofile}<span
 									style="font-size: 16px;" class="pull-right showopacity fa fa-user"></span>
@@ -151,8 +151,8 @@
 								</ul></li>
 						</sec:authorize>
 						<sec:authorize access="hasRole('EVENTS')">
-							<li><a href="#{request.contextPath}/secured/events.xhtml">Events<span
-									style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
+						<li><a href="#{request.contextPath}/secured/events.xhtml">#{out.events}<span
+								style="font-size: 16px;" class="pull-right showopacity fa fa-calendar-o"></span></a></li>
 
 						</sec:authorize>
 						<sec:authorize access="hasRole('RESULTS')">
@@ -161,7 +161,7 @@
 						</sec:authorize>
 						<sec:authorize access="isAuthenticated()">
 							<li><a href="#{request.contextPath}/secured/statistics.xhtml">#{out.statisticssatistics}<span
-									style="font-size: 16px;" class="pull-right showopacity fa fa-trophy"></span></a></li>
+									style="font-size: 16px;" class="pull-right showopacity fa fa-line-chart"></span></a></li>
 						</sec:authorize>
 
 						<sec:authorize access="isAuthenticated()">
@@ -230,7 +230,7 @@
 		</div>
 		<!-- /. WRAPPER  -->
 		<div id="footer-sec">
-			&copy; 2016 Schönherz | Design By : <a href="http://www.binarytheme.com/" target="_blank">BinaryTheme.com</a>
+			&copy; 2016 Schönherz akadémia.
 		</div>
 	</h:body>
 </f:view>

@@ -8,7 +8,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:p="http://primefaces.org/ui">
-<f:view>
+<f:view locale="#{languageBean.locale}">
 
 	<h:head>
 		<h:outputStylesheet library="default" name="css/bootstrap.css"></h:outputStylesheet>
@@ -65,6 +65,21 @@
 							#{out.clickhere} </a> #{out.orgoto}
 							<a href="#{request.contextPath}/index.xhtml">#{out.home}</a>
 						</form>
+							<hr />
+							<h:form>
+							
+								<p:commandLink id="lang_hu" update="@all" actionListener="#{languageBean.setToHun}"
+									disabled="#{languageBean.disabledHU}">
+									<h:outputText value="Magyar" />
+								</p:commandLink>
+
+								<span class="pull-right">
+									<p:commandLink id="lang_en" update="@all" actionListener="#{languageBean.setToEn}"
+										disabled="#{languageBean.disabledEN}">
+										<h:outputText value="English" />
+									</p:commandLink>
+								</span>
+							</h:form>
 
 					</div>
 				</div>

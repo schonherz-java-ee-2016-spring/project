@@ -8,7 +8,7 @@ public interface UserService {
 
 	public UserVo findUserByName(String name) throws Exception;
 	
-	public void registrationUser(UserVo userVo);
+	public void registrationUser(UserVo userVo) throws Exception;
 	
 	public UserVo findUserByEmail(String email) throws Exception;
 	
