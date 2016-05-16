@@ -221,7 +221,8 @@ INSERT INTO public.option(id, correct, text, question_id) VALUES (4016, true, 'K
 
 -- Exam-module
 
-INSERT INTO public.exam(id, title) VALUES(2002, 'Fejesztői eszközök');
+INSERT INTO public.exam(id, title) VALUES(2001, 'Fejesztői eszközök');
+INSERT INTO public.exam(id, title) VALUES(2002, 'Verziókezelés');
 INSERT INTO public.exam(id, title) VALUES(2003, 'Java alapok');
 INSERT INTO public.exam(id, title) VALUES(2004, 'Objektum orientált design');
 INSERT INTO public.exam(id, title) VALUES(2005, 'Maven');
