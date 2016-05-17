@@ -108,7 +108,7 @@
 		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog" modal="true"
 			resizable="false">
 			<h:form id="pickform">
-				<p:pickList id="pickList" value="#{userGroupsBean.users}" var="user"
+				<p:pickList responsive="true" id="pickList" value="#{userGroupsBean.users}" var="user"
 					itemLabel="#{user.fullName} (#{user.userName})" itemValue="#{user}" converter="UserConverter">
 					<f:facet name="sourceCaption">#{out.notingroupusers}</f:facet>
 					<f:facet name="targetCaption">#{out.groupusers}</f:facet>
@@ -121,7 +121,7 @@
 		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog2" modal="true"
 			resizable="false">
 			<h:form id="pickform2">
-				<p:pickList id="pickList2" value="#{userGroupsBean.rGroups}" var="roleGroup"
+				<p:pickList responsive="true" id="pickList2" value="#{userGroupsBean.rGroups}" var="roleGroup"
 					itemLabel="#{roleGroup.name}" itemValue="#{roleGroup}" converter="RoleGroupConverter">
 					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
