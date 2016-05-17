@@ -1,7 +1,5 @@
 package hu.schonherz.training.web.admin.managedbeans;
 
-import java.util.Properties;
-
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;

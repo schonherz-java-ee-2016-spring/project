@@ -32,17 +32,17 @@ public class ThemeServiceImpl implements ThemeService {
 	@Override
 	public List<ThemeVo> findAllTheme() {
 		List<ThemeVo> themes = null;
-		try {
+//		try {
 			themes = ThemeMapper.toVo(themeRepository.findAll());
-		} catch (Exception e) {
-			logger.error("Nem sikerült megtalálni az összes tematikát!", e);
-			e.printStackTrace();
-		}
-		if( themes == null ){
-			logger.error("ThemeServiceImpl: nem található egyetlen tematika sem!");
-		} else {
-			logger.info("ThemeServiceImpl: tematikák sikeresen lekérdezve!");
-		}
+//		} catch (Exception e) {
+//			logger.error("Nem sikerült megtalálni az összes tematikát!", e);
+//			e.printStackTrace();
+//		}
+//		if( themes == null ){
+//			logger.error("ThemeServiceImpl: nem található egyetlen tematika sem!");
+//		} else {
+//			logger.info("ThemeServiceImpl: tematikák sikeresen lekérdezve!");
+//		}
 		return themes;
 	}
 
@@ -64,17 +64,17 @@ public class ThemeServiceImpl implements ThemeService {
 		// nem volt findByName a repository-ban, raktam!! BA
 		
 		ThemeVo theme = null;
-		try {
+//		try {
 			theme = ThemeMapper.toVo(themeRepository.findByName(themeName));
-		} catch (Exception e) {
-			logger.error("Nem sikerült megtalálni a " + themeName + " nevű tematikát!", e);
-			e.printStackTrace();
-		}
-		if( theme == null ){
-			logger.error("ThemeServiceImpl: nem található a " + themeName + " nevű tematika!");
-		} else {
-			logger.info("ThemeServiceImpl: a " + themeName + " nevű tematika sikeresen lekérdezve!");
-		}
+//		} catch (Exception e) {
+//			logger.error("Nem sikerült megtalálni a " + themeName + " nevű tematikát!", e);
+//			e.printStackTrace();
+//		}
+//		if( theme == null ){
+//			logger.error("ThemeServiceImpl: nem található a " + themeName + " nevű tematika!");
+//		} else {
+//			logger.info("ThemeServiceImpl: a " + themeName + " nevű tematika sikeresen lekérdezve!");
+//		}
 		return theme;
 
 	}
@@ -84,17 +84,17 @@ public class ThemeServiceImpl implements ThemeService {
 		// nem volt findByType a repository-ban, raktam!! BA
 		
 		List<ThemeVo> themes = null;
-		try {
+//		try {
 			themes = ThemeMapper.toVo(themeRepository.findByType(type));
-		} catch (Exception e) {
-			logger.error("Nem sikerült megtalálni az összes + " + type + " típusú tematikát!", e);
-			e.printStackTrace();
-		}
-		if( themes == null ){
-			logger.error("ThemeServiceImpl: nem található egyetlen " + type + " típusú tematika sem!");
-		} else {
-			logger.info("ThemeServiceImpl: a " + type + " típusú tematikák sikeresen lekérdezve!");
-		}
+//		} catch (Exception e) {
+//			logger.error("Nem sikerült megtalálni az összes + " + type + " típusú tematikát!", e);
+//			e.printStackTrace();
+//		}
+//		if( themes == null ){
+//			logger.error("ThemeServiceImpl: nem található egyetlen " + type + " típusú tematika sem!");
+//		} else {
+//			logger.info("ThemeServiceImpl: a " + type + " típusú tematikák sikeresen lekérdezve!");
+//		}
 		return themes;
 		
 	}

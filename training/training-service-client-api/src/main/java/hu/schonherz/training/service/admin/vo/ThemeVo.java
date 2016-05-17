@@ -17,6 +17,7 @@ public class ThemeVo implements Serializable {
 	private String modUser;
 	private String description;
 	private Double hours;
+	private String fileLink;
 	
 	public ThemeVo(){
 	}
@@ -141,6 +142,20 @@ public class ThemeVo implements Serializable {
 	 */
 	public void setHours(Double hours) {
 		this.hours = hours;
+	}
+
+	/**
+	 * @return the fileLink
+	 */
+	public String getFileLink() {
+		return fileLink;
+	}
+
+	/**
+	 * @param fileLink the fileLink to set
+	 */
+	public void setFileLink(String fileLink) {
+		this.fileLink = fileLink;
 	}
 
 }

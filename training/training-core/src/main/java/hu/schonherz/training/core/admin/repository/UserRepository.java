@@ -15,11 +15,11 @@ import hu.schonherz.training.core.admin.entity.User;
 @Transactional(propagation = Propagation.REQUIRED)
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User findUserByUserName(String name) throws Exception;
+	User findUserByUserName(String name) ;
 
-	User findUserById(Long id)throws Exception;
+	User findUserById(Long id);
 
-	User findUserByEmail(String email)throws Exception;
+	User findUserByEmail(String email);
 	
 	@Modifying
 	@Query("update User u set u.userName = ?1, u.fullName = ?2, u.email = ?3 where u.id = ?4")
