@@ -377,24 +377,24 @@ INSERT INTO public.training(id, recdate, recuser, beginning, description, enddat
 
 
 --Themes
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7100, current_timestamp, 'CREATE SQL', 4, 'Verziókezelés');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7101, current_timestamp, 'CREATE SQL', 4, 'Fejesztői eszközök');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7102, current_timestamp, 'CREATE SQL', 16, 'Java alapok');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7103, current_timestamp, 'CREATE SQL', 4, 'Objektum orientált design');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7104, current_timestamp, 'CREATE SQL', 4, 'Maven');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7105, current_timestamp, 'CREATE SQL', 4, 'Web Előismeretek');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7106, current_timestamp, 'CREATE SQL', 8, 'Servlet API');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7107, current_timestamp, 'CREATE SQL', 8, 'SQL');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7108, current_timestamp, 'CREATE SQL', 4, 'JDBC');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7109, current_timestamp, 'CREATE SQL', 2, 'Multitier architecture');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7110, current_timestamp, 'CREATE SQL', 8, 'Spring');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7111, current_timestamp, 'CREATE SQL', 4, 'Security');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7112, current_timestamp, 'CREATE SQL', 8, 'JPA');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7113, current_timestamp, 'CREATE SQL', 4, 'JEE Alapismeretek');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7114, current_timestamp, 'CREATE SQL', 12, 'JSF');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7115, current_timestamp, 'CREATE SQL', 12, 'EJB');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7116, current_timestamp, 'CREATE SQL', 4, 'Webservice');
-INSERT INTO public.theme(id, recdate, recuser, hours, name) VALUES (7117, current_timestamp, 'CREATE SQL', 4, 'Fejlesztési módszertanok');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7100, current_timestamp, 'CREATE SQL', 4, 'Verziókezelés','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7101, current_timestamp, 'CREATE SQL', 4, 'Fejesztői eszközök','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7102, current_timestamp, 'CREATE SQL', 16, 'Java alapok','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7103, current_timestamp, 'CREATE SQL', 4, 'Objektum orientált design','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7104, current_timestamp, 'CREATE SQL', 4, 'Maven','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7105, current_timestamp, 'CREATE SQL', 4, 'Web Előismeretek','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7106, current_timestamp, 'CREATE SQL', 8, 'Servlet API','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7107, current_timestamp, 'CREATE SQL', 8, 'SQL','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7108, current_timestamp, 'CREATE SQL', 4, 'JDBC','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7109, current_timestamp, 'CREATE SQL', 2, 'Multitier architecture','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7110, current_timestamp, 'CREATE SQL', 8, 'Spring','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7111, current_timestamp, 'CREATE SQL', 4, 'Security','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7112, current_timestamp, 'CREATE SQL', 8, 'JPA','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7113, current_timestamp, 'CREATE SQL', 4, 'JEE Alapismeretek','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7114, current_timestamp, 'CREATE SQL', 12, 'JSF','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7115, current_timestamp, 'CREATE SQL', 12, 'EJB','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7116, current_timestamp, 'CREATE SQL', 4, 'Webservice','main');
+INSERT INTO public.theme(id, recdate, recuser, hours, name,"type") VALUES (7117, current_timestamp, 'CREATE SQL', 4, 'Fejlesztési módszertanok','main');
 
 --Themes to training
 
