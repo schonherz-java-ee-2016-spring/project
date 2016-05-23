@@ -455,3 +455,6 @@ section {
 .ui-state-disabled{
 	display:none;
 }
+.ui-picklist.ui-picklist-responsive{
+	display:block;
+}

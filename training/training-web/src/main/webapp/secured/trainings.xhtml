@@ -90,7 +90,7 @@
 		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog" modal="true"
 			resizable="false">
 			<h:form id="pickform">
-				<p:pickList id="pickList" value="#{trainingBean.users}" var="user"
+				<p:pickList  responsive="true" id="pickList" value="#{trainingBean.users}" var="user"
 					itemLabel="#{user.fullName} (#{user.userName})" itemValue="#{user}" converter="UserConverter">
 					<f:facet name="sourceCaption">#{out.notintrainingusers}</f:facet>
 					<f:facet name="targetCaption">#{out.trainingusers}</f:facet>
@@ -104,7 +104,7 @@
 		<p:dialog responsive="true" showEffect="clip" widgetVar="pickdialog2" modal="true"
 			resizable="false">
 			<h:form id="pickform2">
-				<p:pickList id="pickList2" value="#{trainingBean.uGroups}" var="group" itemLabel="#{group.name}"
+				<p:pickList responsive="true" id="pickList2" value="#{trainingBean.uGroups}" var="group" itemLabel="#{group.name}"
 					itemValue="#{group}" converter="UserGroupConverter">
 					<f:facet name="sourceCaption">#{out.notassigned}</f:facet>
 					<f:facet name="targetCaption">#{out.assigned}</f:facet>
@@ -146,7 +146,7 @@
 					<div class="col-sm-9">
 						<p:calendar required="true" id="begin" value="#{trainingBean.selected.beginning}"
 							validatorMessage="#{out.beginvalidator}" requiredMessage="#{out.beginrequired}"
-							showOn="button" >
+							showOn="button">
 						</p:calendar>
 					</div>
 				</div>
@@ -170,18 +170,21 @@
 				<h:outputText value="#{trainingBean.selected.name}" />
 				<div style="display: block;">
 					<div style="float: left;">
-						<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
-							selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
-							dragdropScope="demo">
-							<p:treeNode>
-								<h:outputText value="#{node}" />
-							</p:treeNode>
-						</p:tree>
+						<p:outputPanel style="max-height: 300px;overflow: auto;display: block">
+							<p:tree id="tree1" value="#{trainingBean.root1}" var="node" selectionMode="single"
+								selection="#{trainingBean.selectedNode1}" draggable="true" droppable="true"
+								dragdropScope="demo">
+								<p:treeNode>
+									<h:outputText value="#{node}" />
+								</p:treeNode>
+							</p:tree>
+						</p:outputPanel>
 					</div>
 					<div style="float: left;">
 						<h:graphicImage library="default" name="img/transfer.png" width="100"></h:graphicImage>
 					</div>
 					<div style="float: left;">
+					<p:outputPanel style="max-height: 300px;overflow: auto;display: block">
 						<p:tree id="tree2" value="#{trainingBean.root2}" var="node" selectionMode="single"
 							selection="#{trainingBean.selectedNode2}" draggable="true" droppable="true"
 							dragdropScope="demo">
@@ -189,6 +192,7 @@
 								<h:outputText value="#{node}" />
 							</p:treeNode>
 						</p:tree>
+						</p:outputPanel>
 					</div>
 					<br />
 					<div class="treeButton">
